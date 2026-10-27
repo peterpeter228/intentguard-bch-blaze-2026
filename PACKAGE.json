@@ -1,0 +1,16 @@
+{
+  "package": "bch-blaze-dot-kit-20261027",
+  "version": "1.0.0",
+  "language": "zh-CN",
+  "kind": "verified-development-specification",
+  "notApplicationSource": true,
+  "originalAttachment": {
+    "name": "BCH BLAZE 2026 × Avalanche Team1 全栈.txt",
+    "sha256": "6e49782c26a079f773d443cb61c6c202132a5385ade5192d831b0e62f700967f"
+  },
+  "reviewDate": "2026-10-27",
+  "originalPlanReadFully": true,
+  "applicationBuiltOrWalletTested": false,
+  "sourceIndex": "docs/13_SOURCES.md",
+  "entrypoint": "DOT_START_HERE.md"
+}

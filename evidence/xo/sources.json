@@ -1,0 +1,103 @@
+[
+  {
+    "url": "https://registry.npmjs.org/@xocash/stack/latest",
+    "time": "2026-10-27T08:35:40.558002+00:00",
+    "status": 200,
+    "bytes": 1865,
+    "sha256": "904e823b4bc9f62be9412db988375463c1a85945d040e744773b7e8e1ad4ac5f",
+    "file": "source-0.txt",
+    "version": "0.0.1-development.9045051822",
+    "deprecated": "Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.",
+    "dependencies": {
+      "idb": "^8.0.0",
+      "msgpackr": "^1.11.2",
+      "@xocash/primitives": "*",
+      "@electrum-cash/network": "^4.1.1",
+      "@electrum-cash/protocol": "2.1.0-development.8075178089"
+    },
+    "repository": null
+  },
+  {
+    "url": "https://registry.npmjs.org/@xo-cash/engine/latest",
+    "time": "2026-10-27T08:35:48.215357+00:00",
+    "status": 200,
+    "bytes": 2759,
+    "sha256": "0479f08b1fb16b6b1ffe6af7840f3164c8a69b79a657b16bc05cff903971ff94",
+    "file": "source-1.txt",
+    "version": "0.0.1",
+    "deprecated": null,
+    "dependencies": {
+      "eventemitter3": "^5.0.1",
+      "@xo-cash/state": "0.0.2",
+      "@xo-cash/types": "0.0.1",
+      "@xo-cash/utils": "0.0.1",
+      "@xo-cash/crypto": "0.0.1",
+      "@bitauth/libauth": "^3.1.0-next.8",
+      "@xo-cash/templates": "0.0.1",
+      "@xo-cash/primitives": "0.0.1",
+      "@electrum-cash/network": "^4.2.2",
+      "@electrum-cash/servers": "^3.1.0",
+      "@electrum-cash/protocol": "^2.3.1",
+      "@electrum-cash/application": "^0.2.3-development.13447192992"
+    },
+    "repository": null
+  },
+  {
+    "url": "https://registry.npmjs.org/@xo-cash/types/latest",
+    "time": "2026-10-27T08:35:51.444724+00:00",
+    "status": 200,
+    "bytes": 2639,
+    "sha256": "d99b3f43bee083d042bbf8a7bb41f2ce513bb8e13b69ec9ad726007c40fdc59e",
+    "file": "source-2.txt",
+    "version": "0.0.8",
+    "deprecated": null,
+    "dependencies": {
+      "@bitauth/libauth": "^3.1.0-next.8"
+    },
+    "repository": {
+      "url": "git+https://gitlab.com/GeneralProtocols/xo/types.git",
+      "type": "git"
+    }
+  },
+  {
+    "url": "https://registry.npmjs.org/@xo-cash/state/latest",
+    "time": "2026-10-27T08:35:55.571893+00:00",
+    "status": 200,
+    "bytes": 3063,
+    "sha256": "df7d67ac70dd64522ce9e008c9b2f7ac322473773c2bf890853ee6d53a40cc5e",
+    "file": "source-3.txt",
+    "version": "0.0.5",
+    "deprecated": null,
+    "dependencies": {
+      "idb": "^8.0.3",
+      "async-mutex": "^0.5.0",
+      "indexeddbshim": "^16.1.0",
+      "@xo-cash/types": "0.0.8",
+      "@xo-cash/utils": "0.0.10",
+      "better-sqlite3": "^12.5.0",
+      "@xo-cash/crypto": "0.0.5",
+      "@bitauth/libauth": "^3.1.0-next.8",
+      "@xo-cash/primitives": "0.0.2"
+    },
+    "repository": {
+      "url": "git+https://gitlab.com/GeneralProtocols/xo/state.git",
+      "type": "git"
+    }
+  },
+  {
+    "url": "https://stack.xo.cash/blog/2026-08-24-Vision-to-Reality-6-Writing-Templates",
+    "time": "2026-10-27T08:35:58.905789+00:00",
+    "status": 200,
+    "bytes": 105880,
+    "sha256": "06437bef9ab4ba18a3f11b1d05d52cd0ebd3bfb4da9eb6e823e23078d05d8591",
+    "file": "source-4.txt"
+  },
+  {
+    "url": "https://stack.xo.cash/blog/2025-10-16-Vision-to-Reality-P2PKH-Fungible-Token-Request",
+    "time": "2026-10-27T08:36:03.576898+00:00",
+    "status": 200,
+    "bytes": 89567,
+    "sha256": "044a803abb0f66d9c0b128e811822041fb9bacbae5c435d97a014e71ec4173c0",
+    "file": "source-5.txt"
+  }
+]

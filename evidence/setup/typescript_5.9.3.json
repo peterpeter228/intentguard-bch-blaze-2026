@@ -1,0 +1,30 @@
+{
+  "name": "typescript",
+  "version": "5.9.3",
+  "dist": {
+    "shasum": "5b4f59e15310ab17a216f5d6cf53ee476ede670f",
+    "tarball": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+    "fileCount": 132,
+    "integrity": "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==",
+    "signatures": [
+      {
+        "sig": "MEYCIQC5ifNi1il+zAZC19ov+Q5oSrhOwlpOpghAaAAXYA0RpAIhAKdcZ6pMNZGuprpke8Zi3OPB1zol9c88KVW+apJNVjTy",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      }
+    ],
+    "unpackedSize": 23625066
+  },
+  "dependencies": null,
+  "peerDependencies": null,
+  "engines": {
+    "node": ">=14.17"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "git+https://github.com/microsoft/TypeScript.git",
+    "type": "git"
+  },
+  "registryUrl": "https://registry.npmjs.org/typescript/5.9.3",
+  "retrievedAt": "2026-10-27T08:40:51.587156+00:00",
+  "originalResponseSha256": "f791569dae71fc8e56754fba43abf41d4f2f802c947612bc6ffed1a12f83ad53"
+}

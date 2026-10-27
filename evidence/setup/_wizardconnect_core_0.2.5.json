@@ -1,0 +1,47 @@
+{
+  "name": "@wizardconnect/core",
+  "version": "0.2.5",
+  "dist": {
+    "shasum": "23ef78de5ccd1cde792c7516bb34f17328805ad1",
+    "tarball": "https://registry.npmjs.org/@wizardconnect/core/-/core-0.2.5.tgz",
+    "fileCount": 49,
+    "integrity": "sha512-4O4YCpudKGyPDB5zuKBlhh2x8dHonLc3J+xiEmkPeiIHKwT2k0gXrBeZUWdWSuVMAmPU+YYfaBakWSt824Pn8Q==",
+    "signatures": [
+      {
+        "sig": "MEUCIQCvmk8J+fzV5owDPzT2BTtXmdpcV8/eNSHCUaxafLph/QIgVOdbqzq83/+9SrowKYQkloFTtTJvtRafka+t57ML8+g=",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      },
+      {
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+        "sig": "MEUCIQC2HBas0Tb2AbQamzf9R3AHIRpeMDL7pEkWPOHtIC1ajwIgcUFOwxvNhrw7GB9L3egCCJn0uq4G4b4YMbAlgbasAyc="
+      }
+    ],
+    "attestations": {
+      "url": "https://registry.npmjs.org/-/npm/v1/attestations/@wizardconnect%2fcore@0.2.5",
+      "provenance": {
+        "predicateType": "https://slsa.dev/provenance/v0.2"
+      }
+    },
+    "unpackedSize": 144605
+  },
+  "dependencies": {
+    "ws": "^8.21.3",
+    "nostr-tools": "^2.23.0",
+    "eventemitter3": "^5.0.1",
+    "isomorphic-ws": "^5.0.0",
+    "lossless-json": "^4.3.0",
+    "@bitauth/libauth": "^3.1.0-next.2",
+    "@bch-wc2/interfaces": "^0.0.8"
+  },
+  "peerDependencies": null,
+  "engines": null,
+  "license": null,
+  "repository": {
+    "url": "git+https://gitlab.com/riftenlabs/lib/wizardconnect.git",
+    "type": "git",
+    "directory": "packages/core"
+  },
+  "registryUrl": "https://registry.npmjs.org/@wizardconnect/core/0.2.5",
+  "retrievedAt": "2026-10-27T08:40:51.587156+00:00",
+  "originalResponseSha256": "2db66dae72552eea44cc467022f77cf1ad9cf04f3a257185687309390f182fe6"
+}

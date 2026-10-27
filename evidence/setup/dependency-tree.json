@@ -1,0 +1,389 @@
+{
+  "version": "0.0.0-preseason",
+  "name": "intentguard-bch-g0",
+  "dependencies": {
+    "@bitauth/libauth": {
+      "version": "3.1.0-next.8",
+      "resolved": "https://registry.npmjs.org/@bitauth/libauth/-/libauth-3.1.0-next.8.tgz",
+      "overridden": false
+    },
+    "@types/node": {
+      "version": "24.10.0",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-24.10.0.tgz",
+      "overridden": false,
+      "dependencies": {
+        "undici-types": {
+          "version": "7.16.0",
+          "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-7.16.0.tgz",
+          "overridden": false
+        }
+      }
+    },
+    "@types/react-dom": {
+      "version": "19.2.2",
+      "resolved": "https://registry.npmjs.org/@types/react-dom/-/react-dom-19.2.2.tgz",
+      "overridden": false,
+      "dependencies": {
+        "@types/react": {
+          "version": "19.2.2"
+        }
+      }
+    },
+    "@types/react": {
+      "version": "19.2.2",
+      "resolved": "https://registry.npmjs.org/@types/react/-/react-19.2.2.tgz",
+      "overridden": false,
+      "dependencies": {
+        "csstype": {
+          "version": "3.2.3",
+          "resolved": "https://registry.npmjs.org/csstype/-/csstype-3.2.3.tgz",
+          "overridden": false
+        }
+      }
+    },
+    "@wizardconnect/core": {
+      "version": "0.2.5",
+      "resolved": "https://registry.npmjs.org/@wizardconnect/core/-/core-0.2.5.tgz",
+      "overridden": false,
+      "dependencies": {
+        "@bch-wc2/interfaces": {
+          "version": "0.0.8",
+          "resolved": "https://registry.npmjs.org/@bch-wc2/interfaces/-/interfaces-0.0.8.tgz",
+          "overridden": false,
+          "dependencies": {
+            "@bitauth/libauth": {
+              "version": "3.1.0-next.8"
+            }
+          }
+        },
+        "@bitauth/libauth": {
+          "version": "3.1.0-next.8"
+        },
+        "eventemitter3": {
+          "version": "5.0.4",
+          "resolved": "https://registry.npmjs.org/eventemitter3/-/eventemitter3-5.0.4.tgz",
+          "overridden": false
+        },
+        "isomorphic-ws": {
+          "version": "5.0.0",
+          "resolved": "https://registry.npmjs.org/isomorphic-ws/-/isomorphic-ws-5.0.0.tgz",
+          "overridden": false,
+          "dependencies": {
+            "ws": {
+              "version": "8.22.0"
+            }
+          }
+        },
+        "lossless-json": {
+          "version": "4.3.3",
+          "resolved": "https://registry.npmjs.org/lossless-json/-/lossless-json-4.3.3.tgz",
+          "overridden": false
+        },
+        "nostr-tools": {
+          "version": "2.25.2",
+          "resolved": "https://registry.npmjs.org/nostr-tools/-/nostr-tools-2.25.2.tgz",
+          "overridden": false,
+          "dependencies": {
+            "@noble/ciphers": {
+              "version": "2.1.1",
+              "resolved": "https://registry.npmjs.org/@noble/ciphers/-/ciphers-2.1.1.tgz",
+              "overridden": false
+            },
+            "@noble/curves": {
+              "version": "2.0.1",
+              "resolved": "https://registry.npmjs.org/@noble/curves/-/curves-2.0.1.tgz",
+              "overridden": false,
+              "dependencies": {
+                "@noble/hashes": {
+                  "version": "2.0.1"
+                }
+              }
+            },
+            "@noble/hashes": {
+              "version": "2.0.1",
+              "resolved": "https://registry.npmjs.org/@noble/hashes/-/hashes-2.0.1.tgz",
+              "overridden": false
+            },
+            "@scure/base": {
+              "version": "2.0.0",
+              "resolved": "https://registry.npmjs.org/@scure/base/-/base-2.0.0.tgz",
+              "overridden": false
+            },
+            "@scure/bip32": {
+              "version": "2.0.1",
+              "resolved": "https://registry.npmjs.org/@scure/bip32/-/bip32-2.0.1.tgz",
+              "overridden": false,
+              "dependencies": {
+                "@noble/curves": {
+                  "version": "2.0.1"
+                },
+                "@noble/hashes": {
+                  "version": "2.0.1"
+                },
+                "@scure/base": {
+                  "version": "2.0.0"
+                }
+              }
+            },
+            "@scure/bip39": {
+              "version": "2.0.1",
+              "resolved": "https://registry.npmjs.org/@scure/bip39/-/bip39-2.0.1.tgz",
+              "overridden": false,
+              "dependencies": {
+                "@noble/hashes": {
+                  "version": "2.0.1"
+                },
+                "@scure/base": {
+                  "version": "2.0.0"
+                }
+              }
+            },
+            "nostr-wasm": {
+              "version": "0.1.0",
+              "resolved": "https://registry.npmjs.org/nostr-wasm/-/nostr-wasm-0.1.0.tgz",
+              "overridden": false
+            },
+            "typescript": {
+              "version": "5.9.3"
+            }
+          }
+        },
+        "ws": {
+          "version": "8.22.0",
+          "resolved": "https://registry.npmjs.org/ws/-/ws-8.22.0.tgz",
+          "overridden": false,
+          "dependencies": {
+            "bufferutil": {},
+            "utf-8-validate": {}
+          }
+        }
+      }
+    },
+    "@wizardconnect/dapp": {
+      "version": "0.2.2",
+      "resolved": "https://registry.npmjs.org/@wizardconnect/dapp/-/dapp-0.2.2.tgz",
+      "overridden": false,
+      "dependencies": {
+        "@wizardconnect/core": {
+          "version": "0.2.5"
+        },
+        "eventemitter3": {
+          "version": "5.0.4"
+        }
+      }
+    },
+    "@wizardconnect/react": {
+      "version": "0.2.3",
+      "resolved": "https://registry.npmjs.org/@wizardconnect/react/-/react-0.2.3.tgz",
+      "overridden": false,
+      "dependencies": {
+        "@wizardconnect/core": {
+          "version": "0.2.5"
+        },
+        "@wizardconnect/dapp": {
+          "version": "0.2.2"
+        },
+        "qrcode-generator": {
+          "version": "1.5.2",
+          "resolved": "https://registry.npmjs.org/qrcode-generator/-/qrcode-generator-1.5.2.tgz",
+          "overridden": false
+        },
+        "react-dom": {
+          "version": "19.2.0"
+        },
+        "react": {
+          "version": "19.2.0"
+        }
+      }
+    },
+    "cashscript": {
+      "version": "0.14.0",
+      "resolved": "https://registry.npmjs.org/cashscript/-/cashscript-0.14.0.tgz",
+      "overridden": false,
+      "dependencies": {
+        "@bitauth/libauth": {
+          "version": "3.1.0-next.8"
+        },
+        "@cashscript/utils": {
+          "version": "0.14.0",
+          "resolved": "https://registry.npmjs.org/@cashscript/utils/-/utils-0.14.0.tgz",
+          "overridden": false,
+          "dependencies": {
+            "@bitauth/libauth": {
+              "version": "3.1.0-next.8"
+            }
+          }
+        },
+        "@electrum-cash/network": {
+          "version": "4.4.8",
+          "resolved": "https://registry.npmjs.org/@electrum-cash/network/-/network-4.4.8.tgz",
+          "overridden": false,
+          "dependencies": {
+            "@electrum-cash/debug-logs": {
+              "version": "1.0.0",
+              "resolved": "https://registry.npmjs.org/@electrum-cash/debug-logs/-/debug-logs-1.0.0.tgz",
+              "overridden": false,
+              "dependencies": {
+                "debug": {
+                  "version": "4.4.3"
+                }
+              }
+            },
+            "@electrum-cash/socket": {
+              "version": "4.2.0",
+              "resolved": "https://registry.npmjs.org/@electrum-cash/socket/-/socket-4.2.0.tgz",
+              "overridden": false
+            },
+            "@electrum-cash/web-socket": {
+              "version": "4.2.0",
+              "resolved": "https://registry.npmjs.org/@electrum-cash/web-socket/-/web-socket-4.2.0.tgz",
+              "overridden": false,
+              "dependencies": {
+                "@electrum-cash/debug-logs": {
+                  "version": "1.0.0"
+                },
+                "@electrum-cash/socket": {
+                  "version": "4.2.0"
+                },
+                "@monsterbitar/isomorphic-ws": {
+                  "version": "5.3.1",
+                  "resolved": "https://registry.npmjs.org/@monsterbitar/isomorphic-ws/-/isomorphic-ws-5.3.1.tgz",
+                  "overridden": false,
+                  "dependencies": {
+                    "ws": {
+                      "version": "8.22.0"
+                    }
+                  }
+                },
+                "@types/ws": {
+                  "version": "8.18.2",
+                  "resolved": "https://registry.npmjs.org/@types/ws/-/ws-8.18.2.tgz",
+                  "overridden": false,
+                  "dependencies": {
+                    "@types/node": {
+                      "version": "24.10.0"
+                    }
+                  }
+                },
+                "async-mutex": {
+                  "version": "0.5.0"
+                },
+                "eventemitter3": {
+                  "version": "5.0.4"
+                },
+                "lossless-json": {
+                  "version": "4.3.3"
+                },
+                "ws": {
+                  "version": "8.22.0"
+                }
+              }
+            },
+            "async-mutex": {
+              "version": "0.5.0",
+              "resolved": "https://registry.npmjs.org/async-mutex/-/async-mutex-0.5.0.tgz",
+              "overridden": false,
+              "dependencies": {
+                "tslib": {
+                  "version": "2.8.1",
+                  "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz",
+                  "overridden": false
+                }
+              }
+            },
+            "debug": {
+              "version": "4.4.3",
+              "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+              "overridden": false,
+              "dependencies": {
+                "ms": {
+                  "version": "2.1.3",
+                  "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+                  "overridden": false
+                }
+              }
+            },
+            "eventemitter3": {
+              "version": "5.0.4"
+            },
+            "lossless-json": {
+              "version": "4.3.3"
+            }
+          }
+        },
+        "fflate": {
+          "version": "0.8.3",
+          "resolved": "https://registry.npmjs.org/fflate/-/fflate-0.8.3.tgz",
+          "overridden": false
+        },
+        "semver": {
+          "version": "7.8.5",
+          "resolved": "https://registry.npmjs.org/semver/-/semver-7.8.5.tgz",
+          "overridden": false
+        }
+      }
+    },
+    "esbuild": {
+      "version": "0.25.11",
+      "resolved": "https://registry.npmjs.org/esbuild/-/esbuild-0.25.11.tgz",
+      "overridden": false,
+      "dependencies": {
+        "@esbuild/aix-ppc64": {},
+        "@esbuild/android-arm": {},
+        "@esbuild/android-arm64": {},
+        "@esbuild/android-x64": {},
+        "@esbuild/darwin-arm64": {},
+        "@esbuild/darwin-x64": {},
+        "@esbuild/freebsd-arm64": {},
+        "@esbuild/freebsd-x64": {},
+        "@esbuild/linux-arm": {},
+        "@esbuild/linux-arm64": {},
+        "@esbuild/linux-ia32": {},
+        "@esbuild/linux-loong64": {},
+        "@esbuild/linux-mips64el": {},
+        "@esbuild/linux-ppc64": {},
+        "@esbuild/linux-riscv64": {},
+        "@esbuild/linux-s390x": {},
+        "@esbuild/linux-x64": {
+          "version": "0.25.11",
+          "resolved": "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.25.11.tgz",
+          "overridden": false
+        },
+        "@esbuild/netbsd-arm64": {},
+        "@esbuild/netbsd-x64": {},
+        "@esbuild/openbsd-arm64": {},
+        "@esbuild/openbsd-x64": {},
+        "@esbuild/openharmony-arm64": {},
+        "@esbuild/sunos-x64": {},
+        "@esbuild/win32-arm64": {},
+        "@esbuild/win32-ia32": {},
+        "@esbuild/win32-x64": {}
+      }
+    },
+    "react-dom": {
+      "version": "19.2.0",
+      "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-19.2.0.tgz",
+      "overridden": false,
+      "dependencies": {
+        "react": {
+          "version": "19.2.0"
+        },
+        "scheduler": {
+          "version": "0.27.0",
+          "resolved": "https://registry.npmjs.org/scheduler/-/scheduler-0.27.0.tgz",
+          "overridden": false
+        }
+      }
+    },
+    "react": {
+      "version": "19.2.0",
+      "resolved": "https://registry.npmjs.org/react/-/react-19.2.0.tgz",
+      "overridden": false
+    },
+    "typescript": {
+      "version": "5.9.3",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+      "overridden": false
+    }
+  }
+}

@@ -1,0 +1,52 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason validate
+> npm run typecheck && npm run build && npm test
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason typecheck
+> tsc --noEmit
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason build
+> tsc && esbuild probes/browser-types.tsx --bundle --platform=browser --format=esm --outfile=dist/browser-probe.js
+
+
+  dist/browser-probe.js  724.5kb
+
+⚡ Done in 33ms
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason test
+> node --test dist/probes/sdk.test.js
+
+✔ synthetic CashTokens transaction byte roundtrip preserves bigint > 2^53 (7.684424ms)
+✔ SDK txid equals independent Node double-SHA256 UI byte order; not transaction hex (1.198258ms)
+✔ truncated transaction is a decoder error, not a success object (0.321795ms)
+✔ synthetic NFT structure is preserved by SDK decoding, not implicitly discarded (0.309747ms)
+✔ synthetic bitcoincash p2pkhWithTokens address roundtrip (0.789605ms)
+✔ synthetic bitcoincash p2shWithTokens address roundtrip (0.376225ms)
+✔ synthetic bchtest p2pkhWithTokens address roundtrip (0.151764ms)
+✔ synthetic bchtest p2shWithTokens address roundtrip (0.165013ms)
+✔ unpaired SDK manager has no derived pubkey/path or stored session (0.339641ms)
+✔ diagnostic: pre-aborted SDK request still invokes send before cancel (offline overridden transport) (0.866078ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 262.442871
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

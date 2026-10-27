@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "intentguard.submission-evidence.v1",
+  "projectName": "IntentGuard BCH",
+  "status": "NOT_IMPLEMENTED",
+  "createdDateAsiaShanghai": "2026-10-27",
+  "rulesLastCheckedDateAsiaShanghai": "2026-10-27",
+  "repoUrl": null,
+  "baselineCommit": null,
+  "submissionCommit": null,
+  "deployedCommit": null,
+  "legacyProject": {
+    "status": "UNKNOWN",
+    "oldRepoUrl": null,
+    "oldDemoUrl": null,
+    "migrationEligible": null
+  },
+  "liveDemoUrl": null,
+  "completedSlidesUrl": null,
+  "demoVideoUrl": null,
+  "emberTokenAwareAddress": null,
+  "eligibility": {
+    "registration": "NOT_RUN",
+    "preparationRollCall": "NOT_RUN",
+    "telegramProjectConfirmation": "NOT_RUN",
+    "sourceAccess": "NOT_RUN",
+    "mainnetFeature": "NOT_RUN"
+  },
+  "deadlines": {
+    "officialWebsiteUtc": "2026-11-22T14:00:00Z",
+    "officialWebsiteAsiaShanghai": "2026-11-22T22:00:00+08:00",
+    "platformWidgetConflict": true,
+    "internalTargetAsiaShanghai": "2026-11-21T22:00:00+08:00",
+    "needsRecheck": true
+  },
+  "walletTestedCombinations": [],
+  "chainTransactions": [],
+  "validation": {
+    "typecheck": "NOT_RUN",
+    "build": "NOT_RUN",
+    "guardNegativeCases": "NOT_RUN",
+    "realBrowser": "NOT_RUN",
+    "mainnetWallet": "NOT_RUN",
+    "receiptReverification": "NOT_RUN"
+  },
+  "xo": {
+    "enabled": false,
+    "status": "NOT_RUN",
+    "templatePath": null,
+    "invitationPath": null,
+    "txid": null,
+    "followUpApplicable": null,
+    "humanFeedbackStatus": "NOT_STARTED"
+  },
+  "bridge": {
+    "enabled": false,
+    "status": "NOT_RUN",
+    "directionsCompleted": []
+  },
+  "avalancheTeam1": {
+    "submitted": false,
+    "applicationUrl": null
+  },
+  "externalCustomers": {
+    "verifiedCount": null,
+    "notes": "No adoption or revenue has been verified."
+  },
+  "submission": {
+    "submitted": false,
+    "submittedAt": null,
+    "confirmationUrl": null,
+    "rightsReviewPath": null
+  }
+}

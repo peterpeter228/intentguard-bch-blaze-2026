@@ -1,0 +1,27 @@
+{
+  "generatedAt": "2026-10-27T08:41:31.026217+00:00",
+  "commit": null,
+  "commitBinding": "pending sole remote writer",
+  "files": [
+    {
+      "path": "package.json",
+      "sha256": "968db6c1cf5976e00af5f88b26b0e1889f4f6c67c70665b988a8d50a85bcb789"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "670f827c14a8c930a04ae1c131b48a9fd57b63fdc374d5c46bcc8d3a73d93d09"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "6797449e31a76d7a5ac6869fce004986e21e99e011c7f5200a24f462033f9112"
+    },
+    {
+      "path": "probes/browser-types.tsx",
+      "sha256": "c0905d9b68f320a0b81849642102fb8410dea579df3b1ecc87d077efda085c4e"
+    },
+    {
+      "path": "probes/sdk.test.ts",
+      "sha256": "45478e9297aba915c207feb0babda1fb82e28434444ebb812eb6cff84861ac1f"
+    }
+  ]
+}

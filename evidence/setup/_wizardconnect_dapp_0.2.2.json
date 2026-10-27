@@ -1,0 +1,38 @@
+{
+  "name": "@wizardconnect/dapp",
+  "version": "0.2.2",
+  "dist": {
+    "integrity": "sha512-A71y5Qg5SIdIjXNngfpgBGxuQFgWRLQOigFa7zRX8HCoOh/62yOBfQUFtQDOgfRtGV7jv8nZ1Xb6wFqXVoEQvg==",
+    "shasum": "8a80a4a0f3647ae3ee73e744190e9a33f03e088f",
+    "tarball": "https://registry.npmjs.org/@wizardconnect/dapp/-/dapp-0.2.2.tgz",
+    "fileCount": 13,
+    "unpackedSize": 52665,
+    "attestations": {
+      "url": "https://registry.npmjs.org/-/npm/v1/attestations/@wizardconnect%2fdapp@0.2.2",
+      "provenance": {
+        "predicateType": "https://slsa.dev/provenance/v0.2"
+      }
+    },
+    "signatures": [
+      {
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+        "sig": "MEUCIElx7lQXUbqMWY5IIuCISaKo8Lm/pcXXd7zvtYSRCdyFAiEAzUpYU06PeDMWqfmPHTuuHuClP8W6BmJ9mpBBrDScRWU="
+      }
+    ]
+  },
+  "dependencies": {
+    "@wizardconnect/core": "*",
+    "eventemitter3": "^5.0.1"
+  },
+  "peerDependencies": null,
+  "engines": null,
+  "license": null,
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/riftenlabs/lib/wizardconnect.git",
+    "directory": "packages/dapp"
+  },
+  "registryUrl": "https://registry.npmjs.org/@wizardconnect/dapp/0.2.2",
+  "retrievedAt": "2026-10-27T08:40:51.587156+00:00",
+  "originalResponseSha256": "2be5ea30e8042748701e934090a60c67d3ac020f313dcf9e3dcce7d9aaa5c7ef"
+}

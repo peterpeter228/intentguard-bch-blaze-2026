@@ -1,0 +1,85 @@
+{
+  "observedAt": "2026-10-27T08:38:51.915Z",
+  "scope": "Published official example module import and action-reference smoke check only; NOT official schema validation, engine execution, wallet, or chain test",
+  "synthetic": false,
+  "package": "@xo-cash/templates@0.0.1",
+  "keys": [
+    "$schema",
+    "name",
+    "description",
+    "icon",
+    "version",
+    "supported",
+    "defaults",
+    "roles",
+    "start",
+    "actions",
+    "data",
+    "transactions",
+    "outputs",
+    "inputs",
+    "lockingScripts",
+    "scripts",
+    "constants",
+    "variables",
+    "icons",
+    "scenarios"
+  ],
+  "actions": [
+    {
+      "name": "receive",
+      "transaction": "receiveTransaction",
+      "transactionExists": true
+    },
+    {
+      "name": "requestSatoshis",
+      "transaction": "requestSatoshisTransaction",
+      "transactionExists": true
+    },
+    {
+      "name": "requestFungibleTokens",
+      "transaction": "requestFungibleTokensTransaction",
+      "transactionExists": true
+    },
+    {
+      "name": "requestNonfungibleTokens",
+      "transaction": "requestNonfungibleTokensTransaction",
+      "transactionExists": true
+    },
+    {
+      "name": "sendSatoshis",
+      "transaction": "transferSatoshisTransaction",
+      "transactionExists": true
+    },
+    {
+      "name": "sendFungibleTokens",
+      "transaction": "transferFungibleTokensTransaction",
+      "transactionExists": true
+    },
+    {
+      "name": "sendNonfungibleTokens",
+      "transaction": "transferNonfungibleTokensTransaction",
+      "transactionExists": true
+    },
+    {
+      "name": "burnFungibleTokens",
+      "transaction": "burnFungibleTokensTransaction",
+      "transactionExists": true
+    },
+    {
+      "name": "burnNonfungibleTokens",
+      "transaction": "burnNonfungibleTokenTransaction",
+      "transactionExists": true
+    },
+    {
+      "name": "sign",
+      "transactionExists": null
+    },
+    {
+      "name": "verify",
+      "transactionExists": null
+    }
+  ],
+  "importPassed": true,
+  "actionReferencesPassed": true
+}

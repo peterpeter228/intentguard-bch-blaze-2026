@@ -1,0 +1,42 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason validate
+> npm run typecheck && npm run build && npm test
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason typecheck
+> tsc --noEmit
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason build
+> tsc && esbuild probes/browser-types.tsx --bundle --platform=browser --format=esm --outfile=dist/browser-probe.js
+
+
+  dist/browser-probe.js  724.5kb
+
+⚡ Done in 45ms
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason test
+> node --test dist/probes/sdk.test.js
+
+✔ synthetic CashTokens transaction byte roundtrip preserves bigint > 2^53 (2.565155ms)
+✔ SDK txid equals independent Node double-SHA256 UI byte order; not transaction hex (1.127794ms)
+✔ truncated transaction is a decoder error, not a success object (0.335855ms)
+✔ synthetic NFT structure is preserved by SDK decoding, not implicitly discarded (0.292261ms)
+✔ synthetic bitcoincash p2pkhWithTokens address roundtrip (0.742816ms)
+✔ synthetic bitcoincash p2shWithTokens address roundtrip (0.29815ms)
+✔ synthetic bchtest p2pkhWithTokens address roundtrip (0.145965ms)
+✔ synthetic bchtest p2shWithTokens address roundtrip (0.166296ms)
+✔ unpaired SDK manager has no derived pubkey/path or stored session (0.370237ms)
+✔ diagnostic: pre-aborted SDK request still invokes send before cancel (offline overridden transport) (0.886218ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 222.371592

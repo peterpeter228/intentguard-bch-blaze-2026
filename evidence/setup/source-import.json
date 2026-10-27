@@ -1,0 +1,152 @@
+{
+  "importedAt": "2026-10-27T08:40:51.587156+00:00",
+  "count": 29,
+  "sourceManifestMeaning": "Root SHA256SUMS describes the original 29-file handoff, not the modified application tree. Original source remains separate and unchanged.",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "30ea0cf044d5313cbc158624de10b3b1e4fb91b23c6586aa376a946dd35ded43",
+      "changedInProject": true
+    },
+    {
+      "path": "DOT_START_HERE.md",
+      "sha256": "b9317cf6052bb364d01b8878dac86308c04fe724b3bb265d7b285d36ae4186f5",
+      "changedInProject": false
+    },
+    {
+      "path": "PACKAGE.json",
+      "sha256": "fb7dd09abeb4ed2c697e2a888199a3ef87e231e5850e482ebfc6d09f88f1ad41",
+      "changedInProject": false
+    },
+    {
+      "path": "README.md",
+      "sha256": "6e2fdc31f7cd043dbd0ddac3a5895698245f6fe27b62898021e58c53b838a4aa",
+      "changedInProject": false
+    },
+    {
+      "path": "SHA256SUMS",
+      "sha256": "e48bf41a04aed132724a09270b536662d33cdc626f1e35efb3f5d9b91cd30c63",
+      "changedInProject": false
+    },
+    {
+      "path": "checklists/STARTUP.md",
+      "sha256": "debc130cc004501a643f0c3f9a6d3b320588ddb0b2095efcca8b17d265a7830a",
+      "changedInProject": false
+    },
+    {
+      "path": "checklists/SUBMIT.md",
+      "sha256": "dd90279f67b6ca4df6d6cb5401514109d2f86545bbe3137533bdfb60ed34689e",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/01_FACT_CHECK.md",
+      "sha256": "def6009b884ca1544d54f3eb1da71af5fed8e6005db71fecd52ed13972ef4339",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/02_RULES_SUBMISSION.md",
+      "sha256": "8620f2a0050a1173afed60954b3ebba9e0c30578da8dd72bf2a459332cb35385",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/03_PRD.md",
+      "sha256": "bb63d44e5eb762c2b8acc4cc529e617e9919ca5a07545bb6c0ec51287f65cea2",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/04_ARCHITECTURE.md",
+      "sha256": "441d7b9843f4526022fe65d1005f3e790fccfff6bc6f1bf382919d71a213481f",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/05_BCH_ENGINEERING.md",
+      "sha256": "0f8e14a2eb0d86cca2bed547a664fc0835a79544aa210cda736e6df3a32302c1",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/06_XO_PLAN.md",
+      "sha256": "54d94b821d2dcae5d1298f8d1314a7d9fb7a2325ae78883117af192979fc47b3",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/07_BRIDGE_AVALANCHE.md",
+      "sha256": "4501636d6e51bba1dbf13e92e444d306483f0182fa2e6409a8f57cdbb14b6f1b",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/08_DOT_WORKFLOW.md",
+      "sha256": "d806f871c1e5812e8945d4c4aa569b4fb3a76bf496026630baf941dc27e2b2d8",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/09_TASKS.md",
+      "sha256": "33343d20d14864c4bc313dc013d2d502eb8c6055dff31067b0351e1360efeec2",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/10_TEST_ACCEPTANCE.md",
+      "sha256": "d0bcb299fea57a018473ff81d7f3f6f2a85fd34fdd4dd41bac98bbb422b3c5d5",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/11_PITCH_SUBMISSION.md",
+      "sha256": "00c28f456e27d6c6bcd6581e9ca60f4cc1a5da4396c145001900e63635d865a6",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/12_COST_AND_DECISIONS.md",
+      "sha256": "db835cea6cf030d3f35815dc6159ea1f72f52023589e0e539ddaaa819a81409d",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/13_SOURCES.md",
+      "sha256": "4ef43313f84479278e84ecbf2f5aee03ba9f129bf2d3dd75d298b6d3b563ad7f",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "sha256": "5f42861164d18806ba4f7d1dd6fd9fb24588d9f6b9c120317ebf1cbd47dadcdf",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/NEXT_ACTION.md",
+      "sha256": "851317c934ee754d05fe4d2a149168dc616c31fffb5274e89dea9bc0a44481a8",
+      "changedInProject": false
+    },
+    {
+      "path": "docs/STATUS.md",
+      "sha256": "d155caae532f94df5f1d02d27380edfdde8a08a1e7643000c8e74ecf4975299e",
+      "changedInProject": false
+    },
+    {
+      "path": "evidence/README.md",
+      "sha256": "7ef1f45f3753129313848cdffacfe17de29a19c67b422850b990a29cd9959eac",
+      "changedInProject": false
+    },
+    {
+      "path": "templates/RAW_XO_DEV_LOGS.md",
+      "sha256": "a48b891848d95ec25f57c446f2b81ad6e945e8c2c61d61f87e688ff222a69aa3",
+      "changedInProject": false
+    },
+    {
+      "path": "templates/REAL_WALLET_TEST.md",
+      "sha256": "249c6c0ee04998737f2f7afe945986b7ac4a21f471886df6724a4439daff169d",
+      "changedInProject": false
+    },
+    {
+      "path": "templates/SUBMISSION_MANIFEST.template.json",
+      "sha256": "d6f5dc18194c9ac61ed0064c4e6a2e9c1c0e89bec1b3a2492b38a30f3d264e7f",
+      "changedInProject": false
+    },
+    {
+      "path": "templates/TASK_HANDOFF.md",
+      "sha256": "bb50af184da5c4547ed2e00b2ae588d6ba766438404cd60b489eb91cc8e71f34",
+      "changedInProject": false
+    },
+    {
+      "path": "templates/USER_VALIDATION.md",
+      "sha256": "c4ee98c9eb45629ad7d856db9d70edbf050c82eeeaef116052a7b003470ccbe5",
+      "changedInProject": false
+    }
+  ]
+}

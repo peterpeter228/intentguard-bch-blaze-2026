@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-27T08:41:31.025699+00:00",
+  "files": [
+    {
+      "path": "node_modules/@wizardconnect/dapp/dist/dapp-connection-manager.d.ts",
+      "sha256": "cd3750ff498c2d5b94745f5c6beb8a2d0a1f55c3c8935eacfd87403214a21f24"
+    },
+    {
+      "path": "node_modules/@wizardconnect/dapp/dist/dapp-connection-manager.js",
+      "sha256": "338a4e8efd3056ce6d5aa7a6fc779f31384f94b4ed884bfb90fc8b2773adf347"
+    },
+    {
+      "path": "node_modules/@wizardconnect/core/dist/protocols/hdwalletv1.d.ts",
+      "sha256": "90ad3dcd3f34497ce0633c88beb4f1941496c9a864d66c92b96799288d924d8b"
+    },
+    {
+      "path": "node_modules/@wizardconnect/react/dist/types.d.ts",
+      "sha256": "c8b5461e822c2351e4924ad02acb5c7341bced06864ff1cd59b1bd67d4662acf"
+    },
+    {
+      "path": "node_modules/@bch-wc2/interfaces/dist/interfaces.d.ts",
+      "sha256": "628096b247eef4793756fb8909ee34b179d73ed4424d7e8cb6976bbdd3e27834"
+    },
+    {
+      "path": "node_modules/@bitauth/libauth/build/lib/message/transaction-encoding.d.ts",
+      "sha256": "4628ea537aec3c0a4ef28d5c627f0ba7f2b3e6dcc1b62ccb817609fe0b9e856f"
+    }
+  ]
+}

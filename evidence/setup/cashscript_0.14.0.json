@@ -1,0 +1,38 @@
+{
+  "name": "cashscript",
+  "version": "0.14.0",
+  "dist": {
+    "shasum": "8c66d4c67eaa77224276f81d536f123c5a8e6354",
+    "tarball": "https://registry.npmjs.org/cashscript/-/cashscript-0.14.0.tgz",
+    "fileCount": 53,
+    "integrity": "sha512-9EWS4p7cXagg0PDBh9e+D/TKEayb4/jeDTjy6xvcB3VUru6SQc4k66fyg55uihxVkY1ME8WgbguTsEDeb7SVTw==",
+    "signatures": [
+      {
+        "sig": "MEYCIQD5Exk6Roag6ejozQudeI0bzwsATX0IE4c9lCeN2uVSDQIhAMcpto1KV7zrgoH1DKjs2wj6RyTuegto6HI6jz+pUtw1",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      },
+      {
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+        "sig": "MEQCIFLdgFsuRreJN/Z1gq9aVIl5+2hPsbaiZsuftlIX3Qh6AiB8MJbN/XpmTbtlNl4DA5vYRPhOSxshnOXEY0/VADgzmw=="
+      }
+    ],
+    "unpackedSize": 208502
+  },
+  "dependencies": {
+    "fflate": "^0.8.3",
+    "semver": "^7.8.5",
+    "@bitauth/libauth": "^3.1.0-next.8",
+    "@cashscript/utils": "^0.14.0",
+    "@electrum-cash/network": "^4.4.0"
+  },
+  "peerDependencies": null,
+  "engines": null,
+  "license": "MIT",
+  "repository": {
+    "url": "git+https://github.com/CashScript/cashscript.git",
+    "type": "git"
+  },
+  "registryUrl": "https://registry.npmjs.org/cashscript/0.14.0",
+  "retrievedAt": "2026-10-27T08:40:51.587156+00:00",
+  "originalResponseSha256": "2d78e740fc9a0bfeac0f464204cf54fa8ad6fe8a24db6bb511d88b8e8eb18344"
+}

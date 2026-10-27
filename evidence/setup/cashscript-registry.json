@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "ENOENT",
+    "summary": "Invalid response body while trying to fetch https://registry.npmjs.org/cashscript: ENOENT: no such file or directory, mkdir '/home/agent/.npm'",
+    "detail": "This is related to npm not being able to find a file."
+  }
+}

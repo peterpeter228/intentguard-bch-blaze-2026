@@ -1,0 +1,46 @@
+{
+  "name": "@wizardconnect/react",
+  "version": "0.2.3",
+  "dist": {
+    "shasum": "b73a9e2258b94cf9d4e16bec8c478c006209c32f",
+    "tarball": "https://registry.npmjs.org/@wizardconnect/react/-/react-0.2.3.tgz",
+    "fileCount": 20,
+    "integrity": "sha512-xJ2K7WVbsPWdPt+1tRn3LSyGtruJY0F/CNuzeyASfwmswz8ANQB8UIMDuYg5elhDfHmYVHEKKH3hSBQZ5LvOtg==",
+    "signatures": [
+      {
+        "sig": "MEQCIHEKzteukoWzXDYWsvA5ydzaiXwrOU6xWPvtTEoNzj2vAiB/3gcKM0YZBItxVbhu2jGfREqu4xTuxgU4i9xycVvuZw==",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      },
+      {
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+        "sig": "MEUCIQCf6JrLlVA+RZGZ6mfZi5IMT0kmaYyGZJ/9zSfTnw52/gIgTx3RaccJDkjRCM0nG9wB4DtyYPu2j731YrrqaUbadlg="
+      }
+    ],
+    "attestations": {
+      "url": "https://registry.npmjs.org/-/npm/v1/attestations/@wizardconnect%2freact@0.2.3",
+      "provenance": {
+        "predicateType": "https://slsa.dev/provenance/v0.2"
+      }
+    },
+    "unpackedSize": 54576
+  },
+  "dependencies": {
+    "qrcode-generator": "^1.4.4",
+    "@wizardconnect/core": "*",
+    "@wizardconnect/dapp": "*"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "engines": null,
+  "license": null,
+  "repository": {
+    "url": "git+https://gitlab.com/riftenlabs/lib/wizardconnect.git",
+    "type": "git",
+    "directory": "packages/react"
+  },
+  "registryUrl": "https://registry.npmjs.org/@wizardconnect/react/0.2.3",
+  "retrievedAt": "2026-10-27T08:40:51.587156+00:00",
+  "originalResponseSha256": "5b7c49a36f40b989a02f696d1dce7e0b2b2652a55b8477da28e26c43e78f2d45"
+}

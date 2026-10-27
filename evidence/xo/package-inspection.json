@@ -1,0 +1,18 @@
+[
+  {
+    "package": "types",
+    "version": "0.0.1",
+    "time": "2026-10-27T08:36:58.406915+00:00",
+    "tarball_sha256": "30af7c253f7027540eef02046817613c89f9badf2b80fc3ce765b0fdbbd6b793",
+    "registry_shasum": "1a957ea8df5e2c082c1dec1687f59ad9bf8b60c3",
+    "sha1_match": true
+  },
+  {
+    "package": "templates",
+    "version": "0.0.1",
+    "time": "2026-10-27T08:37:05.338301+00:00",
+    "tarball_sha256": "b9ef815b85f462fb788970d37b434a53247f57656b3a76401a572729b100b062",
+    "registry_shasum": "93781b0675f755ca4c27541a054cc58d392b3874",
+    "sha1_match": true
+  }
+]
