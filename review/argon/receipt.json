@@ -1,0 +1,24 @@
+{
+  "endpoint": "https://api.xiaoyiapi.xyz/v1beta/models/gemini-4-argon-high:generateContent",
+  "requestedModel": "gemini-4-argon-high",
+  "reviewedCommit": "955e5c0afebedb5931d24feaa4261917131f88a3",
+  "requestSha256": "310a353864e50fe901cf739fdf9ebd90d59355ccb6f5fccb96cbb1dc31ce1dd2",
+  "startedAt": "2026-10-27T08:52:25.423801+00:00",
+  "status": "completed",
+  "callsAttempted": 1,
+  "cost": null,
+  "backendIdentityVerified": false,
+  "httpStatus": 200,
+  "responseSha256": "4cf1cecfedfc51eb2d9aa8a0b13b199ba12721ca0b3df6d7ec1c63bb1f80ee08",
+  "returnedModel": null,
+  "usage": {
+    "promptTokenCount": 56338,
+    "candidatesTokenCount": 972,
+    "totalTokenCount": 58443,
+    "thoughtsTokenCount": 1133
+  },
+  "finalTextSha256": "b3e38dbc7d650725ae8a9d2c9d116c6d5b4b77075e8bcce6a02bcc2764d82150",
+  "finalTextBytes": 3582,
+  "endedAt": "2026-10-27T08:52:44.754521+00:00",
+  "elapsedSeconds": 19.331
+}

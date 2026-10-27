@@ -11,3 +11,5 @@ NOT_RUN: actual browser rendering/clicks; wallet/phone; pairing; real signatures
 NOT_APPLICABLE: XO Migrate absent an accessible genuine old application. G0 remains PARTIAL, G1 is NOT_STARTED/PRESEASON, overall project is not complete.
 
 Independent review repeated the 10 tests and a hand-assembled 85-byte synthetic fixed serialization vector. Portable runner: `node evidence/independent-audit/fixed-vector.mjs`. No known public-chain transaction vector is claimed.
+
+Post-review integration validation reran 2026-10-27 08:58 UTC: strict typecheck, build and 10/10 offline tests PASS; independent synthetic fixed-vector runner PASS. Logs: post-review-validation.log and ../independent-audit/post-review-vector.json. Source probes/package lock unchanged from reviewed baseline; new documentation was not re-reviewed by Argon.

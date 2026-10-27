@@ -488,5 +488,5 @@
   "signed": false,
   "broadcast": false,
   "realChainReceipt": null,
-  "licenseReview": "WizardConnect package metadata does not declare a license; public release license review remains open."
+  "licenseReview": "WizardConnect npm license fields null; exact upstream gitHeads LICENSE.txt verified LGPLv3 in review/post-argon. Distribution obligations remain OPEN; not legal clearance."
 }

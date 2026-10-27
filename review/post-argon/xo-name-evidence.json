@@ -1,0 +1,120 @@
+[
+  {
+    "url": "https://gitlab.com/api/v4/projects/80015883/repository/tree?ref=ca2b02f14ccfa2e367625c5f9291c62fb34f4a59&per_page=100",
+    "status": 200,
+    "name": null,
+    "repository": [
+      {
+        "id": "0c99c11bc4107c1044284982856f8dca1480391b",
+        "name": "contrib",
+        "type": "tree",
+        "path": "contrib",
+        "mode": "040000"
+      },
+      {
+        "id": "6d02c835250082291ba1499f74e8a10f1497acd5",
+        "name": "docs",
+        "type": "tree",
+        "path": "docs",
+        "mode": "040000"
+      },
+      {
+        "id": "130cb47775a3c5c6110302de9af5590fa1c1931d",
+        "name": "linters",
+        "type": "tree",
+        "path": "linters",
+        "mode": "040000"
+      },
+      {
+        "id": "de7f8eba7e546f1c0283740e008b6c37735f15f9",
+        "name": "packages",
+        "type": "tree",
+        "path": "packages",
+        "mode": "040000"
+      },
+      {
+        "id": "8e7f7559da41dc1c875a2c498f28e5e7c1c74899",
+        "name": ".gitignore",
+        "type": "blob",
+        "path": ".gitignore",
+        "mode": "100644"
+      },
+      {
+        "id": "9eff01a4c807b83cc98a84a01ad13e5fe16a9481",
+        "name": ".gitlab-ci.yml",
+        "type": "blob",
+        "path": ".gitlab-ci.yml",
+        "mode": "100644"
+      },
+      {
+        "id": "4abfae4fd4cd9c94f741a7e31ed14ccb88732d91",
+        "name": "CLAUDE.md",
+        "type": "blob",
+        "path": "CLAUDE.md",
+        "mode": "100644"
+      },
+      {
+        "id": "0a041280bd00a9d068f503b8ee7ce35214bd24a1",
+        "name": "LICENSE.txt",
+        "type": "blob",
+        "path": "LICENSE.txt",
+        "mode": "100644"
+      },
+      {
+        "id": "58d6157ae2a77a85729d77d6692c5a59739f8e5c",
+        "name": "README.md",
+        "type": "blob",
+        "path": "README.md",
+        "mode": "100644"
+      },
+      {
+        "id": "aa30523a1549b6868846a36b68f5d9ebbf62cdf8",
+        "name": "eslint.config.cjs",
+        "type": "blob",
+        "path": "eslint.config.cjs",
+        "mode": "100644"
+      },
+      {
+        "id": "08c1cad477f4eb9fa62f856afffa5c0ed71adbdf",
+        "name": "package-lock.json",
+        "type": "blob",
+        "path": "package-lock.json",
+        "mode": "100644"
+      },
+      {
+        "id": "b1a6ea1f107f33261c583ba29f393c9dea093900",
+        "name": "package.json",
+        "type": "blob",
+        "path": "package.json",
+        "mode": "100644"
+      },
+      {
+        "id": "69ed82e220cdbbc273b6aab6434bb4bb3eeb1765",
+        "name": "tsconfig.base.json",
+        "type": "blob",
+        "path": "tsconfig.base.json",
+        "mode": "100644"
+      },
+      {
+        "id": "53bc41bdd2db49d01006377b29836d71856ce1e0",
+        "name": "zensical.toml",
+        "type": "blob",
+        "path": "zensical.toml",
+        "mode": "100644"
+      }
+    ]
+  },
+  {
+    "url": "https://registry.npmjs.org/@xo-cash/templates/0.0.1",
+    "status": 200,
+    "name": "@xo-cash/templates",
+    "repository": {
+      "url": "git+https://gitlab.com/GeneralProtocols/xo/templates.git",
+      "type": "git"
+    }
+  },
+  {
+    "url": "https://registry.npmjs.org/@xocash/templates/0.0.1",
+    "error": "HTTP Error 404: Not Found"
+  }
+]
