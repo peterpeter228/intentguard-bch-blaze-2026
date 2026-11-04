@@ -1,0 +1,61 @@
+{
+  "kind": "intentguard-offline-plan-report",
+  "generatedAt": 1793814401944,
+  "contextKind": "synthetic-example",
+  "canSign": false,
+  "broadcastable": false,
+  "receiptValid": false,
+  "networkVerified": false,
+  "ownershipVerified": false,
+  "binding": {
+    "schemaVersion": 1,
+    "kind": "intentguard-offline-request-plan",
+    "requestId": "synthetic-token-example",
+    "requestDigest": "aa78536b708224cac9bef35812e83cefd01c12bd56493226d1401927f0632043",
+    "intentDigest": "c323aff1b0baa574b2815f45d6ea0b4673b03e827c7b94664e5ae22aaf779eb3",
+    "planDigest": "8a7605666265fb7af84fbaa13520df4dc91c9c30e2d98068c25ebc283884698c",
+    "planningPolicyDigest": "8ed2e42d4a9221cccad438cab06fe6f61e6d9462bca9e85641f522f0646598f4",
+    "requestPlanDigest": "cd7a5a69eaa8857e026585627a86fcbfe4f56bbe1ed13ed5b7c2798feb726072"
+  },
+  "outputSummary": [
+    {
+      "script": "76a914222222222222222222222222222222222222222288ac",
+      "satoshis": "1000",
+      "token": {
+        "category": "4444444444444444444444444444444444444444444444444444444444444444",
+        "amount": "100"
+      },
+      "index": 0,
+      "role": "recipient"
+    },
+    {
+      "script": "76a914111111111111111111111111111111111111111188ac",
+      "satoshis": "657",
+      "token": {
+        "category": "4444444444444444444444444444444444444444444444444444444444444444",
+        "amount": "400"
+      },
+      "index": 1,
+      "role": "token-change"
+    },
+    {
+      "script": "76a914111111111111111111111111111111111111111188ac",
+      "satoshis": "8018",
+      "index": 2,
+      "role": "bch-change"
+    }
+  ],
+  "feeSatoshis": "325",
+  "estimatedSignedBytes": {
+    "minimum": 325,
+    "maximum": 325,
+    "signatureModel": "compressed-p2pkh-schnorr"
+  },
+  "limitations": [
+    "This binds request content to an offline plan, not human consent, recipient identity or payment authority.",
+    "The expected request digest must come from application review state, not from the same untrusted request or an imported result.",
+    "Owner scripts, selected inputs, source snapshots and fee models are supplied offline claims; no wallet, chain or ownership was authenticated.",
+    "No UTXOs are discovered or reserved; no signatures, broadcasting, payment state or receipts are produced.",
+    "The binding is an application content identifier, not a transaction ID, chain commitment or reusable authorization."
+  ]
+}

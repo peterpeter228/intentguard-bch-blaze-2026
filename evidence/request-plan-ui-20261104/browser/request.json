@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "kind": "intentguard-payment-request",
+  "requestId": "synthetic-bch-example",
+  "network": "chipnet",
+  "expiresAt": 1793815112000,
+  "maxFeeBch": "0.000006",
+  "recipients": [
+    {
+      "address": "bchtest:qq3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg8632f694",
+      "bch": "0.00001"
+    }
+  ]
+}

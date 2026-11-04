@@ -1,0 +1,47 @@
+{
+  "kind": "intentguard-offline-plan-report",
+  "generatedAt": 1793814400129,
+  "contextKind": "synthetic-example",
+  "canSign": false,
+  "broadcastable": false,
+  "receiptValid": false,
+  "networkVerified": false,
+  "ownershipVerified": false,
+  "binding": {
+    "schemaVersion": 1,
+    "kind": "intentguard-offline-request-plan",
+    "requestId": "synthetic-bch-example",
+    "requestDigest": "42fe6a96871b626268cf19e66727c19cd4f25c095041e247ca3b13647f3beef8",
+    "intentDigest": "27ff57b951dc920ce2d1ce47d34756d1ea4487f4678d18b2a0519e9583d0a18a",
+    "planDigest": "20682e9018665c22efd19a7f302b5dd0419b02971a8d9c0ea92d7e2c3d6e584b",
+    "planningPolicyDigest": "8ed2e42d4a9221cccad438cab06fe6f61e6d9462bca9e85641f522f0646598f4",
+    "requestPlanDigest": "334fd75ef1cc3726f78231fac6bd5746677bc50647d2e8b48c00d8cb3b1939ae"
+  },
+  "outputSummary": [
+    {
+      "script": "76a914222222222222222222222222222222222222222288ac",
+      "satoshis": "1000",
+      "index": 0,
+      "role": "recipient"
+    },
+    {
+      "script": "76a914111111111111111111111111111111111111111188ac",
+      "satoshis": "8781",
+      "index": 1,
+      "role": "bch-change"
+    }
+  ],
+  "feeSatoshis": "219",
+  "estimatedSignedBytes": {
+    "minimum": 219,
+    "maximum": 219,
+    "signatureModel": "compressed-p2pkh-schnorr"
+  },
+  "limitations": [
+    "This binds request content to an offline plan, not human consent, recipient identity or payment authority.",
+    "The expected request digest must come from application review state, not from the same untrusted request or an imported result.",
+    "Owner scripts, selected inputs, source snapshots and fee models are supplied offline claims; no wallet, chain or ownership was authenticated.",
+    "No UTXOs are discovered or reserved; no signatures, broadcasting, payment state or receipts are produced.",
+    "The binding is an application content identifier, not a transaction ID, chain commitment or reusable authorization."
+  ]
+}
