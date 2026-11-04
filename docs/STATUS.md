@@ -51,3 +51,9 @@ G1 remains IN_PROGRESS. Implemented strict Node TLS read transport with fixed pr
 ## 2026-11-04 14:40 UTC remote-integrity correction
 
 Independent review found remote613397f9 core/evidence.test.ts was binary-corrupted; the earlier local93-test pass did not validate that remote commit. This was a verification failure. Repair3619c70 restores the intended UTF-8 file and adds fail-closed post-sign/pre-broadcast expiry quarantine. Every one of186 files was downloaded from that fixed remote commit into an empty directory and Git blob hashed; npm run validate in that remote snapshot exited0 with94/94 tests, typecheck and build. Dependencies were reused, not freshly installed. See evidence/repair-20261104 for exact manifests/logs and remaining gates. G1 remainsIN_PROGRESS.
+
+## 2026-11-04 14:58 UTC read-only review coordination
+
+G1 remains IN_PROGRESS. Added a separate persistent read-only review coordinator: it captures the intent/exact candidate/session/derivation/source metadata, derives ownership and invokes collection internally, commits a reservation before awaits, and refuses imported success JSON. Duplicate/reopened/interrupted records always require recheck; none become payment authority. Source IDs/tip are bounded summaries, canSign/receiptValid/consensusVerified remain false. Independent review's post-persistence tip-age gap was fixed and tested.
+
+The guard now checks token-aware serialized-output dust at a fixed1000sat/1000bytes application baseline, not a live node rule. Local full validation passed109 tests/typecheck/build. Real desktop browser verified original6 scenarios, FT dust650 rejection/651 match, edits, malformed input, Clear/reload, size boundary and actual download. Mobile remainsNOT_RUN under previously observed organization policy. Remote-byte validation for this slice is separately recorded with its fixed source commit; do not infer it from this local result. No wallet/chain/transaction/deployment/submission occurred.

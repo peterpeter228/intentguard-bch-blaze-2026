@@ -1,0 +1,27 @@
+- main:
+  - text: INTENTGUARD BCH · PRE-EVENT CORE
+  - heading "Check what a payment will actually send." [level=1]
+  - paragraph: Compare a confirmed payment request with raw BCH transaction outputs. See exactly why a substituted recipient or token is refused.
+  - complementary:
+    - strong: Offline demonstration. No funds move.
+    - text: All presets are synthetic, unbroadcast transactions with a fixed simulated clock. A match is not a signature, wallet approval, live-chain check, or proof of contest completion.
+  - heading "1. Choose a scenario" [level=2]
+  - paragraph: The request pays 100 units of an explicitly identified teaching token, plus 1,000 satoshis, to the merchant. Change returns to a separately supplied owner script; fee cap is 600 satoshis.
+  - navigation "Scenarios":
+    - button "Original payment"
+    - button "Recipient replaced"
+    - button "Wrong token"
+    - button "Excessive fee"
+    - button "Stale evidence"
+    - button "Missing parent"
+  - heading "2. Inspect and compare" [level=2]
+  - text: Editable request, candidate transaction and evidence snapshot
+  - textbox "Editable request, candidate transaction and evidence snapshot": "{ \"now\": 1800000000000, \"intent\": { \"network\": \"chipnet\", \"expiresAt\": 1800000060000, \"maxFeeSatoshis\": \"600\", \"ownerScripts\": [ \"76a914111111111111111111111111111111111111111188ac\" ], \"recipients\": [ { \"script\": \"76a914222222222222222222222222222222222222222288ac\", \"satoshis\": \"1000\", \"token\": { \"category\": \"4444444444444444444444444444444444444444444444444444444444444444\", \"amount\": \"100\" } } ] }, \"candidateHex\": \"0200000001d8ef5e56f7bebcf2be06bbcf46a7921e1c022defa1bca2ae5bcb0f70adcb044c0000000000ffffffff02e8030000000000003cef4444444444444444444444444444444444444444444444444444444444444444106476a914222222222222222222222222222222222222222288ac34210000000000003eef444444444444444444444444444444444444444444444444444444444444444410fd900176a914111111111111111111111111111111111111111188ac00000000\", \"snapshot\": { \"network\": \"chipnet\", \"observedAt\": 1800000000000, \"parentTransactionHexes\": [], \"unspentOutpoints\": [ \"4c04cbad700fcb5baea2bca1ef2d021c1e92a746cfbb06bef2bcbef7565eefd8:0\" ] } }"
+  - button "Compare transaction" [active]
+  - button "Clear"
+  - button "Download report"
+  - heading "3. Result UNKNOWN" [level=2]:
+    - text: 3. Result
+    - generic: UNKNOWN
+  - generic: "{ \"status\": \"UNKNOWN\", \"canSign\": false, \"issues\": [ \"MISSING_OR_SPENT_PREVOUT\" ], \"feeSatoshis\": null, \"candidateTxid\": \"581cf32e2851d4668d198d5b28c5aec80c8e46686fbc1a2ea5d6e5418514eeac\", \"intentDigest\": \"6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e\", \"structuralTransactionDigest\": \"581cf32e2851d4668d198d5b28c5aec80c8e46686fbc1a2ea5d6e5418514eeac\", \"limitations\": [ \"MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.\", \"Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.\", \"Only a fixed 1000 sat/kB token-aware dust baseline is checked; actual node fee/relay policy, signatures, consensus and wallet behavior are not validated.\", \"Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting.\" ] }"
+  - generic: "Supported first slice: P2PKH, fungible CashTokens, exact recipient outputs, owned-change allowlist, full-parent content hashes, conservation and total fee cap. Unsupported: NFTs, minting, live source provenance, wallet ownership proof, signing, sighash validation, broadcast, receipt confirmation, dynamic dust/fee-rate policy. No keys are requested."

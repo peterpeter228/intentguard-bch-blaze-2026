@@ -18,3 +18,15 @@ test('malformed and oversized hex cannot pass',()=>{for(const raw of ['', '00', 
 test('NFT in a hash-bound parent rejects even when token amounts otherwise conserve',()=>{const {input,parent,candidate}=fixture(true);parent.outputs[0]!.token!.nft={capability:'none',commitment:new Uint8Array()};const id=hashTransaction(encodeTransaction(parent));input.snapshot.parentTransactionHexes=[encode(parent)];input.snapshot.unspentOutpoints=[id+':0'];candidate.inputs[0]!.outpointTransactionHash=hexToBin(id);input.candidateHex=encode(candidate);assert(verifyCandidate(input).issues.includes('NFT_UNSUPPORTED'));});
 test('structural post-wallet check rejects version, locktime, sequence and outpoint substitution',()=>{for(const mode of ['version','locktime','sequence','outpoint','index']){const {input,candidate}=fixture();candidate.inputs[0]!.unlockingBytecode=hexToBin('0101');if(mode==='version')candidate.version=1;if(mode==='locktime')candidate.locktime=1;if(mode==='sequence')candidate.inputs[0]!.sequenceNumber--;if(mode==='outpoint')candidate.inputs[0]!.outpointTransactionHash=hexToBin('99'.repeat(32));if(mode==='index')candidate.inputs[0]!.outpointIndex++;assert(!compareSignedCandidate(input.candidateHex,encode(candidate)),mode);}});
 test('negative snapshot timestamps never count as fresh evidence',()=>{const {input}=fixture();input.now=0;input.snapshot.observedAt=-1;assert.equal(verifyCandidate(input).status,'UNKNOWN');});
+
+test('CashTokens dust includes prefix and compact amount bytes, not universal 546',()=>{
+ for(const [amount,threshold] of [[100n,651n],[253n,657n]] as const){for(const value of [threshold-1n,threshold]){
+  const {input,candidate}=fixture(true);candidate.outputs[0]!.token!.amount=amount;candidate.outputs[1]!.token!.amount=500n-amount;input.intent.recipients[0]!.token!.amount=amount.toString();
+  candidate.outputs[0]!.valueSatoshis=value;input.intent.recipients[0]!.satoshis=value.toString();candidate.outputs[1]!.valueSatoshis=9500n-value;input.candidateHex=encode(candidate);
+  const r=verifyCandidate(input);assert.equal(r.status,value<threshold?'REJECTED':'MATCH_OFFLINE');if(value<threshold)assert(r.issues.includes('DUST_OUTPUT'));assert.equal(r.canSign,false);
+ }}
+});
+test('ordinary P2PKH dust boundary remains 546 and token change is checked too',()=>{
+ const plain=fixture();plain.candidate.outputs[0]!.valueSatoshis=546n;plain.input.intent.recipients[0]!.satoshis='546';plain.candidate.outputs[1]!.valueSatoshis=8954n;plain.input.candidateHex=encode(plain.candidate);assert.equal(verifyCandidate(plain.input).status,'MATCH_OFFLINE');
+ const token=fixture(true);token.candidate.outputs[1]!.valueSatoshis=656n;token.input.candidateHex=encode(token.candidate);assert(verifyCandidate(token.input).issues.includes('DUST_OUTPUT'));
+});

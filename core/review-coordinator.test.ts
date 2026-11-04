@@ -1,0 +1,200 @@
+/** Local synthetic-only review fixtures; no wallet, signing, or network activity. */
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtempSync, rmSync, readFileSync, renameSync, chmodSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
+import { DatabaseSync } from 'node:sqlite';
+import { getEventListeners } from 'node:events';
+import { spawn } from 'node:child_process';
+import { binToHex, hexToBin, hash160, hash256, hashTransaction, encodeTransaction } from '@bitauth/libauth';
+import { fixture } from './fixtures.js';
+import { validatedIntentDigest } from './guard.js';
+import type { SourceConfig, ReadMethod, PublicKeySession } from './evidence.js';
+import { ReadOnlyReviewCoordinator, type ReviewRequest, type ReviewConfig } from './review-coordinator.js';
+
+const publicPoint = hexToBin('0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798');
+const owned = '76a914' + binToHex(hash160(publicPoint)) + '88ac';
+const initialNow = 1800000000000;
+function setup() {
+  const f = fixture(); f.input.intent.ownerScripts = [owned]; f.parent.outputs[0]!.lockingBytecode = hexToBin(owned); f.candidate.outputs[1]!.lockingBytecode = hexToBin(owned);
+  const parentRaw = binToHex(encodeTransaction(f.parent)); const parentId = hashTransaction(encodeTransaction(f.parent));
+  f.candidate.inputs[0]!.outpointTransactionHash = hexToBin(parentId); f.input.candidateHex = binToHex(encodeTransaction(f.candidate));
+  const headerBytes = new Uint8Array(80); new DataView(headerBytes.buffer).setUint32(68, initialNow / 1000, true);
+  const header = binToHex(headerBytes); const headerHash = binToHex(hash256(headerBytes).reverse()); const genesis = '11'.repeat(32);
+  let now = initialNow; let sessionId: string | null = 'private-session-A'; let path = true;
+  const session: PublicKeySession = { currentSessionId: () => sessionId, hasPath: n => path && n === 0, getPubkey: (_n, i) => path && i === 0n ? publicPoint : undefined };
+  const calls: ReadMethod[] = [];
+  const base = async (method: ReadMethod, params: readonly unknown[]): Promise<unknown> => {
+    calls.push(method);
+    switch (method) {
+      case 'server.features': return { genesis_hash: genesis, hash_function: 'sha256', cashtokens: true };
+      case 'blockchain.block.header': return header;
+      case 'blockchain.headers.subscribe': return { height: 100, hex: header };
+      case 'blockchain.transaction.get': assert.equal(params[0], parentId); return parentRaw;
+      case 'blockchain.scripthash.listunspent': return [{ height: 99, tx_hash: parentId, tx_pos: 0, value: 10000 }];
+    }
+  };
+  const sources: SourceConfig[] = ['one', 'two'].map(id => ({ id, operatorId: 'operator-' + id, network: 'chipnet', genesisHash: genesis, checkpoint: { height: 90, hash: headerHash }, maxTipAgeMs: 7200000, kind: 'synthetic', transport: { request: base } }));
+  const config: ReviewConfig = { sources, session, clock: () => now };
+  const request: ReviewRequest = { paymentRequestId: 'private-order-one', intent: f.input.intent, candidateHex: f.input.candidateHex, bindings: [{ childIndex: 0, index: 0, script: owned }] };
+  const root = mkdtempSync(join(tmpdir(), 'intentguard-review-')); const directory = join(root, 'ledger');
+  const handles: ReadOnlyReviewCoordinator[] = [];
+  const create = () => { const c = ReadOnlyReviewCoordinator.create(directory, config); handles.push(c); return c; };
+  const reopen = () => { const c = ReadOnlyReviewCoordinator.open(directory, config); handles.push(c); return c; };
+  const cleanup = () => { handles.forEach(h => h.close()); rmSync(root, { recursive: true, force: true }); };
+  return { config, request, directory, calls, base, sources, session, create, reopen, cleanup, candidate: f.candidate, setNow: (v: number) => { now = v; }, setSession: (v: string | null) => { sessionId = v; }, revokePath: () => { path = false; } };
+}
+
+test('internally collected review binds digests and observation time without payment authority; reopened success is stale', async () => {
+  const s = setup(); try {
+    const c = s.create(); const r = await c.review(s.request);
+    assert.equal(r.status, 'SYNTHETIC_MATCH', r.issue ?? ''); assert.equal(r.freshness, 'OBSERVED_DURING_CALL');
+    assert.equal(r.intentDigest, validatedIntentDigest(s.request.intent)); assert.match(r.exactCandidateDigest, /^[0-9a-f]{64}$/); assert.match(r.evidenceBindingDigest!, /^[0-9a-f]{64}$/);
+    assert.deepEqual(r.sourceIds, ['one', 'two']); assert.equal(r.chainTip?.height, 100); assert.equal(r.chainTip?.timestampMs, initialNow); assert.equal(Object.isFrozen(r.sourceIds), true); assert.equal(Object.isFrozen(r.chainTip), true);
+    assert.equal(r.observedAt, initialNow); assert.equal(r.completedAt, initialNow); assert.equal(r.revision, 1);
+    assert.equal(r.canSign, false); assert.equal(r.receiptValid, false); assert.equal(r.consensusVerified, false);
+    assert.equal(Object.isFrozen(r), true); c.close();
+    const reopened = s.reopen(); const saved = reopened.get(r.requestKey); assert.equal(saved?.status, 'SYNTHETIC_MATCH'); assert.equal(saved?.freshness, 'STALE_RECHECK_REQUIRED');
+    const calls = s.calls.length; const duplicate = await reopened.review(s.request); assert.deepEqual(duplicate, saved); assert.equal(s.calls.length, calls);
+    const disk = readFileSync(join(s.directory, 'reviews.sqlite')).toString('utf8');
+    for (const raw of [s.request.paymentRequestId, 'private-session-A', owned, s.request.candidateHex, binToHex(publicPoint)]) assert.equal(disk.includes(raw), false);
+  } finally { s.cleanup(); }
+});
+
+test('request identity rejects changed intent, exact candidate, session, paths and source policy', async () => {
+  const s = setup(); try {
+    const c = s.create(); const saved = await c.review(s.request);
+    await assert.rejects(c.review({ ...s.request, intent: { ...s.request.intent, maxFeeSatoshis: '601' } }), /REVIEW_REQUEST_CONFLICT/);
+    const changed = structuredClone(s.candidate); changed.inputs[0]!.unlockingBytecode = hexToBin('00');
+    await assert.rejects(c.review({ ...s.request, candidateHex: binToHex(encodeTransaction(changed)) }), /REVIEW_REQUEST_CONFLICT/);
+    await assert.rejects(c.review({ ...s.request, bindings: [{ ...s.request.bindings[0]!, index: 1 }] }), /REVIEW_REQUEST_CONFLICT/);
+    s.setSession('another-session'); await assert.rejects(c.review(s.request), /REVIEW_REQUEST_CONFLICT/); s.setSession('private-session-A');
+    c.close(); s.sources[0]!.maxTipAgeMs = 1000; const reopened = s.reopen(); await assert.rejects(reopened.review(s.request), /REVIEW_REQUEST_CONFLICT/);
+    assert.equal(reopened.get(saved.requestKey)?.status, 'SYNTHETIC_MATCH');
+  } finally { s.cleanup(); }
+});
+
+test('concurrent connections dedupe before awaiting and do not run the same collection twice', async () => {
+  const s = setup(); let release: () => void = () => {}; const gate = new Promise<void>(resolve => { release = resolve; });
+  try {
+    s.sources[0]!.transport = { request: async (m, p) => { await gate; return s.base(m, p); } };
+    const first = s.create(); const second = s.reopen(); const pending = first.review(s.request);
+    const duplicate = await second.review(s.request); assert.equal(duplicate.status, 'PENDING'); assert.equal(duplicate.freshness, 'STALE_RECHECK_REQUIRED'); assert.equal(duplicate.revision, 0); assert.equal(s.calls.length, 0);
+    await assert.rejects(second.review({ ...s.request, intent: { ...s.request.intent, maxFeeSatoshis: '601' } }), /REVIEW_REQUEST_CONFLICT/);
+    release(); const result = await pending; assert.equal(result.status, 'SYNTHETIC_MATCH'); assert.equal(s.calls.filter(m => m === 'server.features').length, 2);
+    assert.equal(second.get(result.requestKey)?.revision, 1);
+  } finally { release(); s.cleanup(); }
+});
+
+test('input and trusted source metadata are captured before awaits', async () => {
+  const s = setup(); try {
+    const original = structuredClone(s.request);
+    s.sources[0]!.transport = { request: async (m, p) => { s.request.intent.maxFeeSatoshis = '0'; s.request.candidateHex = '00'; s.request.bindings[0]!.index = 55; return s.base(m, p); } };
+    const c = s.create(); s.sources[0]!.operatorId = 'mutated'; s.sources[0]!.checkpoint.hash = 'ab'.repeat(32); s.sources[0]!.kind = 'node';
+    const r = await c.review(s.request); assert.equal(r.status, 'SYNTHETIC_MATCH', r.issue ?? ''); assert.equal(r.intentDigest, validatedIntentDigest(original.intent));
+    assert.deepEqual(await c.review(original), c.get(r.requestKey));
+  } finally { s.cleanup(); }
+});
+
+test('caller success/ownership JSON cannot be injected, and unknown paths cannot collect', async () => {
+  const s = setup(); try {
+    const c = s.create();
+    await assert.rejects(Reflect.apply(c.review, c, [{ ...s.request, evidence: { status: 'NODE_REPORTED' } }]), /REVIEW_INVALID_INPUT/);
+    await assert.rejects(Reflect.apply(c.review, c, [{ ...s.request, ownership: { status: 'SESSION_DERIVED' } }]), /REVIEW_INVALID_INPUT/);
+    assert.equal(s.calls.length, 0); s.revokePath(); const r = await c.review(s.request); assert.equal(r.status, 'UNKNOWN'); assert.equal(r.evidenceBindingDigest, null); assert.equal(r.freshness, 'STALE_RECHECK_REQUIRED'); assert.equal(s.calls.length, 0);
+  } finally { s.cleanup(); }
+});
+
+test('session revocation, same-session public-path changes, source failures and expiry fail closed', async () => {
+  for (const mode of ['session', 'path', 'source', 'expiry', 'backward']) {
+    const s = setup(); try {
+      s.sources[1]!.transport = { request: async (m, p) => {
+        if (mode === 'session') s.setSession(null); if (mode === 'path') s.revokePath(); if (mode === 'expiry') s.setNow(s.request.intent.expiresAt); if (mode === 'backward') s.setNow(initialNow - 1); if (mode === 'source') throw Error('SECRET_PATH_AND_CREDENTIAL'); return s.base(m, p);
+      } };
+      const c = s.create(); const r = await c.review(s.request); assert.equal(r.status, 'UNKNOWN', mode); assert.equal(r.observedAt, null); assert.equal(r.evidenceBindingDigest, null); assert.equal(r.freshness, 'STALE_RECHECK_REQUIRED'); assert(!JSON.stringify(r).includes('SECRET'));
+      assert.equal(c.get(r.requestKey)?.status, 'UNKNOWN');
+    } finally { s.cleanup(); }
+  }
+});
+
+test('pre-abort does not reserve; in-flight cancellation persists UNKNOWN and ignores late source results', async () => {
+  const s = setup(); let release: (v: unknown) => void = () => {};
+  try {
+    s.sources[0]!.transport = { request: () => new Promise(resolve => { release = resolve; }) };
+    const c = s.create(); await assert.rejects(c.review(s.request, AbortSignal.abort()), /REVIEW_ABORTED/);
+    const controller = new AbortController(); const pending = c.review(s.request, controller.signal); controller.abort('SECRET_REASON');
+    const r = await pending; assert.equal(r.status, 'UNKNOWN'); assert.equal(r.issue, 'REVIEW_ABORTED'); const saved = JSON.stringify(c.get(r.requestKey));
+    release({ genesis_hash: '11'.repeat(32), hash_function: 'sha256', cashtokens: true }); await new Promise(resolve => setTimeout(resolve, 10)); assert.equal(JSON.stringify(c.get(r.requestKey)), saved);
+    assert.equal(getEventListeners(controller.signal, 'abort').length, 0); const calls = s.calls.length; assert.equal((await c.review(s.request)).freshness, 'STALE_RECHECK_REQUIRED'); assert.equal(s.calls.length, calls);
+  } finally { s.cleanup(); }
+});
+
+test('closing during collection preserves PENDING across restart instead of inventing recovered success', async () => {
+  const s = setup(); try {
+    s.sources[0]!.transport = { request: () => new Promise(() => {}) };
+    const c = s.create(); const pending = c.review(s.request); c.close(); await assert.rejects(pending, /REVIEW_STORE_CLOSED/);
+    const reopened = s.reopen(); const r = await reopened.review(s.request); assert.equal(r.status, 'PENDING'); assert.equal(r.completedAt, null); assert.equal(r.freshness, 'STALE_RECHECK_REQUIRED'); assert.equal(s.calls.length, 0);
+  } finally { s.cleanup(); }
+});
+
+test('filesystem failure during collection cannot return a saved success', async () => {
+  const s = setup(); try {
+    let moved = false; const file = join(s.directory, 'reviews.sqlite');
+    s.sources[1]!.transport = { request: async (m, p) => { if (!moved) { renameSync(file, file + '.moved'); moved = true; } return s.base(m, p); } };
+    const c = s.create(); await assert.rejects(c.review(s.request), /REVIEW_STORE_UNAVAILABLE/); renameSync(file + '.moved', file); c.close();
+    const reopened = s.reopen(); const r = await reopened.review(s.request); assert.equal(r.status, 'PENDING'); assert.equal(r.freshness, 'STALE_RECHECK_REQUIRED');
+  } finally { s.cleanup(); }
+});
+
+test('corrupt and insecure journals fail closed rather than being recreated', async () => {
+  const s = setup(); try {
+    const c = s.create(); await c.review(s.request); c.close(); const file = join(s.directory, 'reviews.sqlite');
+    chmodSync(file, 0o644); assert.throws(() => s.reopen()); chmodSync(file, 0o600);
+    const db = new DatabaseSync(file); db.exec("UPDATE reviews SET document='{}'"); db.close(); assert.throws(() => s.reopen(), /REVIEW_CORRUPT_STORE/);
+    writeFileSync(file, 'broken database'); assert.throws(() => s.reopen(), /REVIEW_CORRUPT_STORE/); assert.equal(readFileSync(file, 'utf8'), 'broken database');
+    assert.throws(() => s.create());
+  } finally { s.cleanup(); }
+});
+
+test('invalid or expired input and missing session fail before sources', async () => {
+  const s = setup(); try {
+    const c = s.create(); await assert.rejects(c.review({ ...s.request, candidateHex: '00' }), /REVIEW_INVALID_INPUT/);
+    await assert.rejects(c.review({ ...s.request, intent: { ...s.request.intent, expiresAt: initialNow } }), /REVIEW_INTENT_EXPIRED/);
+    s.setSession(null); await assert.rejects(c.review(s.request), /REVIEW_SESSION_UNAVAILABLE/); assert.equal(s.calls.length, 0);
+  } finally { s.cleanup(); }
+});
+
+
+test('return-time tip expiry after persistence downgrades the view, not a fresh capability', async () => {
+  const s = setup(); try {
+    for (const source of s.sources) source.maxTipAgeMs = 1000;
+    // coordinator start, collector start/end, coordinator end, then after commit.
+    let ticks = 0; s.config.clock = () => ++ticks >= 5 ? initialNow + 1001 : initialNow;
+    const c = s.create(); const r = await c.review(s.request);
+    assert.equal(r.status, 'SYNTHETIC_MATCH'); assert.equal(r.completedAt, initialNow); assert.equal(r.chainTip?.timestampMs, initialNow);
+    assert.equal(r.freshness, 'STALE_RECHECK_REQUIRED'); assert.equal(r.canSign, false); assert.equal(r.receiptValid, false);
+    assert.equal(c.get(r.requestKey)?.freshness, 'STALE_RECHECK_REQUIRED');
+  } finally { s.cleanup(); }
+});
+
+
+test('SIGKILL after durable reservation leaves an incomplete review that never auto-restarts', async () => {
+  const s = setup(); try {
+    const c = s.create();
+    const metadata = s.sources.map(({ transport: _transport, ...source }) => source);
+    const script = `import { ReadOnlyReviewCoordinator } from ${JSON.stringify(new URL('./review-coordinator.js', import.meta.url).href)};
+      const sources=${JSON.stringify(metadata)}.map(s=>({...s,transport:{request:()=>new Promise(()=>{})}}));
+      const session={currentSessionId:()=>"private-session-A",hasPath:n=>n===0,getPubkey:(_n,i)=>i===0n?Uint8Array.from(${JSON.stringify([...publicPoint])}):undefined};
+      const c=ReadOnlyReviewCoordinator.open(${JSON.stringify(s.directory)},{sources,session,clock:()=>${initialNow}});
+      void c.review(${JSON.stringify(s.request)}).catch(()=>{}); process.send('reserved');`;
+    const child = spawn(process.execPath, ['--input-type=module', '-e', script], { stdio: ['ignore', 'ignore', 'pipe', 'ipc'] });
+    try {
+      await new Promise<void>((resolve, reject) => { child.once('message', () => resolve()); child.once('error', reject); child.once('exit', () => reject(Error('child exited before reservation'))); });
+      const pending = await c.review(s.request); assert.equal(pending.status, 'PENDING'); assert.equal(s.calls.length, 0);
+      const exited = new Promise<void>(resolve => child.once('exit', () => resolve())); child.kill('SIGKILL'); await exited;
+      c.close(); const reopened = s.reopen(); const recovered = await reopened.review(s.request);
+      assert.deepEqual(recovered, pending); assert.equal(recovered.freshness, 'STALE_RECHECK_REQUIRED'); assert.equal(s.calls.length, 0);
+    } finally { if (child.exitCode === null && child.signalCode === null) child.kill('SIGKILL'); }
+  } finally { s.cleanup(); }
+});

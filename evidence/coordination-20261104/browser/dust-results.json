@@ -1,0 +1,48 @@
+[
+  {
+    "satoshis": 650,
+    "cleared": {
+      "status": "NOT CHECKED",
+      "downloadEnabled": false
+    },
+    "result": {
+      "status": "REJECTED",
+      "canSign": false,
+      "issues": [
+        "DUST_OUTPUT"
+      ],
+      "feeSatoshis": null,
+      "candidateTxid": "d49faf8b4cecf34e0fd564f19ede19b39dd9ddc2c659cfc672fc9fb5302b0e0c",
+      "intentDigest": "88396469415c8296aaa83003eb9926351459fcf3cb7052be0282aafe00e941b1",
+      "structuralTransactionDigest": "d49faf8b4cecf34e0fd564f19ede19b39dd9ddc2c659cfc672fc9fb5302b0e0c",
+      "limitations": [
+        "MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.",
+        "Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.",
+        "Only a fixed 1000 sat/kB token-aware dust baseline is checked; actual node fee/relay policy, signatures, consensus and wallet behavior are not validated.",
+        "Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting."
+      ]
+    }
+  },
+  {
+    "satoshis": 651,
+    "cleared": {
+      "status": "NOT CHECKED",
+      "downloadEnabled": false
+    },
+    "result": {
+      "status": "MATCH_OFFLINE",
+      "canSign": false,
+      "issues": [],
+      "feeSatoshis": "500",
+      "candidateTxid": "7a6b2347c51dfc4334e89e12b3ce441ddc74b872bb4cfb49340367517d8e03c5",
+      "intentDigest": "24d3122467b0f93b3db2ab2a612676a9e6b62d9c0928f65a12b22c89610e9cdc",
+      "structuralTransactionDigest": "7a6b2347c51dfc4334e89e12b3ce441ddc74b872bb4cfb49340367517d8e03c5",
+      "limitations": [
+        "MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.",
+        "Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.",
+        "Only a fixed 1000 sat/kB token-aware dust baseline is checked; actual node fee/relay policy, signatures, consensus and wallet behavior are not validated.",
+        "Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting."
+      ]
+    }
+  }
+]

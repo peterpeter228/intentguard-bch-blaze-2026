@@ -34,3 +34,7 @@ All current tests are local synthetic checks. They demonstrate deterministic rej
 ## Evidence/state continuation
 
 [Evidence and durable-state interfaces](EVIDENCE_AND_STATE.md) now implement bounded source corroboration, session-derived ownership checks and actual local SQLite concurrency/recovery. Production transports remain unconfigured, and scenario events are not verified financial facts. The localhost UI bundle is unchanged by this continuation.
+
+## Token-aware dust baseline
+
+The comparator now checks each supported output against libauth's full serialized-output dust threshold at a fixed application relay baseline of1000 sat/1000 bytes. CashTokens prefix/amount CompactSize are included: ordinary P2PKH is546 sats, a P2PKH FT output with amount100 is651, and amount253 is657. Recipient and change outputs are both checked. This is not a live node policy quote, consensus guarantee or complete fee-rate policy. Total fee remains capped by the intent; final signed-size/fee-rate bounds and an unsigned payment builder are still pending. See evidence/coordination-20261104/FEE_DUST_REVIEW.md for the pinned BCHN formula and limitations.

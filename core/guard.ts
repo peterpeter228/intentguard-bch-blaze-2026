@@ -1,5 +1,5 @@
 /** Deterministic transaction comparison, not a signer, node, or spending authorization. */
-import { binToHex, hexToBin, decodeTransaction, encodeTransaction, hashTransaction, sha256, type Transaction, type Output } from '@bitauth/libauth';
+import { binToHex, hexToBin, decodeTransaction, encodeTransaction, hashTransaction, sha256, getDustThreshold, type Transaction, type Output } from '@bitauth/libauth';
 export interface ExpectedOutput { script: string; satoshis: string; token?: { category: string; amount: string }; }
 export interface PaymentIntent {
   network: 'chipnet' | 'mainnet'; expiresAt: number; maxFeeSatoshis: string;
@@ -75,7 +75,7 @@ export function verifyCandidate(input: GuardInput): GuardReport {
   const r: GuardReport = {status:'UNKNOWN',canSign:false,issues:[],feeSatoshis:null,candidateTxid:null,intentDigest:null,structuralTransactionDigest:null,limitations:[
     'MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.',
     'Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.',
-    'Signatures, consensus validity, relay policy, dust policy and wallet behavior are not validated.',
+    'Only a fixed 1000 sat/kB token-aware dust baseline is checked; actual node fee/relay policy, signatures, consensus and wallet behavior are not validated.',
     'Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting.'
   ]};
   const reject=(code:string)=>{r.issues.push(code);r.status='REJECTED';};
@@ -105,6 +105,9 @@ export function verifyCandidate(input: GuardInput): GuardReport {
     for(const [index,o] of tx.outputs.entries()){
       const sc=binToHex(o.lockingBytecode);if(!script(sc)){reject('UNSUPPORTED_OUTPUT_SCRIPT');return r;}
       if(o.valueSatoshis<546n || o.valueSatoshis>MAX_MONEY){reject('OUTPUT_AMOUNT_RANGE');return r;}
+      // Application relay baseline: 1000 sat/1000 bytes. Full serialized output
+      // includes CashTokens prefix. This is not a consensus or live-node guarantee.
+      if(o.valueSatoshis<getDustThreshold(o,1000n)){reject('DUST_OUTPUT');return r;}
       totalOut+=o.valueSatoshis;addToken(o,tokenOut);
       if(index<i.recipients.length){if(outputKey(o)!==JSON.stringify(i.recipients[index]))reject('RECIPIENT_MISMATCH');}
       else if(!i.ownerScripts.includes(sc))reject('UNCONFIRMED_CHANGE');
