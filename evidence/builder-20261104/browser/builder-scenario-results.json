@@ -1,0 +1,163 @@
+[
+  {
+    "name": "Token payment plan",
+    "cleared": {
+      "status": "NOT BUILT",
+      "downloadEnabled": false
+    },
+    "result": {
+      "status": "BUILT_OFFLINE",
+      "canSign": false,
+      "broadcastable": false,
+      "receiptValid": false,
+      "issue": null,
+      "unsignedHex": "0200000001d8ef5e56f7bebcf2be06bbcf46a7921e1c022defa1bca2ae5bcb0f70adcb044c0000000000ffffffff03e8030000000000003cef4444444444444444444444444444444444444444444444444444444444444444106476a914222222222222222222222222222222222222222288ac91020000000000003eef444444444444444444444444444444444444444444444444444444444444444410fd900176a914111111111111111111111111111111111111111188ac521f0000000000001976a914111111111111111111111111111111111111111188ac00000000",
+      "intentDigest": "6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e",
+      "planDigest": "6ecfbebd2a792c62ada38ccfb871c65640b33c4159226ad9b72bbf6e1a372875",
+      "outputSummary": [
+        {
+          "script": "76a914222222222222222222222222222222222222222288ac",
+          "satoshis": "1000",
+          "token": {
+            "category": "4444444444444444444444444444444444444444444444444444444444444444",
+            "amount": "100"
+          },
+          "index": 0,
+          "role": "recipient"
+        },
+        {
+          "script": "76a914111111111111111111111111111111111111111188ac",
+          "satoshis": "657",
+          "token": {
+            "category": "4444444444444444444444444444444444444444444444444444444444444444",
+            "amount": "400"
+          },
+          "index": 1,
+          "role": "token-change"
+        },
+        {
+          "script": "76a914111111111111111111111111111111111111111188ac",
+          "satoshis": "8018",
+          "index": 2,
+          "role": "bch-change"
+        }
+      ],
+      "feeRateBounds": {
+        "unit": "satoshis-per-1000-bytes",
+        "minimum": {
+          "numerator": "325000",
+          "denominator": "325"
+        },
+        "maximum": {
+          "numerator": "325000",
+          "denominator": "325"
+        }
+      },
+      "feeSatoshis": "325",
+      "budgetFeeSatoshis": "325",
+      "donatedRemainderSatoshis": "0",
+      "estimatedSignedBytes": {
+        "minimum": 325,
+        "maximum": 325,
+        "signatureModel": "compressed-p2pkh-schnorr"
+      },
+      "selectedInputs": [
+        {
+          "txid": "4c04cbad700fcb5baea2bca1ef2d021c1e92a746cfbb06bef2bcbef7565eefd8",
+          "index": 0,
+          "sourceOutput": {
+            "script": "76a914111111111111111111111111111111111111111188ac",
+            "satoshis": "10000",
+            "token": {
+              "category": "4444444444444444444444444444444444444444444444444444444444444444",
+              "amount": "500"
+            }
+          }
+        }
+      ],
+      "guard": {
+        "status": "MATCH_OFFLINE",
+        "canSign": false,
+        "issues": [],
+        "feeSatoshis": "325",
+        "candidateTxid": "61abd196022aec158ddef62e68ff40107de39e7ce47fccf2cc0580bea8a4c084",
+        "intentDigest": "6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e",
+        "structuralTransactionDigest": "61abd196022aec158ddef62e68ff40107de39e7ce47fccf2cc0580bea8a4c084",
+        "limitations": [
+          "MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.",
+          "Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.",
+          "Only a fixed 1000 sat/kB token-aware dust baseline is checked; actual node fee/relay policy, signatures, consensus and wallet behavior are not validated.",
+          "Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting."
+        ]
+      },
+      "limitations": [
+        "Offline construction only; supplied ownership, network and unspent claims are not authenticated.",
+        "The unsigned hash is not a final transaction ID; no wallet, signatures, consensus or relay acceptance was tested.",
+        "Signed-size bounds assume the declared compressed-key P2PKH model and minimal pushes; independently revalidate final signed bytes and fees.",
+        "Dust uses a fixed 1000 sat/1000-byte application baseline; fee rates are explicit policy, not a live network quote."
+      ]
+    }
+  },
+  {
+    "name": "Fee cap too low",
+    "cleared": {
+      "status": "NOT BUILT",
+      "downloadEnabled": false
+    },
+    "result": {
+      "status": "REJECTED",
+      "canSign": false,
+      "broadcastable": false,
+      "receiptValid": false,
+      "issue": "FEE_LIMIT",
+      "unsignedHex": null,
+      "intentDigest": "e95ba41e13ca5905aa3c4a14fcfaf784eabb9e4c40341a0b289be4820bb25cfd",
+      "planDigest": null,
+      "outputSummary": [],
+      "feeRateBounds": null,
+      "feeSatoshis": null,
+      "budgetFeeSatoshis": null,
+      "donatedRemainderSatoshis": null,
+      "estimatedSignedBytes": null,
+      "selectedInputs": [],
+      "guard": null,
+      "limitations": [
+        "Offline construction only; supplied ownership, network and unspent claims are not authenticated.",
+        "The unsigned hash is not a final transaction ID; no wallet, signatures, consensus or relay acceptance was tested.",
+        "Signed-size bounds assume the declared compressed-key P2PKH model and minimal pushes; independently revalidate final signed bytes and fees.",
+        "Dust uses a fixed 1000 sat/1000-byte application baseline; fee rates are explicit policy, not a live network quote."
+      ]
+    }
+  },
+  {
+    "name": "Insufficient funds",
+    "cleared": {
+      "status": "NOT BUILT",
+      "downloadEnabled": false
+    },
+    "result": {
+      "status": "REJECTED",
+      "canSign": false,
+      "broadcastable": false,
+      "receiptValid": false,
+      "issue": "INSUFFICIENT_BCH",
+      "unsignedHex": null,
+      "intentDigest": "cf498205492644bddda51762b8550092a38aa34b139255d87e7ed70104c685f5",
+      "planDigest": null,
+      "outputSummary": [],
+      "feeRateBounds": null,
+      "feeSatoshis": null,
+      "budgetFeeSatoshis": null,
+      "donatedRemainderSatoshis": null,
+      "estimatedSignedBytes": null,
+      "selectedInputs": [],
+      "guard": null,
+      "limitations": [
+        "Offline construction only; supplied ownership, network and unspent claims are not authenticated.",
+        "The unsigned hash is not a final transaction ID; no wallet, signatures, consensus or relay acceptance was tested.",
+        "Signed-size bounds assume the declared compressed-key P2PKH model and minimal pushes; independently revalidate final signed bytes and fees.",
+        "Dust uses a fixed 1000 sat/1000-byte application baseline; fee rates are explicit policy, not a live network quote."
+      ]
+    }
+  }
+]

@@ -1,0 +1,169 @@
+[
+  {
+    "name": "Original payment",
+    "result": {
+      "status": "MATCH_OFFLINE",
+      "canSign": false,
+      "issues": [],
+      "feeSatoshis": "500",
+      "candidateTxid": "581cf32e2851d4668d198d5b28c5aec80c8e46686fbc1a2ea5d6e5418514eeac",
+      "intentDigest": "6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e",
+      "structuralTransactionDigest": "581cf32e2851d4668d198d5b28c5aec80c8e46686fbc1a2ea5d6e5418514eeac",
+      "limitations": [
+        "MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.",
+        "Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.",
+        "Only a fixed 1000 sat/kB token-aware dust baseline is checked; actual node fee/relay policy, signatures, consensus and wallet behavior are not validated.",
+        "Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting."
+      ]
+    },
+    "builderStatus": "BUILT_OFFLINE"
+  },
+  {
+    "name": "Recipient replaced",
+    "result": {
+      "status": "REJECTED",
+      "canSign": false,
+      "issues": [
+        "RECIPIENT_MISMATCH"
+      ],
+      "feeSatoshis": "500",
+      "candidateTxid": "88f5eab5eba71f36f2e7383943b2f03e7a29272e72e8c037ebe409228b9bf32d",
+      "intentDigest": "6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e",
+      "structuralTransactionDigest": "88f5eab5eba71f36f2e7383943b2f03e7a29272e72e8c037ebe409228b9bf32d",
+      "limitations": [
+        "MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.",
+        "Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.",
+        "Only a fixed 1000 sat/kB token-aware dust baseline is checked; actual node fee/relay policy, signatures, consensus and wallet behavior are not validated.",
+        "Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting."
+      ]
+    },
+    "builderStatus": "BUILT_OFFLINE"
+  },
+  {
+    "name": "Wrong token",
+    "result": {
+      "status": "REJECTED",
+      "canSign": false,
+      "issues": [
+        "UNDECLARED_TOKEN",
+        "RECIPIENT_MISMATCH",
+        "TOKEN_IMBALANCE",
+        "TOKEN_IMBALANCE"
+      ],
+      "feeSatoshis": "500",
+      "candidateTxid": "a70c205eb44d394deb897a829f25e03f5db53c3c445df2f1821d91f6704de2ef",
+      "intentDigest": "6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e",
+      "structuralTransactionDigest": "a70c205eb44d394deb897a829f25e03f5db53c3c445df2f1821d91f6704de2ef",
+      "limitations": [
+        "MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.",
+        "Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.",
+        "Only a fixed 1000 sat/kB token-aware dust baseline is checked; actual node fee/relay policy, signatures, consensus and wallet behavior are not validated.",
+        "Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting."
+      ]
+    },
+    "builderStatus": "BUILT_OFFLINE"
+  },
+  {
+    "name": "Excessive fee",
+    "result": {
+      "status": "REJECTED",
+      "canSign": false,
+      "issues": [
+        "FEE_LIMIT"
+      ],
+      "feeSatoshis": "1500",
+      "candidateTxid": "37cacd9a3d2b07ae6c6b2f251afd2f24adc32ccd5472b797a063e1669989cd83",
+      "intentDigest": "6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e",
+      "structuralTransactionDigest": "37cacd9a3d2b07ae6c6b2f251afd2f24adc32ccd5472b797a063e1669989cd83",
+      "limitations": [
+        "MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.",
+        "Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.",
+        "Only a fixed 1000 sat/kB token-aware dust baseline is checked; actual node fee/relay policy, signatures, consensus and wallet behavior are not validated.",
+        "Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting."
+      ]
+    },
+    "builderStatus": "BUILT_OFFLINE"
+  },
+  {
+    "name": "Stale evidence",
+    "result": {
+      "status": "UNKNOWN",
+      "canSign": false,
+      "issues": [
+        "STALE_OR_INVALID_SNAPSHOT"
+      ],
+      "feeSatoshis": null,
+      "candidateTxid": null,
+      "intentDigest": "6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e",
+      "structuralTransactionDigest": null,
+      "limitations": [
+        "MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.",
+        "Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.",
+        "Only a fixed 1000 sat/kB token-aware dust baseline is checked; actual node fee/relay policy, signatures, consensus and wallet behavior are not validated.",
+        "Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting."
+      ]
+    },
+    "builderStatus": "BUILT_OFFLINE"
+  },
+  {
+    "name": "Missing parent",
+    "result": {
+      "status": "UNKNOWN",
+      "canSign": false,
+      "issues": [
+        "MISSING_OR_SPENT_PREVOUT"
+      ],
+      "feeSatoshis": null,
+      "candidateTxid": "581cf32e2851d4668d198d5b28c5aec80c8e46686fbc1a2ea5d6e5418514eeac",
+      "intentDigest": "6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e",
+      "structuralTransactionDigest": "581cf32e2851d4668d198d5b28c5aec80c8e46686fbc1a2ea5d6e5418514eeac",
+      "limitations": [
+        "MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.",
+        "Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.",
+        "Only a fixed 1000 sat/kB token-aware dust baseline is checked; actual node fee/relay policy, signatures, consensus and wallet behavior are not validated.",
+        "Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting."
+      ]
+    },
+    "builderStatus": "BUILT_OFFLINE"
+  },
+  {
+    "name": "Token dust 650",
+    "result": {
+      "status": "REJECTED",
+      "canSign": false,
+      "issues": [
+        "DUST_OUTPUT"
+      ],
+      "feeSatoshis": null,
+      "candidateTxid": "d49faf8b4cecf34e0fd564f19ede19b39dd9ddc2c659cfc672fc9fb5302b0e0c",
+      "intentDigest": "88396469415c8296aaa83003eb9926351459fcf3cb7052be0282aafe00e941b1",
+      "structuralTransactionDigest": "d49faf8b4cecf34e0fd564f19ede19b39dd9ddc2c659cfc672fc9fb5302b0e0c",
+      "limitations": [
+        "MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.",
+        "Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.",
+        "Only a fixed 1000 sat/kB token-aware dust baseline is checked; actual node fee/relay policy, signatures, consensus and wallet behavior are not validated.",
+        "Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting."
+      ]
+    },
+    "builderStatus": "BUILT_OFFLINE"
+  },
+  {
+    "name": "Token dust 651",
+    "result": {
+      "status": "MATCH_OFFLINE",
+      "canSign": false,
+      "issues": [],
+      "feeSatoshis": "500",
+      "candidateTxid": "7a6b2347c51dfc4334e89e12b3ce441ddc74b872bb4cfb49340367517d8e03c5",
+      "intentDigest": "24d3122467b0f93b3db2ab2a612676a9e6b62d9c0928f65a12b22c89610e9cdc",
+      "structuralTransactionDigest": "7a6b2347c51dfc4334e89e12b3ce441ddc74b872bb4cfb49340367517d8e03c5",
+      "limitations": [
+        "MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.",
+        "Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.",
+        "Only a fixed 1000 sat/kB token-aware dust baseline is checked; actual node fee/relay policy, signatures, consensus and wallet behavior are not validated.",
+        "Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting."
+      ]
+    },
+    "builderStatus": "BUILT_OFFLINE"
+  }
+]

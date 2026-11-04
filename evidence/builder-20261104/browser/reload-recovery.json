@@ -1,0 +1,12 @@
+{
+  "reloadResult": {
+    "comparisonStatus": "NOT CHECKED",
+    "comparisonDownloadEnabled": false,
+    "builderStatus": "NOT BUILT",
+    "builderDownloadEnabled": false
+  },
+  "recoveryResult": {
+    "comparisonStatus": "MATCH_OFFLINE",
+    "builderStatus": "BUILT_OFFLINE"
+  }
+}

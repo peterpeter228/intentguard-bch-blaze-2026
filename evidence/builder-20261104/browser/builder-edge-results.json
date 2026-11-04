@@ -1,0 +1,80 @@
+[
+  {
+    "case": "Edit invalidation",
+    "status": "NOT BUILT",
+    "downloadEnabled": false,
+    "result": "No current plan. Build again after any edit."
+  },
+  {
+    "case": "ECDSA fee-rate ceiling",
+    "result": {
+      "status": "REJECTED",
+      "canSign": false,
+      "broadcastable": false,
+      "receiptValid": false,
+      "issue": "FEE_RATE_LIMIT",
+      "unsignedHex": null,
+      "intentDigest": "6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e",
+      "planDigest": null,
+      "outputSummary": [],
+      "feeRateBounds": null,
+      "feeSatoshis": null,
+      "budgetFeeSatoshis": null,
+      "donatedRemainderSatoshis": null,
+      "estimatedSignedBytes": null,
+      "selectedInputs": [],
+      "guard": null,
+      "limitations": [
+        "Offline construction only; supplied ownership, network and unspent claims are not authenticated.",
+        "The unsigned hash is not a final transaction ID; no wallet, signatures, consensus or relay acceptance was tested.",
+        "Signed-size bounds assume the declared compressed-key P2PKH model and minimal pushes; independently revalidate final signed bytes and fees.",
+        "Dust uses a fixed 1000 sat/1000-byte application baseline; fee rates are explicit policy, not a live network quote."
+      ]
+    }
+  },
+  {
+    "case": "Input {broken",
+    "status": "INVALID INPUT",
+    "downloadEnabled": false,
+    "result": "Enter valid JSON within 600 KB. No wallet was connected and no transaction was sent."
+  },
+  {
+    "case": "Input null",
+    "status": "REJECTED",
+    "downloadEnabled": true,
+    "result": "{\n  \"status\": \"REJECTED\",\n  \"canSign\": false,\n  \"broadcastable\": false,\n  \"receiptValid\": false,\n  \"issue\": \"INVALID_BUILD_SCHEMA\",\n  \"unsignedHex\": null,\n  \"intentDigest\": null,\n  \"planDigest\": null,\n  \"outputSummary\": [],\n  \"feeRateBounds\": null,\n  \"feeSatoshis\": null,\n  \"budgetFeeSatoshis\": null,\n  \"donatedRemainderSatoshis\": null,\n  \"estimatedSignedBytes\": null,\n  \"selectedInputs\": [],\n  \"guard\": null,\n  \"limitations\": [\n    \"Offline construction only; supplied ownership, network and unspent claims are not authenticated.\",\n    \"The unsigned hash is not a final transaction ID; no wallet, signatures, consensus or relay acceptance was tested.\",\n    \"Signed-size bounds assume the declared compressed-key P2PKH model and minimal pushes; independently revalidate final signed bytes and fees.\",\n    \"Dust uses a fixed 1000 sat/1000-byte application baseline; fee rates are explicit policy, not a live network quote.\"\n  ]\n}"
+  },
+  {
+    "case": "Input []",
+    "status": "REJECTED",
+    "downloadEnabled": true,
+    "result": "{\n  \"status\": \"REJECTED\",\n  \"canSign\": false,\n  \"broadcastable\": false,\n  \"receiptValid\": false,\n  \"issue\": \"INVALID_BUILD_SCHEMA\",\n  \"unsignedHex\": null,\n  \"intentDigest\": null,\n  \"planDigest\": null,\n  \"outputSummary\": [],\n  \"feeRateBounds\": null,\n  \"feeSatoshis\": null,\n  \"budgetFeeSatoshis\": null,\n  \"donatedRemainderSatoshis\": null,\n  \"estimatedSignedBytes\": null,\n  \"selectedInputs\": [],\n  \"guard\": null,\n  \"limitations\": [\n    \"Offline construction only; supplied ownership, network and unspent claims are not authenticated.\",\n    \"The unsigned hash is not a final transaction ID; no wallet, signatures, consensus or relay acceptance was tested.\",\n    \"Signed-size bounds assume the declared compressed-key P2PKH model and minimal pushes; independently revalidate final signed bytes and fees.\",\n    \"Dust uses a fixed 1000 sat/1000-byte application baseline; fee rates are explicit policy, not a live network quote.\"\n  ]\n}"
+  },
+  {
+    "case": "Input {}",
+    "status": "REJECTED",
+    "downloadEnabled": true,
+    "result": "{\n  \"status\": \"REJECTED\",\n  \"canSign\": false,\n  \"broadcastable\": false,\n  \"receiptValid\": false,\n  \"issue\": \"INVALID_BUILD_SCHEMA\",\n  \"unsignedHex\": null,\n  \"intentDigest\": null,\n  \"planDigest\": null,\n  \"outputSummary\": [],\n  \"feeRateBounds\": null,\n  \"feeSatoshis\": null,\n  \"budgetFeeSatoshis\": null,\n  \"donatedRemainderSatoshis\": null,\n  \"estimatedSignedBytes\": null,\n  \"selectedInputs\": [],\n  \"guard\": null,\n  \"limitations\": [\n    \"Offline construction only; supplied ownership, network and unspent claims are not authenticated.\",\n    \"The unsigned hash is not a final transaction ID; no wallet, signatures, consensus or relay acceptance was tested.\",\n    \"Signed-size bounds assume the declared compressed-key P2PKH model and minimal pushes; independently revalidate final signed bytes and fees.\",\n    \"Dust uses a fixed 1000 sat/1000-byte application baseline; fee rates are explicit policy, not a live network quote.\"\n  ]\n}"
+  },
+  {
+    "case": "Clear plan",
+    "status": "NOT BUILT",
+    "downloadEnabled": false,
+    "value": ""
+  },
+  {
+    "case": "Empty build",
+    "status": "INVALID INPUT",
+    "downloadEnabled": false
+  },
+  {
+    "case": "ASCII JSON 600000 bytes",
+    "status": "BUILT_OFFLINE",
+    "downloadEnabled": true
+  },
+  {
+    "case": "ASCII JSON 600001 bytes",
+    "status": "INVALID INPUT",
+    "downloadEnabled": false
+  }
+]
