@@ -1,0 +1,908 @@
+[
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:40:26.855Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:40:48.499Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:40:48.511Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:40:48.523Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:40:48.523Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:40:48.528Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:40:48.544Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:40:48.545Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:40:48.548Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:40:48.560Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:40:48.560Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:40:48.564Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:40:48.620Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:40:48.621Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:03.364Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:03.364Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:03.375Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:03.664Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:03.911Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:03.912Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:03.917Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:04.015Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:04.015Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:37.593Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:37.593Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:37.601Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:37.652Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:37.653Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:38.187Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:38.189Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:38.205Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:38.430Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:38.435Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:58.992Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:58.993Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:58.999Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:59.050Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:59.051Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:59.312Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:59.312Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:59.315Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:59.370Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:59.370Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:59.633Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:59.636Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:59.643Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:59.701Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:59.701Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:59.957Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:59.958Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:41:59.961Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:00.013Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:00.014Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:00.276Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:00.276Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:00.279Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:25.746Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:25.801Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:25.801Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:26.054Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:26.062Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:44.682Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:44.686Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:44.691Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:44.706Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:44.706Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:44.711Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:44.770Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:44.771Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.120Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.120Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.125Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.150Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.150Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.153Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.206Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.206Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.483Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.483Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.492Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.540Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.541Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.803Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.803Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.806Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.827Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.827Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.830Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.891Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:45.892Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:46.155Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:46.155Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:42:46.159Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:07.510Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:07.510Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:07.520Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:07.568Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:07.570Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:07.847Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:07.848Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:07.852Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:07.916Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:07.919Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:08.220Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:08.223Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:08.226Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:08.283Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:08.284Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:08.558Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:08.559Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:08.564Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:08.616Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:08.616Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:08.891Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:08.895Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:08.898Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:08.953Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:08.954Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:09.217Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:09.217Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:09.231Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:39.499Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:39.507Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:39.559Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:39.561Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:39.832Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:39.832Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:39.837Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:39.891Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:39.892Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:40.157Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:40.158Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:40.166Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:40.226Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:40.227Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:40.510Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:40.510Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:40.513Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:40.578Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:40.578Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:40.879Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:43:40.880Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:44:16.085Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:44:16.086Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:44:16.094Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:44:16.153Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:44:16.154Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:44:16.418Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:44:16.418Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:44:16.432Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T16:44:16.742Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  }
+]

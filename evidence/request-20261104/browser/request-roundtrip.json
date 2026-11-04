@@ -1,0 +1,10 @@
+{
+  "returnedUrl": "http://127.0.0.1:8788/request",
+  "draftAfterRoundtrip": {
+    "status": "NO DRAFT",
+    "summary": "No current draft. Review again after any edit.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  }
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "case": "Inspector remains separate synthetic default",
+    "recipientScript": "76a914222222222222222222222222222222222222222288ac",
+    "category": "4444444444444444444444444444444444444444444444444444444444444444",
+    "comparisonStatus": "NOT CHECKED",
+    "builderStatus": "NOT BUILT"
+  },
+  {
+    "case": "Original payment",
+    "status": "MATCH_OFFLINE",
+    "canSign": false,
+    "issues": [],
+    "fee": "500"
+  },
+  {
+    "case": "Recipient replaced",
+    "status": "REJECTED",
+    "canSign": false,
+    "issues": [
+      "RECIPIENT_MISMATCH"
+    ],
+    "fee": "500"
+  },
+  {
+    "case": "Stale evidence",
+    "status": "UNKNOWN",
+    "canSign": false,
+    "issues": [
+      "STALE_OR_INVALID_SNAPSHOT"
+    ],
+    "fee": null
+  },
+  {
+    "case": "Token payment plan",
+    "status": "BUILT_OFFLINE",
+    "canSign": false,
+    "broadcastable": false,
+    "receiptValid": false,
+    "issue": null,
+    "fee": "325"
+  },
+  {
+    "case": "Fee cap too low",
+    "status": "REJECTED",
+    "canSign": false,
+    "broadcastable": false,
+    "receiptValid": false,
+    "issue": "FEE_LIMIT",
+    "fee": null
+  }
+]

@@ -1,0 +1,51 @@
+- main:
+  - text: INTENTGUARD BCH · LOCAL REQUEST DRAFT
+  - heading "Make the payment request explicit." [level=1]
+  - paragraph: Choose the network, recipient and exact amount before any wallet or transaction is involved.
+  - link "Open the synthetic transaction inspector":
+    - /url: /
+  - complementary:
+    - strong: No wallet, signature or payment.
+    - text: This page checks request formatting only. A valid address does not prove who controls it or whether a merchant is trustworthy. Local review is not payment approval. Nothing is stored or sent to a server.
+  - heading "1. Create a request" [level=2]
+  - paragraph: "Full CashAddr prefixes are required. Chipnet and other BCH test networks share the bchtest address prefix: the address alone cannot distinguish them."
+  - text: Request reference
+  - textbox "Request reference":
+    - /placeholder: invoice-example-1
+    - text: qa-public-vector-001
+  - text: Network
+  - combobox "Network":
+    - option "Chipnet · test network" [selected]
+    - option "Bitcoin Cash mainnet · draft only"
+  - text: Asset
+  - combobox "Asset":
+    - option "BCH only" [selected]
+    - option "Fungible CashToken"
+  - text: Recipient CashAddr
+  - textbox "Recipient CashAddr":
+    - /placeholder: bchtest:…
+    - text: bchtest:qr7fzmep8g7h7ymfxy74lgc0v950j3r295pdnvy3hr
+  - text: BCH amount (includes token carrying BCH)
+  - textbox "BCH amount (includes token carrying BCH)":
+    - /placeholder: "0.00001000"
+    - text: "0.00001000"
+  - text: Maximum total transaction fee (satoshis)
+  - textbox "Maximum total transaction fee (satoshis)": "600"
+  - text: Expires within 24 hours (UTC, YYYY-MM-DDTHH:mm:ssZ)
+  - textbox "Expires within 24 hours (UTC, YYYY-MM-DDTHH:mm:ssZ)":
+    - /placeholder: 2026-11-05T12:00:00Z
+    - text: 2026-11-04T17:40:48Z
+  - button "Review draft" [active]
+  - button "Clear request"
+  - heading "Or import an untrusted request" [level=2]
+  - paragraph: Paste a previously exported request. It is revalidated using the current clock and never restores a prior confirmation.
+  - text: Request JSON (maximum 8 KB)
+  - textbox "Request JSON (maximum 8 KB)"
+  - button "Import and review draft"
+  - heading "2. Read every detail UNCONFIRMED DRAFT" [level=2]
+  - generic: "Reference: qa-public-vector-001 Requested network: chipnet (not verified) Expires: 2026-11-04T17:40:48.000Z Recipient 1: bchtest:qr7fzmep8g7h7ymfxy74lgc0v950j3r295pdnvy3hr Locking script: 76a914fc916f213a3d7f1369313d5fa30f6168f9446a2d88ac BCH sent to this recipient: 1000 satoshis No tokens requested Total recipient BCH: 1000 satoshis Maximum transaction fee: 600 satoshis Request digest: 2016b2592c482975e1c55559f6f62400a8e4db298aaffd75b1ab8729b32f2124 No funds, ownership or merchant identity verified. No signature, broadcast or receipt. Unconfirmed request draft only. Address checksum and scripts do not authenticate the recipient, request source or human consent. bchtest addresses are shared by test networks; the prefix alone cannot establish Chipnet. No network or chain has been queried. Token category and base units are explicit; issuer, ticker, decimals, value and token existence are not verified. Recipient BCH includes token carrier funds. Dust uses a fixed 1000 sat/1000-byte application baseline, not live relay policy. There are no wallet owner/change scripts, signatures, spending authorization or verified receipts in this draft."
+  - paragraph: Not reviewed.
+  - button "I have checked these request details locally"
+  - button "Download request JSON" [disabled]
+  - paragraph: Downloaded request JSON intentionally contains the recipient address and payment terms. Keep it private unless you choose to share it. It contains no wallet secrets or proof of payment.
+  - generic: "Unsupported: recipient identity proof, wallet ownership, live network verification, UTXO selection, signing, broadcasting and receipts. The transaction inspector remains a separate synthetic demonstration. Drafts are not automatically fed into its teaching wallet or evidence journal."

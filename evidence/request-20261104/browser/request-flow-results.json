@@ -1,0 +1,267 @@
+[
+  {
+    "case": "BCH form review",
+    "status": "UNCONFIRMED DRAFT",
+    "summary": "Reference: qa-public-vector-001\nRequested network: chipnet (not verified)\nExpires: 2026-11-04T17:40:48.000Z\nRecipient 1: bchtest:qr7fzmep8g7h7ymfxy74lgc0v950j3r295pdnvy3hr\nLocking script: 76a914fc916f213a3d7f1369313d5fa30f6168f9446a2d88ac\nBCH sent to this recipient: 1000 satoshis\nNo tokens requested\nTotal recipient BCH: 1000 satoshis\nMaximum transaction fee: 600 satoshis\nRequest digest: 2016b2592c482975e1c55559f6f62400a8e4db298aaffd75b1ab8729b32f2124\nNo funds, ownership or merchant identity verified. No signature, broadcast or receipt.\nUnconfirmed request draft only. Address checksum and scripts do not authenticate the recipient, request source or human consent.\nbchtest addresses are shared by test networks; the prefix alone cannot establish Chipnet. No network or chain has been queried.\nToken category and base units are explicit; issuer, ticker, decimals, value and token existence are not verified.\nRecipient BCH includes token carrier funds. Dust uses a fixed 1000 sat/1000-byte application baseline, not live relay policy.\nThere are no wallet owner/change scripts, signatures, spending authorization or verified receipts in this draft.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": true,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Local draft review click",
+    "status": "LOCALLY REVIEWED · NOT APPROVED TO PAY",
+    "summary": "Reference: qa-public-vector-001\nRequested network: chipnet (not verified)\nExpires: 2026-11-04T17:40:48.000Z\nRecipient 1: bchtest:qr7fzmep8g7h7ymfxy74lgc0v950j3r295pdnvy3hr\nLocking script: 76a914fc916f213a3d7f1369313d5fa30f6168f9446a2d88ac\nBCH sent to this recipient: 1000 satoshis\nNo tokens requested\nTotal recipient BCH: 1000 satoshis\nMaximum transaction fee: 600 satoshis\nRequest digest: 2016b2592c482975e1c55559f6f62400a8e4db298aaffd75b1ab8729b32f2124\nNo funds, ownership or merchant identity verified. No signature, broadcast or receipt.\nUnconfirmed request draft only. Address checksum and scripts do not authenticate the recipient, request source or human consent.\nbchtest addresses are shared by test networks; the prefix alone cannot establish Chipnet. No network or chain has been queried.\nToken category and base units are explicit; issuer, ticker, decimals, value and token existence are not verified.\nRecipient BCH includes token carrier funds. Dust uses a fixed 1000 sat/1000-byte application baseline, not live relay policy.\nThere are no wallet owner/change scripts, signatures, spending authorization or verified receipts in this draft.",
+    "reviewText": "You reviewed these exact details in this tab. This is not a wallet authorization or proof of recipient identity.",
+    "confirmEnabled": false,
+    "downloadEnabled": true
+  },
+  {
+    "case": "Typing import invalidates prior local review",
+    "status": "NO DRAFT",
+    "summary": "No current draft. Review again after any edit.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Import actual exported request",
+    "status": "UNCONFIRMED DRAFT",
+    "summary": "Reference: qa-public-vector-001\nRequested network: chipnet (not verified)\nExpires: 2026-11-04T17:40:48.000Z\nRecipient 1: bchtest:qr7fzmep8g7h7ymfxy74lgc0v950j3r295pdnvy3hr\nLocking script: 76a914fc916f213a3d7f1369313d5fa30f6168f9446a2d88ac\nBCH sent to this recipient: 1000 satoshis\nNo tokens requested\nTotal recipient BCH: 1000 satoshis\nMaximum transaction fee: 600 satoshis\nRequest digest: 2016b2592c482975e1c55559f6f62400a8e4db298aaffd75b1ab8729b32f2124\nNo funds, ownership or merchant identity verified. No signature, broadcast or receipt.\nUnconfirmed request draft only. Address checksum and scripts do not authenticate the recipient, request source or human consent.\nbchtest addresses are shared by test networks; the prefix alone cannot establish Chipnet. No network or chain has been queried.\nToken category and base units are explicit; issuer, ticker, decimals, value and token existence are not verified.\nRecipient BCH includes token carrier funds. Dust uses a fixed 1000 sat/1000-byte application baseline, not live relay policy.\nThere are no wallet owner/change scripts, signatures, spending authorization or verified receipts in this draft.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": true,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Two-recipient BCH and token import",
+    "status": "UNCONFIRMED DRAFT",
+    "summary": "Reference: qa-multiple-public-vectors\nRequested network: chipnet (not verified)\nExpires: 2026-11-04T17:40:48.000Z\nRecipient 1: bchtest:qr7fzmep8g7h7ymfxy74lgc0v950j3r295pdnvy3hr\nLocking script: 76a914fc916f213a3d7f1369313d5fa30f6168f9446a2d88ac\nBCH sent to this recipient: 1000 satoshis\nNo tokens requested\nRecipient 2: bchtest:zr7fzmep8g7h7ymfxy74lgc0v950j3r295x8qj2hgs\nLocking script: 76a914fc916f213a3d7f1369313d5fa30f6168f9446a2d88ac\nBCH sent to this recipient: 651 satoshis\nToken category: 2222222222222222222222222222222222222222222222222222222222222222\nToken amount: 100 integer base units (decimals and symbol not verified)\nTotal recipient BCH: 1651 satoshis\nMaximum transaction fee: 600 satoshis\nRequest digest: 3a6621054b0c10d8ce9c1d7a2f8986d10e61a7b2e78e0919e2ea86dc1b0112a5\nNo funds, ownership or merchant identity verified. No signature, broadcast or receipt.\nUnconfirmed request draft only. Address checksum and scripts do not authenticate the recipient, request source or human consent.\nbchtest addresses are shared by test networks; the prefix alone cannot establish Chipnet. No network or chain has been queried.\nToken category and base units are explicit; issuer, ticker, decimals, value and token existence are not verified.\nRecipient BCH includes token carrier funds. Dust uses a fixed 1000 sat/1000-byte application baseline, not live relay policy.\nThere are no wallet owner/change scripts, signatures, spending authorization or verified receipts in this draft.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": true,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Edit form after locally reviewing imported multi request",
+    "status": "NO DRAFT",
+    "summary": "No current draft. Review again after any edit.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Malformed address",
+    "status": "REJECTED",
+    "summary": "Enter a complete CashAddr with a valid checksum and explicit prefix. (REQUEST_INVALID_ADDRESS) No confirmation or payment occurred.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Checksum changed",
+    "status": "REJECTED",
+    "summary": "Enter a complete CashAddr with a valid checksum and explicit prefix. (REQUEST_INVALID_ADDRESS) No confirmation or payment occurred.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Mixed case",
+    "status": "REJECTED",
+    "summary": "CashAddr cannot mix uppercase and lowercase characters. (REQUEST_MIXED_CASE_ADDRESS) No confirmation or payment occurred.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Valid all uppercase",
+    "status": "UNCONFIRMED DRAFT",
+    "summary": "Reference: qa-edited-request\nRequested network: chipnet (not verified)\nExpires: 2026-11-04T17:40:48.000Z\nRecipient 1: bchtest:qr7fzmep8g7h7ymfxy74lgc0v950j3r295pdnvy3hr\nLocking script: 76a914fc916f213a3d7f1369313d5fa30f6168f9446a2d88ac\nBCH sent to this recipient: 1000 satoshis\nNo tokens requested\nTotal recipient BCH: 1000 satoshis\nMaximum transaction fee: 600 satoshis\nRequest digest: 7a84508caca35a7aaa4282f27bb0906482be39ae8cf08e7fe066a0bb7c1b2df3\nNo funds, ownership or merchant identity verified. No signature, broadcast or receipt.\nUnconfirmed request draft only. Address checksum and scripts do not authenticate the recipient, request source or human consent.\nbchtest addresses are shared by test networks; the prefix alone cannot establish Chipnet. No network or chain has been queried.\nToken category and base units are explicit; issuer, ticker, decimals, value and token existence are not verified.\nRecipient BCH includes token carrier funds. Dust uses a fixed 1000 sat/1000-byte application baseline, not live relay policy.\nThere are no wallet owner/change scripts, signatures, spending authorization or verified receipts in this draft.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": true,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Chipnet address with mainnet selected",
+    "status": "REJECTED",
+    "summary": "The address prefix does not match the requested network. (REQUEST_NETWORK_MISMATCH) No confirmation or payment occurred.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Token requested using non-token-aware address",
+    "status": "REJECTED",
+    "summary": "Token requests require an explicitly token-aware CashAddr. (REQUEST_TOKEN_AWARE_REQUIRED) No confirmation or payment occurred.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Token-aware form with 100 base units and 651 sat carrier",
+    "status": "UNCONFIRMED DRAFT",
+    "summary": "Reference: qa-edited-request\nRequested network: chipnet (not verified)\nExpires: 2026-11-04T17:40:48.000Z\nRecipient 1: bchtest:zr7fzmep8g7h7ymfxy74lgc0v950j3r295x8qj2hgs\nLocking script: 76a914fc916f213a3d7f1369313d5fa30f6168f9446a2d88ac\nBCH sent to this recipient: 651 satoshis\nToken category: 2222222222222222222222222222222222222222222222222222222222222222\nToken amount: 100 integer base units (decimals and symbol not verified)\nTotal recipient BCH: 651 satoshis\nMaximum transaction fee: 600 satoshis\nRequest digest: e33d108839f260b22f37593cae2bcd9495baadfedd49a2f69a56e868a75a6b25\nNo funds, ownership or merchant identity verified. No signature, broadcast or receipt.\nUnconfirmed request draft only. Address checksum and scripts do not authenticate the recipient, request source or human consent.\nbchtest addresses are shared by test networks; the prefix alone cannot establish Chipnet. No network or chain has been queried.\nToken category and base units are explicit; issuer, ticker, decimals, value and token existence are not verified.\nRecipient BCH includes token carrier funds. Dust uses a fixed 1000 sat/1000-byte application baseline, not live relay policy.\nThere are no wallet owner/change scripts, signatures, spending authorization or verified receipts in this draft.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": true,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Token carrier 650 sat dust",
+    "status": "REJECTED",
+    "summary": "The recipient BCH is below this application’s fixed dust baseline. Include sufficient token carrying BCH. (REQUEST_DUST_OUTPUT) No confirmation or payment occurred.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Fractional token base units",
+    "status": "REJECTED",
+    "summary": "Token amounts must be positive integer base units, without decimals. (REQUEST_INVALID_TOKEN_AMOUNT) No confirmation or payment occurred.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Already expired",
+    "submittedExpiry": "2026-11-04T16:43:06Z",
+    "status": "REJECTED",
+    "summary": "The request has expired. (REQUEST_EXPIRED) No confirmation or payment occurred.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "At 24-hour boundary rounded down to seconds",
+    "submittedExpiry": "2026-11-05T16:43:07Z",
+    "status": "UNCONFIRMED DRAFT",
+    "summary": "Reference: qa-edited-request\nRequested network: chipnet (not verified)\nExpires: 2026-11-05T16:43:07.000Z\nRecipient 1: bchtest:zr7fzmep8g7h7ymfxy74lgc0v950j3r295x8qj2hgs\nLocking script: 76a914fc916f213a3d7f1369313d5fa30f6168f9446a2d88ac\nBCH sent to this recipient: 651 satoshis\nToken category: 2222222222222222222222222222222222222222222222222222222222222222\nToken amount: 100 integer base units (decimals and symbol not verified)\nTotal recipient BCH: 651 satoshis\nMaximum transaction fee: 600 satoshis\nRequest digest: 038bf14be84d7381d901eb7ad833a1d69b406a44807afecdfe984d6ecd5dedc0\nNo funds, ownership or merchant identity verified. No signature, broadcast or receipt.\nUnconfirmed request draft only. Address checksum and scripts do not authenticate the recipient, request source or human consent.\nbchtest addresses are shared by test networks; the prefix alone cannot establish Chipnet. No network or chain has been queried.\nToken category and base units are explicit; issuer, ticker, decimals, value and token existence are not verified.\nRecipient BCH includes token carrier funds. Dust uses a fixed 1000 sat/1000-byte application baseline, not live relay policy.\nThere are no wallet owner/change scripts, signatures, spending authorization or verified receipts in this draft.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": true,
+    "downloadEnabled": false
+  },
+  {
+    "case": "More than 24 hours",
+    "submittedExpiry": "2026-11-05T16:44:07Z",
+    "status": "REJECTED",
+    "summary": "Expiry must be within the next 24 hours. (REQUEST_EXPIRY_TOO_FAR) No confirmation or payment occurred.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Impossible calendar date",
+    "submittedExpiry": "2026-02-30T12:00:00Z",
+    "status": "INVALID INPUT",
+    "summary": "Enter a real UTC date.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Short-lived locally reviewed draft before expiry",
+    "submittedExpiry": "2026-11-04T16:43:18Z",
+    "status": "LOCALLY REVIEWED · NOT APPROVED TO PAY",
+    "summary": "Reference: qa-edited-request\nRequested network: chipnet (not verified)\nExpires: 2026-11-04T16:43:18.000Z\nRecipient 1: bchtest:zr7fzmep8g7h7ymfxy74lgc0v950j3r295x8qj2hgs\nLocking script: 76a914fc916f213a3d7f1369313d5fa30f6168f9446a2d88ac\nBCH sent to this recipient: 651 satoshis\nToken category: 2222222222222222222222222222222222222222222222222222222222222222\nToken amount: 100 integer base units (decimals and symbol not verified)\nTotal recipient BCH: 651 satoshis\nMaximum transaction fee: 600 satoshis\nRequest digest: db4ac6644e06493d31aad97219a282398fde3d2892bcf169945264ef4f41e692\nNo funds, ownership or merchant identity verified. No signature, broadcast or receipt.\nUnconfirmed request draft only. Address checksum and scripts do not authenticate the recipient, request source or human consent.\nbchtest addresses are shared by test networks; the prefix alone cannot establish Chipnet. No network or chain has been queried.\nToken category and base units are explicit; issuer, ticker, decimals, value and token existence are not verified.\nRecipient BCH includes token carrier funds. Dust uses a fixed 1000 sat/1000-byte application baseline, not live relay policy.\nThere are no wallet owner/change scripts, signatures, spending authorization or verified receipts in this draft.",
+    "reviewText": "You reviewed these exact details in this tab. This is not a wallet authorization or proof of recipient identity.",
+    "confirmEnabled": false,
+    "downloadEnabled": true
+  },
+  {
+    "case": "Real wall-clock expiry invalidates local review",
+    "configuredExpiry": "2026-11-04T16:43:18Z",
+    "observedAt": "2026-11-04T16:43:39.334Z",
+    "status": "NO DRAFT",
+    "summary": "Request expired. Create or import a fresh request; no payment occurred.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Malformed import",
+    "status": "REJECTED",
+    "summary": "Enter valid request JSON. (REQUEST_INVALID_JSON) No confirmation or payment occurred.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Unknown trust field",
+    "status": "REJECTED",
+    "summary": "The document has unsupported or missing fields. Import only the request wire format, never a result or approval. (REQUEST_INVALID_SCHEMA) No confirmation or payment occurred.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Duplicate JSON key",
+    "status": "REJECTED",
+    "summary": "Duplicate JSON keys are ambiguous and are refused. (REQUEST_DUPLICATE_JSON_KEY) No confirmation or payment occurred.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Import over 8192 bytes",
+    "status": "REJECTED",
+    "summary": "The request exceeds the 8 KB import limit. (REQUEST_TOO_LARGE) No confirmation or payment occurred.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  },
+  {
+    "case": "Clear request",
+    "status": "NO DRAFT",
+    "summary": "No current draft. Review again after any edit.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false,
+    "formValues": [
+      {
+        "id": "request-id",
+        "value": ""
+      },
+      {
+        "id": "request-address",
+        "value": ""
+      },
+      {
+        "id": "request-bch",
+        "value": ""
+      },
+      {
+        "id": "request-fee",
+        "value": ""
+      },
+      {
+        "id": "request-category",
+        "value": ""
+      },
+      {
+        "id": "request-token",
+        "value": ""
+      },
+      {
+        "id": "request-expiry",
+        "value": ""
+      },
+      {
+        "id": "request-import",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "case": "Local review before reload",
+    "status": "LOCALLY REVIEWED · NOT APPROVED TO PAY",
+    "summary": "Reference: qa-public-vector-001\nRequested network: chipnet (not verified)\nExpires: 2026-11-04T17:40:48.000Z\nRecipient 1: bchtest:qr7fzmep8g7h7ymfxy74lgc0v950j3r295pdnvy3hr\nLocking script: 76a914fc916f213a3d7f1369313d5fa30f6168f9446a2d88ac\nBCH sent to this recipient: 1000 satoshis\nNo tokens requested\nTotal recipient BCH: 1000 satoshis\nMaximum transaction fee: 600 satoshis\nRequest digest: 2016b2592c482975e1c55559f6f62400a8e4db298aaffd75b1ab8729b32f2124\nNo funds, ownership or merchant identity verified. No signature, broadcast or receipt.\nUnconfirmed request draft only. Address checksum and scripts do not authenticate the recipient, request source or human consent.\nbchtest addresses are shared by test networks; the prefix alone cannot establish Chipnet. No network or chain has been queried.\nToken category and base units are explicit; issuer, ticker, decimals, value and token existence are not verified.\nRecipient BCH includes token carrier funds. Dust uses a fixed 1000 sat/1000-byte application baseline, not live relay policy.\nThere are no wallet owner/change scripts, signatures, spending authorization or verified receipts in this draft.",
+    "reviewText": "You reviewed these exact details in this tab. This is not a wallet authorization or proof of recipient identity.",
+    "confirmEnabled": false,
+    "downloadEnabled": true
+  },
+  {
+    "case": "Reload loses local review and draft state",
+    "status": "NO DRAFT",
+    "summary": "No current draft. Review again after any edit.",
+    "reviewText": "Not reviewed.",
+    "confirmEnabled": false,
+    "downloadEnabled": false
+  }
+]

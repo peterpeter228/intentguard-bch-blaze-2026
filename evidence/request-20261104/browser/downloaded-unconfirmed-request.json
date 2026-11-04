@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "kind": "intentguard-payment-request",
+  "requestId": "qa-public-vector-001",
+  "network": "chipnet",
+  "expiresAt": 1793814048000,
+  "maxFeeBch": "0.000006",
+  "recipients": [
+    {
+      "address": "bchtest:qr7fzmep8g7h7ymfxy74lgc0v950j3r295pdnvy3hr",
+      "bch": "0.00001"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+- main:
+  - text: INTENTGUARD BCH · LOCAL REQUEST DRAFT
+  - heading "Make the payment request explicit." [level=1]
+  - paragraph: Choose the network, recipient and exact amount before any wallet or transaction is involved.
+  - link "Open the synthetic transaction inspector":
+    - /url: /
+  - complementary:
+    - strong: No wallet, signature or payment.
+    - text: This page checks request formatting only. A valid address does not prove who controls it or whether a merchant is trustworthy. Local review is not payment approval. Nothing is stored or sent to a server.
+  - heading "1. Create a request" [level=2]
+  - paragraph: "Full CashAddr prefixes are required. Chipnet and other BCH test networks share the bchtest address prefix: the address alone cannot distinguish them."
+  - text: Request reference
+  - textbox "Request reference":
+    - /placeholder: invoice-example-1
+    - text: qa-edited-request
+  - text: Network
+  - combobox "Network":
+    - option "Chipnet · test network" [selected]
+    - option "Bitcoin Cash mainnet · draft only"
+  - text: Asset
+  - combobox "Asset":
+    - option "BCH only"
+    - option "Fungible CashToken" [selected]
+  - text: Recipient CashAddr
+  - textbox "Recipient CashAddr":
+    - /placeholder: bchtest:…
+    - text: bchtest:zr7fzmep8g7h7ymfxy74lgc0v950j3r295x8qj2hgs
+  - text: BCH amount (includes token carrying BCH)
+  - textbox "BCH amount (includes token carrying BCH)":
+    - /placeholder: "0.00001000"
+    - text: "0.00000651"
+  - text: Maximum total transaction fee (satoshis)
+  - textbox "Maximum total transaction fee (satoshis)": "600"
+  - text: Full token category (64 hexadecimal characters)
+  - textbox "Full token category (64 hexadecimal characters)": "2222222222222222222222222222222222222222222222222222222222222222"
+  - text: Token amount (integer base units, not display decimals)
+  - textbox "Token amount (integer base units, not display decimals)": "100"
+  - text: Expires within 24 hours (UTC, YYYY-MM-DDTHH:mm:ssZ)
+  - textbox "Expires within 24 hours (UTC, YYYY-MM-DDTHH:mm:ssZ)":
+    - /placeholder: 2026-11-05T12:00:00Z
+    - text: 2026-11-04T16:43:18Z
+  - button "Review draft"
+  - button "Clear request"
+  - heading "Or import an untrusted request" [level=2]
+  - paragraph: Paste a previously exported request. It is revalidated using the current clock and never restores a prior confirmation.
+  - text: Request JSON (maximum 8 KB)
+  - textbox "Request JSON (maximum 8 KB)": "{ \"schemaVersion\": 1, \"kind\": \"intentguard-payment-request\", \"requestId\": \"qa-multiple-public-vectors\", \"network\": \"chipnet\", \"expiresAt\": 1793814048000, \"maxFeeBch\": \"0.000006\", \"recipients\": [ { \"address\": \"bchtest:qr7fzmep8g7h7ymfxy74lgc0v950j3r295pdnvy3hr\", \"bch\": \"0.00001\" }, { \"address\": \"bchtest:zr7fzmep8g7h7ymfxy74lgc0v950j3r295x8qj2hgs\", \"bch\": \"0.00000651\", \"token\": { \"category\": \"2222222222222222222222222222222222222222222222222222222222222222\", \"amountAtomic\": \"100\" } } ] }"
+  - button "Import and review draft"
+  - heading "2. Read every detail NO DRAFT" [level=2]
+  - generic: Request expired. Create or import a fresh request; no payment occurred.
+  - paragraph: Not reviewed.
+  - button "I have checked these request details locally" [disabled]
+  - button "Download request JSON" [disabled]
+  - paragraph: Downloaded request JSON intentionally contains the recipient address and payment terms. Keep it private unless you choose to share it. It contains no wallet secrets or proof of payment.
+  - generic: "Unsupported: recipient identity proof, wallet ownership, live network verification, UTXO selection, signing, broadcasting and receipts. The transaction inspector remains a separate synthetic demonstration. Drafts are not automatically fed into its teaching wallet or evidence journal."
