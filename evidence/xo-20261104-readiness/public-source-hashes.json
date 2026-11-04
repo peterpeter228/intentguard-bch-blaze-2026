@@ -1,0 +1,10 @@
+{
+  "checked_at": "2026-11-04T13:04:00Z",
+  "scope": "Public static response bytes only; application not executed and no wallet state accessed.",
+  "sha256": {
+    "xo-debug-index.html": "4a62bdc18cd9286a7376dafc5a59ef09d40494c127d705e63fed57374c0badfe",
+    "xo-debug-index.js": "2e74beb801e9615685157a8c9cbb372aa0ac71f08cce62e49658ac9aa96cdfcd",
+    "xo-debug-invitation.js": "b1ae13872f8c2b460deb757cf0f3ae2914e034a4eda5fd2020818ef1cb520799",
+    "xo-debug-home.js": "ed3e209dced49692e9a763e3aafe25f8607525795d3ca78b2c235b43ba8158f7"
+  }
+}
