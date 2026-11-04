@@ -196,7 +196,7 @@ export class SimulationOperationStore {
           op.originalTxid = event.txid; op.state = onTime ? 'SIGNED' : 'NEEDS_REVIEW'; break;
         }
         case 'secondary-check-block': from('SIGNED'); op.state = 'BLOCKED'; break;
-        case 'secondary-check-match': from('SIGNED'); op.state = 'BROADCASTING'; break;
+        case 'secondary-check-match': from('SIGNED'); op.state = now < op.expiresAt ? 'BROADCASTING' : 'NEEDS_REVIEW'; break;
         case 'broadcast-timeout': from('BROADCASTING'); op.state = 'UNKNOWN'; break;
         case 'needs-review': from('UNKNOWN'); op.state = 'NEEDS_REVIEW'; break;
         case 'observe':

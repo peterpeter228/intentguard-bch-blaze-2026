@@ -260,3 +260,17 @@ test('timeout late signature is quarantined, pinned, durable, and never becomes 
     } finally { reopened.close(); }
   } finally { f.cleanup(); }
 });
+
+
+test('expiry at the pre-broadcast boundary quarantines the signed original and keeps session locked', () => {
+ for(const at of [999,1000,1001]) {
+  const f=fixture();try {
+   let op=signing(f.store);op=event(f.store,op,{type:'signature-received',binding:op.attempt!,txid},999);
+   op=event(f.store,op,{type:'secondary-check-match'},at);
+   assert.equal(op.state,at<1000?'BROADCASTING':'NEEDS_REVIEW');assert.equal(op.originalTxid,txid);assert.equal(op.canSign,false);assert.equal(op.receiptValid,false);
+   const next=ready(f.store,'other-order');assert.throws(()=>event(f.store,next,{type:'request-signature'},at<1000?at:999),/SESSION_LOCKED/);
+   if(at>=1000)assert.throws(()=>event(f.store,op,{type:'secondary-check-match'},at),/INVALID_TRANSITION/);
+   f.store.close();const reopened=SimulationOperationStore.open(f.directory);try {assert.equal(reopened.get(op.operationId)?.state,op.state);assert.equal(reopened.get(op.operationId)?.originalTxid,txid);}finally{reopened.close();}
+  }finally{f.cleanup();}
+ }
+});
