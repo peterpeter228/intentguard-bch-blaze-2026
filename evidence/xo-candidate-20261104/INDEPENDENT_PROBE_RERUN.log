@@ -1,0 +1,7 @@
+nonempty-unlocking REJECTED exact mismatch
+sequence REJECTED exact mismatch
+version REJECTED exact mismatch
+locktime REJECTED exact mismatch
+skip-zero-change REJECTED exact mismatch
+extra-change REJECTED exact mismatch
+fee-drift MATCH_OFFLINE exact mismatch

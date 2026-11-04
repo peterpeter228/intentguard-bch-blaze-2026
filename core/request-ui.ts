@@ -1,8 +1,10 @@
-/** Explicit local request/plan review only. No wallet, storage, transport or payment API. */
+/** Local request/plan review and explicit loopback XO comparison. No wallet or payment API. */
 import {createPaymentRequestDraft,parsePaymentRequestDraft,exportPaymentRequest} from './payment-request.js';
 import {buildPaymentRequestPlan,type RequestPlanResult} from './request-plan.js';
 import {contextFromFundingFields,requestPlanSummary,type OfflineFundingFields} from './request-plan-form.js';
 import {syntheticRequestPlanningExample} from './request-plan-examples.js';
+import type {XoCandidateResult} from './xo-candidate.js';
+import {binToHex,sha256} from '@bitauth/libauth';
 const element=(id:string)=>document.getElementById(id)!;
 const field=(id:string)=>element(id) as HTMLInputElement;
 const confirmButton=element('request-confirm') as HTMLButtonElement;
@@ -22,10 +24,22 @@ let planTimer:ReturnType<typeof setTimeout>|undefined;
 let fundingOrigin:'none'|'synthetic-example'|'supplied-offline'='none';
 const planButton=element('plan-build') as HTMLButtonElement;
 const planExport=element('plan-export') as HTMLButtonElement;
+const xoButton=element('xo-compare') as HTMLButtonElement;
+const xoCancel=element('xo-cancel') as HTMLButtonElement;
+const xoExport=element('xo-export') as HTMLButtonElement;
+let xoEpoch=0;
+let xoController:AbortController|null=null;
+let activeXo:XoCandidateResult|null=null;
+function updateXoButtons(){xoButton.disabled=!activePlan||xoController!==null;xoCancel.disabled=xoController===null;xoExport.disabled=activeXo===null;}
+function clearXo(message='No XO comparison. Build a current offline plan first.'){
+ xoEpoch++;xoController?.abort();xoController=null;activeXo=null;
+ element('xo-status').textContent='NOT COMPARED';element('xo-summary').textContent=message;element('xo-technical').textContent='';
+ (element('xo-details') as HTMLDetailsElement).open=false;updateXoButtons();
+}
 const fundingIds=['funding-owner','funding-change','funding-parent','funding-index','funding-observed','funding-rate','funding-max-rate','funding-model'] as const;
 function updatePlanButton(){planButton.disabled=!reviewedDigest||!field('funding-ack').checked;}
 function clearPlan(message='No current offline plan. Review the request and supply the funding context.'){
- if(planTimer)clearTimeout(planTimer);planTimer=undefined;activePlan=null;planExport.disabled=true;
+ if(planTimer)clearTimeout(planTimer);planTimer=undefined;activePlan=null;planExport.disabled=true;clearXo();
  element('plan-status').textContent='NO PLAN';element('plan-summary').textContent=message;element('plan-technical').textContent='';
  (element('plan-details') as HTMLDetailsElement).open=false;updatePlanButton();
 }
@@ -159,7 +173,7 @@ function checkPlanFreshness(){
 planButton.addEventListener('click',()=>{
  clearPlan();const result=computePlan();if(!result)return;if(result.status!=='REQUEST_PLAN_BOUND_OFFLINE'){planFailure(result.builderIssue??result.issue??'REQUEST_PLAN_INVALID_CONTEXT');return;}
  activePlan=result;const origin=fundingOrigin==='synthetic-example'?'synthetic-example':'supplied-offline';element('plan-status').textContent='OFFLINE PLAN · NOT APPROVED TO PAY';element('plan-summary').textContent=requestPlanSummary(result,origin);
- element('plan-technical').textContent=JSON.stringify(result,null,2);planExport.disabled=false;
+ element('plan-technical').textContent=JSON.stringify(result,null,2);planExport.disabled=false;updateXoButtons();
  const observed=contextFromFundingFields(fundingFields(),result.intent!.network).snapshot.observedAt;
  planTimer=setTimeout(()=>{field('funding-ack').checked=false;clearPlan('Offline observation expired after two minutes. Explicitly supply updated context and rebuild. No node was queried.');},Math.max(0,Math.min(result.intent!.expiresAt,observed+120001)-Date.now()));
 });
@@ -168,5 +182,69 @@ planExport.addEventListener('click',()=>{
  if(!fresh||fresh.status!=='REQUEST_PLAN_BOUND_OFFLINE'||fresh.binding?.requestPlanDigest!==previous.binding?.requestPlanDigest){if(fresh?.status==='REJECTED')planFailure(fresh.builderIssue??fresh.issue??'REQUEST_PLAN_INVALID_CONTEXT');else if(activePlan)clearPlan('The offline plan no longer matches the checked fields. Review and rebuild.');return;}
  const report={kind:'intentguard-offline-plan-report',generatedAt:Date.now(),contextKind:fundingOrigin,canSign:false,broadcastable:false,receiptValid:false,networkVerified:false,ownershipVerified:false,binding:fresh.binding,outputSummary:fresh.plan!.outputSummary,feeSatoshis:fresh.plan!.feeSatoshis,estimatedSignedBytes:fresh.plan!.estimatedSignedBytes,limitations:fresh.limitations};
  const url=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)+'\n'],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='intentguard-offline-plan-report.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+function currentPlanForXo():RequestPlanResult|null{
+ if(!activePlan)return null;const previous=activePlan;const fresh=computePlan();
+ if(!fresh||fresh.status!=='REQUEST_PLAN_BOUND_OFFLINE'||fresh.binding?.requestPlanDigest!==previous.binding?.requestPlanDigest){
+  if(fresh?.status==='REJECTED')planFailure(fresh.builderIssue??fresh.issue??'REQUEST_PLAN_INVALID_CONTEXT');else clearPlan('The offline plan is no longer current. Review and rebuild.');return null;
+ }
+ return fresh;
+}
+function isXoReport(value:unknown,plan:RequestPlanResult,context:unknown):value is XoCandidateResult{
+ if(!value||typeof value!=='object'||Array.isArray(value)||!plan.binding||!plan.plan?.unsignedHex)return false;
+ const r=value as Record<string,unknown>;
+ const fields=['status','issue','builderIssue','canSign','broadcastable','receiptValid','networkVerified','ownershipVerified','guard','outputSummary','feeSatoshis','candidateBytes','estimatedSignedBytes','upstreamFeeEstimateSatoshis','exactBytesMatch','binding','capabilities','limitations'];
+ if(Object.keys(r).length!==fields.length||fields.some(key=>!Object.hasOwn(r,key)))return false;
+ if(!['EXACT_MATCH_OFFLINE','REJECTED'].includes(String(r.status))||!['canSign','broadcastable','receiptValid','networkVerified','ownershipVerified'].every(flag=>r[flag]===false))return false;
+ for(const key of ['capabilities','limitations']){const strings=r[key];if(!Array.isArray(strings)||strings.length>20||!strings.every(v=>typeof v==='string'&&v.length<=1500))return false;}
+ if(r.status==='REJECTED')return typeof r.issue==='string'&&r.issue.length<=100&&r.binding===null&&(r.builderIssue===null||typeof r.builderIssue==='string'&&r.builderIssue.length<=100);
+ if(r.issue!==null||r.builderIssue!==null||!r.binding||typeof r.binding!=='object'||Array.isArray(r.binding)||r.exactBytesMatch!==true)return false;
+ const b=r.binding as Record<string,unknown>,bindingFields=['requestPlanDigest','contextDigest','templateIdentifier','actionIdentifier','candidateDigest','candidateBindingDigest'];
+ if(Object.keys(b).length!==bindingFields.length||bindingFields.some(key=>!Object.hasOwn(b,key)))return false;
+ const hash=(domain:string,input:unknown)=>binToHex(sha256.hash(new TextEncoder().encode(domain+'\0'+JSON.stringify(input))));
+ if(b.requestPlanDigest!==plan.binding.requestPlanDigest||b.contextDigest!==hash('intentguard/xo-offline-context/v1',context)||b.templateIdentifier!=='a31eb85891dbf248f1709a92b0fa7e3e6fdc518e6b34e376b197ed7f12dbc672'||b.actionIdentifier!==(plan.intent!.recipients[0]!.token?'sendFungibleTokens':'sendSatoshis'))return false;
+ if(typeof b.candidateDigest!=='string'||!/^[0-9a-f]{64}$/.test(b.candidateDigest)||b.candidateDigest!==hash('intentguard/xo-candidate-bytes/v1',plan.plan.unsignedHex))return false;
+ const bound={requestPlanDigest:b.requestPlanDigest,contextDigest:b.contextDigest,templateIdentifier:b.templateIdentifier,actionIdentifier:b.actionIdentifier,candidateDigest:b.candidateDigest};
+ return b.candidateBindingDigest===hash('intentguard/xo-candidate-binding/v1',bound)&&r.feeSatoshis===plan.plan.feeSatoshis&&r.candidateBytes===plan.plan.unsignedHex.length/2&&JSON.stringify(r.outputSummary)===JSON.stringify(plan.plan.outputSummary)&&JSON.stringify(r.estimatedSignedBytes)===JSON.stringify(plan.plan.estimatedSignedBytes)&&JSON.stringify(r.guard)===JSON.stringify(plan.plan.guard)&&typeof r.upstreamFeeEstimateSatoshis==='string'&&/^(0|[1-9][0-9]*)$/.test(r.upstreamFeeEstimateSatoshis);
+}
+function showXo(report:XoCandidateResult){
+ activeXo=report;const b=report.binding!;
+ element('xo-status').textContent='XO BYTES MATCH · OFFLINE ONLY';
+ element('xo-summary').textContent=[
+  fundingOrigin==='synthetic-example'?'SYNTHETIC EXAMPLE. These are invented funding claims.':'SUPPLIED OFFLINE CLAIMS. No chain or ownership was verified.',
+  'The real XO engine compiled the official template recipient and generated the candidate transaction.',
+  'The independent Guard checked it, and every byte matches the reviewed offline plan above.',
+  `Official action: ${b.actionIdentifier}`,`Normalized template: ${b.templateIdentifier}`,
+  `Actual transaction fee: ${report.feeSatoshis} satoshis`,`Unsigned candidate size: ${report.candidateBytes} bytes`,
+  `Request-plan binding: ${b.requestPlanDigest}`,`XO comparison binding: ${b.candidateBindingDigest}`,
+  'Funding, change and fee budgeting still come from IntentGuard. This does not create a valid Invitation, execute action conditions, or establish template novelty.',
+  ...report.limitations
+ ].join('\n');
+ element('xo-technical').textContent=JSON.stringify(report,null,2);updateXoButtons();
+}
+xoButton.addEventListener('click',async()=>{
+ const fresh=currentPlanForXo();if(!fresh||xoButton.disabled)return;
+ clearXo();const epoch=xoEpoch,requestFields=requestFingerprint(),fundingFieldsBefore=fundingFingerprint(),expectedDigest=fresh.binding!.requestPlanDigest;
+ const controller=new AbortController();xoController=controller;updateXoButtons();element('xo-status').textContent='COMPARING LOCALLY';element('xo-summary').textContent='Compiling the official XO template on this computer. No wallet, node or external service is contacted.';
+ const timeout=setTimeout(()=>controller.abort(),10000);
+ try{
+  const context=contextFromFundingFields(fundingFields(),fresh.intent!.network);
+  const response=await fetch('/api/xo-candidate',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'omit',cache:'no-store',signal:controller.signal,body:JSON.stringify({request:fresh.draft!.request,expectedRequestDigest:fresh.draft!.requestDigest,context,expectedRequestPlanDigest:expectedDigest})});
+  const text=await response.text();if(text.length>100000)throw Error('XO_RESPONSE_TOO_LARGE');
+  if(epoch!==xoEpoch)return;
+  const stillCurrent=currentPlanForXo();if(!stillCurrent||epoch!==xoEpoch||requestFields!==requestFingerprint()||fundingFieldsBefore!==fundingFingerprint()||stillCurrent.binding?.requestPlanDigest!==expectedDigest){clearXo('Fields or timing changed while comparing. Rebuild before comparing again.');return;}
+  if(!response.ok)throw Error('XO_LOCAL_COMPARISON_FAILED');
+  const report:unknown=JSON.parse(text);if(!isXoReport(report,stillCurrent,context))throw Error('XO_RESPONSE_INVALID');
+  if(report.status==='REJECTED'){element('xo-status').textContent='XO COMPARISON REJECTED';element('xo-summary').textContent=`The official-template candidate was refused: ${report.issue}${report.builderIssue?' / '+report.builderIssue:''}. No signing or payment occurred.`;return;}
+  showXo(report);
+ }catch(error){if(epoch!==xoEpoch)return;activeXo=null;element('xo-status').textContent='XO COMPARISON UNAVAILABLE';element('xo-summary').textContent=controller.signal.aborted?'Local comparison was cancelled or timed out. No result is retained; you may compare again while this plan is current.':'The local XO comparison could not be completed. No result is retained. Check that the local server is running, then compare again.';}
+ finally{clearTimeout(timeout);if(epoch===xoEpoch){xoController=null;updateXoButtons();}}
+});
+xoCancel.addEventListener('click',()=>clearXo('Local comparison cancelled. No XO result is retained. The offline plan remains available if current.'));
+xoExport.addEventListener('click',()=>{
+ const report=activeXo;if(!report||xoExport.disabled)return;const fresh=currentPlanForXo();
+ if(!fresh||activeXo!==report||report.binding?.requestPlanDigest!==fresh.binding?.requestPlanDigest){clearXo();return;}
+ const download={kind:'intentguard-xo-template-comparison',generatedAt:Date.now(),contextKind:fundingOrigin,...report};
+ const url=URL.createObjectURL(new Blob([JSON.stringify(download,null,2)+'\n'],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='intentguard-xo-template-comparison.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 });
 invalidate();

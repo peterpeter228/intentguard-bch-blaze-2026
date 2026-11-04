@@ -1,0 +1,19 @@
+✔ official XO BCH compilation equals independent planner bytes and Guard fee (75.503182ms)
+✔ official XO FT compilation equals independent planner bytes and Guard fee (47.978091ms)
+✔ template normalized official identity is pinned, not JSON source formatting (5.363893ms)
+✔ review edits, missing context, stale claims, expired invocation and invalid clock fail closed (2.578039ms)
+✔ context observation binding changes without implying newly authenticated evidence (24.550599ms)
+✔ multiple recipient requests are explicitly unsupported instead of a fabricated official action (1.403944ms)
+✔ input object accessors, malformed text, imported verdicts and unexpected fields do not become engine instructions (11.608336ms)
+✔ actual engine BCH recipient and amount mutation is rejected independently (30.001014ms)
+✔ actual engine FT recipient and amount mutation is rejected independently (74.550844ms)
+✔ exact binding rejects an engine-produced change-order mutation even if economic Guard matches (13.773528ms)
+✔ non-symmetric full category bytes survive engine variables, token change and Guard binding (16.967392ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 948.600244

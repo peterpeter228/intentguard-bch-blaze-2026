@@ -1,3 +1,7 @@
+## Current XO reference integration
+
+The optional comparison on `/request` uses the actual pinned XO engine to compile the official P2PKH template recipient and build transaction bytes, then independently checks them against the reviewed request plan. BCH and fungible-token single-recipient actions are supported. This is an unsigned template candidate, not a valid Invitation, new contract, execution result or bounty qualification. See [XO adapter details](XO_CANDIDATE.md) and [current official requirement gaps](../evidence/xo-candidate-20261104/REQUIREMENTS.md).
+
 # Core transaction comparator — pre-event development
 
 Current continuation: [clickable offline request planning](REQUEST_PLAN_UI.md), [explicit request-to-plan binding](REQUEST_PLAN.md), [offline unsigned builder](UNSIGNED_BUILDER.md), [offline signed verification](SIGNATURE_VERIFICATION.md), and [read-only coordination](READ_ONLY_COORDINATION.md). Earlier implementation snapshots below are historical; none imply real wallet or chain success.
@@ -19,7 +23,7 @@ The demo uses synthetic transaction graphs, a synthetic token category and fixed
 
 `parseUnits` accepts strict decimal strings and rejects excess precision; no Number arithmetic or rounding. `structuralTransactionDigest` excludes unlocking bytes only. It is NOT the complete network/source/consent commitment proposed in the architecture. `compareSignedCandidate` checks only structural sameness and nonempty unlocking scripts, NOT signature validity, sighash restrictions or a successful wallet operation. Its tests use dummy bytes, never real signatures.
 
-The application runs entirely in the browser after loading static localhost assets, with connect-src none. It does not store input, open wallets, request accounts or query RPC. Editing invalidates the previous report/export. Download contains report/digests, not input documents; digests can nevertheless correlate transactions and should remain private unless deliberately shared.
+The original transaction inspector runs in the browser. The request page now offers an explicit optional XO comparison through the same loopback server, with connect-src self restricted to the local origin. That diagnostic endpoint does not store input, open wallets, request accounts or query RPC. Editing invalidates the previous report/export. Download contains report/digests, not input documents; digests can nevertheless correlate transactions and should remain private unless deliberately shared.
 
 ## Still unfinished
 

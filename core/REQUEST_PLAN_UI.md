@@ -1,6 +1,6 @@
 # Clickable offline request planning
 
-The local `/request` page now connects the request-plan SDK through ordinary form controls. This is still an **offline diagnostic flow**, not a payment application. No wallet, secret, signature, transaction broadcast, network request or payment-state journal is involved. The static server remains loopback-only with `connect-src 'none'`.
+The local `/request` page now connects the request-plan SDK through ordinary form controls. This is still an **offline diagnostic flow**, not a payment application. No wallet, secret, signature, transaction broadcast, external network request or payment-state journal is involved. The optional XO step explicitly calls the same loopback server; CSP permits only same-origin connections.
 
 ## Primary path without hand-editing JSON
 
@@ -10,6 +10,8 @@ The local `/request` page now connects the request-plan SDK through ordinary for
 4. Inspect the separate funding form and check its acknowledgement that owner, funds and unspent status are not verified.
 5. Select **Build offline plan**. The result displays selected input, every recipient/token-change/BCH-change output, exact base units and full category, fees, size assumptions and content bindings.
 6. Optionally open technical details or download an **offline plan report**. Download rechecks request fields, acknowledged funding fields, expiry and observation age. Its five authority flags are false. The report omits raw parent and unsigned transaction bytes, and is not an importable approval or receipt.
+
+7. Optionally select **Compare with official XO template**. The loopback server compiles the official recipient and constructs the candidate; the browser verifies its safe report against the exact current plan/context. Cancellation, edits or expiry clear the result. This is an unsigned reference-template candidate, not an authenticated Invitation. See [XO details](XO_CANDIDATE.md).
 
 Missing context never receives teaching defaults. Importing a request or editing any request field clears the old funding context, confirmation and plan. Re-loading an example is an explicit replacement, not a fallback for a failed build.
 
@@ -35,6 +37,8 @@ These checks improve honest UI state integrity. They are not a sandbox against a
 
 ## Verification
 
-`npm run validate` includes existing SDK tests, nine new form-helper tests and eleven DOM-event regression tests. The DOM harness explicitly is **not** browser acceptance. It reproduced and guards against the independently discovered silent request edits, silent funding/observation edits, stale export display and combined re-review cases.
+`npm run validate` includes the original form/state coverage plus XO adapter, real local HTTP and asynchronous DOM response regressions. The original slice added nine form-helper and eleven DOM-event tests; the later XO slice adds its separately documented coverage. The DOM harness explicitly is **not** browser acceptance. It reproduced and guards against the independently discovered silent request edits, silent funding/observation edits, stale export display and combined re-review cases.
 
 Independent real-browser execution and exact persisted-source checks are recorded under `evidence/request-plan-ui-20261104/`. Check those reports for actual passed, failed and unrun stages. No mobile/browser/chain/wallet success should be inferred from compilation or the DOM harness. No previously restricted screenshot was retried or uploaded.
+
+The XO comparison continuation is recorded under `evidence/xo-candidate-20261104/`. Its final browser coverage is separate from the earlier static request-plan acceptance. No raw parent or candidate bytes are returned by the API or exported in the comparison report.
