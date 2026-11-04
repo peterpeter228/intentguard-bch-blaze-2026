@@ -1,0 +1,180 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason validate
+> npm run typecheck && npm run build && npm test
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason typecheck
+> tsc --noEmit
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason build
+> tsc && esbuild probes/browser-types.tsx --bundle --platform=browser --format=esm --outfile=dist/browser-probe.js && esbuild core/ui.ts --bundle --platform=browser --format=esm --outfile=dist/core/app.js
+
+
+  dist/browser-probe.js  726.0kb
+
+⚡ Done in 42ms
+
+  dist/core/app.js  415.6kb
+
+⚡ Done in 27ms
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason test
+> node --test dist/probes/sdk.test.js dist/preseason/xo/inspect.test.js preseason/xo/redact.test.mjs preseason/xo/http.test.mjs preseason/xo/cli.test.mjs preseason/xo/legacy.test.mjs dist/core/guard.test.js core/http.test.mjs dist/core/evidence.test.js dist/core/operation-store.test.js dist/core/electrum-transport.test.js dist/core/public-sources.test.js dist/core/review-coordinator.test.js dist/core/unsigned-builder.test.js
+
+✔ local core serves WASM-capable static UI without API, external connections or JavaScript eval (162.742752ms)
+✔ five allowed reads negotiate exact 1.5.0 with normal certificate verification and no retries (17.252697ms)
+✔ newline frames and UTF-8 code points may be fragmented (3.3752ms)
+✔ allowlist is captured immutably and parameters are copied before handshake (1.001688ms)
+✔ invalid endpoint configurations are rejected without connecting; no arbitrary URL selector (1.133395ms)
+✔ forbidden methods and malformed params fail before the TLS factory (1.213116ms)
+✔ wrong ids, malformed envelopes, RPC errors and extra frames are sanitized and rejected (8.852063ms)
+✔ unsupported protocol and unverified TLS never send the application read (6.050717ms)
+✔ aggregate response limit includes handshake and fragmented unterminated frames (1.097983ms)
+✔ deadline spans TLS establishment and incomplete application response, with cleanup and no retry (35.943908ms)
+✔ abort before connect, during handshake, and during read destroys resources (2.233231ms)
+✔ connection errors, unexpected end, and factory errors do not disclose endpoint/error contents (3.008057ms)
+✔ two synthetic read-only sources bind ownership, parents, network and content; never chain success (16.689999ms)
+✔ empty production configuration fails before any transport (0.872212ms)
+✔ serialized ownership claim cannot replace live app-owned derivation evidence (4.247854ms)
+✔ unknown path, public key mismatch, missing or changed session reject ownership (0.733645ms)
+✔ same operator, incorrect network and inconsistent trust pins are rejected (1.337363ms)
+✔ wrong genesis/checkpoint, malformed parent, spent input and source disagreement fail closed (13.950497ms)
+✔ node tip changes during read and revoked session cannot yield evidence (2.572111ms)
+✔ pre-abort makes no calls, in-flight cancellation returns even if transport ignores signal (21.312527ms)
+✔ stale ownership and elapsed collection window cannot be refreshed by payload timestamps (6.055404ms)
+✔ mutating caller intent while evidence is read does not change captured comparison (2.41133ms)
+✔ ownership expiring during collection is rejected at end, not silently refreshed (5.386797ms)
+✔ transport and adapter errors never expose arbitrary secrets or endpoint text (4.001763ms)
+✔ public key/path changes under same session revoke the ephemeral ownership capability (0.501595ms)
+✔ late transport settlement after abort cannot mutate the returned failure result (19.660506ms)
+✔ historical or implausibly future agreed tips fail closed despite fresh fetch time (2.369506ms)
+✔ tip-age policy must be explicitly bounded in trusted source configuration (1.256922ms)
+✔ tip freshness is rechecked at collection completion (2.026481ms)
+✔ BCH and fungible-token exact match returns only MATCH_OFFLINE, never sign permission (8.43138ms)
+✔ strict decimal parser refuses rounding, exponent, sign, leading zeros and overflow (0.515706ms)
+✔ recipient, value, change and fee substitutions rejected (2.706453ms)
+✔ missing, stale, future, wrong-network and altered-parent evidence cannot match (1.518155ms)
+✔ foreign owner and duplicate input rejected (1.065514ms)
+✔ ambiguous recipient/change rejects instead of permitting hidden payment (0.362505ms)
+✔ token category mismatch, burns, minting and NFT all rejected (2.98964ms)
+✔ undeclared token inputs are rejected even if preserved in change (0.884431ms)
+✔ negative fee, unsupported scripts, expiry and nonfinal transactions reject (1.915834ms)
+✔ post-wallet structural check allows only unlocking-byte changes, does not validate signatures (1.276992ms)
+✔ intent digest independent of owner ordering but changes with consented fields (0.961037ms)
+✔ malformed and oversized hex cannot pass (1.345586ms)
+✔ NFT in a hash-bound parent rejects even when token amounts otherwise conserve (2.0337ms)
+✔ structural post-wallet check rejects version, locktime, sequence and outpoint substitution (1.78715ms)
+✔ negative snapshot timestamps never count as fresh evidence (0.356186ms)
+✔ CashTokens dust includes prefix and compact amount bytes, not universal 546 (2.00019ms)
+✔ ordinary P2PKH dust boundary remains 546 and token change is checked too (0.886324ms)
+✔ stable canonical digest, persistent economic tombstone, no raw payment/session data (9.081047ms)
+✔ revision CAS and mutation of returned snapshots cannot mutate saved state (3.252114ms)
+✔ session lock survives restart and UNKNOWN has no reset, retry, or late-response escape (8.174553ms)
+✔ all attempt bindings, expiry, cancelled late responses, and request sequence checked (6.469517ms)
+✔ broadcast recovery pins original txid; simulated receipt threshold and reorg invalidate (7.502312ms)
+✔ post-sign block retains session lock; pre-sign block is terminal without a lock (4.017987ms)
+✔ missing/corrupted/insecure files never recreate an empty ledger; actual filesystem failures do not report saved (1.824185ms)
+✔ logical document corruption and symlink paths fail closed (1.490213ms)
+✔ two real processes racing CAS: exactly one transition persists (483.661128ms)
+✔ killed writer before commit rolls back on reopen, preserving original revision (123.078377ms)
+✔ concurrent processes cannot start two operations in one session (336.670521ms)
+✔ runtime arbitrary status patches and injected observation payloads are rejected (3.883796ms)
+✔ all successful lifecycle revisions survive reopen; cancelled economic key cannot restart (7.645958ms)
+✔ replaced database inode cannot be mistaken for the opened ledger (0.928327ms)
+✔ expired bound signature retains original txid in durable non-broadcastable quarantine (3.650034ms)
+✔ store and Guard share the same validated intent digest and strict limits (5.173346ms)
+✔ timeout late signature is quarantined, pinned, durable, and never becomes broadcastable (4.386652ms)
+✔ expiry at the pre-broadcast boundary quarantines the signed original and keeps session locked (11.098975ms)
+✔ opt-in registry captures two documented Chipnet candidates without network I/O (7.059485ms)
+✔ internally collected review binds digests and observation time without payment authority; reopened success is stale (15.484666ms)
+✔ request identity rejects changed intent, exact candidate, session, paths and source policy (9.315891ms)
+✔ concurrent connections dedupe before awaiting and do not run the same collection twice (7.445206ms)
+✔ input and trusted source metadata are captured before awaits (5.547359ms)
+✔ caller success/ownership JSON cannot be injected, and unknown paths cannot collect (2.388364ms)
+✔ session revocation, same-session public-path changes, source failures and expiry fail closed (16.414105ms)
+✔ pre-abort does not reserve; in-flight cancellation persists UNKNOWN and ignores late source results (14.152872ms)
+✔ closing during collection preserves PENDING across restart instead of inventing recovered success (3.419476ms)
+✔ filesystem failure during collection cannot return a saved success (5.394679ms)
+✔ corrupt and insecure journals fail closed rather than being recreated (8.462367ms)
+✔ invalid or expired input and missing session fail before sources (2.218809ms)
+✔ return-time tip expiry after persistence downgrades the view, not a fresh capability (4.301223ms)
+✔ SIGKILL after durable reservation leaves an incomplete review that never auto-restarts (405.136658ms)
+✔ BCH plan uses exact recipient order, explicit selected input, empty unlocks and independent Guard recomparison (14.369627ms)
+✔ deterministic outpoint sorting ignores caller and parent order without consuming extra UTXOs (4.088764ms)
+✔ fungible change preserves every token and uses token-aware BCH carrier dust (2.635336ms)
+✔ token change CompactSize boundaries affect exact dust and fee sizes (7.344864ms)
+✔ multiple categories return deterministic category-sorted change and unchanged recipient order (2.765693ms)
+✔ recipient dust equality passes and dust-minus-one fails, using full token serialization (3.200136ms)
+✔ exact-token payment omits zero-token change rather than encoding or burning it (1.571025ms)
+✔ insufficient token quantity or BCH carrier funding never burns token change (1.692878ms)
+✔ BCH change dust threshold and narrowly authorized donation boundaries (4.395225ms)
+✔ high fee rates cannot convert a non-dust uneconomic remainder into dust-only consent (0.922949ms)
+✔ exact no-change budget succeeds without donation; one satoshi below fails (1.353136ms)
+✔ absolute cap is inclusive and target rounding uses bigint ceiling (2.156986ms)
+✔ Schnorr rate ceiling is inclusive; low-S ECDSA cap uses minimum size, not maximum (4.632192ms)
+✔ plan digest binds fee policy even when transaction bytes are unchanged (1.865588ms)
+✔ NFT, undeclared category and missing token inputs are rejected without mint or burn (1.458916ms)
+✔ selected prevouts must be unique, present, hash-bound and claimed owner/unspent (1.804636ms)
+✔ schema rejects unknown fields, numeric amounts, unsupported models and invalid rates (3.444554ms)
+✔ expired, stale, wrong-network and unconfirmed-change inputs cannot build (0.933595ms)
+✔ input and aggregate parent budgets are bounded before decoding (0.927556ms)
+✔ maximum supported 20-category plan has bounded 41 outputs and conserves all tokens (22.878043ms)
+✔ official pinned P2PKH template hash is fixed (not a novel contract) (1.381239ms)
+✔ empty structurally valid invitation is rejected, never a green payment (8.131007ms)
+✔ malformed JSON and missing document fields fail closed (10.687374ms)
+✔ unknown template fields fail schema validation (2.098618ms)
+✔ missing independent pin cannot be inferred from imported content (3.514901ms)
+✔ mutated pinned template rejects without trusting its recomputed hash (4.017987ms)
+✔ wrong invitation template identifier is rejected by actual engine (3.707049ms)
+✔ unknown action is rejected by actual engine (4.959525ms)
+✔ future invitation cannot pass (3.093336ms)
+✔ invalid clock and oversized inputs reject before parsing (0.513473ms)
+✔ synthetic invalid signature and expired commit both reject (6.976305ms)
+✔ strict deserializer does not silently accept extra invitation fields (0.841176ms)
+✔ inspection is deterministic and does not mutate inputs (8.036165ms)
+✔ commit cap rejects before engine checks (7.137783ms)
+✔ input limit uses UTF-8 bytes, not UTF-16 code units (1.088828ms)
+✔ synthetic CashTokens transaction byte roundtrip preserves bigint > 2^53 (13.380238ms)
+✔ SDK txid equals independent Node double-SHA256 UI byte order; not transaction hex (4.929559ms)
+✔ truncated transaction is a decoder error, not a success object (0.734896ms)
+✔ synthetic NFT structure is preserved by SDK decoding, not implicitly discarded (2.675226ms)
+✔ synthetic bitcoincash p2pkhWithTokens address roundtrip (1.024592ms)
+✔ synthetic bitcoincash p2shWithTokens address roundtrip (2.339762ms)
+✔ synthetic bchtest p2pkhWithTokens address roundtrip (0.294514ms)
+✔ synthetic bchtest p2shWithTokens address roundtrip (0.231158ms)
+✔ unpaired SDK manager has no derived pubkey/path or stored session (0.8509ms)
+✔ diagnostic: pre-aborted SDK request still invokes send before cancel (offline overridden transport) (1.687019ms)
+✔ CLI synthetic command succeeds but report rejects and never permits signing (924.389704ms)
+✔ CLI rejects invalid arguments without exposing local file contents (701.170197ms)
+✔ CLI bounds input bytes and rejects malformed UTF8 and missing files (2506.347029ms)
+✔ loopback API, origin, redaction module, Unicode and interrupted-upload regression (1069.826574ms)
+✔ unmodified official legacy invitation fails current schema, not a positive signature proof (7.09546ms)
+✔ export allowlist excludes arbitrary action, messages, and payload (1.486297ms)
+ℹ tests 129
+ℹ suites 0
+ℹ pass 129
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4593.047815
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
