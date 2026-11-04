@@ -1,0 +1,50 @@
+[
+  {
+    "panel": "comparison",
+    "action": "edit while technical details open",
+    "status": "NOT CHECKED",
+    "summary": "No current comparison.",
+    "technical": "No current result. Run the comparison after any edit.",
+    "downloadEnabled": false
+  },
+  {
+    "panel": "comparison",
+    "action": "clear",
+    "status": "NOT CHECKED",
+    "summary": "No current comparison.",
+    "input": "",
+    "downloadEnabled": false
+  },
+  {
+    "panel": "comparison",
+    "action": "bad JSON",
+    "status": "INVALID INPUT",
+    "summary": "No comparison was performed. Enter valid bounded JSON.",
+    "technical": "Enter valid JSON within 600 KB. No transaction was sent.",
+    "downloadEnabled": false
+  },
+  {
+    "panel": "plan",
+    "action": "edit while technical details open",
+    "status": "NOT BUILT",
+    "summary": "No current plan.",
+    "technical": "No current plan. Build again after any edit.",
+    "downloadEnabled": false
+  },
+  {
+    "panel": "plan",
+    "action": "clear",
+    "status": "NOT BUILT",
+    "summary": "No current plan.",
+    "input": "",
+    "downloadEnabled": false
+  },
+  {
+    "panel": "plan",
+    "action": "bad JSON",
+    "status": "INVALID INPUT",
+    "summary": "No plan was built. Enter valid bounded JSON.",
+    "technical": "Enter valid JSON within 600 KB. No wallet was connected and no transaction was sent.",
+    "downloadEnabled": false
+  }
+]

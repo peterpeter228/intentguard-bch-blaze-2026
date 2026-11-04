@@ -1,0 +1,22 @@
+[
+  {
+    "panel": "comparison",
+    "downloadCompleted": true,
+    "evidence": "OFFLINE_COMPARISON_NOT_CHAIN_PROOF",
+    "status": "MATCH_OFFLINE",
+    "fee": "500",
+    "canSign": false,
+    "containsRawFields": false
+  },
+  {
+    "panel": "plan",
+    "downloadCompleted": true,
+    "evidence": "OFFLINE_UNSIGNED_PLAN_NOT_PAYMENT_AUTHORITY",
+    "status": "BUILT_OFFLINE",
+    "fee": "325",
+    "canSign": false,
+    "broadcastable": false,
+    "receiptValid": false,
+    "containsRawFields": false
+  }
+]

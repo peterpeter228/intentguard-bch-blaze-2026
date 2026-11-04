@@ -1,0 +1,64 @@
+[
+  {
+    "case": "Initial",
+    "comparison": "No current comparison.",
+    "plan": "No current plan.",
+    "comparisonDetailsVisible": false,
+    "planDetailsVisible": false
+  },
+  {
+    "case": "Positive summaries",
+    "comparisonStatus": "MATCH_OFFLINE",
+    "comparison": "Supplied data agrees. This is not payment approval.\nComputed fee: 500 satoshis.\nNo wallet, signature, live-chain check or payment has occurred.",
+    "planStatus": "BUILT_OFFLINE",
+    "plan": "Unsigned plan only. Nothing is signed or sent.\nRequested recipient: 1000 satoshis + 100 token base units.\nScript: 76a914222222222222222222222222222222222222222288ac\nToken category: 4444444444444444444444444444444444444444444444444444444444444444\nToken change to supplied owner: 657 satoshis + 400 token base units.\nScript: 76a914111111111111111111111111111111111111111188ac\nToken category: 4444444444444444444444444444444444444444444444444444444444444444\nBCH change to supplied owner: 8018 satoshis.\nScript: 76a914111111111111111111111111111111111111111188ac\nTotal fee: 325 satoshis; budget: 325; explicit dust remainder: 0.\nAssumed final size: 325–325 bytes (compressed-p2pkh-schnorr). This is not a verified wallet capability.\nOwner scripts and unspent data are supplied assertions. Real ownership, live funds, signatures and chain acceptance are not established."
+  },
+  {
+    "case": "Recipient replaced",
+    "status": "REJECTED",
+    "summary": "This candidate is not accepted by the offline comparator.\nThe candidate changes a requested recipient, amount, or token category. (RECIPIENT_MISMATCH)\nComputed fee: 500 satoshis.\nNo wallet, signature, live-chain check or payment has occurred."
+  },
+  {
+    "case": "Wrong token",
+    "status": "REJECTED",
+    "summary": "This candidate is not accepted by the offline comparator.\nThe candidate includes a token category that the request did not declare. (UNDECLARED_TOKEN)\nThe candidate changes a requested recipient, amount, or token category. (RECIPIENT_MISMATCH)\nToken inputs and outputs do not conserve the declared quantities. (TOKEN_IMBALANCE)\nComputed fee: 500 satoshis.\nNo wallet, signature, live-chain check or payment has occurred."
+  },
+  {
+    "case": "Excessive fee",
+    "status": "REJECTED",
+    "summary": "This candidate is not accepted by the offline comparator.\nThe total fee exceeds the request’s absolute fee cap. (FEE_LIMIT)\nComputed fee: 1500 satoshis.\nNo wallet, signature, live-chain check or payment has occurred."
+  },
+  {
+    "case": "Stale evidence",
+    "status": "UNKNOWN",
+    "summary": "Evidence is incomplete. No successful comparison is established.\nThe supplied observation is stale or has an invalid time. (STALE_OR_INVALID_SNAPSHOT)\nFee: not established.\nNo wallet, signature, live-chain check or payment has occurred."
+  },
+  {
+    "case": "Missing parent",
+    "status": "UNKNOWN",
+    "summary": "Evidence is incomplete. No successful comparison is established.\nA required parent output or supplied unspent claim is missing. (MISSING_OR_SPENT_PREVOUT)\nFee: not established.\nNo wallet, signature, live-chain check or payment has occurred."
+  },
+  {
+    "case": "Fee cap too low",
+    "status": "REJECTED",
+    "summary": "No unsigned plan was built.\nThe total fee exceeds the request’s absolute fee cap.\nReason: FEE_LIMIT.\nNothing was sent. You can edit the request or explicitly select different inputs."
+  },
+  {
+    "case": "Insufficient funds",
+    "status": "REJECTED",
+    "summary": "No unsigned plan was built.\nThe selected inputs cannot cover recipients, token carrier amounts and the fee budget.\nReason: INSUFFICIENT_BCH.\nNothing was sent. You can edit the request or explicitly select different inputs."
+  },
+  {
+    "case": "Reload and recover",
+    "reset": {
+      "comparison": "No current comparison.",
+      "plan": "No current plan.",
+      "comparisonDownload": false,
+      "planDownload": false,
+      "comparisonDetailsVisible": false,
+      "planDetailsVisible": false
+    },
+    "recoveredComparison": "MATCH_OFFLINE",
+    "recoveredPlan": "BUILT_OFFLINE"
+  }
+]

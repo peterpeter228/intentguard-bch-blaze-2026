@@ -1,0 +1,16 @@
+[
+  {
+    "label": "Technical comparison report",
+    "expandedVisible": true,
+    "collapsedHidden": true,
+    "summaryUnchanged": true,
+    "technicalStatus": "MATCH_OFFLINE"
+  },
+  {
+    "label": "Technical plan and unsigned bytes",
+    "expandedVisible": true,
+    "collapsedHidden": true,
+    "summaryUnchanged": true,
+    "technicalStatus": "BUILT_OFFLINE"
+  }
+]

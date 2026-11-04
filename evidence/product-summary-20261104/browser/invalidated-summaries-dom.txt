@@ -1,0 +1,44 @@
+- main:
+  - text: INTENTGUARD BCH · PRE-EVENT CORE
+  - heading "Check what a payment will actually send." [level=1]
+  - paragraph: Compare a confirmed payment request with raw BCH transaction outputs. See exactly why a substituted recipient or token is refused.
+  - complementary:
+    - strong: Offline demonstration. No funds move.
+    - text: All presets are synthetic, unbroadcast transactions with a fixed simulated clock. A match is not a signature, wallet approval, live-chain check, or proof of contest completion.
+  - heading "1. Choose a scenario" [level=2]
+  - paragraph: The request pays 100 units of an explicitly identified teaching token, plus 1,000 satoshis, to the merchant. Change returns to a separately supplied owner script; fee cap is 600 satoshis.
+  - navigation "Scenarios":
+    - button "Original payment"
+    - button "Recipient replaced"
+    - button "Wrong token"
+    - button "Excessive fee"
+    - button "Stale evidence"
+    - button "Missing parent"
+  - heading "2. Inspect and compare" [level=2]
+  - text: Editable request, candidate transaction and evidence snapshot
+  - textbox "Editable request, candidate transaction and evidence snapshot": "{broken"
+  - button "Compare transaction"
+  - button "Clear"
+  - button "Download report" [disabled]
+  - heading "3. Result INVALID INPUT" [level=2]:
+    - text: 3. Result
+    - generic: INVALID INPUT
+  - generic: No comparison was performed. Enter valid bounded JSON.
+  - generic "Technical comparison report"
+  - heading "4. Build an offline payment plan" [level=2]
+  - paragraph: Start with explicitly selected synthetic inputs. The planner preserves recipients, returns token change, and estimates fees using a declared signature-size model. It does not discover funds, prove ownership, sign, or send anything.
+  - navigation "Builder examples":
+    - button "Token payment plan"
+    - button "Fee cap too low"
+    - button "Insufficient funds"
+  - text: Editable synthetic intent, selected outpoints and fee policy
+  - textbox "Editable synthetic intent, selected outpoints and fee policy": "{broken"
+  - button "Build unsigned plan"
+  - button "Clear plan"
+  - button "Download plan summary" [disabled]
+  - heading "Plan result INVALID INPUT" [level=3]:
+    - text: Plan result
+    - generic: INVALID INPUT
+  - generic: No plan was built. Enter valid bounded JSON.
+  - generic "Technical plan and unsigned bytes" [active]
+  - generic: "Supported first slice: P2PKH, fungible CashTokens, exact recipient outputs, owned-change allowlist, full-parent content hashes, conservation and total fee cap. Unsupported: NFTs, minting, live source provenance, wallet ownership proof, signing, sighash validation, broadcast, receipt confirmation, live node dust/fee-rate policy. Offline construction assumptions are not validated wallet behavior. No keys are requested."

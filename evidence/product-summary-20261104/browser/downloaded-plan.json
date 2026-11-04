@@ -1,0 +1,34 @@
+{
+  "evidence": "OFFLINE_UNSIGNED_PLAN_NOT_PAYMENT_AUTHORITY",
+  "status": "BUILT_OFFLINE",
+  "issue": null,
+  "canSign": false,
+  "broadcastable": false,
+  "receiptValid": false,
+  "feeSatoshis": "325",
+  "budgetFeeSatoshis": "325",
+  "donatedRemainderSatoshis": "0",
+  "estimatedSignedBytes": {
+    "minimum": 325,
+    "maximum": 325,
+    "signatureModel": "compressed-p2pkh-schnorr"
+  },
+  "feeRateBounds": {
+    "unit": "satoshis-per-1000-bytes",
+    "minimum": {
+      "numerator": "325000",
+      "denominator": "325"
+    },
+    "maximum": {
+      "numerator": "325000",
+      "denominator": "325"
+    }
+  },
+  "planDigest": "6ecfbebd2a792c62ada38ccfb871c65640b33c4159226ad9b72bbf6e1a372875",
+  "limitations": [
+    "Offline construction only; supplied ownership, network and unspent claims are not authenticated.",
+    "The unsigned hash is not a final transaction ID; no wallet, signatures, consensus or relay acceptance was tested.",
+    "Signed-size bounds assume the declared compressed-key P2PKH model and minimal pushes; independently revalidate final signed bytes and fees.",
+    "Dust uses a fixed 1000 sat/1000-byte application baseline; fee rates are explicit policy, not a live network quote."
+  ]
+}
