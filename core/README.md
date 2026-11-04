@@ -1,6 +1,6 @@
 # Core transaction comparator — pre-event development
 
-Current continuation: [offline unsigned builder](UNSIGNED_BUILDER.md), [offline signed verification](SIGNATURE_VERIFICATION.md), and [read-only coordination](READ_ONLY_COORDINATION.md). Earlier implementation snapshots below are historical; none imply real wallet or chain success.
+Current continuation: [explicit request-to-plan binding](REQUEST_PLAN.md), [offline unsigned builder](UNSIGNED_BUILDER.md), [offline signed verification](SIGNATURE_VERIFICATION.md), and [read-only coordination](READ_ONLY_COORDINATION.md). Earlier implementation snapshots below are historical; none imply real wallet or chain success.
 
 The user explicitly requested core implementation on November 4, 2026. This supersedes our own earlier decision to defer G1 until November 14. These files are disclosed pre-event work, not event-period work or completed entry qualification.
 

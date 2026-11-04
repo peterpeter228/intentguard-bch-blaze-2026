@@ -16,3 +16,7 @@ Keep SDK pre-abort ordering risk visible; do not add a production signing adapte
 ## 2026-11-04 — Request review is not spending authority
 
 The new structured request page operates on a separate strict draft schema. CashAddr decoding is local address formatting and script derivation, not wallet ownership, recipient identity, network connectivity or a signature. Review state is tab-local and never exported/imported as authority. Amounts use decimal strings and integer base units; token addresses require explicit token-aware P2PKH. A 24-hour maximum request validity is our conservative application policy, not a contest or BCH consensus rule. No owner-change scripts or actual UTXOs are inferred from the merchant address.
+
+## 2026-11-04 — Explicit request-to-plan boundary
+
+Connect validated request content to the offline builder through a separate SDK adapter, not through the teaching UI's fixture wallet. Expected request digest comes from application review state, but equality remains provenance rather than human-consent proof. Bound policy includes owner/change/fee choices even where a choice does not change transaction bytes. Snapshot observations are revalidated at invocation and are not included in the content identifier as authority. No live wallet, chain, payment or receipt capability is added.
