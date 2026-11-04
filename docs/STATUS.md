@@ -71,3 +71,11 @@ G1 remains IN_PROGRESS. Added a strictly separated stateless P2PKH signature ver
 Read-only review refresh now requires explicit expectedRevision and only a latest completed successful observation. Reservations/history are durable and append-only; UNKNOWN/PENDING cannot reset, prior success never becomes current after failed refresh, and all rereads/history remain stale. Storagev2 refuses oldv1 read-only with REVIEW_MIGRATION_REQUIRED, preserving original bytes; migration is not implemented.
 
 Local complete validation:150/150 tests, typecheck/build exit0. Independent review additionally exercised public-vector mutations and competing refresh/UNKNOWN recovery. UI source and bundle are unchanged from the previous real-browser-tested slice; no new signature UI or new browser test is claimed. Exact remote verification is separately recorded in evidence/signature-20261104. No wallet/real chain/transaction/publication/contest-completion claim.
+
+## 2026-11-04 16:08 UTC historical parent-bound positive and readable core results
+
+Found an unchanged official Trezor complete raw parent and historical signed child, independently hash-bound and verified for bothP2PKH inputs. Added a shared intermediate parent-bound cryptographic verifier; the high-level plan verifier reuses it without weakening its version2 builder policy. The fixture is version1: it closes the parent-resolver positive gap but is not a version2 full-plan positive, current chain proof, wallet session or payment result. Upstream provenance/notices are retained.
+
+Bounded official token/sighash research did not establish strictP2PKH0x61 success. The main-script all_utxos label in a complex vector does not describe its auxiliaryP2PKH0xc3 signatures; that vector stays rejected. No signatures or keys were generated and no valid bytes were edited to fit the application.
+
+Product UI now shows readable requested recipient/token/change/fee summaries and specific refusal/incomplete-evidence explanations before optional technical details. It does not add signing controls or imply ownership from supplied scripts. Local157/157 tests/typecheck/build pass; final browser and exact remote verification are separately recorded under evidence/product-summary-20261104. G1 remainsIN_PROGRESS and all work is pre-event.

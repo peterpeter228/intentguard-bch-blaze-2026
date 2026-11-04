@@ -1,0 +1,43 @@
+{
+  "sourceCommit": "6cd69cbc347dd622879cc9dccd53bf58e4026ab1",
+  "parentTxid": "502e8577b237b0152843a416f8f1ab0c63321b1be7a8cad7bf5c5c216fcf062c",
+  "childTxid": "5594fd9e5e26dcb4437cbbbba517401720849159bac4e2158e1e6401ffd5fdb7",
+  "allOutpointParentsMatched": true,
+  "outpointIndices": [
+    0,
+    1
+  ],
+  "sourceScripts": [
+    "76a914b1401fce7e8bf123c88a0467e0ed11e3b9fbef5488ac",
+    "76a914d51eca49695cdf47e7f4b55507893e3ad53fe9d888ac"
+  ],
+  "version": 1,
+  "locktime": 0,
+  "sequence": [
+    4294967295,
+    4294967295
+  ],
+  "sighash": [
+    65,
+    65
+  ],
+  "feeSatoshis": "34542",
+  "vmVerify": true,
+  "signatureReport": {
+    "status": "SIGNATURES_VALID_STATELESS",
+    "issue": null,
+    "checkedInputs": 2,
+    "signedTransactionHash": "5594fd9e5e26dcb4437cbbbba517401720849159bac4e2158e1e6401ffd5fdb7",
+    "vm": "libauth-3.1.0-next.8/BCH_2026_05/standard",
+    "canSign": false,
+    "broadcastable": false,
+    "receiptValid": false,
+    "networkVerified": false,
+    "chainVerified": false
+  },
+  "limitations": [
+    "Official published raw fixtures, not newly signed",
+    "Child version 1 incompatible with current version-2-only builder",
+    "No live chain query, wallet, private keys, signing or broadcast"
+  ]
+}

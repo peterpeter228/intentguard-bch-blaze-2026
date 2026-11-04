@@ -1,6 +1,6 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
-import {binToHex,hexToBin,decodeTransaction,encodeTransaction,decodeTransactionOutputs,encodeTransactionOutputs,type Transaction,type Output} from '@bitauth/libauth';
-import {verifyResolvedP2pkhSignatures,verifySignedPlan,type ResolvedSignatureInput} from './signed-verifier.js';
+import {binToHex,hexToBin,decodeTransaction,encodeTransaction,decodeTransactionOutputs,encodeTransactionOutputs,hashTransaction,type Transaction,type Output} from '@bitauth/libauth';
+import {verifyResolvedP2pkhSignatures,verifyParentBoundP2pkhSignatures,verifySignedPlan,type ResolvedSignatureInput} from './signed-verifier.js';
 import {buildUnsignedPlan,type UnsignedBuildInput} from './unsigned-builder.js';import {fixture,owner} from './fixtures.js';
 const vectors=JSON.parse(readFileSync('evidence/signature-20261104/bchn-p2pkh-public-vectors.json','utf8')) as string[][];
 function vector(index=0):ResolvedSignatureInput{const v=vectors[index]!;return {signedHex:v[4]!,sourceOutputsHex:v[5]!,signatureModel:index===0?'compressed-p2pkh-schnorr':'compressed-p2pkh-low-s-ecdsa'};}
@@ -65,4 +65,33 @@ test('trusted invocation clock overrides frozen JSON time, rejects expired/stale
 });
 test('actual signed size must stay inside the declared model even before cryptographic verification',()=>{
  const b=buildInput(),t=tx(invalidTransplant(b));t.inputs[0]!.unlockingBytecode=Uint8Array.from([...t.inputs[0]!.unlockingBytecode,0]);assert.equal(verifySignedPlan({buildInput:b,signedHex:binToHex(encodeTransaction(t))},b.now).issue,'SIGNED_SIZE_OUTSIDE_MODEL');
+});
+
+const fullParent=JSON.parse(readFileSync('evidence/signature-positive-20261104/trezor-public-parent-child.json','utf8')) as {parentHex:string;childHex:string};
+test('unchanged official Trezor two-input child passes shared complete-parent cryptographic binding only',()=>{
+ const r=verifyParentBoundP2pkhSignatures({signedHex:fullParent.childHex,parentTransactionHexes:[fullParent.parentHex],signatureModel:'compressed-p2pkh-low-s-ecdsa'});
+ assert.equal(r.status,'SIGNATURES_VALID_PARENT_BOUND');assert.equal(r.resolvedParentCount,1);assert.equal(r.signatureReport?.checkedInputs,2);for(const k of ['canSign','broadcastable','receiptValid','networkVerified','chainVerified'] as const)assert.equal(r[k],false);
+ // This historical version1 child is not silently accepted as our version2 plan.
+ const b=buildInput();assert.equal(verifySignedPlan({buildInput:b,signedHex:fullParent.childHex},b.now).issue,'SIGNED_STRUCTURE_MISMATCH');
+});
+test('parent-content mutation, wrong outpoint, duplicate/missing parents and injected success cannot bypass binding',()=>{
+ const base={signedHex:fullParent.childHex,parentTransactionHexes:[fullParent.parentHex],signatureModel:'compressed-p2pkh-low-s-ecdsa' as const};
+ const p=tx(fullParent.parentHex);p.outputs[0]!.valueSatoshis+=1n;assert.equal(verifyParentBoundP2pkhSignatures({...base,parentTransactionHexes:[binToHex(encodeTransaction(p))]}).issue,'MISSING_BOUND_PARENT');
+ const c=tx(fullParent.childHex);c.inputs[0]!.outpointIndex=2;assert.equal(verifyParentBoundP2pkhSignatures({...base,signedHex:binToHex(encodeTransaction(c))}).issue,'MISSING_BOUND_PARENT');
+ assert.equal(verifyParentBoundP2pkhSignatures({...base,parentTransactionHexes:[fullParent.parentHex,fullParent.parentHex]}).issue,'DUPLICATE_PARENT');
+ assert.equal(verifyParentBoundP2pkhSignatures({...base,parentTransactionHexes:[]}).issue,'INVALID_PARENTS');
+ assert.equal(verifyParentBoundP2pkhSignatures({...base,parentTransactionHexes:['00'.repeat(500001)]}).issue,'INVALID_PARENTS');
+ assert.equal(verifyParentBoundP2pkhSignatures({...base,status:'SIGNATURES_VALID_PARENT_BOUND'} as never).issue,'INVALID_SIGNATURE_INPUT');
+});
+test('official all-utxos-labelled complex token vector is not a permitted P2PKH payment positive',()=>{
+ const v=JSON.parse(readFileSync('evidence/signature-positive-20261104/bchn-cvs72j-unsupported-sighash.json','utf8')) as string[];
+ const t=tx(v[4]!);assert.equal(t.inputs[0]!.unlockingBytecode[t.inputs[0]!.unlockingBytecode[0]!],0xc3);
+ const r=verifyResolvedP2pkhSignatures({signedHex:v[4]!,sourceOutputsHex:v[5]!,signatureModel:'compressed-p2pkh-schnorr'});assert.equal(r.status,'REJECTED');assert.equal(r.issue,'NFT_UNSUPPORTED');
+});
+
+test('parent-bound resource limits precede source expansion and reject repeated outpoints early',()=>{
+ const c=tx(fullParent.childHex),p=tx(fullParent.parentHex);c.inputs=Array.from({length:21},(_,i)=>({...c.inputs[0]!,outpointIndex:i,unlockingBytecode:new Uint8Array()}));
+ const base={signedHex:binToHex(encodeTransaction(c)),parentTransactionHexes:[fullParent.parentHex],signatureModel:'compressed-p2pkh-low-s-ecdsa' as const};assert.equal(verifyParentBoundP2pkhSignatures(base).issue,'INPUT_OUTPUT_LIMIT');
+ c.inputs=[{...c.inputs[0]!},{...c.inputs[0]!}];assert.equal(verifyParentBoundP2pkhSignatures({...base,signedHex:binToHex(encodeTransaction(c))}).issue,'DUPLICATE_INPUT');
+ p.outputs[0]!.lockingBytecode=new Uint8Array(1000).fill(0x51);const raw=binToHex(encodeTransaction(p));c.inputs=[{...c.inputs[0]!,outpointIndex:0,outpointTransactionHash:hexToBin(hashTransaction(encodeTransaction(p)))}];assert.equal(verifyParentBoundP2pkhSignatures({...base,signedHex:binToHex(encodeTransaction(c)),parentTransactionHexes:[raw]}).issue,'UNSUPPORTED_SOURCE_SCRIPT');
 });

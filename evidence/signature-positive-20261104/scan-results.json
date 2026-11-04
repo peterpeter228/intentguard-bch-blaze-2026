@@ -1,0 +1,43 @@
+[
+  {
+    "file": "core.signing-serialization",
+    "records": 1300,
+    "p2pkhInputs": 1512,
+    "tokenP2pkhInputs": 432,
+    "sighashCountsDecimal": {
+      "195": 1512
+    },
+    "examples": [
+      {
+        "id": "cvs72j",
+        "inputIndex": 0,
+        "sighash": 195,
+        "publicKeyBytes": 33,
+        "publicKeyHashMatches": true,
+        "signatureValid": true,
+        "version": 2,
+        "locktime": 0,
+        "sequence": 0
+      },
+      {
+        "id": "cvs72j",
+        "inputIndex": 2,
+        "sighash": 195,
+        "publicKeyBytes": 33,
+        "publicKeyHashMatches": true,
+        "signatureValid": true,
+        "version": 2,
+        "locktime": 0,
+        "sequence": 0
+      }
+    ]
+  },
+  {
+    "file": "core.cashtokens",
+    "records": 946,
+    "p2pkhInputs": 0,
+    "tokenP2pkhInputs": 0,
+    "sighashCountsDecimal": {},
+    "examples": []
+  }
+]

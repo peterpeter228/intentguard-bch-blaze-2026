@@ -47,6 +47,33 @@ export function verifyResolvedP2pkhSignatures(input:ResolvedSignatureInput):Reso
  }catch(e){const code=e instanceof Error?e.message:'';r.issue=signatureErrors.has(code)?code:'INVALID_SIGNATURE_INPUT';return r;}
 }
 const signatureErrors=new Set(['INVALID_SIGNATURE_INPUT','UNSUPPORTED_SIGNATURE_MODEL','INVALID_ENCODING','INVALID_TRANSACTION','INVALID_SOURCE_OUTPUTS','INPUT_OUTPUT_LIMIT','NFT_UNSUPPORTED','DUPLICATE_INPUT','UNSUPPORTED_SOURCE_SCRIPT','NONMINIMAL_OR_MALFORMED_UNLOCK','UNCOMPRESSED_OR_INVALID_KEY','PUBKEY_HASH_MISMATCH','UNSAFE_SIGHASH','TOKEN_UTXOS_SIGHASH_REQUIRED','SIGNATURE_MODEL_MISMATCH','STATELESS_VM_REJECTED']);
+export interface ParentBoundSignatureInput {signedHex:string;parentTransactionHexes:readonly string[];signatureModel:SignatureSizeModel;}
+export interface ParentBoundSignatureReport {
+ status:'SIGNATURES_VALID_PARENT_BOUND'|'REJECTED';issue:string|null;resolvedParentCount:number;
+ signatureReport:ResolvedSignatureReport|null;canSign:false;broadcastable:false;receiptValid:false;networkVerified:false;chainVerified:false;
+}
+/** Full parent content-hash binding, still not current UTXO/network or approved
+ * business intent. Historical version1 vectors are permitted at this crypto-only
+ * layer; the actual deterministic payment builder remains version2-only.
+ */
+export function verifyParentBoundP2pkhSignatures(input:ParentBoundSignatureInput):ParentBoundSignatureReport{
+ const r:ParentBoundSignatureReport={status:'REJECTED',issue:null,resolvedParentCount:0,signatureReport:null,canSign:false,broadcastable:false,receiptValid:false,networkVerified:false,chainVerified:false};
+ try{
+  keys(input,['signedHex','parentTransactionHexes','signatureModel']);if(!model(input.signatureModel))throw Error('UNSUPPORTED_SIGNATURE_MODEL');
+  if(!Array.isArray(input.parentTransactionHexes)||input.parentTransactionHexes.length<1||input.parentTransactionHexes.length>100||input.parentTransactionHexes.some(x=>typeof x!=='string')||input.parentTransactionHexes.reduce((n,x)=>n+x.length,0)>1000000)throw Error('INVALID_PARENTS');
+  const signed=transaction(input.signedHex),parents=new Map<string,Transaction>();
+  // Bound amplification BEFORE resolving/serializing source outputs. A small
+  // candidate must not repeat a large source script thousands of times.
+  if(signed.inputs.length<1||signed.inputs.length>20||signed.outputs.length<1||signed.outputs.length>41)throw Error('INPUT_OUTPUT_LIMIT');
+  const outpoints=new Set<string>();for(const i of signed.inputs){const k=binToHex(i.outpointTransactionHash)+':'+i.outpointIndex;if(outpoints.has(k))throw Error('DUPLICATE_INPUT');outpoints.add(k);}
+  for(const raw of input.parentTransactionHexes){const parent=transaction(raw),hash=hashTransaction(hexToBin(raw));if(parents.has(hash))throw Error('DUPLICATE_PARENT');parents.set(hash,parent);}
+  const used=new Set<string>();const sources=signed.inputs.map(i=>{const id=binToHex(i.outpointTransactionHash),o=parents.get(id)?.outputs[i.outpointIndex];if(!o)throw Error('MISSING_BOUND_PARENT');if(!/^76a914[0-9a-f]{40}88ac$/.test(binToHex(o.lockingBytecode)))throw Error('UNSUPPORTED_SOURCE_SCRIPT');if(o.token?.nft)throw Error('NFT_UNSUPPORTED');used.add(id);return o;});
+  const report=verifyResolvedP2pkhSignatures({signedHex:input.signedHex,sourceOutputsHex:binToHex(encodeTransactionOutputs(sources)),signatureModel:input.signatureModel});r.signatureReport=report;
+  if(report.status!=='SIGNATURES_VALID_STATELESS')throw Error('SIGNATURE_VALIDATION_FAILED');
+  r.status='SIGNATURES_VALID_PARENT_BOUND';r.resolvedParentCount=used.size;return r;
+ }catch(e){const code=e instanceof Error?e.message:'';r.issue=parentErrors.has(code)?code:'INVALID_PARENT_BOUND_INPUT';return r;}
+}
+const parentErrors=new Set(['INPUT_OUTPUT_LIMIT','DUPLICATE_INPUT','UNSUPPORTED_SOURCE_SCRIPT','NFT_UNSUPPORTED','INVALID_SIGNATURE_INPUT','UNSUPPORTED_SIGNATURE_MODEL','INVALID_PARENTS','DUPLICATE_PARENT','MISSING_BOUND_PARENT','INVALID_ENCODING','INVALID_TRANSACTION','SIGNATURE_VALIDATION_FAILED']);
 export interface SignedPlanInput {buildInput:UnsignedBuildInput;signedHex:string;}
 export interface SignedPlanReport {
  status:'SIGNED_PLAN_VALID_OFFLINE'|'REJECTED';issue:string|null;planDigest:string|null;
@@ -70,16 +97,14 @@ export function verifySignedPlan(input:SignedPlanInput,now:number=Date.now()):Si
   const build=buildUnsignedPlan({...input.buildInput,now});
   if(build.status!=='BUILT_OFFLINE'||!build.unsignedHex||!build.estimatedSignedBytes||!build.feeSatoshis)throw Error('BUILD_REJECTED');
   r.planDigest=build.planDigest;
-  const signed=transaction(input.signedHex);
+  transaction(input.signedHex);
   if(structuralTransactionDigest(input.signedHex)!==structuralTransactionDigest(build.unsignedHex))throw Error('SIGNED_STRUCTURE_MISMATCH');
   const signedSize=input.signedHex.length/2,range=build.estimatedSignedBytes;
   if(signedSize<range.minimum||signedSize>range.maximum)throw Error('SIGNED_SIZE_OUTSIDE_MODEL');
   const fee=BigInt(build.feeSatoshis),policy=input.buildInput.feePolicy;
   if(fee*1000n>BigInt(policy.maxSatoshisPer1000Bytes)*BigInt(signedSize)||fee*1000n<BigInt(policy.targetSatoshisPer1000Bytes)*BigInt(signedSize)||fee>BigInt(input.buildInput.intent.maxFeeSatoshis))throw Error('SIGNED_FEE_POLICY');
-  const parents=new Map(input.buildInput.snapshot.parentTransactionHexes.map(raw=>[hashTransaction(hexToBin(raw)),transaction(raw)]));
-  const sources=signed.inputs.map(i=>{const parent=parents.get(binToHex(i.outpointTransactionHash)),o=parent?.outputs[i.outpointIndex];if(!o)throw Error('MISSING_BOUND_PARENT');return o;});
-  const report=verifyResolvedP2pkhSignatures({signedHex:input.signedHex,sourceOutputsHex:binToHex(encodeTransactionOutputs(sources)),signatureModel:policy.signatureModel});r.signatureReport=report;
-  if(report.status!=='SIGNATURES_VALID_STATELESS')throw Error('SIGNATURE_VALIDATION_FAILED');
+  const bound=verifyParentBoundP2pkhSignatures({signedHex:input.signedHex,parentTransactionHexes:input.buildInput.snapshot.parentTransactionHexes,signatureModel:policy.signatureModel});r.signatureReport=bound.signatureReport;
+  if(bound.status!=='SIGNATURES_VALID_PARENT_BOUND')throw Error('SIGNATURE_VALIDATION_FAILED');
   r.signedBytes=signedSize;r.feeSatoshis=fee.toString();r.status='SIGNED_PLAN_VALID_OFFLINE';return r;
  }catch(e){const code=e instanceof Error?e.message:'';r.issue=planErrors.has(code)?code:'INVALID_SIGNED_PLAN';return r;}
 }
