@@ -37,3 +37,9 @@ Current commands and test evidence: `evidence/xo-20261104/`. Browser QA is separ
 User explicitly requested core development now, superseding our earlier deferral strategy. G1 is now IN_PROGRESS, not DONE. First actual slice: core/guard.ts raw-transaction comparator, strict decimal amounts, complete parent-hash matching, all-output checks, confirmed-owner allowlists, fee cap, fungible-token conservation/NFT rejection, structural-only post-wallet comparison and a local browser demonstration. No wallet adapter, signature/chain success, persistence lifecycle, real receipts or public demo exists. MATCH_OFFLINE and canSign=false are intentional.
 
 Baseline before core: 4bf2d146c701822526faa0622dd26772dc18c705. All current work is pre-event and must be disclosed. See core/README.md and evidence/core-20261104 for actual tests, browser evidence and limitations. XO signed-positive reference gap remains separate and does not prevent this pure comparison implementation.
+
+## 2026-11-04 13:56 UTC evidence and durable-state slice
+
+G1 remains IN_PROGRESS. Added core/evidence.ts and a local SimulationOperationStore: application-pinned source identities, checkpoint/tip consistency, raw-parent and UTXO/token checks, ephemeral session-derived ownership evidence, deadlines/cancellation, shared validated intent digest, SQLite CAS/economic tombstones/session locks and UNKNOWN/late-response recovery. 78 tests/typecheck/build passed. Actual database file/process tests include restart, race, SIGKILL rollback and corruption failures; chain and lifecycle events are synthetic, not real payments.
+
+No production transport/endpoint or wallet is configured. Reports remain canSign=false; stored receiptValid=false/chainVerified=false. UI bundle SHA is unchanged from the independently tested previous commit. Details and exact remaining integration gates: core/EVIDENCE_AND_STATE.md and evidence/state-20261104/README.md.

@@ -25,8 +25,12 @@ The application runs entirely in the browser after loading static localhost asse
 - Trusted live chain reader, source disagreement/reorg handling, spendability and freshness evidence.
 - Dynamic dust policy and fee-rate ceilings; current 546-satoshi minimum is merely a conservative supported-input rule, not sufficient relay-policy validation for token outputs.
 - Signature/sighash validation and wallet non-broadcast behavior; signing and transactions remain prohibited for this work.
-- Persistent idempotent operation lifecycle, restart/uncertain-broadcast recovery, independent confirmed receipts.
+- Integrating the new local simulation operation store with authenticated real wallet/chain events; independent confirmed receipts remain unfinished.
 - Public demo, mainnet functional proof, complete event rules/qualification/IP/license review and final submission.
 - XO-specific novel contract and current signed-Invitation positive fixture are separate, still incomplete.
 
 All current tests are local synthetic checks. They demonstrate deterministic rejection/matching behavior, not customer demand, real transaction success, or an award probability.
+
+## Evidence/state continuation
+
+[Evidence and durable-state interfaces](EVIDENCE_AND_STATE.md) now implement bounded source corroboration, session-derived ownership checks and actual local SQLite concurrency/recovery. Production transports remain unconfigured, and scenario events are not verified financial facts. The localhost UI bundle is unchanged by this continuation.

@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-11-04T13:55:43Z",
+  "node_version": "24.22.1",
+  "versioned_node_docs": {
+    "url": "https://nodejs.org/download/release/v24.22.1/docs/api/sqlite.html",
+    "web_extraction": "failed",
+    "curl_http": 200,
+    "sha256": "cdf8b494936088c7c1700921f13160750aeb9d67f84acdf5b8b1089c56d75184"
+  },
+  "live_chain": "NOT_RUN",
+  "wallet_connection": "NOT_RUN"
+}

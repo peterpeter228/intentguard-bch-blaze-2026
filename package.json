@@ -10,7 +10,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "tsc && esbuild probes/browser-types.tsx --bundle --platform=browser --format=esm --outfile=dist/browser-probe.js && esbuild core/ui.ts --bundle --platform=browser --format=esm --outfile=dist/core/app.js",
-    "test": "node --test dist/probes/sdk.test.js dist/preseason/xo/inspect.test.js preseason/xo/redact.test.mjs preseason/xo/http.test.mjs preseason/xo/cli.test.mjs preseason/xo/legacy.test.mjs dist/core/guard.test.js core/http.test.mjs",
+    "test": "node --test dist/probes/sdk.test.js dist/preseason/xo/inspect.test.js preseason/xo/redact.test.mjs preseason/xo/http.test.mjs preseason/xo/cli.test.mjs preseason/xo/legacy.test.mjs dist/core/guard.test.js core/http.test.mjs dist/core/evidence.test.js dist/core/operation-store.test.js",
     "validate": "npm run typecheck && npm run build && npm test",
     "xo:inspect": "node dist/preseason/xo/cli.js",
     "xo:preview": "node dist/preseason/xo/server.js",

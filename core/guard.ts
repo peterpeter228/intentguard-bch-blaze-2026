@@ -57,6 +57,8 @@ function normalizedIntent(i: PaymentIntent): PaymentIntent {
   if (recipients.some(o=>i.ownerScripts.includes(o.script))) throw Error('AMBIGUOUS_RECIPIENT_CHANGE');
   return {network:i.network,expiresAt:i.expiresAt,maxFeeSatoshis:i.maxFeeSatoshis,recipients,ownerScripts:[...i.ownerScripts].sort()};
 }
+/** Shared validated consent digest for comparison and durable operation identity. */
+export function validatedIntentDigest(intent:PaymentIntent):string { return digest(JSON.stringify(normalizedIntent(intent))); }
 function outputKey(o: Output): string {
   return JSON.stringify({script:binToHex(o.lockingBytecode),satoshis:o.valueSatoshis.toString(),...(o.token ? {token:{category:binToHex(o.token.category),amount:o.token.amount.toString()}} : {})});
 }
