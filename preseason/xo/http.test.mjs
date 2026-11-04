@@ -15,6 +15,9 @@ test('loopback API, origin, redaction module, Unicode and interrupted-upload reg
   assert.equal((await send(fixture,{Origin:'https://evil.example'})).status,403);
   assert.equal((await send(fixture,{'Content-Type':'text/plain'})).status,415);
   assert.equal((await send({})).status,400);
+  const wrongHost=await new Promise((resolve,reject)=>{const req=http.request(base+'/inspect',{method:'POST',headers:{Host:'evil.example','Content-Type':'application/json'}},res=>{res.resume();res.on('end',()=>resolve(res.statusCode));});req.on('error',reject);req.end(JSON.stringify(fixture));});assert.equal(wrongHost,403);
+  const oversized=await fetch(base+'/inspect',{method:'POST',headers:{'Content-Type':'application/json'},body:' '.repeat(600001)});assert.equal(oversized.status,413);
+  assert.equal((await fetch(base)).status,200);
   assert.equal((await fetch(base+'/package.json')).status,404);
   const template=JSON.parse(fixture.templateJson);template.name='中文 UTF-8';fixture.templateJson=JSON.stringify(template);
   const bytes=Buffer.from(JSON.stringify(fixture));const split=bytes.indexOf(Buffer.from('中'))+1;

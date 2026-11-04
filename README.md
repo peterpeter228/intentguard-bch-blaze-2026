@@ -1,3 +1,7 @@
+## Latest verification follow-up — 2026-11-04 12:07 UTC
+
+31 tests now pass after adding bounded CLI and upstream legacy-schema regressions plus actual Host/body-limit HTTP checks. Application/UI behavior is unchanged. The official public old Invitation fails the current schema; a compatible positive signed fixture remains missing. See [follow-up evidence](evidence/xo-20261104-followup/README.md). This is still preseason, not a new transaction feature or bounty completion.
+
 # Latest preseason supplement — 2026-11-04
 
 A no-key **XO Offline Lab** is now implemented under `preseason/xo/`. It validates imported template/Invitation structure with pinned official engine and rejects unsafe/incomplete inputs; it is not the core payment product or a novel contract. See [reproduction and limits](preseason/xo/README.md), [actual test evidence](evidence/xo-20261104/COMMANDS.md), and [real browser QA](evidence/browser-qa/REPORT.md).

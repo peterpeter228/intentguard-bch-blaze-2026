@@ -27,3 +27,7 @@ Independent branch continues a304f8810c402fd29b105563a136379e42f246af. G0 remain
 Coordinator independently confirmed registration on Nov4; user reports Telegram group joined. Identity introduction/roll-call evidence remains pending. Complete qualification is not asserted.
 
 Current commands and test evidence: `evidence/xo-20261104/`. Browser QA is separately recorded by the coordinator; do not infer it from unit or HTTP tests. Tests and fixes from this supplement do not retroactively validate old-wallet issues or payment behavior. No external model audit was run this round.
+
+## 2026-11-04 12:07 UTC verification follow-up
+
+31 tests/typecheck/build now pass; added boundedCLI and unmodified official legacy-Invitation rejection tests plus Host/body limitHTTP checks. No application/UI code changed. Public official sources checked at fixed commits did not provide a compatible valid-signature positive fixture; current gap remains, with an unsent precise maintainer question in evidence/xo-20261104-followup/PUBLIC_FIXTURE_SEARCH.md. G0 remainsPARTIAL, G1 unchanged and no external actions.

@@ -1,0 +1,78 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason validate
+> npm run typecheck && npm run build && npm test
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason typecheck
+> tsc --noEmit
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason build
+> tsc && esbuild probes/browser-types.tsx --bundle --platform=browser --format=esm --outfile=dist/browser-probe.js
+
+
+  dist/browser-probe.js  724.5kb
+
+⚡ Done in 34ms
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason test
+> node --test dist/probes/sdk.test.js dist/preseason/xo/inspect.test.js preseason/xo/redact.test.mjs preseason/xo/http.test.mjs preseason/xo/cli.test.mjs preseason/xo/legacy.test.mjs
+
+✔ official pinned P2PKH template hash is fixed (not a novel contract) (1.295353ms)
+✔ empty structurally valid invitation is rejected, never a green payment (10.414394ms)
+✔ malformed JSON and missing document fields fail closed (10.058107ms)
+✔ unknown template fields fail schema validation (2.462654ms)
+✔ missing independent pin cannot be inferred from imported content (3.63436ms)
+✔ mutated pinned template rejects without trusting its recomputed hash (3.40915ms)
+✔ wrong invitation template identifier is rejected by actual engine (3.709153ms)
+✔ unknown action is rejected by actual engine (5.178228ms)
+✔ future invitation cannot pass (2.873162ms)
+✔ invalid clock and oversized inputs reject before parsing (0.668197ms)
+✔ synthetic invalid signature and expired commit both reject (5.795068ms)
+✔ strict deserializer does not silently accept extra invitation fields (0.535157ms)
+✔ inspection is deterministic and does not mutate inputs (7.820883ms)
+✔ commit cap rejects before engine checks (5.366883ms)
+✔ input limit uses UTF-8 bytes, not UTF-16 code units (0.943823ms)
+✔ synthetic CashTokens transaction byte roundtrip preserves bigint > 2^53 (3.326606ms)
+✔ SDK txid equals independent Node double-SHA256 UI byte order; not transaction hex (1.575055ms)
+✔ truncated transaction is a decoder error, not a success object (0.879626ms)
+✔ synthetic NFT structure is preserved by SDK decoding, not implicitly discarded (0.330368ms)
+✔ synthetic bitcoincash p2pkhWithTokens address roundtrip (0.849841ms)
+✔ synthetic bitcoincash p2shWithTokens address roundtrip (0.376768ms)
+✔ synthetic bchtest p2pkhWithTokens address roundtrip (0.271009ms)
+✔ synthetic bchtest p2shWithTokens address roundtrip (0.128304ms)
+✔ unpaired SDK manager has no derived pubkey/path or stored session (0.385381ms)
+✔ diagnostic: pre-aborted SDK request still invokes send before cancel (offline overridden transport) (1.615306ms)
+✔ CLI synthetic command succeeds but report rejects and never permits signing (667.794633ms)
+✔ CLI rejects invalid arguments without exposing local file contents (617.2769ms)
+✔ CLI bounds input bytes and rejects malformed UTF8 and missing files (2305.091346ms)
+✔ loopback API, origin, redaction module, Unicode and interrupted-upload regression (855.544801ms)
+✔ unmodified official legacy invitation fails current schema, not a positive signature proof (7.023831ms)
+✔ export allowlist excludes arbitrary action, messages, and payload (1.261943ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3693.129343
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
