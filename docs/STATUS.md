@@ -47,3 +47,7 @@ No production transport/endpoint or wallet is configured. Reports remain canSign
 ## 2026-11-04 14:10 UTC bounded node transport
 
 G1 remains IN_PROGRESS. Implemented strict Node TLS read transport with fixed protocol 1.5.0 handshake, five read-only methods, bounded response/deadline, cancellation cleanup and no retries. Added opt-in Chipnet candidates with fixed BCHN identity pin and operator/source provenance; these are not verified live backends. First standalone public TLS diagnostic failed DNS EAI_AGAIN before any RPC response. No IP/TLS/proxy workaround. Collector now rejects stale/future tip headers at start and completion. Core browser UI remains unchanged and offline; no wallet/payment/contest success claimed. Actual validation and remaining limits are recorded in evidence/transport-20261104 and core/TRANSPORT.md.
+
+## 2026-11-04 14:40 UTC remote-integrity correction
+
+Independent review found remote613397f9 core/evidence.test.ts was binary-corrupted; the earlier local93-test pass did not validate that remote commit. This was a verification failure. Repair3619c70 restores the intended UTF-8 file and adds fail-closed post-sign/pre-broadcast expiry quarantine. Every one of186 files was downloaded from that fixed remote commit into an empty directory and Git blob hashed; npm run validate in that remote snapshot exited0 with94/94 tests, typecheck and build. Dependencies were reused, not freshly installed. See evidence/repair-20261104 for exact manifests/logs and remaining gates. G1 remainsIN_PROGRESS.

@@ -44,3 +44,5 @@ Two independently reviewed node operators/endpoints, correct network-specific ch
 ## 2026-11-04 read-only transport continuation
 
 The bounded concrete Node TLS transport and an explicitly opt-in public Chipnet candidate registry are now implemented; see TRANSPORT.md. Default UI remains offline. No successful production-node response was obtained: the first standalone capability diagnostic failed DNS EAI_AGAIN. This does not supersede the live-integration gates above. Tip freshness now requires bounded trusted maxTipAgeMs and checks header time at both collection start/end; a fresh retrieval timestamp alone cannot bless an old tip.
+
+Post-signature expiry correction: secondary-check-match at or after expiresAt preserves the original txid in NEEDS_REVIEW and retains the session lock. Timely signature arrival alone does not permit starting even a simulated broadcast after expiry. Read-only observation of the pinned original may still be recorded; expiry cannot erase evidence of an independently observed transaction. No real broadcast authorization is supplied by this state engine.
