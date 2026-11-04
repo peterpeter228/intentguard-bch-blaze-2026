@@ -5,7 +5,7 @@ import {verifyCandidate,structuralTransactionDigest,type PaymentIntent,type Evid
 export type ReadMethod='server.features'|'blockchain.block.header'|'blockchain.headers.subscribe'|'blockchain.transaction.get'|'blockchain.scripthash.listunspent';
 export interface ReadTransport { request(method:ReadMethod,params:readonly unknown[],signal:AbortSignal):Promise<unknown>; }
 /** Trusted application configuration, NEVER populated from imported candidate JSON. */
-export interface SourceConfig {id:string;operatorId:string;network:'chipnet'|'mainnet';genesisHash:string;checkpoint:{height:number;hash:string};kind:'synthetic'|'node';transport:ReadTransport;}
+export interface SourceConfig {id:string;operatorId:string;network:'chipnet'|'mainnet';genesisHash:string;checkpoint:{height:number;hash:string};maxTipAgeMs:number;kind:'synthetic'|'node';transport:ReadTransport;}
 export interface PublicKeySession extends Pick<DappConnectionManager, 'hasPath' | 'getPubkey'> {
  /** Application-owned authenticated session state, not an imported request's session claim. */
  currentSessionId():string|null;
@@ -33,11 +33,11 @@ export function deriveSessionOwnership(adapter:PublicKeySession,sessionId:string
  }catch(e){result.scripts=[];const code=e instanceof Error?e.message:'';result.issue=['SESSION_UNAVAILABLE','UNKNOWN_WALLET_PATH','INVALID_PUBLIC_KEY','OWNERSHIP_MISMATCH','SESSION_CHANGED','DUPLICATE_OWNERSHIP'].includes(code)?code:'OWNERSHIP_UNAVAILABLE';}
  Object.freeze(result.scripts);return Object.freeze(result);
 }
-interface Tip {height:number;hash:string;}
+interface Tip {height:number;hash:string;timestampMs:number;}
 export interface EvidenceResult {status:'NODE_REPORTED'|'SYNTHETIC_MATCH'|'UNKNOWN';canSign:false;issue:string|null;snapshot:EvidenceSnapshot|null;guard:GuardReport|null;sourceIds:string[];observedAt:number|null;sourceBindingDigest:string|null;chainTip:Tip|null;}
 function decodeRaw(raw:unknown){if(typeof raw!=='string'||raw.length>200000||!/^([0-9a-f]{2})+$/.test(raw))throw Error('INVALID_PARENT');const tx=decodeTransaction(hexToBin(raw));if(typeof tx==='string'||binToHex(encodeTransaction(tx))!==raw)throw Error('INVALID_PARENT');return tx;}
 function header(raw:unknown):string{if(typeof raw!=='string'||!/^[0-9a-f]{160}$/.test(raw))throw Error('INVALID_HEADER');return binToHex(hash256(hexToBin(raw)).reverse());}
-function tip(x:unknown):Tip{const t=record(x);if(!time(t.height))throw Error('INVALID_TIP');return {height:t.height,hash:header(t.hex)};}
+function tip(x:unknown):Tip{const t=record(x);if(!time(t.height))throw Error('INVALID_TIP');const hash=header(t.hex);const bytes=hexToBin(t.hex as string);const timestampMs=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength).getUint32(68,true)*1000;return {height:t.height,hash,timestampMs};}
 /** Collects bounded node-reported evidence through app-injected read-only transports.
  * Two configured independent operator IDs and a pinned checkpoint are required.
  * This does NOT establish SPV/consensus, key possession or spending authorization.
@@ -53,7 +53,7 @@ export function createEvidenceCollector(configs:readonly SourceConfig[],clock:()
    intent=structuredClone(intent);
    const start=clock();if(!time(start))throw Error('INVALID_CLOCK');
    if(sources.length!==2||new Set(sources.map(s=>s.id)).size!==2||new Set(sources.map(s=>s.operatorId)).size!==2)throw Error('CONFIGURATION_REQUIRED');
-   if(sources.some(s=>!s.id||s.id.length>80||!s.operatorId||s.operatorId.length>80||s.network!==intent.network||!hex64(s.genesisHash)||!time(s.checkpoint.height)||!hex64(s.checkpoint.hash)||!['node','synthetic'].includes(s.kind)))throw Error('INVALID_SOURCE_CONFIG');
+   if(sources.some(s=>!s.id||s.id.length>80||!s.operatorId||s.operatorId.length>80||s.network!==intent.network||!hex64(s.genesisHash)||!time(s.checkpoint.height)||!hex64(s.checkpoint.hash)||!time(s.maxTipAgeMs)||s.maxTipAgeMs<1000||s.maxTipAgeMs>86400000||!['node','synthetic'].includes(s.kind)))throw Error('INVALID_SOURCE_CONFIG');
    if(sources[0]!.genesisHash!==sources[1]!.genesisHash||(sources[0]!.checkpoint.height!==sources[1]!.checkpoint.height||sources[0]!.checkpoint.hash!==sources[1]!.checkpoint.hash)||sources[0]!.kind!==sources[1]!.kind)throw Error('SOURCE_CONFIG_DISAGREEMENT');
    if(!sessionEvidence.get(ownership)?.()||ownership.status!=='SESSION_DERIVED'||!ownership.sessionId||!time(ownership.observedAt)||ownership.observedAt>start||start-ownership.observedAt>120000||!Array.isArray(ownership.scripts)||!Array.isArray(intent.ownerScripts)||JSON.stringify([...ownership.scripts].sort())!==JSON.stringify([...intent.ownerScripts].sort()))throw Error('OWNERSHIP_REQUIRED');
    // OwnershipEvidence must originate from deriveSessionOwnership in trusted app state;
@@ -66,7 +66,7 @@ export function createEvidenceCollector(configs:readonly SourceConfig[],clock:()
      const call=async(method:ReadMethod,params:readonly unknown[]=[])=>{if(controller.signal.aborted)throw Error('ABORTED');try{return await source.request(method,params,controller.signal);}catch{throw Error('SOURCE_UNAVAILABLE');}};
      const features=record(await call('server.features'));if(features.genesis_hash!==source.genesisHash||features.hash_function!=='sha256'||features.cashtokens!==true)throw Error('SOURCE_IDENTITY_MISMATCH');
      if(header(await call('blockchain.block.header',[source.checkpoint.height]))!==source.checkpoint.hash)throw Error('CHECKPOINT_MISMATCH');
-     const before=tip(await call('blockchain.headers.subscribe'));if(before.height<source.checkpoint.height)throw Error('TIP_BEFORE_CHECKPOINT');
+     const before=tip(await call('blockchain.headers.subscribe'));if(before.height<source.checkpoint.height)throw Error('TIP_BEFORE_CHECKPOINT');if(before.timestampMs>start+120000||start-before.timestampMs>source.maxTipAgeMs)throw Error('TIP_NOT_FRESH');
      const parents:string[]=[];const unspent:string[]=[];
      for(const id of ids){const raw=await call('blockchain.transaction.get',[id,false]);decodeRaw(raw);if(hashTransaction(hexToBin(raw as string))!==id)throw Error('PARENT_HASH_MISMATCH');parents.push(raw as string);}
      for(const script of intent.ownerScripts){if(!p2pkh(script))throw Error('UNSUPPORTED_OWNER_SCRIPT');const sh=binToHex(sha256.hash(hexToBin(script)).reverse());const list=await call('blockchain.scripthash.listunspent',[sh,'include_tokens']);if(!Array.isArray(list)||list.length>1000)throw Error('INVALID_UTXO_LIST');
@@ -87,6 +87,7 @@ export function createEvidenceCollector(configs:readonly SourceConfig[],clock:()
     if(JSON.stringify(observations[0])!==JSON.stringify(observations[1]))throw Error('SOURCES_DISAGREE');
     const end=clock();if(!sessionEvidence.get(ownership)?.())throw Error('SESSION_CHANGED');
     if(!time(end)||end<start||end-ownership.observedAt>120000||end-start>10000||controller.signal.aborted)throw Error('EXPIRED_OR_ABORTED_COLLECTION');
+    if(observations.some((o,i)=>o.tip.timestampMs>end+120000||end-o.tip.timestampMs>sources[i]!.maxTipAgeMs))throw Error('TIP_NOT_FRESH');
     const o=observations[0]!;const snapshot:EvidenceSnapshot={network:intent.network,observedAt:start,parentTransactionHexes:o.parents,unspentOutpoints:o.unspent};
     const guard=verifyCandidate({intent,candidateHex,snapshot,now:end});r.guard=guard;
     if(guard.status!=='MATCH_OFFLINE')throw Error('GUARD_NOT_MATCHED');
@@ -97,7 +98,7 @@ export function createEvidenceCollector(configs:readonly SourceConfig[],clock:()
    const aborted=new Promise<EvidenceResult>((_,reject)=>controller.signal.addEventListener('abort',()=>reject(controller.signal.reason),{once:true}));
    timer=setTimeout(()=>controller.abort(Error('SOURCE_TIMEOUT')),10000);
    return await Promise.race([work(),aborted]);
-  }catch(e){r.status='UNKNOWN';r.snapshot=null;r.sourceBindingDigest=null;const code=e instanceof Error?e.message:'';r.issue=/^(ABORTED|INVALID_CLOCK|CONFIGURATION_REQUIRED|INVALID_SOURCE_CONFIG|SOURCE_CONFIG_DISAGREEMENT|OWNERSHIP_REQUIRED|INVALID_PARENT|EVIDENCE_LIMIT|SOURCE_IDENTITY_MISMATCH|CHECKPOINT_MISMATCH|INVALID_HEADER|INVALID_TIP|TIP_BEFORE_CHECKPOINT|PARENT_HASH_MISMATCH|UNSUPPORTED_OWNER_SCRIPT|INVALID_UTXO_LIST|INVALID_UTXO|DUPLICATE_UTXO|UTXO_PARENT_MISMATCH|TOKEN_SUMMARY_MISMATCH|TIP_CHANGED|SOURCES_DISAGREE|SESSION_CHANGED|EXPIRED_OR_ABORTED_COLLECTION|GUARD_NOT_MATCHED|SOURCE_TIMEOUT|MALFORMED_SOURCE)$/.test(code)?code:'SOURCE_UNAVAILABLE';return structuredClone(r);}
+  }catch(e){r.status='UNKNOWN';r.snapshot=null;r.sourceBindingDigest=null;const code=e instanceof Error?e.message:'';r.issue=/^(ABORTED|INVALID_CLOCK|CONFIGURATION_REQUIRED|INVALID_SOURCE_CONFIG|SOURCE_CONFIG_DISAGREEMENT|OWNERSHIP_REQUIRED|INVALID_PARENT|EVIDENCE_LIMIT|SOURCE_IDENTITY_MISMATCH|CHECKPOINT_MISMATCH|INVALID_HEADER|INVALID_TIP|TIP_BEFORE_CHECKPOINT|TIP_NOT_FRESH|PARENT_HASH_MISMATCH|UNSUPPORTED_OWNER_SCRIPT|INVALID_UTXO_LIST|INVALID_UTXO|DUPLICATE_UTXO|UTXO_PARENT_MISMATCH|TOKEN_SUMMARY_MISMATCH|TIP_CHANGED|SOURCES_DISAGREE|SESSION_CHANGED|EXPIRED_OR_ABORTED_COLLECTION|GUARD_NOT_MATCHED|SOURCE_TIMEOUT|MALFORMED_SOURCE)$/.test(code)?code:'SOURCE_UNAVAILABLE';return structuredClone(r);}
   finally{if(timer)clearTimeout(timer);controller.abort();signal?.removeEventListener('abort',onAbort);}
  };
 }

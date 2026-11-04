@@ -40,3 +40,7 @@ Official documents checked November 4:
 ## Remaining real-integration gates
 
 Two independently reviewed node operators/endpoints, correct network-specific checkpoint provenance, bounded concrete transport, authenticated read-only wallet session and verified ownership-path policy are still required. No current production source has been exercised. A later wallet connection requires the appropriate user authorization; signing/transactions remain outside this task. Fee-rate/dust policy, sighash/signature validation, public deployment, real mainnet function and contest submission remain incomplete.
+
+## 2026-11-04 read-only transport continuation
+
+The bounded concrete Node TLS transport and an explicitly opt-in public Chipnet candidate registry are now implemented; see TRANSPORT.md. Default UI remains offline. No successful production-node response was obtained: the first standalone capability diagnostic failed DNS EAI_AGAIN. This does not supersede the live-integration gates above. Tip freshness now requires bounded trusted maxTipAgeMs and checks header time at both collection start/end; a fresh retrieval timestamp alone cannot bless an old tip.

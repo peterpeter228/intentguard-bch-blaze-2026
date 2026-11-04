@@ -1,0 +1,19 @@
+[
+  {
+    "url": "https://bch.ninja/",
+    "status": 200,
+    "fetched_at": "2026-11-04T14:05:25.576974+00:00",
+    "sha256": "90dea6b09516aa0c9e86068ebe2d6b5e51ce65f55434bf390be2ca69366f0566",
+    "bytes": 1364
+  },
+  {
+    "url": "https://cashscript.org/docs/sdk/electrum-network-provider",
+    "status": "failed",
+    "error": "HTTPError: HTTP Error 403: Forbidden"
+  },
+  {
+    "url": "https://electrum-cash-protocol.readthedocs.io/en/latest/protocol-methods.html",
+    "status": "failed",
+    "error": "HTTPError: HTTP Error 403: Forbidden"
+  }
+]

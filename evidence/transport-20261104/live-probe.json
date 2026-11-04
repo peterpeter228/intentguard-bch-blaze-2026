@@ -1,0 +1,13 @@
+{
+  "startedAt": "2026-11-04T14:05:50.445Z",
+  "endpoint": "chipnet.bch.ninja:50002",
+  "protocol": "TLS with normal certificate verification",
+  "status": "FAILED_DNS",
+  "code": "EAI_AGAIN",
+  "rpcResponses": 0,
+  "requestedOperation": "server.version 1.5.0 (not sent because DNS failed)",
+  "automaticRetries": 0,
+  "walletConnected": false,
+  "chainEvidenceVerified": false,
+  "workaroundAttempted": false
+}
