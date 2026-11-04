@@ -4,3 +4,5 @@
 .summary{font:inherit;background:#14243a;border-left:3px solid #88c8ff;max-height:none;line-height:1.65}details{margin:16px 0}summary{cursor:pointer;color:#a4d5ff}
 
 .request-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}.request-grid label{display:flex;flex-direction:column;gap:7px}.request-grid .wide{grid-column:1/-1}.request-grid [hidden]{display:none}input,select{font:inherit;box-sizing:border-box;max-width:100%;background:#09111f;color:#eaf1fb;border:1px solid #61738f;border-radius:7px;padding:10px}input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #a4d5ff}a{color:#a4d5ff}#request-import{height:160px}.request-grid input{width:100%}
+
+#funding-parent{height:120px}.check{display:flex;align-items:flex-start;gap:10px;margin:18px 0}.check input{flex:0 0 auto;margin-top:6px}#funding-origin{font-weight:600;color:#f1d08c}#plan-status{font-size:13px;display:inline-block;border:1px solid #63738c;border-radius:6px;padding:5px 9px;margin-left:8px}#plan-build{background:#176077}

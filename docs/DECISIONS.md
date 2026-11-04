@@ -20,3 +20,7 @@ The new structured request page operates on a separate strict draft schema. Cash
 ## 2026-11-04 — Explicit request-to-plan boundary
 
 Connect validated request content to the offline builder through a separate SDK adapter, not through the teaching UI's fixture wallet. Expected request digest comes from application review state, but equality remains provenance rather than human-consent proof. Bound policy includes owner/change/fee choices even where a choice does not change transaction bytes. Snapshot observations are revalidated at invocation and are not included in the content identifier as authority. No live wallet, chain, payment or receipt capability is added.
+
+## 2026-11-04 — UI planning stays explicitly offline
+
+Use separate request and funding acknowledgements. The complete synthetic example loader replaces both datasets and is never a fallback for a missing context. Clear funding on any detected request change, including a re-review with missing input events. Capture exact funding fields because content hashes intentionally exclude observation time. Form support is one selected parent output and same-script change; do not imply authenticated ownership, available balances or a wallet's signing ability. The diagnostic export is not a receipt or reusable authorization.

@@ -33,7 +33,7 @@ These are application content identifiers. They do **not** fingerprint every sou
 
 ## Integration and verification status
 
-This is an SDK-level slice. The browser request page remains a draft/review/export flow and does not automatically build or fund requests. Both previously tested browser bundles must remain byte-identical; no new browser UI or browser acceptance claim is made. A future UI integration must explicitly obtain and describe its separate planning context and invalidate results on edits, expiry and context changes.
+The initial SDK-only slice left browser bundles unchanged. The subsequent [clickable UI integration](REQUEST_PLAN_UI.md) now connects this API through explicit request review and a separate offline funding form. It never automatically supplies teaching funds to an imported request. Its new browser bundle requires separate real-browser verification; see evidence/request-plan-ui-20261104 rather than applying the earlier unchanged-bundle claim to this UI continuation.
 
 Run `npm run validate`, or after compilation `node --test dist/core/request-plan.test.js`. Consumer tests cover BCH and fungible tokens, complete ordered recipient mapping, reviewed-term mutations, request IDs, duplicate JSON keys, supplied trust fields, no context fallback, clock/expiry, malformed arrays/accessors/prototypes, owner/network/prevout/funding/fee failures, every policy field, no-change policy binding, snapshot-vs-content identity and deep immutability.
 

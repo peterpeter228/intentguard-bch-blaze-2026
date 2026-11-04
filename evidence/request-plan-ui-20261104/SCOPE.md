@@ -1,0 +1,11 @@
+# Local UI integration scope
+
+Baseline: private branch feat/preseason-xo-validation-20261104 at 6de75464d992205602ae2855bf767428d9be3e72, tree914a8de58bf5ee1c323d5c57538e42b67684192b. Separate working snapshot began with all338 tracked files hash-verified; remote branch was reread before publication. Existing dependencies and lockfile are reused, not freshly installed.
+
+The local /request UI now uses the verified request-plan SDK. The main example path is form-only: explicitly load complete synthetic BCH/token data, review request, separately acknowledge supplied offline funding, build, inspect every output and download an all-false diagnostic report. Advanced form input supports one selected parent output and same-owner change; it does not discover funds or verify a live chain.
+
+Independent review reproduced stale state when DOM values changed without normal input/change events, including changed observation times not represented by content digests. A second combined path changed a request silently then changed funding origin before re-review. Exact captured request/funding fields are now compared at all relevant boundaries regardless of origin; mismatches clear prior results, and any detected request change clears funding. Eleven formal DOM-harness tests, nine form-helper tests and existing tests give207/207 local passes with typecheck/build. The DOM harness is not browser acceptance.
+
+Real browser verification uses the actual cloud desktop Chrome and a server started in that desktop's own terminal at the original127.0.0.1:8788 loopback. An earlier executor-owned server was not reachable across the execution context boundary and was stopped. No proxy, binding exposure, TLS setting or public tunnel was changed. Browser QA records exact outcomes separately.
+
+No screenshots from this slice are included in uploads. In particular, neither prior denied image was retried, renamed, re-encoded or substituted. Final accepted evidence is text, DOM states, actual synthetic report downloads, hashes and test logs. No wallet connection, keys/signatures, node queries, real transactions, payment receipts, deployment, publication or contest submission occurred. Real integration gates remain open; all current work is pre-event.
