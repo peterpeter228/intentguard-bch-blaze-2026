@@ -1,0 +1,20 @@
+[
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T13:28:26.855Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  },
+  {
+    "level": "error",
+    "message": "CompileError: WebAssembly.instantiate(): Compiling or instantiating WebAssembly module violates the following Content Security policy directive because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: \"script-src 'self'\".\n    at instantiateRustWasm (http://127.0.0.1:8788/app.js:231:35)\n    at instantiateSha1Bytes (http://127.0.0.1:8788/app.js:900:22)\n    at instantiateSha1 (http://127.0.0.1:8788/app.js:909:35)\n    at http://127.0.0.1:8788/app.js:939:3",
+    "timestamp": "2026-11-04T13:28:26.908Z",
+    "url": "http://127.0.0.1:8788/app.js"
+  },
+  {
+    "level": "error",
+    "message": "Error sending browser metadata to extension: Object",
+    "timestamp": "2026-11-04T13:28:44.761Z",
+    "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js"
+  }
+]

@@ -1,0 +1,85 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason validate
+> npm run typecheck && npm run build && npm test
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason typecheck
+> tsc --noEmit
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason build
+> tsc && esbuild probes/browser-types.tsx --bundle --platform=browser --format=esm --outfile=dist/browser-probe.js
+
+
+  dist/browser-probe.js  724.5kb
+
+⚡ Done in 38ms
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason test
+> node --test dist/probes/sdk.test.js dist/preseason/xo/inspect.test.js preseason/xo/redact.test.mjs preseason/xo/http.test.mjs preseason/xo/cli.test.mjs preseason/xo/legacy.test.mjs dist/core/guard.test.js
+
+✔ BCH and fungible-token exact match returns only MATCH_OFFLINE, never sign permission (9.933266ms)
+✔ strict decimal parser refuses rounding, exponent, sign, leading zeros and overflow (0.871544ms)
+✔ recipient, value, change and fee substitutions rejected (6.319444ms)
+✔ missing, stale, future, wrong-network and altered-parent evidence cannot match (4.09411ms)
+✔ foreign owner and duplicate input rejected (1.716497ms)
+✔ ambiguous recipient/change rejects instead of permitting hidden payment (0.578281ms)
+✔ token category mismatch, burns, minting and NFT all rejected (3.223488ms)
+✔ undeclared token inputs are rejected even if preserved in change (1.116744ms)
+✔ negative fee, unsupported scripts, expiry and nonfinal transactions reject (2.284243ms)
+✔ post-wallet structural check allows only unlocking-byte changes, does not validate signatures (4.040906ms)
+✔ intent digest independent of owner ordering but changes with consented fields (1.111976ms)
+✔ malformed and oversized hex cannot pass (1.319879ms)
+✔ official pinned P2PKH template hash is fixed (not a novel contract) (1.331036ms)
+✔ empty structurally valid invitation is rejected, never a green payment (9.954533ms)
+✔ malformed JSON and missing document fields fail closed (9.990536ms)
+✔ unknown template fields fail schema validation (2.26248ms)
+✔ missing independent pin cannot be inferred from imported content (3.343028ms)
+✔ mutated pinned template rejects without trusting its recomputed hash (3.366754ms)
+✔ wrong invitation template identifier is rejected by actual engine (3.221255ms)
+✔ unknown action is rejected by actual engine (4.793405ms)
+✔ future invitation cannot pass (2.975365ms)
+✔ invalid clock and oversized inputs reject before parsing (0.641898ms)
+✔ synthetic invalid signature and expired commit both reject (5.942356ms)
+✔ strict deserializer does not silently accept extra invitation fields (0.578992ms)
+✔ inspection is deterministic and does not mutate inputs (7.84934ms)
+✔ commit cap rejects before engine checks (4.626332ms)
+✔ input limit uses UTF-8 bytes, not UTF-16 code units (0.984454ms)
+✔ synthetic CashTokens transaction byte roundtrip preserves bigint > 2^53 (4.191417ms)
+✔ SDK txid equals independent Node double-SHA256 UI byte order; not transaction hex (1.829347ms)
+✔ truncated transaction is a decoder error, not a success object (0.499382ms)
+✔ synthetic NFT structure is preserved by SDK decoding, not implicitly discarded (0.444239ms)
+✔ synthetic bitcoincash p2pkhWithTokens address roundtrip (1.138756ms)
+✔ synthetic bitcoincash p2shWithTokens address roundtrip (0.440534ms)
+✔ synthetic bchtest p2pkhWithTokens address roundtrip (0.314134ms)
+✔ synthetic bchtest p2shWithTokens address roundtrip (0.329026ms)
+✔ unpaired SDK manager has no derived pubkey/path or stored session (0.518902ms)
+✔ diagnostic: pre-aborted SDK request still invokes send before cancel (offline overridden transport) (1.205336ms)
+✔ CLI synthetic command succeeds but report rejects and never permits signing (771.504838ms)
+✔ CLI rejects invalid arguments without exposing local file contents (606.029781ms)
+✔ CLI bounds input bytes and rejects malformed UTF8 and missing files (2561.062386ms)
+✔ loopback API, origin, redaction module, Unicode and interrupted-upload regression (919.457151ms)
+✔ unmodified official legacy invitation fails current schema, not a positive signature proof (6.413186ms)
+✔ export allowlist excludes arbitrary action, messages, and payload (1.559761ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4068.364215
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

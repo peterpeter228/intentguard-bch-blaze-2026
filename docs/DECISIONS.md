@@ -8,3 +8,5 @@ Keep SDK pre-abort ordering risk visible; do not add a production signing adapte
 
 
 2026-11-04: retain new-project/preseason strategy and G1 event-window boundary. Implement only isolated XO schema/acceptance/expiry tooling and teaching UI, using official current engine rather than upgrading old probe claims. All lab work is explicitly preseason; it does not implement or award a novel template. Local Node preview is necessary because current engine transitive browser packaging fails on node:path; do not stub dependencies or disable validation to manufacture browser compatibility.
+
+2026-11-04 13:22 UTC user update: “你现在先做核心开发”. This explicitly supersedes our earlier voluntary G1 deferral. Begin the core transaction comparator now and disclose every current change as pre-event. The official published build window remains November 14–22; no claim is made that pre-event work automatically qualifies or is absolutely forbidden. Preserve the fixed earlier baseline 4bf2d146c701822526faa0622dd26772dc18c705 and distinguish later event-period improvements. No signing, wallet transactions, deployment, public release, outreach or submission is authorized by this change.

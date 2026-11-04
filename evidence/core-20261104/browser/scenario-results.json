@@ -1,0 +1,37 @@
+[
+  {
+    "scenario": "Original payment",
+    "result": "{\n  \"status\": \"MATCH_OFFLINE\",\n  \"canSign\": false,\n  \"issues\": [],\n  \"feeSatoshis\": \"500\",\n  \"candidateTxid\": \"581cf32e2851d4668d198d5b28c5aec80c8e46686fbc1a2ea5d6e5418514eeac\",\n  \"intentDigest\": \"6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e\",\n  \"structuralTransactionDigest\": \"581cf32e2851d4668d198d5b28c5aec80c8e46686fbc1a2ea5d6e5418514eeac\",\n  \"limitations\": [\n    \"MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.\",\n    \"Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.\",\n    \"Signatures, consensus validity, relay policy, dust policy and wallet behavior are not validated.\",\n    \"Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting.\"\n  ]\n}",
+    "downloadEnabled": true
+  },
+  {
+    "scenario": "Recipient replaced",
+    "invalidatedStatus": "NOT CHECKED",
+    "downloadDisabledBeforeRun": true,
+    "result": "{\n  \"status\": \"REJECTED\",\n  \"canSign\": false,\n  \"issues\": [\n    \"RECIPIENT_MISMATCH\"\n  ],\n  \"feeSatoshis\": \"500\",\n  \"candidateTxid\": \"88f5eab5eba71f36f2e7383943b2f03e7a29272e72e8c037ebe409228b9bf32d\",\n  \"intentDigest\": \"6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e\",\n  \"structuralTransactionDigest\": \"88f5eab5eba71f36f2e7383943b2f03e7a29272e72e8c037ebe409228b9bf32d\",\n  \"limitations\": [\n    \"MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.\",\n    \"Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.\",\n    \"Signatures, consensus validity, relay policy, dust policy and wallet behavior are not validated.\",\n    \"Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting.\"\n  ]\n}"
+  },
+  {
+    "scenario": "Wrong token",
+    "invalidatedStatus": "NOT CHECKED",
+    "downloadDisabledBeforeRun": true,
+    "result": "{\n  \"status\": \"REJECTED\",\n  \"canSign\": false,\n  \"issues\": [\n    \"UNDECLARED_TOKEN\",\n    \"RECIPIENT_MISMATCH\",\n    \"TOKEN_IMBALANCE\",\n    \"TOKEN_IMBALANCE\"\n  ],\n  \"feeSatoshis\": \"500\",\n  \"candidateTxid\": \"a70c205eb44d394deb897a829f25e03f5db53c3c445df2f1821d91f6704de2ef\",\n  \"intentDigest\": \"6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e\",\n  \"structuralTransactionDigest\": \"a70c205eb44d394deb897a829f25e03f5db53c3c445df2f1821d91f6704de2ef\",\n  \"limitations\": [\n    \"MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.\",\n    \"Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.\",\n    \"Signatures, consensus validity, relay policy, dust policy and wallet behavior are not validated.\",\n    \"Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting.\"\n  ]\n}"
+  },
+  {
+    "scenario": "Excessive fee",
+    "invalidatedStatus": "NOT CHECKED",
+    "downloadDisabledBeforeRun": true,
+    "result": "{\n  \"status\": \"REJECTED\",\n  \"canSign\": false,\n  \"issues\": [\n    \"FEE_LIMIT\"\n  ],\n  \"feeSatoshis\": \"1500\",\n  \"candidateTxid\": \"37cacd9a3d2b07ae6c6b2f251afd2f24adc32ccd5472b797a063e1669989cd83\",\n  \"intentDigest\": \"6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e\",\n  \"structuralTransactionDigest\": \"37cacd9a3d2b07ae6c6b2f251afd2f24adc32ccd5472b797a063e1669989cd83\",\n  \"limitations\": [\n    \"MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.\",\n    \"Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.\",\n    \"Signatures, consensus validity, relay policy, dust policy and wallet behavior are not validated.\",\n    \"Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting.\"\n  ]\n}"
+  },
+  {
+    "scenario": "Stale evidence",
+    "invalidatedStatus": "NOT CHECKED",
+    "downloadDisabledBeforeRun": true,
+    "result": "{\n  \"status\": \"UNKNOWN\",\n  \"canSign\": false,\n  \"issues\": [\n    \"STALE_OR_INVALID_SNAPSHOT\"\n  ],\n  \"feeSatoshis\": null,\n  \"candidateTxid\": null,\n  \"intentDigest\": \"6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e\",\n  \"structuralTransactionDigest\": null,\n  \"limitations\": [\n    \"MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.\",\n    \"Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.\",\n    \"Signatures, consensus validity, relay policy, dust policy and wallet behavior are not validated.\",\n    \"Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting.\"\n  ]\n}"
+  },
+  {
+    "scenario": "Missing parent",
+    "invalidatedStatus": "NOT CHECKED",
+    "downloadDisabledBeforeRun": true,
+    "result": "{\n  \"status\": \"UNKNOWN\",\n  \"canSign\": false,\n  \"issues\": [\n    \"MISSING_OR_SPENT_PREVOUT\"\n  ],\n  \"feeSatoshis\": null,\n  \"candidateTxid\": \"581cf32e2851d4668d198d5b28c5aec80c8e46686fbc1a2ea5d6e5418514eeac\",\n  \"intentDigest\": \"6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e\",\n  \"structuralTransactionDigest\": \"581cf32e2851d4668d198d5b28c5aec80c8e46686fbc1a2ea5d6e5418514eeac\",\n  \"limitations\": [\n    \"MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.\",\n    \"Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.\",\n    \"Signatures, consensus validity, relay policy, dust policy and wallet behavior are not validated.\",\n    \"Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting.\"\n  ]\n}"
+  }
+]

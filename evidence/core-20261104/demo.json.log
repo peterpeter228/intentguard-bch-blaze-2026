@@ -1,0 +1,39 @@
+
+> intentguard-bch-g0@0.0.0-preseason core:demo
+> node dist/core/demo.js
+
+{
+  "evidence": "SYNTHETIC_UNBROADCAST",
+  "normal": {
+    "status": "MATCH_OFFLINE",
+    "canSign": false,
+    "issues": [],
+    "feeSatoshis": "500",
+    "candidateTxid": "581cf32e2851d4668d198d5b28c5aec80c8e46686fbc1a2ea5d6e5418514eeac",
+    "intentDigest": "6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e",
+    "structuralTransactionDigest": "581cf32e2851d4668d198d5b28c5aec80c8e46686fbc1a2ea5d6e5418514eeac",
+    "limitations": [
+      "MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.",
+      "Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.",
+      "Signatures, consensus validity, relay policy, dust policy and wallet behavior are not validated.",
+      "Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting."
+    ]
+  },
+  "recipientReplaced": {
+    "status": "REJECTED",
+    "canSign": false,
+    "issues": [
+      "RECIPIENT_MISMATCH"
+    ],
+    "feeSatoshis": "500",
+    "candidateTxid": "88f5eab5eba71f36f2e7383943b2f03e7a29272e72e8c037ebe409228b9bf32d",
+    "intentDigest": "6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e",
+    "structuralTransactionDigest": "88f5eab5eba71f36f2e7383943b2f03e7a29272e72e8c037ebe409228b9bf32d",
+    "limitations": [
+      "MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.",
+      "Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.",
+      "Signatures, consensus validity, relay policy, dust policy and wallet behavior are not validated.",
+      "Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting."
+    ]
+  }
+}

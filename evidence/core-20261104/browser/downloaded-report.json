@@ -1,0 +1,16 @@
+{
+  "evidence": "OFFLINE_COMPARISON_NOT_CHAIN_PROOF",
+  "status": "MATCH_OFFLINE",
+  "canSign": false,
+  "issues": [],
+  "feeSatoshis": "500",
+  "candidateTxid": "581cf32e2851d4668d198d5b28c5aec80c8e46686fbc1a2ea5d6e5418514eeac",
+  "intentDigest": "6ae0d649544ba65c6f1e9f19988d4f2f86d3986bb7ba26a878437ecd4539451e",
+  "structuralTransactionDigest": "581cf32e2851d4668d198d5b28c5aec80c8e46686fbc1a2ea5d6e5418514eeac",
+  "limitations": [
+    "MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.",
+    "Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.",
+    "Signatures, consensus validity, relay policy, dust policy and wallet behavior are not validated.",
+    "Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting."
+  ]
+}

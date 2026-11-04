@@ -1,0 +1,43 @@
+[
+  {
+    "case": "Edit invalidates success",
+    "status": "NOT CHECKED",
+    "downloadEnabled": false,
+    "result": "No current result. Run the comparison after any edit."
+  },
+  {
+    "case": "Input {broken",
+    "status": "INVALID INPUT",
+    "downloadEnabled": false,
+    "result": "Enter valid JSON within 600 KB. No transaction was sent."
+  },
+  {
+    "case": "Input null",
+    "status": "INVALID INPUT",
+    "downloadEnabled": false,
+    "result": "Enter valid JSON within 600 KB. No transaction was sent."
+  },
+  {
+    "case": "Input []",
+    "status": "REJECTED",
+    "downloadEnabled": true,
+    "result": "{\n  \"status\": \"REJECTED\",\n  \"canSign\": false,\n  \"issues\": [\n    \"INVALID_INTENT\"\n  ],\n  \"feeSatoshis\": null,\n  \"candidateTxid\": null,\n  \"intentDigest\": null,\n  \"structuralTransactionDigest\": null,\n  \"limitations\": [\n    \"MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.\",\n    \"Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.\",\n    \"Signatures, consensus validity, relay policy, dust policy and wallet behavior are not validated.\",\n    \"Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting.\"\n  ]\n}"
+  },
+  {
+    "case": "Input {}",
+    "status": "REJECTED",
+    "downloadEnabled": true,
+    "result": "{\n  \"status\": \"REJECTED\",\n  \"canSign\": false,\n  \"issues\": [\n    \"INVALID_INTENT\"\n  ],\n  \"feeSatoshis\": null,\n  \"candidateTxid\": null,\n  \"intentDigest\": null,\n  \"structuralTransactionDigest\": null,\n  \"limitations\": [\n    \"MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.\",\n    \"Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.\",\n    \"Signatures, consensus validity, relay policy, dust policy and wallet behavior are not validated.\",\n    \"Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting.\"\n  ]\n}"
+  },
+  {
+    "case": "Clear",
+    "status": "NOT CHECKED",
+    "input": "",
+    "downloadEnabled": false
+  },
+  {
+    "case": "Compare empty",
+    "status": "INVALID INPUT",
+    "result": "Enter valid JSON within 600 KB. No transaction was sent."
+  }
+]

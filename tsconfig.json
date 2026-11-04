@@ -17,6 +17,7 @@
   "include": [
     "probes/**/*.ts",
     "probes/**/*.tsx",
-    "preseason/**/*.ts"
+    "preseason/**/*.ts",
+    "core/**/*.ts"
   ]
 }

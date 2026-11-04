@@ -84,3 +84,7 @@ Reproduce: `npm ci --ignore-scripts --no-fund && npm run validate` (Node 24). No
 
 **真正的完成条件：**第三方能打开链接，理解价值、执行明确的攻击检查示例，查看真实主网付款证据；开发者能复现构建与关键测试；资格及提交材料逐项有证据。构建成功、测试数很多、子任务显示 Completed，都不足以单独证明完成。
 
+
+### Core development update (November 4)
+
+The user requested core implementation now. [Core transaction comparison](core/README.md) and the localhost demonstration are implemented as explicitly disclosed pre-event work. Run `npm run core:preview` after building; open port8788. This is an offline comparison, never signing approval or real-chain evidence. See [current status](docs/STATUS.md) for incomplete payment and contest gates.

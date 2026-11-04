@@ -1,0 +1,98 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason validate
+> npm run typecheck && npm run build && npm test
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason typecheck
+> tsc --noEmit
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason build
+> tsc && esbuild probes/browser-types.tsx --bundle --platform=browser --format=esm --outfile=dist/browser-probe.js && esbuild core/ui.ts --bundle --platform=browser --format=esm --outfile=dist/core/app.js
+
+
+  dist/browser-probe.js  724.5kb
+
+⚡ Done in 92ms
+
+  dist/core/app.js  396.3kb
+
+⚡ Done in 70ms
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason test
+> node --test dist/probes/sdk.test.js dist/preseason/xo/inspect.test.js preseason/xo/redact.test.mjs preseason/xo/http.test.mjs preseason/xo/cli.test.mjs preseason/xo/legacy.test.mjs dist/core/guard.test.js core/http.test.mjs
+
+✔ local core serves WASM-capable static UI without API, external connections or JavaScript eval (195.883133ms)
+✔ BCH and fungible-token exact match returns only MATCH_OFFLINE, never sign permission (19.51136ms)
+✔ strict decimal parser refuses rounding, exponent, sign, leading zeros and overflow (1.374766ms)
+✔ recipient, value, change and fee substitutions rejected (7.879444ms)
+✔ missing, stale, future, wrong-network and altered-parent evidence cannot match (4.023618ms)
+✔ foreign owner and duplicate input rejected (1.787211ms)
+✔ ambiguous recipient/change rejects instead of permitting hidden payment (0.451779ms)
+✔ token category mismatch, burns, minting and NFT all rejected (5.536102ms)
+✔ undeclared token inputs are rejected even if preserved in change (1.923902ms)
+✔ negative fee, unsupported scripts, expiry and nonfinal transactions reject (2.923635ms)
+✔ post-wallet structural check allows only unlocking-byte changes, does not validate signatures (2.097823ms)
+✔ intent digest independent of owner ordering but changes with consented fields (4.898633ms)
+✔ malformed and oversized hex cannot pass (2.689713ms)
+✔ NFT in a hash-bound parent rejects even when token amounts otherwise conserve (3.350366ms)
+✔ structural post-wallet check rejects version, locktime, sequence and outpoint substitution (5.985307ms)
+✔ negative snapshot timestamps never count as fresh evidence (0.463507ms)
+✔ official pinned P2PKH template hash is fixed (not a novel contract) (1.269338ms)
+✔ empty structurally valid invitation is rejected, never a green payment (9.706932ms)
+✔ malformed JSON and missing document fields fail closed (9.996487ms)
+✔ unknown template fields fail schema validation (2.21561ms)
+✔ missing independent pin cannot be inferred from imported content (4.344506ms)
+✔ mutated pinned template rejects without trusting its recomputed hash (37.193611ms)
+✔ wrong invitation template identifier is rejected by actual engine (2.84683ms)
+✔ unknown action is rejected by actual engine (3.317447ms)
+✔ future invitation cannot pass (2.392817ms)
+✔ invalid clock and oversized inputs reject before parsing (0.4855ms)
+✔ synthetic invalid signature and expired commit both reject (4.545433ms)
+✔ strict deserializer does not silently accept extra invitation fields (0.399681ms)
+✔ inspection is deterministic and does not mutate inputs (6.112008ms)
+✔ commit cap rejects before engine checks (2.910776ms)
+✔ input limit uses UTF-8 bytes, not UTF-16 code units (1.275838ms)
+✔ synthetic CashTokens transaction byte roundtrip preserves bigint > 2^53 (5.717465ms)
+✔ SDK txid equals independent Node double-SHA256 UI byte order; not transaction hex (3.126179ms)
+✔ truncated transaction is a decoder error, not a success object (0.548064ms)
+✔ synthetic NFT structure is preserved by SDK decoding, not implicitly discarded (0.606491ms)
+✔ synthetic bitcoincash p2pkhWithTokens address roundtrip (1.184151ms)
+✔ synthetic bitcoincash p2shWithTokens address roundtrip (0.40555ms)
+✔ synthetic bchtest p2pkhWithTokens address roundtrip (0.334793ms)
+✔ synthetic bchtest p2shWithTokens address roundtrip (0.248283ms)
+✔ unpaired SDK manager has no derived pubkey/path or stored session (0.508314ms)
+✔ diagnostic: pre-aborted SDK request still invokes send before cancel (offline overridden transport) (2.107939ms)
+✔ CLI synthetic command succeeds but report rejects and never permits signing (914.368465ms)
+✔ CLI rejects invalid arguments without exposing local file contents (770.052601ms)
+✔ CLI bounds input bytes and rejects malformed UTF8 and missing files (3159.695787ms)
+✔ loopback API, origin, redaction module, Unicode and interrupted-upload regression (1072.695697ms)
+✔ unmodified official legacy invitation fails current schema, not a positive signature proof (7.223629ms)
+✔ export allowlist excludes arbitrary action, messages, and payload (1.397501ms)
+ℹ tests 47
+ℹ suites 0
+ℹ pass 47
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5079.450859
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
