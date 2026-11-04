@@ -1,0 +1,72 @@
+{
+  "kind": "intentguard-xo-template-comparison",
+  "generatedAt": 1793816012213,
+  "contextKind": "synthetic-example",
+  "status": "EXACT_MATCH_OFFLINE",
+  "issue": null,
+  "builderIssue": null,
+  "canSign": false,
+  "broadcastable": false,
+  "receiptValid": false,
+  "networkVerified": false,
+  "ownershipVerified": false,
+  "guard": {
+    "status": "MATCH_OFFLINE",
+    "canSign": false,
+    "issues": [],
+    "feeSatoshis": "219",
+    "candidateTxid": "1c8816634fca63e361ed6072fdb7a45a55e6c8a7a55369fc6b3b9396d91f7dc0",
+    "intentDigest": "e582a17dc3d87f660891fe7077f938b2ef6dc64408d454cea1c1195a74b803ce",
+    "structuralTransactionDigest": "1c8816634fca63e361ed6072fdb7a45a55e6c8a7a55369fc6b3b9396d91f7dc0",
+    "limitations": [
+      "MATCH_OFFLINE means supplied evidence and candidate agree; it is not payment approval.",
+      "Network and unspent status are asserted by the supplied snapshot; no live chain or ownership proof is fetched.",
+      "Only a fixed 1000 sat/kB token-aware dust baseline is checked; actual node fee/relay policy, signatures, consensus and wallet behavior are not validated.",
+      "Only P2PKH, fungible tokens, final sequence, version 2 and zero locktime are supported. No NFT or minting."
+    ]
+  },
+  "outputSummary": [
+    {
+      "script": "76a914222222222222222222222222222222222222222288ac",
+      "satoshis": "1000",
+      "index": 0,
+      "role": "recipient"
+    },
+    {
+      "script": "76a914111111111111111111111111111111111111111188ac",
+      "satoshis": "8781",
+      "index": 1,
+      "role": "bch-change"
+    }
+  ],
+  "feeSatoshis": "219",
+  "candidateBytes": 119,
+  "estimatedSignedBytes": {
+    "minimum": 219,
+    "maximum": 219,
+    "signatureModel": "compressed-p2pkh-schnorr"
+  },
+  "upstreamFeeEstimateSatoshis": "400",
+  "exactBytesMatch": true,
+  "binding": {
+    "requestPlanDigest": "6f28315acae2761af48313ccf50b06a01d724361fd7a265c3cbba27aa7f4f89e",
+    "contextDigest": "4a4bcd401508512a5f9e6b769e95c2fb6ddae199c97fba281ea69d933fa77818",
+    "templateIdentifier": "a31eb85891dbf248f1709a92b0fa7e3e6fdc518e6b34e376b197ed7f12dbc672",
+    "actionIdentifier": "sendSatoshis",
+    "candidateDigest": "ada214c3c57a07ffa9acf14349b8d2472c0b069b453689d6858be447094fb6f5",
+    "candidateBindingDigest": "9fed047bed7c61b43227a64b78d8dbc345f76d091f32f7bd8663b1cfd976e379"
+  },
+  "capabilities": [
+    "Single P2PKH BCH recipient or single fungible-token recipient.",
+    "Pinned official XO template resolves recipient script, BCH amount or fungible category/amount from request variables.",
+    "Independent planner supplies selected inputs, change and conservative fee budget.",
+    "Raw XO bytes are independently decoded by Guard and compared byte-for-byte to the plan."
+  ],
+  "limitations": [
+    "Offline compilation diagnostic only; no accepted or authenticated Invitation, novel template, wallet or network operation.",
+    "All parent bytes, unspent observations, owner scripts and fee assumptions are caller-supplied offline claims, not authenticated evidence.",
+    "Request digest equality is content binding, not proof of human consent or spending authorization.",
+    "The engine count-only fee estimate is not used; independent actual fees and conservative signed-size policy govern the plan.",
+    "No keys, signatures, input discovery, reservations, signing, broadcast, receipts or live spendability checks."
+  ]
+}
