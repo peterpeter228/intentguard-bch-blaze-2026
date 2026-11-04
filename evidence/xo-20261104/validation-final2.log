@@ -1,0 +1,64 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason validate
+> npm run typecheck && npm run build && npm test
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason typecheck
+> tsc --noEmit
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason build
+> tsc && esbuild probes/browser-types.tsx --bundle --platform=browser --format=esm --outfile=dist/browser-probe.js
+
+
+  dist/browser-probe.js  724.5kb
+
+⚡ Done in 54ms
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason test
+> node --test dist/probes/sdk.test.js dist/preseason/xo/inspect.test.js preseason/xo/redact.test.mjs preseason/xo/http.test.mjs
+
+✔ official pinned P2PKH template hash is fixed (not a novel contract) (1.447432ms)
+✔ empty structurally valid invitation is rejected, never a green payment (9.839275ms)
+✔ malformed JSON and missing document fields fail closed (10.153341ms)
+✔ unknown template fields fail schema validation (2.219651ms)
+✔ missing independent pin cannot be inferred from imported content (3.380057ms)
+✔ mutated pinned template rejects without trusting its recomputed hash (3.288519ms)
+✔ wrong invitation template identifier is rejected by actual engine (3.28341ms)
+✔ unknown action is rejected by actual engine (4.668307ms)
+✔ future invitation cannot pass (2.945479ms)
+✔ invalid clock and oversized inputs reject before parsing (0.645708ms)
+✔ synthetic invalid signature and expired commit both reject (5.788844ms)
+✔ strict deserializer does not silently accept extra invitation fields (0.540989ms)
+✔ inspection is deterministic and does not mutate inputs (5.490233ms)
+✔ commit cap rejects before engine checks (3.537957ms)
+✔ input limit uses UTF-8 bytes, not UTF-16 code units (0.774673ms)
+✔ synthetic CashTokens transaction byte roundtrip preserves bigint > 2^53 (3.908748ms)
+✔ SDK txid equals independent Node double-SHA256 UI byte order; not transaction hex (1.718462ms)
+✔ truncated transaction is a decoder error, not a success object (0.514709ms)
+✔ synthetic NFT structure is preserved by SDK decoding, not implicitly discarded (0.516762ms)
+✔ synthetic bitcoincash p2pkhWithTokens address roundtrip (1.13609ms)
+✔ synthetic bitcoincash p2shWithTokens address roundtrip (0.490913ms)
+✔ synthetic bchtest p2pkhWithTokens address roundtrip (0.294596ms)
+✔ synthetic bchtest p2shWithTokens address roundtrip (0.202277ms)
+✔ unpaired SDK manager has no derived pubkey/path or stored session (0.517894ms)
+✔ diagnostic: pre-aborted SDK request still invokes send before cancel (offline overridden transport) (1.277815ms)
+✔ loopback API, origin, redaction module, Unicode and interrupted-upload regression (843.888196ms)
+✔ export allowlist excludes arbitrary action, messages, and payload (1.034155ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 952.843512
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

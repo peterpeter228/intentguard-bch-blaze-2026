@@ -1,0 +1,34 @@
+{
+  "checkedAt": "2026-11-04T11:02:00Z",
+  "source": "https://registry.npmjs.org/@xo-cash/engine",
+  "distTags": {
+    "latest": "0.0.1",
+    "development": "0.0.1-development.15965991683",
+    "next": "0.1.0-next.17612568780"
+  },
+  "selected": "0.1.0-next.17612568780",
+  "dist": {
+    "shasum": "6973482fa4062b00f9093329c0052da44f7b8afd",
+    "tarball": "https://registry.npmjs.org/@xo-cash/engine/-/engine-0.1.0-next.17612568780.tgz",
+    "fileCount": 7,
+    "integrity": "sha512-5oUa6byj+GXu6cbQwlUW7ThRBP0Lr9lJ8LbJX8Su2Cxo8JerRCLT18ER4Z3gLlM8cMZhW2pRpnO2xdffGF4xEA==",
+    "signatures": [
+      {
+        "sig": "MEYCIQDpB14Yiqv2I0FQKhAZKKvEZ91A0gX3BwYoLKASXji0OwIhAM/mx7SYSIim9/k/O8RXTwN42zWQydyop4z7pEYFPfuj",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      },
+      {
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+        "sig": "MEUCIHRtVSOOEn05KicyLWEdR8+kvjeqP/TQcqc5mtqVXnD/AiEAoYzvbN9wRh8kGFINrWt9w6BalN13d9un1E1oERvBUog="
+      }
+    ],
+    "unpackedSize": 1531934
+  },
+  "license": "MIT",
+  "docsUrl": "https://stack.xo.cash/getting-started.html",
+  "docsHtmlSha256": "11f937aa0385ff5348545b4327c1ae1cb5aea3a66b96992e196124dc5ec5ced5",
+  "walletCreated": false,
+  "signed": false,
+  "broadcast": false,
+  "realChainEvidence": null
+}

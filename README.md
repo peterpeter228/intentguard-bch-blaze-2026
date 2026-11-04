@@ -1,3 +1,13 @@
+# Latest preseason supplement — 2026-11-04
+
+A no-key **XO Offline Lab** is now implemented under `preseason/xo/`. It validates imported template/Invitation structure with pinned official engine and rejects unsafe/incomplete inputs; it is not the core payment product or a novel contract. See [reproduction and limits](preseason/xo/README.md), [actual test evidence](evidence/xo-20261104/COMMANDS.md), and [real browser QA](evidence/browser-qa/REPORT.md).
+
+Final strict typecheck/build and 27 tests passed, including an isolated clean reinstall/retest. Actual local browser paths and report download passed. G0 remains PARTIAL; no wallet, signature, chain execution, public deployment, contest submission or bounty eligibility is claimed. All this code is disclosed as November4 pre-event work.
+
+---
+
+## Historical October27 baseline (preserved below)
+
 # Current execution status: G0 PARTIAL / preseason only
 
 2026-10-27: the supplied 29-file specification is restored. Actual offline SDK compatibility probes are implemented, not the payment application. See docs/STATUS.md and evidence/validation/summary.md.
@@ -69,3 +79,4 @@ Reproduce: `npm ci --ignore-scripts --no-fund && npm run validate` (Node 24). No
 正文用 `[Sxx]` 指向 `docs/13_SOURCES.md`。日期、版本、服务可用性必须在开赛前和提交前重新查询；不要把本包当永不变更的 API 文档。
 
 **真正的完成条件：**第三方能打开链接，理解价值、执行明确的攻击检查示例，查看真实主网付款证据；开发者能复现构建与关键测试；资格及提交材料逐项有证据。构建成功、测试数很多、子任务显示 Completed，都不足以单独证明完成。
+

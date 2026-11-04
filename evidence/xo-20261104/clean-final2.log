@@ -1,0 +1,59 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason validate
+> npm run typecheck && npm run build && npm test
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason typecheck
+> tsc --noEmit
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason build
+> tsc && esbuild probes/browser-types.tsx --bundle --platform=browser --format=esm --outfile=dist/browser-probe.js
+
+
+  dist/browser-probe.js  724.5kb
+
+⚡ Done in 54ms
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason test
+> node --test dist/probes/sdk.test.js dist/preseason/xo/inspect.test.js preseason/xo/redact.test.mjs preseason/xo/http.test.mjs
+
+✔ official pinned P2PKH template hash is fixed (not a novel contract) (1.305441ms)
+✔ empty structurally valid invitation is rejected, never a green payment (9.987225ms)
+✔ malformed JSON and missing document fields fail closed (9.284745ms)
+✔ unknown template fields fail schema validation (2.480715ms)
+✔ missing independent pin cannot be inferred from imported content (11.330133ms)
+✔ mutated pinned template rejects without trusting its recomputed hash (3.384819ms)
+✔ wrong invitation template identifier is rejected by actual engine (2.84214ms)
+✔ unknown action is rejected by actual engine (3.600445ms)
+✔ future invitation cannot pass (1.986829ms)
+✔ invalid clock and oversized inputs reject before parsing (0.507376ms)
+✔ synthetic invalid signature and expired commit both reject (3.867548ms)
+✔ strict deserializer does not silently accept extra invitation fields (0.362607ms)
+✔ inspection is deterministic and does not mutate inputs (5.393672ms)
+✔ commit cap rejects before engine checks (4.529948ms)
+✔ input limit uses UTF-8 bytes, not UTF-16 code units (0.939678ms)
+✔ synthetic CashTokens transaction byte roundtrip preserves bigint > 2^53 (3.170536ms)
+✔ SDK txid equals independent Node double-SHA256 UI byte order; not transaction hex (1.388485ms)
+✔ truncated transaction is a decoder error, not a success object (0.343379ms)
+✔ synthetic NFT structure is preserved by SDK decoding, not implicitly discarded (0.286292ms)
+✔ synthetic bitcoincash p2pkhWithTokens address roundtrip (0.899027ms)
+✔ synthetic bitcoincash p2shWithTokens address roundtrip (0.291159ms)
+✔ synthetic bchtest p2pkhWithTokens address roundtrip (0.308075ms)
+✔ synthetic bchtest p2shWithTokens address roundtrip (0.161995ms)
+✔ unpaired SDK manager has no derived pubkey/path or stored session (0.396759ms)
+✔ diagnostic: pre-aborted SDK request still invokes send before cancel (offline overridden transport) (0.938437ms)
+✔ loopback API, origin, redaction module, Unicode and interrupted-upload regression (846.927497ms)
+✔ export allowlist excludes arbitrary action, messages, and payload (0.884305ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 961.689948

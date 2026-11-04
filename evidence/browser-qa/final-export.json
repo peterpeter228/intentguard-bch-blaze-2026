@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "intentguard.xo.offline-report.v1",
+  "status": "REJECTED",
+  "canSign": false,
+  "checkedAt": "2026-11-04T11:04:11.517Z",
+  "network": "chipnet",
+  "templateIdentifier": "a31eb85891dbf248f1709a92b0fa7e3e6fdc518e6b34e376b197ed7f12dbc672",
+  "commits": 0,
+  "issues": [
+    {
+      "code": "EMPTY_INVITATION"
+    }
+  ],
+  "privacy": "No input documents, participant identifiers, action labels or raw error messages included."
+}

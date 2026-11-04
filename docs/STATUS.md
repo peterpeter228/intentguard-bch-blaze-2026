@@ -18,3 +18,12 @@ Evidence index: evidence/validation/summary.md, evidence/dependencies.json, evid
 Private draft PR: https://github.com/peterpeter228/intentguard-bch/pull/1 . Actual reviewed source commit: `955e5c0afebedb5931d24feaa4261917131f88a3`. One authorized Argon request completed HTTP 200 at 2026-10-27 08:52:44 UTC. Requested gemini-4-argon-high; response has no modelVersion, actual backend/model identity unverified; cost null/unknown. It read supplied source/evidence, did not execute tests. See review/argon/CLAIM_DISPOSITION.md for independent qualification and corrected claims.
 
 This post-review documentation/evidence update was NOT re-reviewed by Argon. G0 remains PARTIAL, with all wallet/signature/chain/product/UI gates unchanged. Final post-review persistence SHA is to be recorded by coordinator, not guessed here.
+
+
+## 2026-11-04 preseason XO laboratory supplement
+
+Independent branch continues a304f8810c402fd29b105563a136379e42f246af. G0 remains PARTIAL; G1–G4 payment product remains NOT_STARTED. `preseason/xo/README.md` now documents an actual offline inspector using pinned engine0.1.0-next.17612568780, utils0.0.10, templates0.0.12 and types0.0.8. It is not the old0.0.1 probe, a new contract, real-chain result, or event-period implementation. No main changes, wallet creation, signing, transactions, deployment or submission.
+
+Coordinator independently confirmed registration on Nov4; user reports Telegram group joined. Identity introduction/roll-call evidence remains pending. Complete qualification is not asserted.
+
+Current commands and test evidence: `evidence/xo-20261104/`. Browser QA is separately recorded by the coordinator; do not infer it from unit or HTTP tests. Tests and fixes from this supplement do not retroactively validate old-wallet issues or payment behavior. No external model audit was run this round.

@@ -1,1 +1,38 @@
-{"name":"intentguard-bch-g0","version":"0.0.0-preseason","private":true,"type":"module","description":"Preseason SDK compatibility probes only; not a payment application","engines":{"node":">=24"},"scripts":{"typecheck":"tsc --noEmit","build":"tsc && esbuild probes/browser-types.tsx --bundle --platform=browser --format=esm --outfile=dist/browser-probe.js","test":"node --test dist/probes/sdk.test.js","validate":"npm run typecheck && npm run build && npm test"},"dependencies":{"@bitauth/libauth":"3.1.0-next.8","@wizardconnect/core":"0.2.5","@wizardconnect/dapp":"0.2.2","@wizardconnect/react":"0.2.3","cashscript":"0.14.0","react":"19.2.0","react-dom":"19.2.0"},"devDependencies":{"typescript":"5.9.3","esbuild":"0.25.11","@types/node":"24.10.0","@types/react":"19.2.2","@types/react-dom":"19.2.2"}}
+{
+  "name": "intentguard-bch-g0",
+  "version": "0.0.0-preseason",
+  "private": true,
+  "type": "module",
+  "description": "Preseason SDK compatibility probes only; not a payment application",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc && esbuild probes/browser-types.tsx --bundle --platform=browser --format=esm --outfile=dist/browser-probe.js",
+    "test": "node --test dist/probes/sdk.test.js dist/preseason/xo/inspect.test.js preseason/xo/redact.test.mjs preseason/xo/http.test.mjs",
+    "validate": "npm run typecheck && npm run build && npm test",
+    "xo:inspect": "node dist/preseason/xo/cli.js",
+    "xo:preview": "node dist/preseason/xo/server.js"
+  },
+  "dependencies": {
+    "@bitauth/libauth": "3.1.0-next.8",
+    "@wizardconnect/core": "0.2.5",
+    "@wizardconnect/dapp": "0.2.2",
+    "@wizardconnect/react": "0.2.3",
+    "@xo-cash/engine": "0.1.0-next.17612568780",
+    "@xo-cash/templates": "0.0.12",
+    "@xo-cash/types": "0.0.8",
+    "@xo-cash/utils": "0.0.10",
+    "cashscript": "0.14.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.0",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "esbuild": "0.25.11",
+    "typescript": "5.9.3"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "checks": [
+    "GET UI and CSP 200",
+    "synthetic fixture rejects",
+    "foreign origin 403",
+    "unsupported media 415",
+    "malformed body400",
+    "path traversal404"
+  ],
+  "count": 6,
+  "allPass": true
+}

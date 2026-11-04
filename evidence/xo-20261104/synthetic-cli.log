@@ -1,0 +1,27 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason xo:inspect
+> node dist/preseason/xo/cli.js --synthetic
+
+{
+  "schemaVersion": "intentguard.xo.offline-report.v1",
+  "status": "REJECTED",
+  "canSign": false,
+  "checkedAt": "2026-11-04T10:00:00.000Z",
+  "network": "chipnet",
+  "templateIdentifier": "a31eb85891dbf248f1709a92b0fa7e3e6fdc518e6b34e376b197ed7f12dbc672",
+  "action": "sendSatoshis",
+  "commits": 0,
+  "issues": [
+    {
+      "code": "EMPTY_INVITATION",
+      "message": "An unsigned empty invitation is not an executable payment."
+    }
+  ],
+  "limitations": [
+    "No wallet connection, signing, broadcast or chain queries.",
+    "Schema and signature checks do not establish contract safety or user intent.",
+    "UTXO availability, transaction outputs/fees and execution are NOT verified.",
+    "No contest eligibility or bounty completion is established."
+  ]
+}

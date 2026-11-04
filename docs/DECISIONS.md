@@ -5,3 +5,6 @@
 Use one npm lockfile, strict official types, no custom SDK declarations or type suppression. Pin candidate package versions only after actual install/build. Use no wallets/secrets/chain side effects for G0. Avoid Next.js scaffolding/visual payment UI before G1; browser-target SDK bundling is a compatibility experiment, not a runnable product.
 
 Keep SDK pre-abort ordering risk visible; do not add a production signing adapter prematurely. Actual wallet no-broadcast behavior is mandatory before claiming post-sign prevention. Public distribution review remains open. Exact upstream gitHeads have verified LGPLv3 LICENSE.txt despite npm metadata lacking license; see post-Argon evidence, not a blanket no-license claim.
+
+
+2026-11-04: retain new-project/preseason strategy and G1 event-window boundary. Implement only isolated XO schema/acceptance/expiry tooling and teaching UI, using official current engine rather than upgrading old probe claims. All lab work is explicitly preseason; it does not implement or award a novel template. Local Node preview is necessary because current engine transitive browser packaging fails on node:path; do not stub dependencies or disable validation to manufacture browser compatibility.
