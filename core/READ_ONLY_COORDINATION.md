@@ -10,7 +10,7 @@ The request key binds network and stable caller paymentRequestId. A record binds
 
 ## Durable operation
 
-A private local SQLite reservation is committed before asynchronous collection. Another process/request sees PENDING rather than starting another collection. Completed, failed and interrupted records remain associated with the same key. Reopening/reading/repeating returns STALE_RECHECK_REQUIRED, never a new live capability. A future explicit refresh workflow is not implemented; changing request IDs is not evidence of a new human-approved payment.
+A private local SQLite reservation is committed before asynchronous collection. Another process/request sees PENDING rather than starting another collection. Completed, failed and interrupted records remain associated with the same key. Reopening/reading/repeating returns STALE_RECHECK_REQUIRED, never a new live capability. Explicit successful-observation refresh is now implemented with immutable revision history; see REVIEW_REFRESH.md for its narrow policy and v1 migration refusal. UNKNOWN/PENDING cannot reset. Changing request IDs is not evidence of a new human-approved payment.
 
 Completion checks source/guard bindings, intent expiry, time window, cancellation and current session/path/pubkey state. The immediate successful result is only OBSERVED_DURING_CALL. This describes when evidence was observed, not consensus, spendability, consent or permission to sign. Persisted results contain only digests and bounded summaries, not raw transaction data, public keys, addresses or original session IDs; hashes can still correlate data.
 

@@ -7,6 +7,7 @@ import { tmpdir } from 'node:os';
 import { DatabaseSync } from 'node:sqlite';
 import { getEventListeners } from 'node:events';
 import { spawn } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { binToHex, hexToBin, hash160, hash256, hashTransaction, encodeTransaction } from '@bitauth/libauth';
 import { fixture } from './fixtures.js';
 import { validatedIntentDigest } from './guard.js';
@@ -195,6 +196,147 @@ test('SIGKILL after durable reservation leaves an incomplete review that never a
       const exited = new Promise<void>(resolve => child.once('exit', () => resolve())); child.kill('SIGKILL'); await exited;
       c.close(); const reopened = s.reopen(); const recovered = await reopened.review(s.request);
       assert.deepEqual(recovered, pending); assert.equal(recovered.freshness, 'STALE_RECHECK_REQUIRED'); assert.equal(s.calls.length, 0);
+    } finally { if (child.exitCode === null && child.signalCode === null) child.kill('SIGKILL'); }
+  } finally { s.cleanup(); }
+});
+
+
+test('explicit refresh appends durable revisions and never relabels old views as current', async () => {
+  const s = setup(); try {
+    const c = s.create(); const first = await c.review(s.request); const oldView = JSON.stringify(first); const oldCalls = s.calls.length;
+    s.setNow(initialNow + 10); const refreshed = await c.refresh(s.request, first.revision);
+    assert.equal(refreshed.revision, 3); assert.equal(refreshed.status, 'SYNTHETIC_MATCH'); assert.equal(refreshed.observedAt, initialNow + 10); assert.equal(refreshed.freshness, 'OBSERVED_DURING_CALL');
+    assert.equal(s.calls.length, oldCalls * 2); assert.equal(JSON.stringify(first), oldView);
+    const history = c.history(first.requestKey); assert.deepEqual(history.map(r => [r.revision, r.status]), [[0, 'PENDING'], [1, 'SYNTHETIC_MATCH'], [2, 'PENDING'], [3, 'SYNTHETIC_MATCH']]);
+    assert(history.every(r => r.freshness === 'STALE_RECHECK_REQUIRED' && !r.canSign && !r.receiptValid));
+    assert.deepEqual(history[1], { ...first, freshness: 'STALE_RECHECK_REQUIRED' }); assert.equal(Object.isFrozen(history), true);
+    assert.deepEqual(c.history(first.requestKey, 1, 2).map(r => r.revision), [1, 2]);
+    assert.throws(() => c.history(first.requestKey, 0, 101), /REVIEW_INVALID_HISTORY_RANGE/);
+    const calls = s.calls.length; await assert.rejects(c.refresh(s.request, 1), /REVIEW_REVISION_CONFLICT/); assert.equal(s.calls.length, calls);
+    c.close(); const reopened = s.reopen(); assert.deepEqual(reopened.history(first.requestKey), history); assert.equal((await reopened.review(s.request)).freshness, 'STALE_RECHECK_REQUIRED'); assert.equal(s.calls.length, calls);
+  } finally { s.cleanup(); }
+});
+
+test('concurrent refresh CAS reserves once and concurrent replay sees PENDING, not old success', async () => {
+  const s = setup(); let block = false; let release: () => void = () => {}; const gate = new Promise<void>(resolve => { release = resolve; });
+  try {
+    s.sources[0]!.transport = { request: async (m, p) => { if (block) await gate; return s.base(m, p); } };
+    const c = s.create(); const first = await c.review(s.request); const other = s.reopen(); const calls = s.calls.length; block = true;
+    const pending = c.refresh(s.request, first.revision); const duplicate = await other.review(s.request);
+    assert.equal(duplicate.status, 'PENDING'); assert.equal(duplicate.revision, 2); assert.equal(duplicate.freshness, 'STALE_RECHECK_REQUIRED');
+    await assert.rejects(other.refresh(s.request, first.revision), /REVIEW_REVISION_CONFLICT/);
+    await assert.rejects(other.refresh(s.request, duplicate.revision), /REVIEW_REFRESH_NOT_ALLOWED/); assert.equal(s.calls.length, calls);
+    release(); const finished = await pending; assert.equal(finished.revision, 3); assert.equal(finished.status, 'SYNTHETIC_MATCH'); assert.equal(s.calls.length, calls * 2);
+    assert.equal(other.history(first.requestKey).length, 4);
+  } finally { release(); s.cleanup(); }
+});
+
+test('UNKNOWN and interrupted PENDING cannot be reset by refresh', async () => {
+  const s = setup(); try {
+    s.revokePath(); const c = s.create(); const unknown = await c.review(s.request);
+    await assert.rejects(c.refresh(s.request, unknown.revision), /REVIEW_REFRESH_NOT_ALLOWED/); assert.equal(c.history(unknown.requestKey).length, 2); assert.equal(s.calls.length, 0);
+  } finally { s.cleanup(); }
+  const p = setup(); try {
+    p.sources[0]!.transport = { request: () => new Promise(() => {}) }; const c = p.create(); const pending = c.review(p.request); c.close(); await assert.rejects(pending, /REVIEW_STORE_CLOSED/);
+    const reopened = p.reopen(); const head = await reopened.review(p.request); await assert.rejects(reopened.refresh(p.request, head.revision), /REVIEW_REFRESH_NOT_ALLOWED/); assert.equal(reopened.history(head.requestKey).length, 1);
+  } finally { p.cleanup(); }
+});
+
+test('failed or cancelled refresh preserves old success only as history and locks the new UNKNOWN', async () => {
+  const s = setup(); let blocked = false; let release: (v: unknown) => void = () => {};
+  try {
+    s.sources[0]!.transport = { request: (m, p) => blocked ? new Promise(resolve => { release = resolve; }) : s.base(m, p) };
+    const c = s.create(); const first = await c.review(s.request); const oldHistory = c.history(first.requestKey);
+    await assert.rejects(c.refresh(s.request, 1, AbortSignal.abort()), /REVIEW_ABORTED/); assert.deepEqual(c.history(first.requestKey), oldHistory);
+    blocked = true; const controller = new AbortController(); const pending = c.refresh(s.request, 1, controller.signal); controller.abort();
+    const failed = await pending; assert.equal(failed.status, 'UNKNOWN'); assert.equal(failed.revision, 3); assert.equal(failed.issue, 'REVIEW_ABORTED'); assert.equal(c.get(first.requestKey)?.status, 'UNKNOWN');
+    await assert.rejects(c.refresh(s.request, 3), /REVIEW_REFRESH_NOT_ALLOWED/);
+    release({ genesis_hash: '11'.repeat(32), hash_function: 'sha256', cashtokens: true }); await new Promise(resolve => setTimeout(resolve, 10));
+    assert.equal(c.get(first.requestKey)?.revision, 3); assert.equal(c.get(first.requestKey)?.status, 'UNKNOWN'); assert.deepEqual(c.history(first.requestKey, 0, 2), oldHistory);
+  } finally { s.cleanup(); }
+});
+
+test('refresh rejects changed binding, forged evidence, missing key and expired/backward clocks before reads', async () => {
+  const s = setup(); try {
+    const c = s.create(); const first = await c.review(s.request); const calls = s.calls.length;
+    await assert.rejects(c.refresh({ ...s.request, paymentRequestId: 'missing' }, 1), /REVIEW_NOT_FOUND/);
+    await assert.rejects(c.refresh({ ...s.request, intent: { ...s.request.intent, maxFeeSatoshis: '601' } }, 1), /REVIEW_REQUEST_CONFLICT/);
+    const changed = structuredClone(s.candidate); changed.inputs[0]!.unlockingBytecode = hexToBin('00');
+    await assert.rejects(c.refresh({ ...s.request, candidateHex: binToHex(encodeTransaction(changed)) }, 1), /REVIEW_REQUEST_CONFLICT/);
+    await assert.rejects(c.refresh({ ...s.request, bindings: [{ ...s.request.bindings[0]!, index: 1 }] }, 1), /REVIEW_REQUEST_CONFLICT/);
+    s.setSession('other'); await assert.rejects(c.refresh(s.request, 1), /REVIEW_REQUEST_CONFLICT/); s.setSession('private-session-A');
+    await assert.rejects(Reflect.apply(c.refresh, c, [{ ...s.request, evidence: { status: 'NODE_REPORTED' } }, 1]), /REVIEW_INVALID_INPUT/);
+    await assert.rejects(c.refresh(s.request, NaN), /REVIEW_INVALID_REVISION/);
+    s.setNow(initialNow - 1); await assert.rejects(c.refresh(s.request, 1), /REVIEW_CLOCK_WINDOW/);
+    s.setNow(s.request.intent.expiresAt); await assert.rejects(c.refresh(s.request, 1), /REVIEW_INTENT_EXPIRED/);
+    assert.equal(s.calls.length, calls); assert.equal(c.history(first.requestKey).length, 2);
+    s.setNow(initialNow); c.close(); s.sources[0]!.maxTipAgeMs = 1000; const reopened = s.reopen(); await assert.rejects(reopened.refresh(s.request, 1), /REVIEW_REQUEST_CONFLICT/);
+  } finally { s.cleanup(); }
+});
+
+test('refresh return-time tip expiry and session revocation cannot produce current authority', async () => {
+  const s = setup(); try {
+    for (const source of s.sources) source.maxTipAgeMs = 1000;
+    let ticks = 0; s.config.clock = () => ++ticks >= 10 ? initialNow + 1001 : initialNow;
+    const c = s.create(); const first = await c.review(s.request); const refreshed = await c.refresh(s.request, first.revision);
+    assert.equal(refreshed.status, 'SYNTHETIC_MATCH'); assert.equal(refreshed.revision, 3); assert.equal(refreshed.freshness, 'STALE_RECHECK_REQUIRED'); assert.equal(refreshed.canSign, false);
+  } finally { s.cleanup(); }
+  const r = setup(); let revoke = false;
+  try {
+    r.sources[1]!.transport = { request: async (m, p) => { if (revoke) r.revokePath(); return r.base(m, p); } };
+    const c = r.create(); const first = await c.review(r.request); revoke = true; const failed = await c.refresh(r.request, first.revision);
+    assert.equal(failed.status, 'UNKNOWN'); assert.equal(failed.freshness, 'STALE_RECHECK_REQUIRED'); assert.equal(c.history(first.requestKey)[1]?.status, 'SYNTHETIC_MATCH');
+  } finally { r.cleanup(); }
+});
+
+test('v1 journal refusal is byte-for-byte unchanged and never creates replacement history', async () => {
+  const s = setup(); try {
+    const c = s.create(); const first = await c.review(s.request); c.close(); const file = join(s.directory, 'reviews.sqlite');
+    rmSync(file); const old = new DatabaseSync(file);
+    old.exec('CREATE TABLE metadata(version INTEGER NOT NULL CHECK(version=1)); INSERT INTO metadata VALUES(1); CREATE TABLE reviews(request_key TEXT PRIMARY KEY,revision INTEGER NOT NULL,document TEXT NOT NULL,checksum TEXT NOT NULL);');
+    const { freshness: _freshness, ...record } = first; const document = JSON.stringify(record); old.prepare('INSERT INTO reviews VALUES(?,?,?,?)').run(record.requestKey, record.revision, document, createHash('sha256').update(document).digest('hex')); old.close(); chmodSync(file, 0o600);
+    const before = readFileSync(file); assert.throws(() => s.reopen(), /REVIEW_MIGRATION_REQUIRED/); assert.deepEqual(readFileSync(file), before);
+    const inspect = new DatabaseSync(file, { readOnly: true }); try { assert.equal(inspect.prepare("SELECT count(*) AS n FROM sqlite_master WHERE name='review_history'").get()?.n, 0); } finally { inspect.close(); }
+  } finally { s.cleanup(); }
+});
+
+test('append-only history rejects writes, missing links and recomputed-checksum UNKNOWN reset', async () => {
+  const s = setup(); try {
+    s.revokePath(); const c = s.create(); const head = await c.review(s.request); c.close(); const db = new DatabaseSync(join(s.directory, 'reviews.sqlite'));
+    try {
+      assert.throws(() => db.exec("UPDATE review_history SET document='{}'"), /IMMUTABLE_HISTORY/);
+      assert.throws(() => db.exec('DELETE FROM review_history'), /IMMUTABLE_HISTORY/);
+      const row = db.prepare('SELECT document,checksum FROM reviews WHERE request_key=?').get(head.requestKey); assert.equal(typeof row?.document, 'string'); assert.equal(typeof row?.checksum, 'string');
+      if (!row || typeof row.document !== 'string' || typeof row.checksum !== 'string') throw Error('missing fixture');
+      const parsed: unknown = JSON.parse(row.document); assert.ok(parsed && typeof parsed === 'object' && !Array.isArray(parsed));
+      const illegal = { ...parsed, revision: 2, status: 'PENDING', completedAt: null, observedAt: null, evidenceBindingDigest: null, issue: null };
+      const document = JSON.stringify(illegal), checksum = createHash('sha256').update(document).digest('hex');
+      db.prepare('INSERT INTO review_history VALUES(?,?,?,?,?)').run(head.requestKey, 2, document, checksum, row.checksum);
+      db.prepare('UPDATE reviews SET revision=2,document=?,checksum=? WHERE request_key=?').run(document, checksum, head.requestKey);
+    } finally { db.close(); }
+    assert.throws(() => s.reopen(), /REVIEW_CORRUPT_STORE/);
+  } finally { s.cleanup(); }
+  const gap = setup(); try {
+    const c = gap.create(); await c.review(gap.request); c.close(); const db = new DatabaseSync(join(gap.directory, 'reviews.sqlite'));
+    db.exec('DROP TRIGGER immutable_history_delete; DELETE FROM review_history WHERE revision=0;'); db.close(); assert.throws(() => gap.reopen(), /REVIEW_CORRUPT_STORE/);
+  } finally { gap.cleanup(); }
+});
+
+test('SIGKILL during refresh preserves reserved generation and old history without replay', async () => {
+  const s = setup(); try {
+    const c = s.create(); const first = await c.review(s.request); const oldHistory = c.history(first.requestKey);
+    const metadata = s.sources.map(({ transport: _transport, ...source }) => source);
+    const script = `import { ReadOnlyReviewCoordinator } from ${JSON.stringify(new URL('./review-coordinator.js', import.meta.url).href)};
+      const sources=${JSON.stringify(metadata)}.map(s=>({...s,transport:{request:()=>new Promise(()=>{})}}));
+      const session={currentSessionId:()=>"private-session-A",hasPath:n=>n===0,getPubkey:(_n,i)=>i===0n?Uint8Array.from(${JSON.stringify([...publicPoint])}):undefined};
+      const c=ReadOnlyReviewCoordinator.open(${JSON.stringify(s.directory)},{sources,session,clock:()=>${initialNow}});
+      void c.refresh(${JSON.stringify(s.request)},1).catch(()=>{}); process.send('reserved');`;
+    const child = spawn(process.execPath, ['--input-type=module', '-e', script], { stdio: ['ignore', 'ignore', 'pipe', 'ipc'] });
+    try {
+      await new Promise<void>((resolve, reject) => { child.once('message', () => resolve()); child.once('error', reject); child.once('exit', () => reject(Error('child exited early'))); });
+      assert.equal(c.get(first.requestKey)?.revision, 2); const exited = new Promise<void>(resolve => child.once('exit', () => resolve())); child.kill('SIGKILL'); await exited; c.close();
+      const reopened = s.reopen(); const recovered = await reopened.review(s.request); assert.equal(recovered.status, 'PENDING'); assert.equal(recovered.revision, 2); assert.equal(recovered.freshness, 'STALE_RECHECK_REQUIRED');
+      assert.deepEqual(reopened.history(first.requestKey, 0, 2), oldHistory); await assert.rejects(reopened.refresh(s.request, 2), /REVIEW_REFRESH_NOT_ALLOWED/);
     } finally { if (child.exitCode === null && child.signalCode === null) child.kill('SIGKILL'); }
   } finally { s.cleanup(); }
 });
