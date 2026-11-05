@@ -107,3 +107,17 @@ covenant. This implementation is independently written and deliberately differs:
 exactly one input, immutable beneficiary, finite bounded reserves, distinct terminal
 branch, exact fee and sequence, no token funding and no live faucet or fund handling.
 It does not claim compatibility with the original faucet's aggregation behavior.
+# Funding-risk inspector (2026-11-05)
+
+`npm run build && npm run allowance:funding-demo` runs five fixed synthetic cases without editing JSON: baseline full depletion, wrong intended count, malformed reserve amount, higher byte fee, and higher dust threshold. It accepts no arguments and exports no transaction bytes or funding address. **Never fund this artifact.** This tool diagnoses risk; it does not add recovery or make the experiment safe to fund.
+
+The pure `inspectSyntheticFunding` API in `funding.ts` accepts exactly `parentTransactionHex`, `outputIndex`, `parameters`, `plannedTranches`, and `policy`. `parameters` uses the existing payout/delay schema; `policy` requires canonical positive integer strings `feeSatPerKb` and `dustRelayFeeSatPerKb`, each at most 1,000,000. These are explicit local assumptions, not network observations. Parent encoding is bounded to 65,536 bytes and must round-trip canonically. Plain own data properties only; no hostile-Proxy sandbox is promised.
+
+It checks the actual selected output's compiled locking script, token absence and amount, independently derives N, and matches N to the intended count. It then builds and parent-binds every actual XO successor through final exhaustion, checking the VM, exact accounting, actual sizes, and local fee/dust assumptions. Initial source dust is checked separately from successor output dust. All report fields remain frozen and all authority flags remain false.
+
+Distinct verdicts prevent misleading claims: `OUTPUT_MISMATCH` means the expected script is absent; `CONTRACT_REJECTED` means matching-script amount/token funding has no release path; `PLAN_MISMATCH` is a mathematically valid but unintended number of payments; `LOCAL_POLICY_REJECTED` is local-policy incompatibility, not consensus impossibility. `SYNTHETIC_CONTINUATION_VERIFIED` proves only the bounded supplied-byte computation.
+
+The API does not establish parent validity, chain inclusion, current unspentness, actual CSV maturity, beneficiary ownership/key access, normal authenticated Invitation execution or future relay acceptance. It does not verify the initial funding transaction's inputs, fee or other outputs. Total fees cover only the modeled tranche releases, not initial funding or later beneficiary spending. Per-UTXO checks cannot prevent unsolicited deposits, combine invalid coins into a valid reserve or impose a global schedule across multiple coins.
+
+Recovery/refund, key rotation, mutable beneficiary or flexible fees would require a separate contract and changed guarantees. None was added. See `evidence/funding-safety-20261105/ASSESSMENT.md` and `DESIGN.md` for the source-backed risk analysis and decision gates.
+

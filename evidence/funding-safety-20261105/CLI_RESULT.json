@@ -1,0 +1,205 @@
+{
+  "warning": "Synthetic only. Never fund this artifact.",
+  "cases": [
+    {
+      "name": "baseline",
+      "report": {
+        "status": "SYNTHETIC_CONTINUATION_VERIFIED",
+        "canSign": false,
+        "broadcastable": false,
+        "networkVerified": false,
+        "ownershipVerified": false,
+        "receiptValid": false,
+        "liveSpendabilityVerified": false,
+        "fundingPermitted": false,
+        "invitationExecutionVerified": false,
+        "chainMaturityVerified": false,
+        "issue": null,
+        "metrics": {
+          "sourceDustThresholdSatoshis": "576",
+          "sourceBelowDust": false,
+          "tranches": 3,
+          "verifiedSteps": 3,
+          "totalSerializedBytes": 955,
+          "minimumSerializedBytes": 289,
+          "maximumSerializedBytes": 333,
+          "initialSatoshis": "4638",
+          "totalPaidSatoshis": "1638",
+          "totalFeeSatoshis": "3000",
+          "remainingReserveSatoshis": "0",
+          "feeFailingSteps": 0,
+          "dustFailingSteps": 0,
+          "minimumFeeHeadroomSatoshis": "667",
+          "maximumPayoutDustThresholdSatoshis": "546",
+          "maximumReserveDustThresholdSatoshis": "576"
+        },
+        "policy": {
+          "feeSatPerKb": "1000",
+          "dustRelayFeeSatPerKb": "1000"
+        },
+        "limits": [
+          "Never fund this experimental artifact. Synthetic inspection is not funding approval.",
+          "Input provenance is not authenticated: supplied bytes do not prove a synthetic or real chain transaction.",
+          "No parent validity, chain inclusion, unspentness, ownership, actual maturity or relay acceptance is established.",
+          "Wrong amounts or tokens at this covenant may permanently strand funds; there is no recovery or revocation.",
+          "Inspection cannot prevent unsolicited deposits; immutable beneficiary and fee can prevent future progress.",
+          "An inaccessible beneficiary cannot be repaired. Normal authenticated Invitation execution remains unverified.",
+          "Parent funding fee, other parent outputs and parent inputs are not validated.",
+          "Policy results are local assumptions, not current or future node policy or consensus guarantees."
+        ]
+      }
+    },
+    {
+      "name": "wrong-valid-multiple",
+      "report": {
+        "status": "PLAN_MISMATCH",
+        "canSign": false,
+        "broadcastable": false,
+        "networkVerified": false,
+        "ownershipVerified": false,
+        "receiptValid": false,
+        "liveSpendabilityVerified": false,
+        "fundingPermitted": false,
+        "invitationExecutionVerified": false,
+        "chainMaturityVerified": false,
+        "issue": "ACTUAL_TRANCHES_DIFFER_FROM_PLAN",
+        "metrics": null,
+        "policy": null,
+        "limits": [
+          "Never fund this experimental artifact. Synthetic inspection is not funding approval.",
+          "Input provenance is not authenticated: supplied bytes do not prove a synthetic or real chain transaction.",
+          "No parent validity, chain inclusion, unspentness, ownership, actual maturity or relay acceptance is established.",
+          "Wrong amounts or tokens at this covenant may permanently strand funds; there is no recovery or revocation.",
+          "Inspection cannot prevent unsolicited deposits; immutable beneficiary and fee can prevent future progress.",
+          "An inaccessible beneficiary cannot be repaired. Normal authenticated Invitation execution remains unverified.",
+          "Parent funding fee, other parent outputs and parent inputs are not validated.",
+          "Policy results are local assumptions, not current or future node policy or consensus guarantees."
+        ]
+      }
+    },
+    {
+      "name": "wrong-remainder",
+      "report": {
+        "status": "CONTRACT_REJECTED",
+        "canSign": false,
+        "broadcastable": false,
+        "networkVerified": false,
+        "ownershipVerified": false,
+        "receiptValid": false,
+        "liveSpendabilityVerified": false,
+        "fundingPermitted": false,
+        "invitationExecutionVerified": false,
+        "chainMaturityVerified": false,
+        "issue": "AMOUNT_HAS_NO_RELEASE_PATH",
+        "metrics": null,
+        "policy": null,
+        "limits": [
+          "Never fund this experimental artifact. Synthetic inspection is not funding approval.",
+          "Input provenance is not authenticated: supplied bytes do not prove a synthetic or real chain transaction.",
+          "No parent validity, chain inclusion, unspentness, ownership, actual maturity or relay acceptance is established.",
+          "Wrong amounts or tokens at this covenant may permanently strand funds; there is no recovery or revocation.",
+          "Inspection cannot prevent unsolicited deposits; immutable beneficiary and fee can prevent future progress.",
+          "An inaccessible beneficiary cannot be repaired. Normal authenticated Invitation execution remains unverified.",
+          "Parent funding fee, other parent outputs and parent inputs are not validated.",
+          "Policy results are local assumptions, not current or future node policy or consensus guarantees."
+        ]
+      }
+    },
+    {
+      "name": "high-fee-floor",
+      "report": {
+        "status": "LOCAL_POLICY_REJECTED",
+        "canSign": false,
+        "broadcastable": false,
+        "networkVerified": false,
+        "ownershipVerified": false,
+        "receiptValid": false,
+        "liveSpendabilityVerified": false,
+        "fundingPermitted": false,
+        "invitationExecutionVerified": false,
+        "chainMaturityVerified": false,
+        "issue": "DECLARED_LOCAL_POLICY_FAILED",
+        "metrics": {
+          "sourceDustThresholdSatoshis": "576",
+          "sourceBelowDust": false,
+          "tranches": 3,
+          "verifiedSteps": 3,
+          "totalSerializedBytes": 955,
+          "minimumSerializedBytes": 289,
+          "maximumSerializedBytes": 333,
+          "initialSatoshis": "4638",
+          "totalPaidSatoshis": "1638",
+          "totalFeeSatoshis": "3000",
+          "remainingReserveSatoshis": "0",
+          "feeFailingSteps": 3,
+          "dustFailingSteps": 0,
+          "minimumFeeHeadroomSatoshis": "-332000",
+          "maximumPayoutDustThresholdSatoshis": "546",
+          "maximumReserveDustThresholdSatoshis": "576"
+        },
+        "policy": {
+          "feeSatPerKb": "1000000",
+          "dustRelayFeeSatPerKb": "1000"
+        },
+        "limits": [
+          "Never fund this experimental artifact. Synthetic inspection is not funding approval.",
+          "Input provenance is not authenticated: supplied bytes do not prove a synthetic or real chain transaction.",
+          "No parent validity, chain inclusion, unspentness, ownership, actual maturity or relay acceptance is established.",
+          "Wrong amounts or tokens at this covenant may permanently strand funds; there is no recovery or revocation.",
+          "Inspection cannot prevent unsolicited deposits; immutable beneficiary and fee can prevent future progress.",
+          "An inaccessible beneficiary cannot be repaired. Normal authenticated Invitation execution remains unverified.",
+          "Parent funding fee, other parent outputs and parent inputs are not validated.",
+          "Policy results are local assumptions, not current or future node policy or consensus guarantees."
+        ]
+      }
+    },
+    {
+      "name": "high-dust-floor",
+      "report": {
+        "status": "LOCAL_POLICY_REJECTED",
+        "canSign": false,
+        "broadcastable": false,
+        "networkVerified": false,
+        "ownershipVerified": false,
+        "receiptValid": false,
+        "liveSpendabilityVerified": false,
+        "fundingPermitted": false,
+        "invitationExecutionVerified": false,
+        "chainMaturityVerified": false,
+        "issue": "DECLARED_LOCAL_POLICY_FAILED",
+        "metrics": {
+          "sourceDustThresholdSatoshis": "1152",
+          "sourceBelowDust": false,
+          "tranches": 3,
+          "verifiedSteps": 3,
+          "totalSerializedBytes": 955,
+          "minimumSerializedBytes": 289,
+          "maximumSerializedBytes": 333,
+          "initialSatoshis": "4638",
+          "totalPaidSatoshis": "1638",
+          "totalFeeSatoshis": "3000",
+          "remainingReserveSatoshis": "0",
+          "feeFailingSteps": 0,
+          "dustFailingSteps": 3,
+          "minimumFeeHeadroomSatoshis": "667",
+          "maximumPayoutDustThresholdSatoshis": "1092",
+          "maximumReserveDustThresholdSatoshis": "1152"
+        },
+        "policy": {
+          "feeSatPerKb": "1000",
+          "dustRelayFeeSatPerKb": "2000"
+        },
+        "limits": [
+          "Never fund this experimental artifact. Synthetic inspection is not funding approval.",
+          "Input provenance is not authenticated: supplied bytes do not prove a synthetic or real chain transaction.",
+          "No parent validity, chain inclusion, unspentness, ownership, actual maturity or relay acceptance is established.",
+          "Wrong amounts or tokens at this covenant may permanently strand funds; there is no recovery or revocation.",
+          "Inspection cannot prevent unsolicited deposits; immutable beneficiary and fee can prevent future progress.",
+          "An inaccessible beneficiary cannot be repaired. Normal authenticated Invitation execution remains unverified.",
+          "Parent funding fee, other parent outputs and parent inputs are not validated.",
+          "Policy results are local assumptions, not current or future node policy or consensus guarantees."
+        ]
+      }
+    }
+  ]
+}

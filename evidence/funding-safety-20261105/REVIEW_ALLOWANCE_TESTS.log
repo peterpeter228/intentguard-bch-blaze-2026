@@ -1,0 +1,41 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason allowance:test
+> node --test dist/preseason/allowance/lab.test.js preseason/allowance/cli.test.mjs dist/preseason/allowance/funding.test.js preseason/allowance/funding-cli.test.mjs
+
+✔ full bounded parent-bound depletion, boundary parameters and fixed cumulative economics (5000.197128ms)
+✔ selected nonzero index is spent, other outputs are not mistaken for selected principal (107.268038ms)
+✔ valid excess and short funding are intent mismatch, invalid funding is no release path (473.753624ms)
+✔ different covenant/script is unsupported, actual FT and NFT funding has no release path (339.224878ms)
+✔ strict plain descriptors, numeric bounds, unknown fields and malformed raw encodings reject (1318.462541ms)
+✔ explicit policy checks all steps with exact ceil fees and actual serialized-output dust (449.100021ms)
+✔ bounded frozen summary never exports bytes, scripts, addresses or authority (326.245417ms)
+✔ initial selected covenant output dust is checked independently of successor payout (50.098751ms)
+✔ official XO template / P2SH32 normal paths N=1,2,100 and payout/delay boundaries (711.154125ms)
+✔ continuation output attacks fail against actual XO-produced transaction (553.091752ms)
+✔ final branch cannot leave extra reserve, change payee, payout or fee (136.131933ms)
+✔ version, locktime, sequence disable/time flags, below delay and reserved bits rejected on both branches (702.469865ms)
+✔ malformed funding nonmultiple, zero, below reserve and overcap rejected by actual script (387.877816ms)
+✔ FT and all NFT capabilities forbidden on source and every output on both paths (851.269882ms)
+✔ XO merged multiple reserve inputs and donor inputs cannot bypass single-input invariant (120.623532ms)
+✔ redeem script substitution and unlocking stack injection fail (164.369045ms)
+✔ complete N=3 synthetic lineage consumes the previous XO reserve and exhausts exactly (87.882166ms)
+✔ existing ordinary-payment Guard rejects this covenant without any bypass or core modification (36.506828ms)
+✔ strict finite plain-data API rejects extra fields, accessors, malformed amounts and bounds (0.911331ms)
+✔ synthetic parent binding rejects changed amount, script, hash and output index (168.82715ms)
+✔ XO helper variables and precompleted fields are not on-chain authorization (127.407875ms)
+✔ CLI emits bounded summary only, no funding address or transaction, and no arguments (1530.47398ms)
+✔ fixed funding risk demo exports bounded summaries and refuses arguments (1598.339964ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8765.771596
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

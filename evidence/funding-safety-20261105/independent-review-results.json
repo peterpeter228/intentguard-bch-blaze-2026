@@ -1,0 +1,595 @@
+{
+  "timestamp": "2026-11-05T03:36:54.372Z",
+  "scope": "independent synthetic-only bounded probes",
+  "sourceHashes": {
+    "preseason/allowance/funding.ts": "20d1c85fdc25045951fbd958645ef493166a663f29eff023ab1b8d25157935d0",
+    "preseason/allowance/funding.test.ts": "7ca2f278b3c5868335f9219c63a6c56509231e02b11ad9085a4f913b8954e3b3",
+    "preseason/allowance/template.ts": "c8f034bed191baab8f13fd4e13411b1c477fcc23f2792010c32e9ac738a5901d",
+    "preseason/allowance/lab.ts": "f3228f76153ad18b82d101a17e0cc939e8b9a6e6c360f01a79d0d52aa56b4d32"
+  },
+  "assertions": {
+    "allReportsFrozen": true,
+    "allAuthorityFlagsFalse": true,
+    "noRawTransactionsScriptsOrAddresses": true,
+    "nestedSuccessReportFrozen": true,
+    "accessorsNotExecuted": true
+  },
+  "results": [
+    {
+      "name": "three-tranche-baseline",
+      "status": "SYNTHETIC_CONTINUATION_VERIFIED",
+      "issue": null,
+      "metrics": {
+        "sourceDustThresholdSatoshis": "576",
+        "sourceBelowDust": false,
+        "tranches": 3,
+        "verifiedSteps": 3,
+        "totalSerializedBytes": 955,
+        "minimumSerializedBytes": 289,
+        "maximumSerializedBytes": 333,
+        "initialSatoshis": "6000",
+        "totalPaidSatoshis": "3000",
+        "totalFeeSatoshis": "3000",
+        "remainingReserveSatoshis": "0",
+        "feeFailingSteps": 0,
+        "dustFailingSteps": 0,
+        "minimumFeeHeadroomSatoshis": "667",
+        "maximumPayoutDustThresholdSatoshis": "546",
+        "maximumReserveDustThresholdSatoshis": "576"
+      },
+      "elapsedMs": 55
+    },
+    {
+      "name": "nonzero-output-index",
+      "status": "SYNTHETIC_CONTINUATION_VERIFIED",
+      "issue": null,
+      "metrics": {
+        "sourceDustThresholdSatoshis": "576",
+        "sourceBelowDust": false,
+        "tranches": 3,
+        "verifiedSteps": 3,
+        "totalSerializedBytes": 955,
+        "minimumSerializedBytes": 289,
+        "maximumSerializedBytes": 333,
+        "initialSatoshis": "6000",
+        "totalPaidSatoshis": "3000",
+        "totalFeeSatoshis": "3000",
+        "remainingReserveSatoshis": "0",
+        "feeFailingSteps": 0,
+        "dustFailingSteps": 0,
+        "minimumFeeHeadroomSatoshis": "667",
+        "maximumPayoutDustThresholdSatoshis": "546",
+        "maximumReserveDustThresholdSatoshis": "576"
+      },
+      "elapsedMs": 50
+    },
+    {
+      "name": "terminal-minimum-payout",
+      "status": "SYNTHETIC_CONTINUATION_VERIFIED",
+      "issue": null,
+      "metrics": {
+        "sourceDustThresholdSatoshis": "576",
+        "sourceBelowDust": false,
+        "tranches": 1,
+        "verifiedSteps": 1,
+        "totalSerializedBytes": 289,
+        "minimumSerializedBytes": 289,
+        "maximumSerializedBytes": 289,
+        "initialSatoshis": "1546",
+        "totalPaidSatoshis": "546",
+        "totalFeeSatoshis": "1000",
+        "remainingReserveSatoshis": "0",
+        "feeFailingSteps": 0,
+        "dustFailingSteps": 0,
+        "minimumFeeHeadroomSatoshis": "711",
+        "maximumPayoutDustThresholdSatoshis": "546",
+        "maximumReserveDustThresholdSatoshis": "0"
+      },
+      "elapsedMs": 17
+    },
+    {
+      "name": "maximum-count-and-parameters",
+      "status": "SYNTHETIC_CONTINUATION_VERIFIED",
+      "issue": null,
+      "metrics": {
+        "sourceDustThresholdSatoshis": "576",
+        "sourceBelowDust": false,
+        "tranches": 100,
+        "verifiedSteps": 100,
+        "totalSerializedBytes": 35056,
+        "minimumSerializedBytes": 307,
+        "maximumSerializedBytes": 351,
+        "initialSatoshis": "100000100000",
+        "totalPaidSatoshis": "100000000000",
+        "totalFeeSatoshis": "100000",
+        "remainingReserveSatoshis": "0",
+        "feeFailingSteps": 0,
+        "dustFailingSteps": 0,
+        "minimumFeeHeadroomSatoshis": "649",
+        "maximumPayoutDustThresholdSatoshis": "546",
+        "maximumReserveDustThresholdSatoshis": "576"
+      },
+      "elapsedMs": 1274
+    },
+    {
+      "name": "intent-N-1",
+      "status": "PLAN_MISMATCH",
+      "issue": "ACTUAL_TRANCHES_DIFFER_FROM_PLAN",
+      "elapsedMs": 7
+    },
+    {
+      "name": "intent-N-2",
+      "status": "PLAN_MISMATCH",
+      "issue": "ACTUAL_TRANCHES_DIFFER_FROM_PLAN",
+      "elapsedMs": 5
+    },
+    {
+      "name": "intent-N-4",
+      "status": "PLAN_MISMATCH",
+      "issue": "ACTUAL_TRANCHES_DIFFER_FROM_PLAN",
+      "elapsedMs": 6
+    },
+    {
+      "name": "intent-N-100",
+      "status": "PLAN_MISMATCH",
+      "issue": "ACTUAL_TRANCHES_DIFFER_FROM_PLAN",
+      "elapsedMs": 6
+    },
+    {
+      "name": "invalid-source-0",
+      "status": "CONTRACT_REJECTED",
+      "issue": "AMOUNT_HAS_NO_RELEASE_PATH",
+      "elapsedMs": 6
+    },
+    {
+      "name": "invalid-source-1",
+      "status": "CONTRACT_REJECTED",
+      "issue": "AMOUNT_HAS_NO_RELEASE_PATH",
+      "elapsedMs": 6
+    },
+    {
+      "name": "invalid-source-1999",
+      "status": "CONTRACT_REJECTED",
+      "issue": "AMOUNT_HAS_NO_RELEASE_PATH",
+      "elapsedMs": 7
+    },
+    {
+      "name": "invalid-source-2001",
+      "status": "CONTRACT_REJECTED",
+      "issue": "AMOUNT_HAS_NO_RELEASE_PATH",
+      "elapsedMs": 6
+    },
+    {
+      "name": "invalid-source-202000",
+      "status": "CONTRACT_REJECTED",
+      "issue": "AMOUNT_HAS_NO_RELEASE_PATH",
+      "elapsedMs": 7
+    },
+    {
+      "name": "invalid-source-18446744073709551615",
+      "status": "CONTRACT_REJECTED",
+      "issue": "AMOUNT_HAS_NO_RELEASE_PATH",
+      "elapsedMs": 5
+    },
+    {
+      "name": "source-token-none",
+      "status": "CONTRACT_REJECTED",
+      "issue": "TOKEN_FUNDING_HAS_NO_RELEASE_PATH",
+      "elapsedMs": 5
+    },
+    {
+      "name": "source-token-mutable",
+      "status": "CONTRACT_REJECTED",
+      "issue": "TOKEN_FUNDING_HAS_NO_RELEASE_PATH",
+      "elapsedMs": 5
+    },
+    {
+      "name": "source-token-minting",
+      "status": "CONTRACT_REJECTED",
+      "issue": "TOKEN_FUNDING_HAS_NO_RELEASE_PATH",
+      "elapsedMs": 5
+    },
+    {
+      "name": "source-token-FT",
+      "status": "CONTRACT_REJECTED",
+      "issue": "TOKEN_FUNDING_HAS_NO_RELEASE_PATH",
+      "elapsedMs": 6
+    },
+    {
+      "name": "mismatched-payoutSatoshis",
+      "status": "OUTPUT_MISMATCH",
+      "issue": "EXPECTED_COVENANT_NOT_PRESENT",
+      "elapsedMs": 8
+    },
+    {
+      "name": "mismatched-delayBlocks",
+      "status": "OUTPUT_MISMATCH",
+      "issue": "EXPECTED_COVENANT_NOT_PRESENT",
+      "elapsedMs": 7
+    },
+    {
+      "name": "invalid-index--1",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-index-0.5",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-index-NaN",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-index-Infinity",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-index-1",
+      "status": "INPUT_REJECTED",
+      "issue": "OUTPUT_INDEX_MISSING",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-index-4294967295",
+      "status": "INPUT_REJECTED",
+      "issue": "OUTPUT_INDEX_MISSING",
+      "elapsedMs": 0
+    },
+    {
+      "name": "malformed-hex-length-0",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "malformed-hex-length-2",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_OR_NONCANONICAL_PARENT",
+      "elapsedMs": 0
+    },
+    {
+      "name": "malformed-hex-length-194",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_OR_NONCANONICAL_PARENT",
+      "elapsedMs": 0
+    },
+    {
+      "name": "malformed-hex-length-131074",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "accessor-root",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "accessor-parameters",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "accessor-policy",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "symbol-root",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "symbol-parameters",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "symbol-policy",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-policy-feeSatPerKb--1",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-policy-feeSatPerKb-1.0",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-policy-feeSatPerKb-1e3",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-policy-feeSatPerKb-01000",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-policy-feeSatPerKb-1000001",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-policy-feeSatPerKb-1000",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-policy-feeSatPerKb-null",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-policy-dustRelayFeeSatPerKb--1",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-policy-dustRelayFeeSatPerKb-1.0",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-policy-dustRelayFeeSatPerKb-1e3",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-policy-dustRelayFeeSatPerKb-01000",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-policy-dustRelayFeeSatPerKb-1000001",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-policy-dustRelayFeeSatPerKb-1000",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "invalid-policy-dustRelayFeeSatPerKb-null",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "policy-insufficient-feeSatPerKb",
+      "status": "LOCAL_POLICY_REJECTED",
+      "issue": "DECLARED_LOCAL_POLICY_FAILED",
+      "metrics": {
+        "sourceDustThresholdSatoshis": "576",
+        "sourceBelowDust": false,
+        "tranches": 3,
+        "verifiedSteps": 3,
+        "totalSerializedBytes": 955,
+        "minimumSerializedBytes": 289,
+        "maximumSerializedBytes": 333,
+        "initialSatoshis": "6000",
+        "totalPaidSatoshis": "3000",
+        "totalFeeSatoshis": "3000",
+        "remainingReserveSatoshis": "0",
+        "feeFailingSteps": 3,
+        "dustFailingSteps": 0,
+        "minimumFeeHeadroomSatoshis": "-332000",
+        "maximumPayoutDustThresholdSatoshis": "546",
+        "maximumReserveDustThresholdSatoshis": "576"
+      },
+      "elapsedMs": 42
+    },
+    {
+      "name": "policy-insufficient-dustRelayFeeSatPerKb",
+      "status": "LOCAL_POLICY_REJECTED",
+      "issue": "DECLARED_LOCAL_POLICY_FAILED",
+      "metrics": {
+        "sourceDustThresholdSatoshis": "576000",
+        "sourceBelowDust": true,
+        "tranches": 3,
+        "verifiedSteps": 3,
+        "totalSerializedBytes": 955,
+        "minimumSerializedBytes": 289,
+        "maximumSerializedBytes": 333,
+        "initialSatoshis": "6000",
+        "totalPaidSatoshis": "3000",
+        "totalFeeSatoshis": "3000",
+        "remainingReserveSatoshis": "0",
+        "feeFailingSteps": 0,
+        "dustFailingSteps": 3,
+        "minimumFeeHeadroomSatoshis": "667",
+        "maximumPayoutDustThresholdSatoshis": "546000",
+        "maximumReserveDustThresholdSatoshis": "576000"
+      },
+      "elapsedMs": 40
+    },
+    {
+      "name": "exact-fee-floor-pass",
+      "status": "SYNTHETIC_CONTINUATION_VERIFIED",
+      "issue": null,
+      "metrics": {
+        "sourceDustThresholdSatoshis": "576",
+        "sourceBelowDust": false,
+        "tranches": 3,
+        "verifiedSteps": 3,
+        "totalSerializedBytes": 955,
+        "minimumSerializedBytes": 289,
+        "maximumSerializedBytes": 333,
+        "initialSatoshis": "6000",
+        "totalPaidSatoshis": "3000",
+        "totalFeeSatoshis": "3000",
+        "remainingReserveSatoshis": "0",
+        "feeFailingSteps": 0,
+        "dustFailingSteps": 0,
+        "minimumFeeHeadroomSatoshis": "0",
+        "maximumPayoutDustThresholdSatoshis": "546",
+        "maximumReserveDustThresholdSatoshis": "576"
+      },
+      "elapsedMs": 39
+    },
+    {
+      "name": "continuations-only-fee-failure",
+      "status": "LOCAL_POLICY_REJECTED",
+      "issue": "DECLARED_LOCAL_POLICY_FAILED",
+      "metrics": {
+        "sourceDustThresholdSatoshis": "576",
+        "sourceBelowDust": false,
+        "tranches": 3,
+        "verifiedSteps": 3,
+        "totalSerializedBytes": 955,
+        "minimumSerializedBytes": 289,
+        "maximumSerializedBytes": 333,
+        "initialSatoshis": "6000",
+        "totalPaidSatoshis": "3000",
+        "totalFeeSatoshis": "3000",
+        "remainingReserveSatoshis": "0",
+        "feeFailingSteps": 2,
+        "dustFailingSteps": 0,
+        "minimumFeeHeadroomSatoshis": "-1",
+        "maximumPayoutDustThresholdSatoshis": "546",
+        "maximumReserveDustThresholdSatoshis": "576"
+      },
+      "elapsedMs": 39
+    },
+    {
+      "name": "terminal-also-fee-failure",
+      "status": "LOCAL_POLICY_REJECTED",
+      "issue": "DECLARED_LOCAL_POLICY_FAILED",
+      "metrics": {
+        "sourceDustThresholdSatoshis": "576",
+        "sourceBelowDust": false,
+        "tranches": 3,
+        "verifiedSteps": 3,
+        "totalSerializedBytes": 955,
+        "minimumSerializedBytes": 289,
+        "maximumSerializedBytes": 333,
+        "initialSatoshis": "6000",
+        "totalPaidSatoshis": "3000",
+        "totalFeeSatoshis": "3000",
+        "remainingReserveSatoshis": "0",
+        "feeFailingSteps": 3,
+        "dustFailingSteps": 0,
+        "minimumFeeHeadroomSatoshis": "-153",
+        "maximumPayoutDustThresholdSatoshis": "546",
+        "maximumReserveDustThresholdSatoshis": "576"
+      },
+      "elapsedMs": 41
+    },
+    {
+      "name": "every-payout-dust-failure",
+      "status": "LOCAL_POLICY_REJECTED",
+      "issue": "DECLARED_LOCAL_POLICY_FAILED",
+      "metrics": {
+        "sourceDustThresholdSatoshis": "582",
+        "sourceBelowDust": false,
+        "tranches": 3,
+        "verifiedSteps": 3,
+        "totalSerializedBytes": 955,
+        "minimumSerializedBytes": 289,
+        "maximumSerializedBytes": 333,
+        "initialSatoshis": "4638",
+        "totalPaidSatoshis": "1638",
+        "totalFeeSatoshis": "3000",
+        "remainingReserveSatoshis": "0",
+        "feeFailingSteps": 0,
+        "dustFailingSteps": 3,
+        "minimumFeeHeadroomSatoshis": "667",
+        "maximumPayoutDustThresholdSatoshis": "552",
+        "maximumReserveDustThresholdSatoshis": "582"
+      },
+      "elapsedMs": 39
+    },
+    {
+      "name": "explicit-zero-policy",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "wrong-valid-parent-output",
+      "status": "OUTPUT_MISMATCH",
+      "issue": "EXPECTED_COVENANT_NOT_PRESENT",
+      "elapsedMs": 5
+    },
+    {
+      "name": "initial-source-dust-only",
+      "status": "LOCAL_POLICY_REJECTED",
+      "issue": "DECLARED_LOCAL_POLICY_FAILED",
+      "metrics": {
+        "sourceDustThresholdSatoshis": "576000",
+        "sourceBelowDust": true,
+        "tranches": 1,
+        "verifiedSteps": 1,
+        "totalSerializedBytes": 295,
+        "minimumSerializedBytes": 295,
+        "maximumSerializedBytes": 295,
+        "initialSatoshis": "551000",
+        "totalPaidSatoshis": "550000",
+        "totalFeeSatoshis": "1000",
+        "remainingReserveSatoshis": "0",
+        "feeFailingSteps": 0,
+        "dustFailingSteps": 0,
+        "minimumFeeHeadroomSatoshis": "705",
+        "maximumPayoutDustThresholdSatoshis": "546000",
+        "maximumReserveDustThresholdSatoshis": "0"
+      },
+      "elapsedMs": 16
+    },
+    {
+      "name": "non-schema-null",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "non-schema-array",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "non-schema-object",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    },
+    {
+      "name": "non-schema-object",
+      "status": "INPUT_REJECTED",
+      "issue": "INVALID_REQUEST",
+      "elapsedMs": 0
+    }
+  ]
+}
