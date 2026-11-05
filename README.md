@@ -1,3 +1,42 @@
+# Current local reproduction — November 5, 2026
+
+G1 is in progress. The request/plan UI, ordinary-payment Guard, pure XO byte
+comparison and offline verification are implemented; this is not a completed
+payment product or a contest submission. Older snapshots below are historical.
+See [current status](docs/STATUS.md) and [real-integration gates](docs/VERIFICATION_HANDOFF.md).
+
+Use Node 24 (verified with 24.22.1) and the committed lockfile:
+
+```sh
+npm ci --ignore-scripts --no-fund --no-audit
+npm rebuild sqlite3 better-sqlite3
+npm run validate
+npm run core:preview
+```
+
+Open http://127.0.0.1:8788 or its /request route on the same machine. The preview
+binds loopback only. Do not expose or deploy it.
+
+The native rebuild is required: the pinned XO engine imports SQLite storage even
+for pure exports. An ignore-scripts install alone can typecheck/build but its
+server and engine-dependent tests cannot start. A startup failure must fail the
+tests promptly, not hang. No dependency or native module is stubbed.
+See the [XO reproduction guide](preseason/xo/README.md) for the inspector and
+restricted-container cache/header options. For example:
+
+```sh
+npm ci --ignore-scripts --no-fund --no-audit --cache /tmp/intentguard-npm-cache
+npm rebuild sqlite3 better-sqlite3 --cache /tmp/intentguard-npm-cache --devdir=/tmp/bch-node-headers
+npm run validate
+```
+
+Installation/rebuild may download official package binaries or build locally.
+If it fails, retain the error and stop; do not report a usable runtime from
+typecheck/build alone. These local tests need no wallet, keys, funds, signatures
+or chain transactions. All current work is disclosed as preseason work.
+
+---
+
 ## Latest verification follow-up — 2026-11-04 12:07 UTC
 
 31 tests now pass after adding bounded CLI and upstream legacy-schema regressions plus actual Host/body-limit HTTP checks. Application/UI behavior is unchanged. The official public old Invitation fails the current schema; a compatible positive signed fixture remains missing. See [follow-up evidence](evidence/xo-20261104-followup/README.md). This is still preseason, not a new transaction feature or bounty completion.
@@ -16,7 +55,7 @@ Final strict typecheck/build and 27 tests passed, including an isolated clean re
 
 2026-10-27: the supplied 29-file specification is restored. Actual offline SDK compatibility probes are implemented, not the payment application. See docs/STATUS.md and evidence/validation/summary.md.
 
-Reproduce: `npm ci --ignore-scripts --no-fund && npm run validate` (Node 24). No wallet, key or network transaction is needed. `npm run build` produces only a compile probe bundle, not a deployable demo. Do not claim mainnet or contest completion.
+The October27 reproduction note omitted the now-required native SQLite rebuild and described only the old compile probe. It is superseded by the current reproduction steps at the top of this file. Do not claim mainnet or contest completion.
 
 ---
 
@@ -88,3 +127,4 @@ Reproduce: `npm ci --ignore-scripts --no-fund && npm run validate` (Node 24). No
 ### Core development update (November 4)
 
 The user requested core implementation now. [Core transaction comparison](core/README.md) and the localhost demonstration are implemented as explicitly disclosed pre-event work. Run `npm run core:preview` after building; open port8788. This is an offline comparison, never signing approval or real-chain evidence. See [current status](docs/STATUS.md) for incomplete payment and contest gates.
+

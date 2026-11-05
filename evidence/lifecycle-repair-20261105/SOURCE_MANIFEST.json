@@ -1,0 +1,626 @@
+{
+  "baseCommit": "e4b9e24cdb6965e3b4c2abc0723d45757b1eea7e",
+  "baseTree": "e6c0ebc0ddbab1f65011e290e1bfb5bc6908d483",
+  "fullCheckout": false,
+  "existingMaterializedFiles": 86,
+  "newHelperFiles": 2,
+  "dependencies": "Copied the separately rebuilt baseline node_modules; no new install for this run. The lockfile is unchanged.",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha": "11f3f2341c46a16104d97fc3380461e27848bf89",
+      "expected": "11f3f2341c46a16104d97fc3380461e27848bf89",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "README.md",
+      "sha": "13f6ab1d81564667601f238a4e31d006fbfb3c87",
+      "expected": "ee283e7ed411e07accbd8b1d9bd096303b9e39a6",
+      "unchanged": false,
+      "intendedChange": true
+    },
+    {
+      "path": "core/EVIDENCE_AND_STATE.md",
+      "sha": "f6eb1a4de44b7803abc7e9cf71121232bfc2120f",
+      "expected": "f6eb1a4de44b7803abc7e9cf71121232bfc2120f",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/PAYMENT_REQUEST.md",
+      "sha": "c29f0956bd1ca8fd1d4f28a5c5425ada52f319ce",
+      "expected": "c29f0956bd1ca8fd1d4f28a5c5425ada52f319ce",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/README.md",
+      "sha": "e23e29ee15ac27b411dd54ce56840d75df9c8d39",
+      "expected": "e23e29ee15ac27b411dd54ce56840d75df9c8d39",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/READ_ONLY_COORDINATION.md",
+      "sha": "33a0d082a3de1801fc686d514f4341726883d925",
+      "expected": "33a0d082a3de1801fc686d514f4341726883d925",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/REQUEST_PLAN.md",
+      "sha": "f501f27b23a4a65e05a6b7ce15b6ec4cc36eea60",
+      "expected": "f501f27b23a4a65e05a6b7ce15b6ec4cc36eea60",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/REQUEST_PLAN_UI.md",
+      "sha": "a145953f67ebe62239d1e38dc22f5b3ae1797003",
+      "expected": "a145953f67ebe62239d1e38dc22f5b3ae1797003",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/REVIEW_REFRESH.md",
+      "sha": "bd94d511dd26144ab745d138c1d30c85a42dac44",
+      "expected": "bd94d511dd26144ab745d138c1d30c85a42dac44",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/SIGNATURE_VERIFICATION.md",
+      "sha": "592c519e256362045bb0e1c9083655b78aaecbed",
+      "expected": "592c519e256362045bb0e1c9083655b78aaecbed",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/TRANSPORT.md",
+      "sha": "9dbd1136953aae54a2e75777d5d00fb0dcdf079d",
+      "expected": "9dbd1136953aae54a2e75777d5d00fb0dcdf079d",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/UNSIGNED_BUILDER.md",
+      "sha": "ff9c494581e1e3d48d99980db53fe8f1f4707731",
+      "expected": "ff9c494581e1e3d48d99980db53fe8f1f4707731",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/XO_CANDIDATE.md",
+      "sha": "ed99c2b831494bef5f60b84ef8843f2778063877",
+      "expected": "ed99c2b831494bef5f60b84ef8843f2778063877",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/demo.ts",
+      "sha": "44f0b49eee317fb48ae51afdc44d61281aacdd74",
+      "expected": "44f0b49eee317fb48ae51afdc44d61281aacdd74",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/electrum-transport.test.ts",
+      "sha": "79524b490acd24513221e4d7303e93e0a1919bfd",
+      "expected": "79524b490acd24513221e4d7303e93e0a1919bfd",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/electrum-transport.ts",
+      "sha": "4ec52502ccb6d7a467a92b26684f1670a7fc696c",
+      "expected": "4ec52502ccb6d7a467a92b26684f1670a7fc696c",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/evidence.test.ts",
+      "sha": "a4865e3a1f1f85fe846e49d7ede33fe136a44869",
+      "expected": "a4865e3a1f1f85fe846e49d7ede33fe136a44869",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/evidence.ts",
+      "sha": "d90c9ea0261ee66dad1854ec3989435f488c83c5",
+      "expected": "d90c9ea0261ee66dad1854ec3989435f488c83c5",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/fixtures.ts",
+      "sha": "22e5b06295471fc59aa98fa62f3c7f5aabafdf6f",
+      "expected": "22e5b06295471fc59aa98fa62f3c7f5aabafdf6f",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/guard.test.ts",
+      "sha": "9d38b2298a9af3b007145edd8d859b55dbbc0666",
+      "expected": "9d38b2298a9af3b007145edd8d859b55dbbc0666",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/guard.ts",
+      "sha": "93a5477928d68187c32772ee72fd6080e82a57bf",
+      "expected": "93a5477928d68187c32772ee72fd6080e82a57bf",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/http.test.mjs",
+      "sha": "1fa3f1bd3546f691d6f042ecbce70a8a2467bb08",
+      "expected": "eb363e6d5c0af8a9c0bbdfd5e0ad549a137fb1a7",
+      "unchanged": false,
+      "intendedChange": true
+    },
+    {
+      "path": "core/index.html",
+      "sha": "bd8a0493c088843ea45cc8f786737bd0f76b25b0",
+      "expected": "bd8a0493c088843ea45cc8f786737bd0f76b25b0",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/operation-store.test.ts",
+      "sha": "0b1c3a0415473752a49327cf81294ecf862b40f8",
+      "expected": "0b1c3a0415473752a49327cf81294ecf862b40f8",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/operation-store.ts",
+      "sha": "af66750a60b8badd54a78fd86e43c8e5f9235e8d",
+      "expected": "af66750a60b8badd54a78fd86e43c8e5f9235e8d",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/payment-request.test.ts",
+      "sha": "3ec9f3d846396f7df32aa91970d06cb44100c27b",
+      "expected": "3ec9f3d846396f7df32aa91970d06cb44100c27b",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/payment-request.ts",
+      "sha": "10d5b28736911f7c35d0690c819453e5c0bd3531",
+      "expected": "10d5b28736911f7c35d0690c819453e5c0bd3531",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/presentation.test.ts",
+      "sha": "bb4718e1c6c5e59ce8249622164e2926f4ffb5db",
+      "expected": "bb4718e1c6c5e59ce8249622164e2926f4ffb5db",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/presentation.ts",
+      "sha": "2010449a462b3d69f9d52207653312320032f3e9",
+      "expected": "2010449a462b3d69f9d52207653312320032f3e9",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/public-sources.test.ts",
+      "sha": "de34c8ef6905d6b4e2b1c82a7fdcc5c3ddecd316",
+      "expected": "de34c8ef6905d6b4e2b1c82a7fdcc5c3ddecd316",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/public-sources.ts",
+      "sha": "8d55b3fc1a4543b0a2b6fe1f42ce634ecf46859b",
+      "expected": "8d55b3fc1a4543b0a2b6fe1f42ce634ecf46859b",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/request-plan-examples.ts",
+      "sha": "936790cdece3c3c9e5c06461dbbff00b2d6b52fc",
+      "expected": "936790cdece3c3c9e5c06461dbbff00b2d6b52fc",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/request-plan-form.test.ts",
+      "sha": "b4787a7a1b5e57cba7f2e5593b6cc57a8c5e4707",
+      "expected": "b4787a7a1b5e57cba7f2e5593b6cc57a8c5e4707",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/request-plan-form.ts",
+      "sha": "50b63b67a3e1171beda28bc3fc7f1d18eb4c6fc0",
+      "expected": "50b63b67a3e1171beda28bc3fc7f1d18eb4c6fc0",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/request-plan.test.ts",
+      "sha": "9a75cbae6cfc1ef595e63114bf3837103b59dd41",
+      "expected": "9a75cbae6cfc1ef595e63114bf3837103b59dd41",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/request-plan.ts",
+      "sha": "fe3cde636ed65d8e58c8dd24fc63ae17f2b2697e",
+      "expected": "fe3cde636ed65d8e58c8dd24fc63ae17f2b2697e",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/request-ui.test.mjs",
+      "sha": "3be90111f28bf7fdd5cb19597833b48bd90ff80e",
+      "expected": "3be90111f28bf7fdd5cb19597833b48bd90ff80e",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/request-ui.ts",
+      "sha": "df77d2062a928ff935869cc655b170c3b2125434",
+      "expected": "df77d2062a928ff935869cc655b170c3b2125434",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/request.html",
+      "sha": "ee0d6052501aada80990ac71cf6d0a4cb7c95b3b",
+      "expected": "ee0d6052501aada80990ac71cf6d0a4cb7c95b3b",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/review-coordinator.test.ts",
+      "sha": "8b4a6c8551fed06024d995e2a905d512b569eb32",
+      "expected": "8b4a6c8551fed06024d995e2a905d512b569eb32",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/review-coordinator.ts",
+      "sha": "c3dd2487e5b46ed4739a93e499fd7f6aef9c6f3b",
+      "expected": "c3dd2487e5b46ed4739a93e499fd7f6aef9c6f3b",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/server.ts",
+      "sha": "4078a63969b00b7acc1aa61839baf063202aeacf",
+      "expected": "4078a63969b00b7acc1aa61839baf063202aeacf",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/signed-verifier.test.ts",
+      "sha": "235ed5dcba54b31d5cbf3703ffdfb115a405469c",
+      "expected": "235ed5dcba54b31d5cbf3703ffdfb115a405469c",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/signed-verifier.ts",
+      "sha": "17332466fe21e06db101254456d0563c88f73f6f",
+      "expected": "17332466fe21e06db101254456d0563c88f73f6f",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/style.css",
+      "sha": "20cd300de7af04fbb26de3009bbfcf1e256d25d7",
+      "expected": "20cd300de7af04fbb26de3009bbfcf1e256d25d7",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/ui.ts",
+      "sha": "bb3b479d50dab6501b17b835a61986886d898d81",
+      "expected": "bb3b479d50dab6501b17b835a61986886d898d81",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/unsigned-builder.test.ts",
+      "sha": "ad445deed7d72a0963654e742a67688a33adbed2",
+      "expected": "ad445deed7d72a0963654e742a67688a33adbed2",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/unsigned-builder.ts",
+      "sha": "1e20088df49d5a33ec2bf460b889b1d324f45528",
+      "expected": "1e20088df49d5a33ec2bf460b889b1d324f45528",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/xo-candidate.test.ts",
+      "sha": "1484cf94b5421ac6911c90b9e4e779cf708a6755",
+      "expected": "1484cf94b5421ac6911c90b9e4e779cf708a6755",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "core/xo-candidate.ts",
+      "sha": "a95e5ca37e52199e45d09a880a9829c08f348e05",
+      "expected": "a95e5ca37e52199e45d09a880a9829c08f348e05",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "evidence/funding-safety-20261105/independent-review.mjs",
+      "sha": "83301a895797d3c31f755f388beb544f593979e6",
+      "expected": "83301a895797d3c31f755f388beb544f593979e6",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "evidence/signature-20261104/bchn-p2pkh-public-vectors.json",
+      "sha": "aa958d2c372431b6f715b28984c502ac436f75fd",
+      "expected": "aa958d2c372431b6f715b28984c502ac436f75fd",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "evidence/signature-positive-20261104/bchn-cvs72j-unsupported-sighash.json",
+      "sha": "a808c773587d4ce94ea46ec07af2617c1f68156c",
+      "expected": "a808c773587d4ce94ea46ec07af2617c1f68156c",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "evidence/signature-positive-20261104/trezor-public-parent-child.json",
+      "sha": "976028fd5e9aa31be7cffaf4b40af31838bd4089",
+      "expected": "976028fd5e9aa31be7cffaf4b40af31838bd4089",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "package-lock.json",
+      "sha": "64a72fa2a6c582ea99152f0fa61cbb35f8468bd0",
+      "expected": "64a72fa2a6c582ea99152f0fa61cbb35f8468bd0",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "package.json",
+      "sha": "e1d2157ebecaa9c1f2ad74f235e30024393b4ab3",
+      "expected": "6820436ffe198df89250a806c352127aff29e4e9",
+      "unchanged": false,
+      "intendedChange": true
+    },
+    {
+      "path": "preseason/allowance/README.md",
+      "sha": "a3b295721bcf6f5b2e5dbe8ffd2ba8eddcbcaa32",
+      "expected": "a3b295721bcf6f5b2e5dbe8ffd2ba8eddcbcaa32",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/allowance/cli.test.mjs",
+      "sha": "17c81541d13908e681a43f8335f133c387d9313d",
+      "expected": "17c81541d13908e681a43f8335f133c387d9313d",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/allowance/cli.ts",
+      "sha": "f3d1a92931a5348673445efd3a584d799bf8502a",
+      "expected": "f3d1a92931a5348673445efd3a584d799bf8502a",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/allowance/funding-cli.test.mjs",
+      "sha": "b09885e33ce202b1767170ab307aebebc05787b8",
+      "expected": "b09885e33ce202b1767170ab307aebebc05787b8",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/allowance/funding-cli.ts",
+      "sha": "63cef1df0ffc5e91b9a5635645201d435a4c1916",
+      "expected": "63cef1df0ffc5e91b9a5635645201d435a4c1916",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/allowance/funding.test.ts",
+      "sha": "63dc693adcfa29ad74be7db10cd252686859b732",
+      "expected": "63dc693adcfa29ad74be7db10cd252686859b732",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/allowance/funding.ts",
+      "sha": "07e8b4a0bd59847c643cd17a49630b5aa99b4eca",
+      "expected": "07e8b4a0bd59847c643cd17a49630b5aa99b4eca",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/allowance/lab.test.ts",
+      "sha": "5c0ee645412e97e864d614aaa0cb08b17916a4ea",
+      "expected": "5c0ee645412e97e864d614aaa0cb08b17916a4ea",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/allowance/lab.ts",
+      "sha": "7216c4754443f01493eacf66f2eefd2697ea0a34",
+      "expected": "7216c4754443f01493eacf66f2eefd2697ea0a34",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/allowance/synthetic-template.json",
+      "sha": "8f4fa7bb1daf6c23afb97701145f1a4c2fbe1962",
+      "expected": "8f4fa7bb1daf6c23afb97701145f1a4c2fbe1962",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/allowance/template.ts",
+      "sha": "2328e9d41f0999b703c3cb5a249aae16af84f128",
+      "expected": "2328e9d41f0999b703c3cb5a249aae16af84f128",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/xo/README.md",
+      "sha": "6e31828f3493e6e1e4c1d4cd178bfb5927ce5b82",
+      "expected": "6e31828f3493e6e1e4c1d4cd178bfb5927ce5b82",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/xo/app.js",
+      "sha": "ad985ff933f32038c818f1b4f663e544e7e89b4c",
+      "expected": "ad985ff933f32038c818f1b4f663e544e7e89b4c",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/xo/cli.test.mjs",
+      "sha": "3cc5d0bad5c788ad9302a451414f74d1e5b745fe",
+      "expected": "3cc5d0bad5c788ad9302a451414f74d1e5b745fe",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/xo/cli.ts",
+      "sha": "1b0afb0af73d54caee0c8cf3fc58fe958e97672b",
+      "expected": "1b0afb0af73d54caee0c8cf3fc58fe958e97672b",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/xo/fixture.ts",
+      "sha": "d324c428887cac9828ff0093642760e43b3add3e",
+      "expected": "d324c428887cac9828ff0093642760e43b3add3e",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/xo/fixtures/LICENSE-XO.txt",
+      "sha": "0873eb2c1acee2dbe1bce11810e17170a0d74ff8",
+      "expected": "0873eb2c1acee2dbe1bce11810e17170a0d74ff8",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/xo/fixtures/upstream-legacy-invitation.mjs",
+      "sha": "5812a2848d59e292de67840a753f19afad41c5bc",
+      "expected": "5812a2848d59e292de67840a753f19afad41c5bc",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/xo/http.test.mjs",
+      "sha": "0be83ab499b6fa034a52524cc84c5dcb9a7ad121",
+      "expected": "929e3fe13b1da0b221926d9de8de31084dd111d4",
+      "unchanged": false,
+      "intendedChange": true
+    },
+    {
+      "path": "preseason/xo/index.html",
+      "sha": "d447f1ecd675d4c47098981dc06bc1e05f4e4e55",
+      "expected": "d447f1ecd675d4c47098981dc06bc1e05f4e4e55",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/xo/inspect.test.ts",
+      "sha": "9f295433323638b3add0dcf00ef0381114d75418",
+      "expected": "9f295433323638b3add0dcf00ef0381114d75418",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/xo/inspect.ts",
+      "sha": "b96240f0a89cf4b53bacd6d8c0b2c258cbeafa7e",
+      "expected": "b96240f0a89cf4b53bacd6d8c0b2c258cbeafa7e",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/xo/legacy.test.mjs",
+      "sha": "644cb0745bd391dffbf850071fe71afa6a01580e",
+      "expected": "644cb0745bd391dffbf850071fe71afa6a01580e",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/xo/redact.mjs",
+      "sha": "2348f29fd4b89bafc4435ae71c03913079edd184",
+      "expected": "2348f29fd4b89bafc4435ae71c03913079edd184",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/xo/redact.test.mjs",
+      "sha": "240e4576769bb2ec1fa9c02c127550b71a906eaa",
+      "expected": "240e4576769bb2ec1fa9c02c127550b71a906eaa",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/xo/server.ts",
+      "sha": "9a0e9ac41864c2ee99111878ffe293704b0c23d2",
+      "expected": "9a0e9ac41864c2ee99111878ffe293704b0c23d2",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "preseason/xo/style.css",
+      "sha": "69550ce87cef605ac00e9afe591563a7bc308650",
+      "expected": "69550ce87cef605ac00e9afe591563a7bc308650",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "probes/browser-types.tsx",
+      "sha": "de8d5adc7e5015f62c7dc385d0fc4a870cd2ce3f",
+      "expected": "de8d5adc7e5015f62c7dc385d0fc4a870cd2ce3f",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "probes/sdk.test.ts",
+      "sha": "2e71032214c9778226af242107ffd24fb292b156",
+      "expected": "2e71032214c9778226af242107ffd24fb292b156",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "tsconfig.json",
+      "sha": "e9d8dda70fa9b0a2d1981201a6113715e1bd19de",
+      "expected": "e9d8dda70fa9b0a2d1981201a6113715e1bd19de",
+      "unchanged": true,
+      "intendedChange": false
+    },
+    {
+      "path": "test-support/server-process.mjs",
+      "sha": "b97c27a9bbe3d977c1cf928e7e88aa7809a682b0",
+      "expected": null,
+      "unchanged": false,
+      "intendedChange": true
+    },
+    {
+      "path": "test-support/server-process.test.mjs",
+      "sha": "b55393c036726254f4b106eb35a54122635a5717",
+      "expected": null,
+      "unchanged": false,
+      "intendedChange": true
+    }
+  ]
+}

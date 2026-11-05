@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { spawn } from 'node:child_process';
+import { spawnServerProcess } from '../test-support/server-process.mjs';
 import { request as httpRequest } from 'node:http';
 import { syntheticRequestPlanningExample } from '../dist/core/request-plan-examples.js';
 import { contextFromFundingFields } from '../dist/core/request-plan-form.js';
@@ -26,9 +26,9 @@ function rawPost(body, headers = {}) {
   });
 }
 test('loopback static UI and bounded XO diagnostics preserve all offline authority boundaries', async () => {
-  const server = spawn(process.execPath, ['dist/core/server.js'], { stdio: ['ignore', 'pipe', 'pipe'] });
+  const server = spawnServerProcess(['dist/core/server.js'], { readyText: 'Offline core demo http://127.0.0.1:8788' });
   try {
-    await new Promise((resolve, reject) => { const timer = setTimeout(() => reject(Error('Server startup timeout')), 5000); server.stdout.once('data', () => { clearTimeout(timer); resolve(); }); server.once('exit', () => { clearTimeout(timer); reject(Error('Server exited before ready')); }); });
+    await server.ready;
     for (const path of ['/', '/app.js', '/style.css', '/request', '/request.js']) {
       const response = await fetch(base + path); assert.equal(response.status, 200);
       const csp = response.headers.get('content-security-policy'); assert(csp.includes("'wasm-unsafe-eval'")); assert(!csp.includes("'unsafe-eval'")); assert(csp.includes("connect-src 'self'")); assert.equal(response.headers.get('cache-control'), 'no-store');
@@ -73,5 +73,5 @@ test('loopback static UI and bounded XO diagnostics preserve all offline authori
     assert.equal((await fetch(base + '/missing')).status, 404);
     assert.equal((await fetch(base + '/', { method: 'POST' })).status, 404);
     assert.equal((await fetch(base + '/api/wallet')).status, 404);
-  } finally { server.kill(); await new Promise(resolve => server.once('exit', resolve)); }
+  } finally { await server.stop(); }
 });

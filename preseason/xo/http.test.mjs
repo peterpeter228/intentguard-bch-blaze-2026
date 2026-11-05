@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
-import {spawn} from 'node:child_process';
+import {spawnServerProcess} from '../../test-support/server-process.mjs';
 import http from 'node:http';
 const base='http://127.0.0.1:8787';
 test('loopback API, origin, redaction module, Unicode and interrupted-upload regression',async()=>{
- const server=spawn(process.execPath,['dist/preseason/xo/server.js'],{stdio:['ignore','pipe','pipe']});
+ const server=spawnServerProcess(['dist/preseason/xo/server.js'],{readyText:'Local offline inspector: http://127.0.0.1:8787'});
  try {
-  await new Promise((resolve,reject)=>{server.stdout.once('data',resolve);server.once('error',reject);server.once('exit',code=>reject(Error('Server exited '+code)));});
+  await server.ready;
   const page=await fetch(base);assert.equal(page.status,200);assert.ok(page.headers.get('content-security-policy').includes("frame-ancestors 'none'"));assert.ok((await page.text()).includes('type="module"'));
   assert.equal((await fetch(base+'/redact.mjs')).status,200);
   const fixture=await(await fetch(base+'/fixture')).json();
@@ -26,5 +26,5 @@ test('loopback API, origin, redaction module, Unicode and interrupted-upload reg
   const invalid=await fetch(base+'/inspect',{method:'POST',headers:{'Content-Type':'application/json'},body:Buffer.from([123,34,0xff,34,58,49,125])});assert.equal(invalid.status,400);
   await new Promise(resolve=>{const req=http.request(base+'/inspect',{method:'POST',headers:{'Content-Type':'application/json','Content-Length':'10000'}});req.on('error',()=>resolve());req.write('{');setTimeout(()=>{req.destroy();resolve();},20);});
   await new Promise(r=>setTimeout(r,50));assert.equal((await fetch(base)).status,200);
- }finally{server.kill();}
+ }finally{await server.stop();}
 });

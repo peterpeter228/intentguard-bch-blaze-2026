@@ -1,5 +1,30 @@
 # IntentGuard BCH status
 
+## 2026-11-05 startup failure repair and self-check
+
+Fixed a real HTTP test hang after a server had already exited. Test-only lifecycle
+management now captures close at spawn, bounds readiness/shutdown, and reports
+the startup error. Both HTTP suites use it; seven actual-child-process regressions
+were added. Corrected the top-level installation shortcut to include the existing
+required native SQLite rebuild. Product/Guard/covenant/dependency-lock code is
+unchanged. This is a reliability repair, not a new payment feature.
+
+Local and independent fixed-candidate validation each passed typecheck/build and
+253/253 tests. The original missing-native case now fails explicitly in under one
+second with zero cancelled tests, rather than hanging. Both runs used selected
+88-file copies and reused dependencies from this round's correct baseline install
+and native rebuild; neither is claimed as a complete fresh-checkout candidate run.
+See [exact evidence and limits](../evidence/lifecycle-repair-20261105/README.md).
+
+G1 remains IN_PROGRESS / PRESEASON and real authenticated XO/payment integration
+is BLOCKED_EXTERNAL. The November5 portal check hit an expired Human Verification
+challenge; contestant identity and actual submission controls were not verified.
+The published event window remains November14 14:00 UTC–November22 14:00 UTC.
+Real execution, personal feedback, event-time fork/demonstration and eligibility
+evidence remain incomplete. The bounty's material IP waiver requires personal
+handling; no contest submission was made. Argon and the one Opus fallback produced
+no review text, with fees unknown; do not mark external-model review as passed.
+
 ## 2026-11-05 recovery and current integration handoff
 
 G1 remains IN_PROGRESS and normal authenticated XO integration is BLOCKED_EXTERNAL.
@@ -163,4 +188,5 @@ Added a bounded pure inspector and no-argument synthetic CLI that read the actua
 Frozen-source aggregate validation at 03:35:42–03:36:04 UTC passed typecheck/build and 246/246 tests. Independent review and fixed-remote-source evidence are recorded in evidence/funding-safety-20261105 rather than inferred from this local run. Existing covenant, synthetic template, ordinary payment Guard, UI and dependency versions/lock are unchanged. No new browser, wallet, chain, signing, authenticated Invitation or real execution is claimed.
 
 Recovery is still unavailable. Wrong nonmultiple/over-cap/token funding has no valid release path; a valid but unintended multiple creates a different irrevocable number of payments. Separate deposits do not repair each other. Lost beneficiary access does not stop permissionless release but cannot redirect its payouts. Fixed fee and future dust policy can impair liveness. Refund, key rotation and flexible fee designs require a separate decision about changed guarantees. G1 remains IN_PROGRESS and funding remains prohibited.
+
 
