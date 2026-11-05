@@ -37,11 +37,23 @@ Official engine helper accepts an empty, structurally valid invitation without f
 
 Template identifiers must be generated after official parseTemplate normalization, as importTemplate does. For templates0.0.12 P2PKH the normalized identifier is a31eb85891dbf248f1709a92b0fa7e3e6fdc518e6b34e376b197ed7f12dbc672; hashing the original exported object gives a different identifier due to serialization order. Regression tests bind the normalized reference.
 
-No vetted public signed invitation is included. Negative signature tests use deliberately invalid, unsigned synthetic data and do not prove successful validation of a real valid signature. No custom transaction guard, UTXO/fee/recipient verification, novel contract, chain execution, Debug Tool invitation import, or live wallet interoperability is complete.
+No vetted public signed invitation is included. Negative signature tests use
+deliberately invalid, unsigned synthetic data and do not prove successful validation
+of a real valid Invitation signature. The separate core now implements offline
+transaction, fee and recipient checks, but this inspector does not perform them.
+The separate tranche lab is experimental and must never be funded. Normal
+authenticated Invitation execution, Debug Tool import, live wallet interoperability
+and novel-template bounty qualification remain unverified.
 
 ## Contest boundary and next milestone
 
-Official build window is November14–22, closing November22 14:00UTC. This whole directory is November4 preseason work. Do not relabel it as in-window development. Preserve the original G1 plan: implement the real confirmed-intent→decoded-transaction guard and payment/receipt vertical slice during the event. XO remains optional until a useful novel contract can be justified without manufacturing custody or duplicating P2PKH. A schema inspector alone does not satisfy Build with XO.
+Official build window is November14–22, closing November22 14:00UTC. This whole
+directory is November4 preseason work. Do not relabel it as in-window development.
+The user's later November4 core-development instruction superseded the voluntary
+G1 deferral; the resulting core work is also disclosed pre-event. Real payment and
+receipt integration remains unfinished. XO remains optional until a useful novel
+contract and supported execution can be established without manufacturing custody
+or duplicating P2PKH. A schema inspector alone does not satisfy Build with XO.
 
 The bounty additionally requires an actual Chipnet/Mainnet execution, executed invitation, reproduction instructions and applicable follow-up actions. Personal development feedback must be written by the human; this lab does not generate it. Main-track mainnet requirement, attendance, public demo, rights/licensing review and submission remain separate gates.
 

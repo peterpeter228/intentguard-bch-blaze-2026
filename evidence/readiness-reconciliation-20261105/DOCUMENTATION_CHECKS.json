@@ -1,0 +1,92 @@
+{
+  "checkedAt": "2026-11-05T10:36:52.806021+00:00",
+  "sourceCommit": "ee01a6f7156166976e0852b2eedb4b3d26c1a35b",
+  "scope": "documentation reconciliation only; no product tests rerun",
+  "changedDocuments": [
+    {
+      "path": "core/README.md",
+      "bytes": 5621,
+      "gitBlobSha": "e23e29ee15ac27b411dd54ce56840d75df9c8d39"
+    },
+    {
+      "path": "core/READ_ONLY_COORDINATION.md",
+      "bytes": 3790,
+      "gitBlobSha": "33a0d082a3de1801fc686d514f4341726883d925"
+    },
+    {
+      "path": "preseason/xo/README.md",
+      "bytes": 5094,
+      "gitBlobSha": "6e31828f3493e6e1e4c1d4cd178bfb5927ce5b82"
+    },
+    {
+      "path": "docs/NEXT_ACTION.md",
+      "bytes": 12985,
+      "gitBlobSha": "85bdb78a4ee179035fedcc2cdb16fbedb7a969d1"
+    },
+    {
+      "path": "docs/STATUS.md",
+      "bytes": 25218,
+      "gitBlobSha": "2445c20cb2f079ce34d2a3a4b78ef09a64484db5"
+    },
+    {
+      "path": "docs/VERIFICATION_HANDOFF.md",
+      "bytes": 8343,
+      "gitBlobSha": "7c8fe223d91c3f053ad2a5d72925cdc4a9c9e6a6"
+    },
+    {
+      "path": "evidence/readiness-reconciliation-20261105/README.md",
+      "bytes": 5443,
+      "gitBlobSha": "0bfc556c1d784d25be9134e7d0df34a93e783499"
+    }
+  ],
+  "relativeMarkdownLinks": "all target files present in fixed remote tree or new docs",
+  "unchangedInspectedFiles": [
+    {
+      "path": "core/unsigned-builder.ts",
+      "gitBlobSha": "1e20088df49d5a33ec2bf460b889b1d324f45528"
+    },
+    {
+      "path": "core/signed-verifier.ts",
+      "gitBlobSha": "17332466fe21e06db101254456d0563c88f73f6f"
+    },
+    {
+      "path": "core/review-coordinator.ts",
+      "gitBlobSha": "c3dd2487e5b46ed4739a93e499fd7f6aef9c6f3b"
+    },
+    {
+      "path": "core/xo-candidate.ts",
+      "gitBlobSha": "a95e5ca37e52199e45d09a880a9829c08f348e05"
+    },
+    {
+      "path": "preseason/xo/inspect.ts",
+      "gitBlobSha": "b96240f0a89cf4b53bacd6d8c0b2c258cbeafa7e"
+    },
+    {
+      "path": "preseason/xo/cli.ts",
+      "gitBlobSha": "1b0afb0af73d54caee0c8cf3fc58fe958e97672b"
+    },
+    {
+      "path": "package.json",
+      "gitBlobSha": "6820436ffe198df89250a806c352127aff29e4e9"
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "gitBlobSha": "66c9baec97905bf198487fa74e522772398c2c71"
+    },
+    {
+      "path": "core/SIGNATURE_VERIFICATION.md",
+      "gitBlobSha": "592c519e256362045bb0e1c9083655b78aaecbed"
+    },
+    {
+      "path": "core/REQUEST_PLAN_UI.md",
+      "gitBlobSha": "a145953f67ebe62239d1e38dc22f5b3ae1797003"
+    },
+    {
+      "path": "evidence/funding-safety-20261105/NORMAL_XO_EXECUTION_GATE.md",
+      "gitBlobSha": "668cd0ed074e3ab0021b649be6444a7bdc3fe01e"
+    }
+  ],
+  "runtimeTests": "NOT_RUN",
+  "browser": "NOT_RUN",
+  "walletSigningChain": "NOT_RUN"
+}

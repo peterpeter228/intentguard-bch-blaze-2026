@@ -1,46 +1,97 @@
-## Current XO reference integration
+# IntentGuard BCH core: current capability and limits
 
-The optional comparison on `/request` uses the actual pinned XO engine to compile the official P2PKH template recipient and build transaction bytes, then independently checks them against the reviewed request plan. BCH and fungible-token single-recipient actions are supported. This is an unsigned template candidate, not a valid Invitation, new contract, execution result or bounty qualification. See [XO adapter details](XO_CANDIDATE.md) and [current official requirement gaps](../evidence/xo-candidate-20261104/REQUIREMENTS.md).
+Current state, 2026-11-05: **G1 IN_PROGRESS; real payment integration BLOCKED_EXTERNAL.**
+This is a private, pre-event offline diagnostic application and SDK, not a wallet,
+signed payment, confirmed receipt, public demo or completed contest entry.
+The November 4 instruction to implement core superseded the earlier voluntary deferral.
 
-# Core transaction comparator — pre-event development
+## Local demonstration
 
-Current continuation: [clickable offline request planning](REQUEST_PLAN_UI.md), [explicit request-to-plan binding](REQUEST_PLAN.md), [offline unsigned builder](UNSIGNED_BUILDER.md), [offline signed verification](SIGNATURE_VERIFICATION.md), and [read-only coordination](READ_ONLY_COORDINATION.md). Earlier implementation snapshots below are historical; none imply real wallet or chain success.
+With pinned dependencies and required native SQLite bindings installed:
 
-The user explicitly requested core implementation on November 4, 2026. This supersedes our own earlier decision to defer G1 until November 14. These files are disclosed pre-event work, not event-period work or completed entry qualification.
-
-## Run
-
-```
+```sh
 npm run validate
 npm run core:demo
 npm run core:preview
-# Open http://127.0.0.1:8788
+# Open http://127.0.0.1:8788/request on the same machine.
 ```
 
-`verifyCandidate` consumes an explicitly confirmed-intent-shaped record, unsigned raw BCH transaction and bounded evidence snapshot. It decodes with pinned libauth, binds each input to the full parent transaction by txid, compares every recipient output exactly, accepts only separately supplied owner-change scripts, computes total fee using bigint, and rejects duplicate inputs, NFTs, undeclared categories, token imbalance, unknown owners/scripts, expiry and stale/missing observations. Only P2PKH scripts, version 2, zero locktime and final sequences are supported.
+Load a complete synthetic BCH or token example, review the request, separately
+acknowledge the offline funding claims, build the plan, and optionally compare with
+the actual official XO engine. Every output, token category, fee and binding is
+shown. Editing, expiry, cancellation and stale asynchronous responses invalidate
+prior results. Reports omit raw parent/candidate bytes and confer no authority.
+See [the demonstrated flow and evidence](REQUEST_PLAN_UI.md).
 
-The demo uses synthetic transaction graphs, a synthetic token category and fixed simulated clock. Parent hashes are cryptographically checked; network, ownership and unspent claims are still supplied evidence. No chain reader or wallet adapter has been implemented. MATCH_OFFLINE is conditional comparison only. Every result has canSign=false; this module must not be used as a spending authorization.
+The optional XO comparison sends data only to the same loopback server. It does
+not persist it, contact a node, create an account or open a wallet. Do not expose
+the preview publicly. Digests can still correlate transactions.
 
-`parseUnits` accepts strict decimal strings and rejects excess precision; no Number arithmetic or rounding. `structuralTransactionDigest` excludes unlocking bytes only. It is NOT the complete network/source/consent commitment proposed in the architecture. `compareSignedCandidate` checks only structural sameness and nonempty unlocking scripts, NOT signature validity, sighash restrictions or a successful wallet operation. Its tests use dummy bytes, never real signatures.
+## Implemented, with limited claims
 
-The original transaction inspector runs in the browser. The request page now offers an explicit optional XO comparison through the same loopback server, with connect-src self restricted to the local origin. That diagnostic endpoint does not store input, open wallets, request accounts or query RPC. Editing invalidates the previous report/export. Download contains report/digests, not input documents; digests can nevertheless correlate transactions and should remain private unless deliberately shared.
+- **Request and Guard:** strict decimal-to-integer amounts, CashAddr/lifetime
+  checks, full-parent hash binding, all-input/all-output comparison, exact
+  recipients/token conservation, separately supplied owner-change scripts,
+  duplicate/NFT/unknown-script rejection and token-aware dust. Ordinary payments
+  support P2PKH, version 2, zero locktime and final sequences. `MATCH_OFFLINE`
+  remains conditional comparison, never spending approval.
+- **Unsigned planning:** deterministic selected inputs, token-preserving change,
+  signed-size assumptions, integer fee budgeting and absolute/rate caps.
+  Explicit dust donation is narrowly below 546 sat. No coin discovery or
+  authenticated wallet capability is inferred. See [builder](UNSIGNED_BUILDER.md)
+  and [request binding](REQUEST_PLAN.md).
+- **Evidence and state:** bounded evidence interfaces, TLS read transport,
+  source-derived Chipnet candidates and a durable review coordinator with
+  reservations/revisions/uncertain-state handling. The separate operation store
+  is simulated. No successful production node or authenticated wallet session is
+  established. See [transport](TRANSPORT.md), [coordination](READ_ONLY_COORDINATION.md)
+  and [refresh/migration limits](REVIEW_REFRESH.md).
+- **Existing signed-byte verification:** stateless, full-parent-bound and
+  full-plan verifiers exist. Published BCHN vectors and an unchanged historical
+  Trezor version-1 fixture cover lower layers. Version-2 full-plan and strict
+  P2PKH token/0x61 positives remain unverified. No keys/signatures were generated.
+  See [signature scope](SIGNATURE_VERIFICATION.md).
+- **Actual XO reference producer:** pinned official P2PKH compilation and
+  unsigned transaction construction, followed by independent Guard/exact-plan
+  checks. Single-recipient BCH/FT only. Not an authenticated Invitation, new
+  contract or execution. See [XO integration](XO_CANDIDATE.md).
 
-## Still unfinished
+The earlier `compareSignedCandidate` helper checks structure/nonempty unlocking
+only, not signatures. The later verifiers, imported success JSON and content
+digests do not establish human consent, ownership, current spendability or authority.
 
-- Independently verified wallet script/path ownership and human confirmation state.
-- Trusted live chain reader, source disagreement/reorg handling, spendability and freshness evidence.
-- Dynamic dust policy and fee-rate ceilings; current 546-satoshi minimum is merely a conservative supported-input rule, not sufficient relay-policy validation for token outputs.
-- Signature/sighash validation and wallet non-broadcast behavior; signing and transactions remain prohibited for this work.
-- Integrating the new local simulation operation store with authenticated real wallet/chain events; independent confirmed receipts remain unfinished.
-- Public demo, mainnet functional proof, complete event rules/qualification/IP/license review and final submission.
-- XO-specific novel contract and current signed-Invitation positive fixture are separate, still incomplete.
+Dust uses a fixed application baseline of 1000 sat/1000 bytes and the full
+serialized output including tokens: ordinary P2PKH is 546 sat; the documented
+100-unit FT example is 651 sat. Fee/size checks exist, but these are not live
+policy quotes or guarantees of relay/miner acceptance.
 
-All current tests are local synthetic checks. They demonstrate deterministic rejection/matching behavior, not customer demand, real transaction success, or an award probability.
+## Material remaining gates
 
-## Evidence/state continuation
+1. Authenticated current wallet/session/path ownership and separately permitted,
+   independently sourced live network evidence.
+2. Wallet no-broadcast behavior, supported signature capabilities and valid
+   version-2/token signed-plan evidence.
+3. Real payment orchestration, uncertain-response reconciliation and independent
+   confirmed receipts. Simulated events/review journals cannot promote payment state.
+4. For XO, an actual participant-controlled Invitation plus supported normal
+   participation, exact change/fee, unlocking and follow-up behavior.
+   `executeAction(false)` still signs/records identity results; it is not read-only.
+5. Separately authorized useful real mainnet function, public deliverables,
+   event-period improvements/disclosure, human attendance/feedback and rights/submission review.
 
-[Evidence and durable-state interfaces](EVIDENCE_AND_STATE.md) now implement bounded source corroboration, session-derived ownership checks and actual local SQLite concurrency/recovery. Production transports remain unconfigured, and scenario events are not verified financial facts. The localhost UI bundle is unchanged by this continuation.
+Start from [the current next action](../docs/NEXT_ACTION.md) and
+[bounded verification handoff](../docs/VERIFICATION_HANDOFF.md), not more generic
+offline scaffolding. All report authority flags remain false.
 
-## Token-aware dust baseline
+The isolated [tranche experiment](../preseason/allowance/README.md) is rejected by
+the ordinary-payment Guard. **Never fund it:** recovery is absent, beneficiary/fee
+are immutable, and unsuitable deposits can permanently strand funds.
 
-The comparator now checks each supported output against libauth's full serialized-output dust threshold at a fixed application relay baseline of1000 sat/1000 bytes. CashTokens prefix/amount CompactSize are included: ordinary P2PKH is546 sats, a P2PKH FT output with amount100 is651, and amount253 is657. Recipient and change outputs are both checked. This is not a live node policy quote, consensus guarantee or complete fee-rate policy. Total fee remains capped by the intent; final signed-size/fee-rate bounds and an unsigned payment builder are still pending. See evidence/coordination-20261104/FEE_DUST_REVIEW.md for the pinned BCHN formula and limitations.
+## Evidence belongs to its actual run
+
+The latest recorded exact-source aggregate pass is 246/246 tests, typecheck/build
+for source commit `56d2086d480b1216e3f36295a87d9f826d35198e`, November 5,
+03:41:41–03:42:07 UTC. It used 133 selected files and reused pinned dependencies,
+not a fresh full checkout/install. See [exact scope](../evidence/funding-safety-20261105/REMOTE_VERIFICATION.md).
+This November 5 documentation reconciliation did not rerun product tests,
+browser, wallet, chain, signing or execution and adds no runtime feature.

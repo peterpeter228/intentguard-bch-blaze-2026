@@ -1,5 +1,44 @@
 # Next action
 
+## Current gate, 2026-11-05
+
+G1 remains IN_PROGRESS. The independent next step is **verification of an already
+existing, shareable XO participant artifact**, if the user has one. Request only
+the exact `serializeInvitation(storedInvitation.invitation)` export, its exact
+template JSON, explicit network and independently selected template identifier/source.
+Use the existing bounded inspector. No new account, key, signature, node query or
+payment is needed for that initial verification. A historical/expired valid artifact
+can establish historical compatibility only, never present executability.
+
+If no such artifact exists, normal authenticated XO integration is
+BLOCKED_EXTERNAL. `createInvitation`, signed append and `executeAction(false)`
+are not read-only alternatives. Do not generate another offline helper, repeat the
+exhausted public-fixture search, mock success or fund the experimental tranche.
+The next decision is a separately scoped user-operated test session, with the
+specific account/network, public-query disclosure, identity-signing and any
+credential requirements made explicit. Wallet/payment signing, funding, broadcast,
+deployment, public sharing and contest submission remain separate boundaries.
+
+The ordinary core already has a request-to-plan UI, deterministic unsigned builder,
+actual XO pure-function candidate producer, offline signed-byte verification and
+read-only evidence/review interfaces. Earlier paragraphs below that call these
+unimplemented are **historical checkpoints**, not today's build list. Live session,
+ownership, node evidence, no-broadcast wallet behavior, full signed-plan positives,
+real orchestration and independent receipts remain open.
+
+Follow [VERIFICATION_HANDOFF.md](VERIFICATION_HANDOFF.md) for exact material,
+verification scope, stopping conditions and contest evidence gates. This update
+reconciles recovery instructions only; it is not a new core feature or test run.
+
+Organizer Q&A rechecked November 5 allows pre-existing work as a disclosed base,
+but requires a fork at the November 14 14:00 UTC start, a banner linking the
+pre-event demo and old/new repositories, and event-period improvements. Only
+November 14–22 work is judged. Preserve that future disclosure boundary; no fork,
+public release or submission is performed or authorized by this note. Exact
+organizer quotes and sources are in the handoff's reconciliation evidence.
+
+## Historical checkpoints, retained for provenance
+
 Latest user instruction on 2026-11-04: implement core now. The voluntary G1 deferral is superseded; all current work is disclosed pre-event.
 
 Current G1 slice is the offline raw BCH transaction comparator and local browser demonstration in core/. Validate actual consumer paths and independent negative cases, persist fixed source/evidence, and retain canSign=false. Next engineering gate is a trustworthy chain/ownership evidence interface plus persistent idempotent operation state; do not connect signing or payment while the wallet non-broadcast and signature/sighash guarantees remain unverified.

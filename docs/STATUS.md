@@ -1,5 +1,28 @@
 # IntentGuard BCH status
 
+## 2026-11-05 recovery and current integration handoff
+
+G1 remains IN_PROGRESS and normal authenticated XO integration is BLOCKED_EXTERNAL.
+The branch was recovered at ee01a6f7156166976e0852b2eedb4b3d26c1a35b. Reconciled
+the current core/lab capability summaries and separated historical next-action
+checkpoints from today's real gates. Added a bounded handoff for an already existing
+Invitation, optional parent/candidate exports and the separately scoped user-operated
+session if no artifact exists. No new core feature, test fixture or runtime change
+was made; no new product test/browser/chain result is claimed. Earlier 246-test
+evidence remains attached to its exact earlier run and source commit.
+
+Current deterministic planning, signed-byte verification and XO pure-function
+comparison must not be confused with authenticated ownership, fresh chain evidence,
+normal signed Invitation execution or real payment/receipt success. No account,
+wallet, signature, RPC, funding, transaction, public deployment, outreach or contest
+submission occurred. The experimental tranche still has no recovery and must not
+be funded. See [VERIFICATION_HANDOFF.md](VERIFICATION_HANDOFF.md) and the
+documentation-only reconciliation evidence for the exact scope and next stop.
+
+Evidence: [readiness reconciliation](../evidence/readiness-reconciliation-20261105/README.md).
+
+## Historical status entries
+
 Updated 2026-10-27 UTC. Stage: G0 PARTIAL — preseason preparation. Repository is private; not a public demo or submission.
 
 - T00: local environment and remote initial baseline identified; final source upload/commit binding pending coordinator.

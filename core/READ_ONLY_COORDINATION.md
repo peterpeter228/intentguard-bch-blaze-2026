@@ -20,4 +20,10 @@ Every record keeps canSign=false, receiptValid=false and consensusVerified=false
 
 A corrupt, missing or replaced journal fails closed; do not silently make a fresh store. After uncertain write failure reopen/read before deciding whether anything committed. Local filesystem durability, malicious local writers, deleted/restored old databases and dishonest application/session adapters remain outside this journal's guarantees. No outcome authorizes submission, deployment, signing or broadcast.
 
-The comparator separately adds token-aware dust at fixed1000 sat/1000bytes. Fee-rate caps, live relay/mempool conditions, final signed-size verification and unsigned payment building are not implemented by the coordinator. See FEE_DUST_REVIEW.md in this slice's evidence directory. These are deliberate remaining engineering gates, not successful validation claims.
+The comparator separately adds token-aware dust at fixed1000 sat/1000bytes. Later
+modules implement unsigned payment building, fee-rate caps and offline final
+signed-size verification; see UNSIGNED_BUILDER.md and SIGNATURE_VERIFICATION.md.
+Those modules are not a live payment integration with this coordinator. Live
+relay/mempool conditions, authenticated wallet/node evidence and real orchestration
+remain unverified. See the historical FEE_DUST_REVIEW.md in this slice's evidence
+directory for the original dust-policy review, not a current feature inventory.
