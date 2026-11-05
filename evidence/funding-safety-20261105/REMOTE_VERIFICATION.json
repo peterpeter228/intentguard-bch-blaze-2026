@@ -1,0 +1,707 @@
+{
+  "verifiedAt": "2026-11-05T03:42:57.691727+00:00",
+  "sourceCommit": "56d2086d480b1216e3f36295a87d9f826d35198e",
+  "sourceTree": "ba50ab15b2b6ab2bab17e6bce86ee0bd8d0f2c24",
+  "parentCommit": "7f429fe46193f5f1bcc2ec84c32ca4ca29661b09",
+  "remoteSourceTreeFiles": 426,
+  "changedBlobReadbacks": 20,
+  "unchangedPriorBlobIds": 406,
+  "selectedFiles": 133,
+  "downloadedChangedFiles": 20,
+  "reusedFilesIndividuallyTreeHashed": 113,
+  "postTestHashesMatch": true,
+  "freshDependencyInstall": false,
+  "validation": {
+    "start": "2026-11-05T03:41:41Z",
+    "end": "2026-11-05T03:42:07Z",
+    "exitCode": 0,
+    "typecheck": true,
+    "build": true,
+    "testsPassed": 246
+  },
+  "independent": {
+    "timestamp": "2026-11-05T03:42:10.599Z",
+    "namedProbes": 63,
+    "nonTimingResultsEqual": true,
+    "sourceHashes": {
+      "preseason/allowance/funding.ts": "20d1c85fdc25045951fbd958645ef493166a663f29eff023ab1b8d25157935d0",
+      "preseason/allowance/funding.test.ts": "7ca2f278b3c5868335f9219c63a6c56509231e02b11ad9085a4f913b8954e3b3",
+      "preseason/allowance/template.ts": "c8f034bed191baab8f13fd4e13411b1c477fcc23f2792010c32e9ac738a5901d",
+      "preseason/allowance/lab.ts": "f3228f76153ad18b82d101a17e0cc939e8b9a6e6c360f01a79d0d52aa56b4d32"
+    }
+  },
+  "cliExactResultEqual": true,
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha": "11f3f2341c46a16104d97fc3380461e27848bf89",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "README.md",
+      "sha": "ee283e7ed411e07accbd8b1d9bd096303b9e39a6",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/EVIDENCE_AND_STATE.md",
+      "sha": "f6eb1a4de44b7803abc7e9cf71121232bfc2120f",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/PAYMENT_REQUEST.md",
+      "sha": "c29f0956bd1ca8fd1d4f28a5c5425ada52f319ce",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/README.md",
+      "sha": "25f319f8e79b809bc68ff4d743c85b875014212a",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/READ_ONLY_COORDINATION.md",
+      "sha": "a01c97a939f023ea8a8705436d5d0f526003ca57",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/REQUEST_PLAN.md",
+      "sha": "f501f27b23a4a65e05a6b7ce15b6ec4cc36eea60",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/REQUEST_PLAN_UI.md",
+      "sha": "a145953f67ebe62239d1e38dc22f5b3ae1797003",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/REVIEW_REFRESH.md",
+      "sha": "bd94d511dd26144ab745d138c1d30c85a42dac44",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/SIGNATURE_VERIFICATION.md",
+      "sha": "592c519e256362045bb0e1c9083655b78aaecbed",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/TRANSPORT.md",
+      "sha": "9dbd1136953aae54a2e75777d5d00fb0dcdf079d",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/UNSIGNED_BUILDER.md",
+      "sha": "ff9c494581e1e3d48d99980db53fe8f1f4707731",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/XO_CANDIDATE.md",
+      "sha": "ed99c2b831494bef5f60b84ef8843f2778063877",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/demo.ts",
+      "sha": "44f0b49eee317fb48ae51afdc44d61281aacdd74",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/electrum-transport.test.ts",
+      "sha": "79524b490acd24513221e4d7303e93e0a1919bfd",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/electrum-transport.ts",
+      "sha": "4ec52502ccb6d7a467a92b26684f1670a7fc696c",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/evidence.test.ts",
+      "sha": "a4865e3a1f1f85fe846e49d7ede33fe136a44869",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/evidence.ts",
+      "sha": "d90c9ea0261ee66dad1854ec3989435f488c83c5",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/fixtures.ts",
+      "sha": "22e5b06295471fc59aa98fa62f3c7f5aabafdf6f",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/guard.test.ts",
+      "sha": "9d38b2298a9af3b007145edd8d859b55dbbc0666",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/guard.ts",
+      "sha": "93a5477928d68187c32772ee72fd6080e82a57bf",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/http.test.mjs",
+      "sha": "eb363e6d5c0af8a9c0bbdfd5e0ad549a137fb1a7",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/index.html",
+      "sha": "bd8a0493c088843ea45cc8f786737bd0f76b25b0",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/operation-store.test.ts",
+      "sha": "0b1c3a0415473752a49327cf81294ecf862b40f8",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/operation-store.ts",
+      "sha": "af66750a60b8badd54a78fd86e43c8e5f9235e8d",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/payment-request.test.ts",
+      "sha": "3ec9f3d846396f7df32aa91970d06cb44100c27b",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/payment-request.ts",
+      "sha": "10d5b28736911f7c35d0690c819453e5c0bd3531",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/presentation.test.ts",
+      "sha": "bb4718e1c6c5e59ce8249622164e2926f4ffb5db",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/presentation.ts",
+      "sha": "2010449a462b3d69f9d52207653312320032f3e9",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/public-sources.test.ts",
+      "sha": "de34c8ef6905d6b4e2b1c82a7fdcc5c3ddecd316",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/public-sources.ts",
+      "sha": "8d55b3fc1a4543b0a2b6fe1f42ce634ecf46859b",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/request-plan-examples.ts",
+      "sha": "936790cdece3c3c9e5c06461dbbff00b2d6b52fc",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/request-plan-form.test.ts",
+      "sha": "b4787a7a1b5e57cba7f2e5593b6cc57a8c5e4707",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/request-plan-form.ts",
+      "sha": "50b63b67a3e1171beda28bc3fc7f1d18eb4c6fc0",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/request-plan.test.ts",
+      "sha": "9a75cbae6cfc1ef595e63114bf3837103b59dd41",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/request-plan.ts",
+      "sha": "fe3cde636ed65d8e58c8dd24fc63ae17f2b2697e",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/request-ui.test.mjs",
+      "sha": "3be90111f28bf7fdd5cb19597833b48bd90ff80e",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/request-ui.ts",
+      "sha": "df77d2062a928ff935869cc655b170c3b2125434",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/request.html",
+      "sha": "ee0d6052501aada80990ac71cf6d0a4cb7c95b3b",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/review-coordinator.test.ts",
+      "sha": "8b4a6c8551fed06024d995e2a905d512b569eb32",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/review-coordinator.ts",
+      "sha": "c3dd2487e5b46ed4739a93e499fd7f6aef9c6f3b",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/server.ts",
+      "sha": "4078a63969b00b7acc1aa61839baf063202aeacf",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/signed-verifier.test.ts",
+      "sha": "235ed5dcba54b31d5cbf3703ffdfb115a405469c",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/signed-verifier.ts",
+      "sha": "17332466fe21e06db101254456d0563c88f73f6f",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/style.css",
+      "sha": "20cd300de7af04fbb26de3009bbfcf1e256d25d7",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/ui.ts",
+      "sha": "bb3b479d50dab6501b17b835a61986886d898d81",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/unsigned-builder.test.ts",
+      "sha": "ad445deed7d72a0963654e742a67688a33adbed2",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/unsigned-builder.ts",
+      "sha": "1e20088df49d5a33ec2bf460b889b1d324f45528",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/xo-candidate.test.ts",
+      "sha": "1484cf94b5421ac6911c90b9e4e779cf708a6755",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "core/xo-candidate.ts",
+      "sha": "a95e5ca37e52199e45d09a880a9829c08f348e05",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "docs/03_PRD.md",
+      "sha": "fd3e82dc810e3e79f036ef008211368239b27a64",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "sha": "66c9baec97905bf198487fa74e522772398c2c71",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "docs/NEXT_ACTION.md",
+      "sha": "eeb9107f8b02ee05d84669e02192c0611b18fd36",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "docs/STATUS.md",
+      "sha": "8d9f7f239e79c6eeea06972d120c5d3fbd60dfe7",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "evidence/funding-safety-20261105/ASSESSMENT.md",
+      "sha": "543a37ea49edc7c53d6de49ee849daa0952bebe9",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "evidence/funding-safety-20261105/CLI_RESULT.json",
+      "sha": "53fc9c012dbd3ffa28ff0d8e188a09247aca3643",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "evidence/funding-safety-20261105/DESIGN.md",
+      "sha": "a5f44cd0a03cd1d1ae753a82878823ff8257dbf2",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "evidence/funding-safety-20261105/REPRODUCTION.md",
+      "sha": "2105f60a1c9dbb7fa9993549d5fb0f78f9d2c64e",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "evidence/funding-safety-20261105/REVIEW_ALLOWANCE_TESTS.log",
+      "sha": "6a6a7702d1bd7f0f26a3a109552754899c23f8e3",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "evidence/funding-safety-20261105/REVIEW_BUILD.log",
+      "sha": "ffb7431de45981261dc7afbb290f81cc0f92570b",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "evidence/funding-safety-20261105/SECURITY_REVIEW.md",
+      "sha": "bef9f69c6c3c348508d041980941e98fb46b4ca2",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "evidence/funding-safety-20261105/SOURCE_SHA256.txt",
+      "sha": "aa173461dc0d29c94f90ed2c925a47c5da08bf60",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "evidence/funding-safety-20261105/VALIDATION.log",
+      "sha": "42129dfbc58aeed049c91fd399a8345d1f11bde0",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "evidence/funding-safety-20261105/independent-review-results.json",
+      "sha": "102fe0b84eaf89c0e0ba5cbf4da520542f385849",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "evidence/funding-safety-20261105/independent-review.mjs",
+      "sha": "83301a895797d3c31f755f388beb544f593979e6",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "evidence/signature-20261104/BCHN_COPYING.txt",
+      "sha": "3452b8c974d579ebdb92e665d21458a05e51a7f9",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/signature-20261104/bchn-p2pkh-public-vectors.json",
+      "sha": "aa958d2c372431b6f715b28984c502ac436f75fd",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/signature-20261104/remote-manifest-7d2246cd.json",
+      "sha": "8591cd1156a6928450b4b47cf1e1f3422e204c68",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/signature-20261104/verify-only-results.json",
+      "sha": "983c19fb8e61a1ff7603c6cf7d62963d70c89b95",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/signature-positive-20261104/BCHN_COPYING.txt",
+      "sha": "3452b8c974d579ebdb92e665d21458a05e51a7f9",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/signature-positive-20261104/TREZOR_COPYING.txt",
+      "sha": "53d1f3d01864c35841739c55aeba9700657627b7",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/signature-positive-20261104/TREZOR_LGPL3.txt",
+      "sha": "341c30bda4457610db4829294e5d7e526d4c835b",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/signature-positive-20261104/TREZOR_SOURCE_NOTICE.txt",
+      "sha": "cd5b35143f35caa58de346c93a88133c6277fc6f",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/signature-positive-20261104/bchn-cvs72j-unsupported-sighash.json",
+      "sha": "a808c773587d4ce94ea46ec07af2617c1f68156c",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/signature-positive-20261104/scan-results.json",
+      "sha": "7abf7d7b1552297c882b57a8391081f6b984a661",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/signature-positive-20261104/trezor-public-parent-child.json",
+      "sha": "976028fd5e9aa31be7cffaf4b40af31838bd4089",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/signature-positive-20261104/trezor-verification-result.json",
+      "sha": "610cafc40671ca158f7a56cde353386c4b24f415",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/template-reproduction-20261105/FINDINGS.md",
+      "sha": "d7a8e7d9ee8daa7b9af2896286f9113713420b52",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/template-reproduction-20261105/INDEPENDENT_REVIEW.md",
+      "sha": "4e6b0a89bf738cd7c21d083090f4fc5c7a831aad",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/template-reproduction-20261105/RESULT.json",
+      "sha": "e38f685ba6de324aa824db95c6513dd1bdabf0de",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/template-reproduction-20261105/SOURCE_MANIFEST.json",
+      "sha": "a8f665dd4623a567c5968caabe9ea52b05c77050",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/template-reproduction-20261105/VALIDATION.log",
+      "sha": "dd02fa338b9d836d5f1ba6e532637b2ffed725cb",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/template-reproduction-20261105/zero-value-output-repro.mjs",
+      "sha": "a25591c4aee72e4d05a0eb26ef4759685fb156f7",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/CLI_RESULT.json",
+      "sha": "7bc158f0dff498583e5e44415141e13480b6a935",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/DESIGN.md",
+      "sha": "40c206d306095c464fe521071aa3ce7479aa4f1a",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/FINDINGS.md",
+      "sha": "22a1dbb589427b060487d2d80f213c0ccec9e8bc",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/REMOTE_VALIDATION.log",
+      "sha": "3fa3f18426a46262e0760434a34da4fe80749c91",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/REMOTE_VERIFICATION.json",
+      "sha": "80d8d9935692bdafc500a41affd7446e9f1604d0",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/REMOTE_VERIFICATION.md",
+      "sha": "05ee17ff71c80d135ae44e3ec8c0f4a68083120b",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/REPRODUCTION.md",
+      "sha": "96996139cf5f10cc192cce123101101b5f511ef7",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/REVIEW_ALLOWANCE_TESTS.log",
+      "sha": "7f208bbee616ad4e3145dbd9bfa34b7becc88955",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/REVIEW_FINAL_TIMESTAMP.txt",
+      "sha": "ef568933c76aec05d2d19b20dbbb5ba4618a14ef",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/SECURITY_REVIEW.md",
+      "sha": "7273f947181dbb940d3d83ab05754f24b8f8edc8",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/SOURCE_SHA256.txt",
+      "sha": "6c05eda1a86d9311f07ace2bcd684c36d0398b6f",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/VALIDATION.log",
+      "sha": "fb0bd44a34a3966220a74891eac632018fd75cba",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/independent-review-results.json",
+      "sha": "d47574d6504936370d09c691ffa8fd6dc234e4f4",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/independent-review.mjs",
+      "sha": "adfc8142b9a9cd840315c0beed67f083cec14c18",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/static-template-review-results.json",
+      "sha": "e179b158ce7f71142ed908b808f651fca223309d",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/tranche-lab-20261105/static-template-review.mjs",
+      "sha": "8b9ae942782b1f424946f50972ae8a756de0fa67",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/xo-positive-template-assessment-20261105/ASSESSMENT.md",
+      "sha": "581e4b0e8e616554d451d3c200f5dde7dfe84c72",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "evidence/xo-zero-output-assessment-20261105/ASSESSMENT.md",
+      "sha": "f9ad9afb04b3e63cd21d2c9e54d87e98320b6b68",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "package-lock.json",
+      "sha": "64a72fa2a6c582ea99152f0fa61cbb35f8468bd0",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "package.json",
+      "sha": "6820436ffe198df89250a806c352127aff29e4e9",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "preseason/allowance/README.md",
+      "sha": "a3b295721bcf6f5b2e5dbe8ffd2ba8eddcbcaa32",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "preseason/allowance/cli.test.mjs",
+      "sha": "17c81541d13908e681a43f8335f133c387d9313d",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/allowance/cli.ts",
+      "sha": "f3d1a92931a5348673445efd3a584d799bf8502a",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/allowance/funding-cli.test.mjs",
+      "sha": "b09885e33ce202b1767170ab307aebebc05787b8",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "preseason/allowance/funding-cli.ts",
+      "sha": "63cef1df0ffc5e91b9a5635645201d435a4c1916",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "preseason/allowance/funding.test.ts",
+      "sha": "63dc693adcfa29ad74be7db10cd252686859b732",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "preseason/allowance/funding.ts",
+      "sha": "07e8b4a0bd59847c643cd17a49630b5aa99b4eca",
+      "source": "remote-downloaded"
+    },
+    {
+      "path": "preseason/allowance/lab.test.ts",
+      "sha": "5c0ee645412e97e864d614aaa0cb08b17916a4ea",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/allowance/lab.ts",
+      "sha": "7216c4754443f01493eacf66f2eefd2697ea0a34",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/allowance/synthetic-template.json",
+      "sha": "8f4fa7bb1daf6c23afb97701145f1a4c2fbe1962",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/allowance/template.ts",
+      "sha": "2328e9d41f0999b703c3cb5a249aae16af84f128",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/README.md",
+      "sha": "567dccc18523f578397b1be0eb41668e484c58db",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/app.js",
+      "sha": "ad985ff933f32038c818f1b4f663e544e7e89b4c",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/cli.test.mjs",
+      "sha": "3cc5d0bad5c788ad9302a451414f74d1e5b745fe",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/cli.ts",
+      "sha": "1b0afb0af73d54caee0c8cf3fc58fe958e97672b",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/fixture.ts",
+      "sha": "d324c428887cac9828ff0093642760e43b3add3e",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/fixtures/LICENSE-XO.txt",
+      "sha": "0873eb2c1acee2dbe1bce11810e17170a0d74ff8",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/fixtures/upstream-legacy-invitation.mjs",
+      "sha": "5812a2848d59e292de67840a753f19afad41c5bc",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/http.test.mjs",
+      "sha": "929e3fe13b1da0b221926d9de8de31084dd111d4",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/index.html",
+      "sha": "d447f1ecd675d4c47098981dc06bc1e05f4e4e55",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/inspect.test.ts",
+      "sha": "9f295433323638b3add0dcf00ef0381114d75418",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/inspect.ts",
+      "sha": "b96240f0a89cf4b53bacd6d8c0b2c258cbeafa7e",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/legacy.test.mjs",
+      "sha": "644cb0745bd391dffbf850071fe71afa6a01580e",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/redact.mjs",
+      "sha": "2348f29fd4b89bafc4435ae71c03913079edd184",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/redact.test.mjs",
+      "sha": "240e4576769bb2ec1fa9c02c127550b71a906eaa",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/server.ts",
+      "sha": "9a0e9ac41864c2ee99111878ffe293704b0c23d2",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "preseason/xo/style.css",
+      "sha": "69550ce87cef605ac00e9afe591563a7bc308650",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "probes/browser-types.tsx",
+      "sha": "de8d5adc7e5015f62c7dc385d0fc4a870cd2ce3f",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "probes/sdk.test.ts",
+      "sha": "2e71032214c9778226af242107ffd24fb292b156",
+      "source": "local-reused-remote-tree-hash-verified"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha": "e9d8dda70fa9b0a2d1981201a6113715e1bd19de",
+      "source": "local-reused-remote-tree-hash-verified"
+    }
+  ],
+  "limits": [
+    "Selected source materialization, not a full repository download.",
+    "Pinned dependencies reused, not freshly installed.",
+    "All tests synthetic/local; no live chain, ownership, maturity, authenticated Invitation or funding safety proof.",
+    "Initial staging validation accidentally ran in original local folder; excluded from remote evidence. Definitive log explicitly records fixed remote-materialization cwd."
+  ]
+}
