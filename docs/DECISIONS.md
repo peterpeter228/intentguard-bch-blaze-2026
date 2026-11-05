@@ -35,3 +35,8 @@ The explicit local comparison changes the request page from static-only computat
 ## 2026-11-05 — Reproduce missing evidence honestly
 
 Do not reconstruct unavailable historical logs or source bytes and label them recovered. New evidence gets a new directory, timestamp and provenance. The fresh zero-value output fixture mutates a reference template only to isolate serialization behavior; it is not an original product template. Keep invoice-content correspondence as a design candidate until supported normal XO merge/build behavior and a narrowly reviewed data-output/fee/binding policy exist. Preserve existing unknown-script rejection and all offline authority boundaries.
+
+
+## 2026-11-05 — Stop the encoder-only compatibility fork
+
+Do not globally remove XO nonpositive-output omission, switch transaction construction to the new display-only unresolved merge, insert data after verification, or bypass Guard. A pure local adapter for exact token-free commitment output is feasible in isolation, but does not establish coherent merge/sign/serialize behavior. Keep it unimplemented rather than sell another offline path as the required real integration. A future data-output allowance needs explicit bound semantics and independent actual-byte/fee verification; MIT licensing does not replace those technical gates.
