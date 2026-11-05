@@ -1,0 +1,28 @@
+{
+  "status": "SYNTHETIC_VM_VERIFIED",
+  "canSign": false,
+  "broadcastable": false,
+  "networkVerified": false,
+  "ownershipVerified": false,
+  "receiptValid": false,
+  "liveSpendabilityVerified": false,
+  "fundingPermitted": false,
+  "invitationExecutionVerified": false,
+  "chainMaturityVerified": false,
+  "templateIdentifier": "d1797444959362d4059c5f2ccbb946b87db553b8a50bb83f389f64223675d9b5",
+  "tranchesBefore": 3,
+  "tranchesAfter": 2,
+  "payoutSatoshis": "1000",
+  "delayBlocks": 6,
+  "feeSatoshis": "1000",
+  "serializedBytes": 333,
+  "outputCount": 2,
+  "feeBaseline": "1 sat/actual serialized byte; not a relay guarantee",
+  "limits": [
+    "Synthetic source only; no chain age, ownership or chain acceptance proof.",
+    "Per-UTXO block delay; not a calendar schedule or global allowance.",
+    "Wrong amounts or token funding may permanently strand funds; no recovery or revocation.",
+    "Beneficiary and fee are immutable; future fee policy may prevent progress.",
+    "Normal Invitation execution and actual chain maturity are unverified. Never fund this experimental artifact."
+  ]
+}

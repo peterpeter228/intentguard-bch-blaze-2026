@@ -1,0 +1,14 @@
+{
+  "positive": 190,
+  "negative": 17,
+  "byteRange": [
+    289,
+    351
+  ],
+  "statelessWrongOutpointAccepted": true,
+  "sourceHashes": {
+    "template.ts": "c8f034bed191baab8f13fd4e13411b1c477fcc23f2792010c32e9ac738a5901d",
+    "lab.ts": "f3228f76153ad18b82d101a17e0cc939e8b9a6e6c360f01a79d0d52aa56b4d32",
+    "lab.test.ts": "ecbaa391edfb0d0084a3b916c983c942ee0f2cc08f7c253472a03a05382101b6"
+  }
+}

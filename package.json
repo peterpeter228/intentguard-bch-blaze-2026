@@ -10,12 +10,14 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "tsc && esbuild probes/browser-types.tsx --bundle --platform=browser --format=esm --outfile=dist/browser-probe.js && esbuild core/ui.ts --bundle --platform=browser --format=esm --outfile=dist/core/app.js && esbuild core/request-ui.ts --bundle --platform=browser --format=esm --outfile=dist/core/request.js",
-    "test": "node --test dist/probes/sdk.test.js dist/preseason/xo/inspect.test.js preseason/xo/redact.test.mjs preseason/xo/http.test.mjs preseason/xo/cli.test.mjs preseason/xo/legacy.test.mjs dist/core/guard.test.js core/http.test.mjs dist/core/evidence.test.js dist/core/operation-store.test.js dist/core/electrum-transport.test.js dist/core/public-sources.test.js dist/core/review-coordinator.test.js dist/core/unsigned-builder.test.js dist/core/signed-verifier.test.js dist/core/presentation.test.js dist/core/payment-request.test.js dist/core/request-plan.test.js dist/core/request-plan-form.test.js core/request-ui.test.mjs dist/core/xo-candidate.test.js",
+    "test": "node --test dist/probes/sdk.test.js dist/preseason/xo/inspect.test.js preseason/xo/redact.test.mjs preseason/xo/http.test.mjs preseason/xo/cli.test.mjs preseason/xo/legacy.test.mjs dist/core/guard.test.js core/http.test.mjs dist/core/evidence.test.js dist/core/operation-store.test.js dist/core/electrum-transport.test.js dist/core/public-sources.test.js dist/core/review-coordinator.test.js dist/core/unsigned-builder.test.js dist/core/signed-verifier.test.js dist/core/presentation.test.js dist/core/payment-request.test.js dist/core/request-plan.test.js dist/core/request-plan-form.test.js core/request-ui.test.mjs dist/core/xo-candidate.test.js dist/preseason/allowance/lab.test.js preseason/allowance/cli.test.mjs",
     "validate": "npm run typecheck && npm run build && npm test",
     "xo:inspect": "node dist/preseason/xo/cli.js",
     "xo:preview": "node dist/preseason/xo/server.js",
     "core:demo": "node dist/core/demo.js",
-    "core:preview": "node dist/core/server.js"
+    "core:preview": "node dist/core/server.js",
+    "allowance:test": "node --test dist/preseason/allowance/lab.test.js preseason/allowance/cli.test.mjs",
+    "allowance:demo": "node dist/preseason/allowance/cli.js"
   },
   "dependencies": {
     "@bitauth/libauth": "3.1.0-next.8",

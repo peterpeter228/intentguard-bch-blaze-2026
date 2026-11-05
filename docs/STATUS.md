@@ -124,3 +124,12 @@ The bounded local offline-adapter option is technically possible but not selecte
 Current official template tags, five reference exports, source semantics and bounty requirements were cross-checked. No alternative met both meaningful business distinction and the unchanged IntentGuard model. Sponsorship/exchange need separate participant accounting; recurring/revocable payments require covenant or timing support; refunds need authenticated historical terms and persistent accounting. No renamed transfer/split, fake enforceable conditions or new local fork was implemented.
 
 This is a source/design assessment, not new executable functionality or a fresh 223-test result. Core sources, Guard, dependencies, UI and all authority flags are unchanged. Two independent reviews support the bounded stop; see evidence/xo-positive-template-assessment-20261105/ASSESSMENT.md. G1 remains IN_PROGRESS and real Invitation/execution/novelty gates remain open. No wallet, signing, chain operation, outreach, deployment, submission or restricted-image retry.
+
+
+## 2026-11-05 bounded fixed-beneficiary tranche prototype
+
+Added an isolated preseason/allowance typed XO template, static synthetic template, local report-only CLI and adversarial VM tests. The custom P2SH32 covenant fixes the beneficiary, exact tranche/fee, one-input shape, token exclusion, per-UTXO relative block delay and complete terminal payout. This differs from the public faucet's unbound beneficiary and multiple-input behavior, without claiming global novelty or validated demand. Existing core/Guard/UI/dependencies are unchanged and continue rejecting these unsupported covenant spends.
+
+Final local typecheck/build and aggregate validation passed 237/237 at 03:13:50–03:14:09 UTC. Independent frozen-source focused tests passed 14/14, with a separate 190-positive/17-negative sweep and byte range 289–351. Exact remote-source verification is recorded separately rather than inferred. Every authority flag stays false. No new browser test, actual account/Invitation, signing, chain maturity, live transaction or receipt is established.
+
+Never fund the experiment: wrong multiples, over-cap or token funding can permanently strand; beneficiary and fee are immutable with no recovery or revocation. Follow-up declarations exist, but normal signed Invitation/role/change/follow-up behavior is unverified. Calling standard addChange would conflict with exact shape; executeAction itself does not auto-call it. G1 remains IN_PROGRESS. See evidence/tranche-lab-20261105 and preseason/allowance/README.md.

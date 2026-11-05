@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {parseTemplate,generateTemplateIdentifier} from '@xo-cash/utils';
+import {createTrancheTemplate} from '../../dist/preseason/allowance/template.js';
+const raw=readFileSync(new URL('../../preseason/allowance/synthetic-template.json',import.meta.url));
+const shipped=parseTemplate(raw.toString('utf8'));
+const generated=createTrancheTemplate({payoutSatoshis:'1000',delayBlocks:6});
+assert.deepEqual(shipped,generated.template);
+const identifier=generateTemplateIdentifier(shipped);
+assert.equal(identifier,generated.templateIdentifier);
+assert.equal(identifier,'d1797444959362d4059c5f2ccbb946b87db553b8a50bb83f389f64223675d9b5');
+console.log(JSON.stringify({checkedAt:new Date().toISOString(),parsed:true,exactFactoryMatch:true,identifier,artifactSha256:createHash('sha256').update(raw).digest('hex')},null,2));

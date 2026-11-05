@@ -1,0 +1,27 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason allowance:test
+> node --test dist/preseason/allowance/lab.test.js preseason/allowance/cli.test.mjs
+
+✔ official XO template / P2SH32 normal paths N=1,2,100 and payout/delay boundaries (708.315554ms)
+✔ continuation output attacks fail against actual XO-produced transaction (467.863399ms)
+✔ final branch cannot leave extra reserve, change payee, payout or fee (113.07979ms)
+✔ version, locktime, sequence disable/time flags, below delay and reserved bits rejected on both branches (526.837731ms)
+✔ malformed funding nonmultiple, zero, below reserve and overcap rejected by actual script (336.037518ms)
+✔ FT and all NFT capabilities forbidden on source and every output on both paths (772.805888ms)
+✔ XO merged multiple reserve inputs and donor inputs cannot bypass single-input invariant (99.371091ms)
+✔ redeem script substitution and unlocking stack injection fail (154.971985ms)
+✔ complete N=3 synthetic lineage consumes the previous XO reserve and exhausts exactly (81.035793ms)
+✔ existing ordinary-payment Guard rejects this covenant without any bypass or core modification (29.690095ms)
+✔ strict finite plain-data API rejects extra fields, accessors, malformed amounts and bounds (0.752055ms)
+✔ synthetic parent binding rejects changed amount, script, hash and output index (143.334245ms)
+✔ XO helper variables and precompleted fields are not on-chain authorization (67.157324ms)
+✔ CLI emits bounded summary only, no funding address or transaction, and no arguments (1493.026615ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4298.694285

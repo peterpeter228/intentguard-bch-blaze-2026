@@ -1,0 +1,183 @@
+{
+  "name": "Offline finite fixed-beneficiary tranches",
+  "description": "Offline finite fixed-beneficiary tranches",
+  "$schema": "https://libauth.org/schemas/wallet-template-v0.schema.json",
+  "version": "1",
+  "supported": [
+    "BCH_2026_05"
+  ],
+  "roles": {
+    "relay": {
+      "name": "Permissionless relay, no signing authority",
+      "description": "Permissionless relay, no signing authority"
+    }
+  },
+  "start": [
+    {
+      "role": "relay",
+      "action": "continue"
+    },
+    {
+      "role": "relay",
+      "action": "final"
+    }
+  ],
+  "actions": {
+    "continue": {
+      "name": "Continue",
+      "description": "Continue",
+      "requirements": {
+        "variables": [
+          "reserveSatoshis"
+        ],
+        "participants": [
+          {
+            "role": "relay",
+            "slots": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ]
+      },
+      "transaction": "continue"
+    },
+    "final": {
+      "name": "Final",
+      "description": "Final",
+      "requirements": {
+        "variables": [
+          "reserveSatoshis"
+        ],
+        "participants": [
+          {
+            "role": "relay",
+            "slots": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ]
+      },
+      "transaction": "final"
+    }
+  },
+  "transactions": {
+    "continue": {
+      "name": "Continue",
+      "description": "Continue",
+      "version": 2,
+      "locktime": 0,
+      "inputs": [
+        {
+          "input": "coin",
+          "inputIndex": 0
+        }
+      ],
+      "outputs": [
+        {
+          "output": "reserve",
+          "outputIndex": 0
+        },
+        {
+          "output": "payout",
+          "outputIndex": 1
+        }
+      ],
+      "composable": false
+    },
+    "final": {
+      "name": "Final",
+      "description": "Final",
+      "version": 2,
+      "locktime": 0,
+      "inputs": [
+        {
+          "input": "coin",
+          "inputIndex": 0
+        }
+      ],
+      "outputs": [
+        {
+          "output": "payout",
+          "outputIndex": 0
+        }
+      ],
+      "composable": false
+    }
+  },
+  "inputs": {
+    "coin": {
+      "name": "Synthetic covenant coin",
+      "description": "Synthetic covenant coin",
+      "valueSatoshis": "$(<reserveSatoshis>)",
+      "token": null,
+      "sequenceNumber": 6,
+      "unlockingScript": "release"
+    }
+  },
+  "outputs": {
+    "reserve": {
+      "name": "Remaining reserve",
+      "description": "Remaining reserve",
+      "actions": [
+        {
+          "role": "relay",
+          "action": "continue"
+        },
+        {
+          "role": "relay",
+          "action": "final"
+        }
+      ],
+      "lockingScript": "tranche",
+      "valueSatoshis": "$(<reserveSatoshis> <2000> OP_SUB)",
+      "token": null
+    },
+    "payout": {
+      "name": "Synthetic fixed beneficiary",
+      "description": "Synthetic fixed beneficiary",
+      "lockingScript": "beneficiary",
+      "valueSatoshis": "1000",
+      "token": null
+    }
+  },
+  "lockingScripts": {
+    "tranche": {
+      "name": "Finite tranche covenant",
+      "description": "Finite tranche covenant",
+      "lockingType": "p2sh",
+      "lockingBytecode": "covenant",
+      "unlockingBytecode": "release",
+      "actions": [
+        {
+          "role": "relay",
+          "action": "continue"
+        },
+        {
+          "role": "relay",
+          "action": "final"
+        }
+      ],
+      "selectable": false
+    },
+    "beneficiary": {
+      "name": "Synthetic beneficiary only",
+      "description": "Synthetic beneficiary only",
+      "lockingType": "p2s",
+      "lockingBytecode": "beneficiaryScript"
+    }
+  },
+  "scripts": {
+    "release": "<covenant>",
+    "covenant": "OP_INPUTINDEX <0> OP_NUMEQUALVERIFY\nOP_TXINPUTCOUNT <1> OP_NUMEQUALVERIFY\nOP_TXVERSION <2> OP_NUMEQUALVERIFY\nOP_TXLOCKTIME <0> OP_NUMEQUALVERIFY\n<6> OP_CHECKSEQUENCEVERIFY OP_DROP\n<0> OP_INPUTSEQUENCENUMBER <6> OP_NUMEQUALVERIFY\n<0> OP_UTXOTOKENCATEGORY OP_SIZE <0> OP_NUMEQUALVERIFY OP_DROP\n<0> OP_UTXOTOKENAMOUNT <0> OP_NUMEQUALVERIFY\n<0> OP_UTXOTOKENCOMMITMENT OP_SIZE <0> OP_NUMEQUALVERIFY OP_DROP\n<0> OP_UTXOVALUE <2000> OP_MOD <0> OP_NUMEQUALVERIFY\n<0> OP_UTXOVALUE <2000> OP_DIV <1> <101> OP_WITHIN OP_VERIFY\n<0> OP_UTXOVALUE <2000> OP_GREATERTHAN\nOP_IF\n  OP_TXOUTPUTCOUNT <2> OP_NUMEQUALVERIFY\n  <0> OP_OUTPUTVALUE <0> OP_UTXOVALUE <2000> OP_SUB OP_NUMEQUALVERIFY\n  <0> OP_OUTPUTBYTECODE <0> OP_UTXOBYTECODE OP_EQUALVERIFY\n  <0> OP_OUTPUTTOKENCATEGORY OP_SIZE <0> OP_NUMEQUALVERIFY OP_DROP\n<0> OP_OUTPUTTOKENAMOUNT <0> OP_NUMEQUALVERIFY\n<0> OP_OUTPUTTOKENCOMMITMENT OP_SIZE <0> OP_NUMEQUALVERIFY OP_DROP\n  <1> OP_OUTPUTTOKENCATEGORY OP_SIZE <0> OP_NUMEQUALVERIFY OP_DROP\n<1> OP_OUTPUTTOKENAMOUNT <0> OP_NUMEQUALVERIFY\n<1> OP_OUTPUTTOKENCOMMITMENT OP_SIZE <0> OP_NUMEQUALVERIFY OP_DROP\n  <1> OP_OUTPUTVALUE <1000> OP_NUMEQUALVERIFY\n  <1> OP_OUTPUTBYTECODE <0x76a914222222222222222222222222222222222222222288ac> OP_EQUALVERIFY\nOP_ELSE\n  OP_TXOUTPUTCOUNT <1> OP_NUMEQUALVERIFY\n  <0> OP_OUTPUTTOKENCATEGORY OP_SIZE <0> OP_NUMEQUALVERIFY OP_DROP\n<0> OP_OUTPUTTOKENAMOUNT <0> OP_NUMEQUALVERIFY\n<0> OP_OUTPUTTOKENCOMMITMENT OP_SIZE <0> OP_NUMEQUALVERIFY OP_DROP\n  <0> OP_OUTPUTVALUE <1000> OP_NUMEQUALVERIFY\n  <0> OP_OUTPUTBYTECODE <0x76a914222222222222222222222222222222222222222288ac> OP_EQUALVERIFY\nOP_ENDIF\nOP_1",
+    "beneficiaryScript": "0x76a914222222222222222222222222222222222222222288ac"
+  },
+  "variables": {
+    "reserveSatoshis": {
+      "name": "Untrusted source value; covenant independently checks it",
+      "description": "Untrusted source value; covenant independently checks it",
+      "type": "satoshis"
+    }
+  }
+}
