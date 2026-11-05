@@ -117,3 +117,10 @@ The real pinned XO pure functions again demonstrate that unresolved zero-valued 
 Read-only current upstream, BCHN policy and exact dependency-license review found no published preserve-zero fix or supported alternative. A newer GitLab display-only unresolved merge API leaves the serializer filter unchanged. Upstream signing compilation uses merged outputs while serialization filters nonpositive outputs, so an encoder-only patch cannot establish normal signing correctness. This is a source-level concern, not an executed signature failure.
 
 The bounded local offline-adapter option is technically possible but not selected: it would leave the material authenticated execution gate open and add a partial fork. No Guard or dependency behavior changed. The exact safe prospective OP_RETURN subset, BCH policy/consensus distinctions, libauth helper differences, MIT source notices and next evidence gate are recorded in evidence/xo-zero-output-assessment-20261105/ASSESSMENT.md. No new product tests or browser/chain results are claimed; prior 223-test evidence remains associated with its actual earlier run.
+
+
+## 2026-11-05 positive-output template screen
+
+Current official template tags, five reference exports, source semantics and bounty requirements were cross-checked. No alternative met both meaningful business distinction and the unchanged IntentGuard model. Sponsorship/exchange need separate participant accounting; recurring/revocable payments require covenant or timing support; refunds need authenticated historical terms and persistent accounting. No renamed transfer/split, fake enforceable conditions or new local fork was implemented.
+
+This is a source/design assessment, not new executable functionality or a fresh 223-test result. Core sources, Guard, dependencies, UI and all authority flags are unchanged. Two independent reviews support the bounded stop; see evidence/xo-positive-template-assessment-20261105/ASSESSMENT.md. G1 remains IN_PROGRESS and real Invitation/execution/novelty gates remain open. No wallet, signing, chain operation, outreach, deployment, submission or restricted-image retry.
