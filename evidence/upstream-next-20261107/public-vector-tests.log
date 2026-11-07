@@ -1,0 +1,24 @@
+✔ unmodified immutable BCHN public Schnorr and ECDSA vectors pass only the stateless layer (9.806408ms)
+✔ signature or transaction mutation invalidates the original public signature (6.472316ms)
+✔ every unsafe or unknown sighash flag is rejected before VM acceptance (3.013138ms)
+✔ source amount, owner hash, count and ordering cannot be replaced by imported assertions unnoticed (1.245836ms)
+✔ exact minimal two-push and compressed key/signature model boundary fails closed (1.295171ms)
+✔ token-bearing source requires stronger UTXOS sighash and NFTs are unsupported (0.513193ms)
+✔ duplicate inputs and a second malformed input cannot hide behind a valid first public vector (0.516428ms)
+✔ malformed, oversized, noncanonical and forged success JSON is rejected (0.624455ms)
+✔ high-level verifier does not accept a transplanted public signature as a bound payment (5.527183ms)
+✔ high-level exact plan structure, input bindings and network consistency are mandatory (4.490112ms)
+✔ trusted invocation clock overrides frozen JSON time, rejects expired/stale input and malformed plan (1.746651ms)
+✔ actual signed size must stay inside the declared model even before cryptographic verification (1.774282ms)
+✔ unchanged official Trezor two-input child passes shared complete-parent cryptographic binding only (2.953828ms)
+✔ parent-content mutation, wrong outpoint, duplicate/missing parents and injected success cannot bypass binding (1.107678ms)
+✔ official all-utxos-labelled complex token vector is not a permitted P2PKH payment positive (0.905654ms)
+✔ parent-bound resource limits precede source expansion and reject repeated outpoints early (1.234299ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 263.775565

@@ -1,0 +1,32 @@
+{
+  "version": "0.0.11",
+  "gitHead": "1514393e46876b30abd8c48d401fe4862cb773e3",
+  "dependencies": {
+    "zod": "^4.3.6",
+    "@xo-cash/types": "0.0.8",
+    "@bitauth/libauth": "^3.1.0-next.8",
+    "@xo-cash/primitives": "0.0.2"
+  },
+  "repository": {
+    "url": "git+https://gitlab.com/GeneralProtocols/xo/utils.git",
+    "type": "git"
+  },
+  "license": "MIT",
+  "dist": {
+    "shasum": "a92a31af9b893083587a837d112b22101c1d0365",
+    "tarball": "https://registry.npmjs.org/@xo-cash/utils/-/utils-0.0.11.tgz",
+    "fileCount": 7,
+    "integrity": "sha512-9cipDCRqMjHQxTzXqeTg+j9DvDp+d6nhaLzsefBMMR7F9Z1dJFejAIrHY/bFAQy90VyxAd9hAgApHza2yNBJxQ==",
+    "signatures": [
+      {
+        "sig": "MEYCIQD8S3wCM/4ynBIecG1A4BfBvhjEAl4S/0DizZRIlJiHcAIhAJYsOG3Ok3dUaZQm5Z2MEJ4xYs2L3ECNQjlmqeHWN9dO",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      },
+      {
+        "sig": "MEUCIQCn0Ilg4HAAtZVGNtdS+1M6pgqOHc7EYfUk2NdmECin/QIgdR/KmjsME0GdoSlm6EOQSU37YvzHcF8PHbDtvhQ6b2w=",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      }
+    ],
+    "unpackedSize": 525886
+  }
+}

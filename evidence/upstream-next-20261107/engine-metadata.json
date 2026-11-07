@@ -1,0 +1,35 @@
+{
+  "version": "0.1.1-next.17778370827",
+  "gitHead": "f3b90b41c2ca2302e995895c9a0d029666952abc",
+  "dependencies": {
+    "@xo-cash/state": "0.0.5",
+    "@xo-cash/types": "0.0.8",
+    "@xo-cash/utils": "0.0.10",
+    "@xo-cash/crypto": "0.0.5",
+    "@bitauth/libauth": "^3.1.0-next.8",
+    "@xo-cash/templates": "0.0.12",
+    "@xo-cash/primitives": "0.0.3",
+    "@electrum-cash/network": "4.4.8",
+    "@electrum-cash/servers": "4.2.0",
+    "@electrum-cash/protocol": "2.6.0",
+    "@electrum-cash/application": "0.5.2-development.16863504490"
+  },
+  "license": "MIT",
+  "dist": {
+    "shasum": "5a7550791898c1782b2b78836b7ea827607560a0",
+    "tarball": "https://registry.npmjs.org/@xo-cash/engine/-/engine-0.1.1-next.17778370827.tgz",
+    "fileCount": 7,
+    "integrity": "sha512-qjhA75DKhfPizS9VI7qkuiqZI9i3mpyjuKOvYezmmD7JUEddAadm6U1AyoiGY56Ij2TThvLG0KfNS5VkKxNMoA==",
+    "signatures": [
+      {
+        "sig": "MEUCIQDg4w/59McGCz5YP8AnQqytUJn/1JNbWVV4Yl2dyo5m/gIgTwwO5E1hKE97z6cposrtqx5iEuQR6yktvoJHPGSk1ZA=",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      },
+      {
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+        "sig": "MEUCIQDk6eLOhzJUmJX9LK1E3klSE2z9VPRxWZTSo+Dj6whdiwIgdZiVzuuWBiFbIFMWRBsFvb6ouF9ciEA5UaVs+Zhgbf4="
+      }
+    ],
+    "unpackedSize": 1538875
+  }
+}

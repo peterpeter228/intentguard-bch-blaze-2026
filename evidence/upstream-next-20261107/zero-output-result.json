@@ -1,0 +1,104 @@
+{
+  "schema": "intentguard/new-zero-value-reproduction/v1",
+  "executedAt": "2026-11-07T15:02:19.183Z",
+  "sourceCommit": "61e0895d21ab173a74cf5363a9392d73a3b2314f",
+  "provenance": "EXISTING_PURE_REPRODUCTION_REBOUND_TO_NEW_OFFICIAL_NPM_PACKAGE",
+  "result": "BLOCKER_REPRODUCED_NOT_FEATURE_SUCCESS",
+  "versions": {
+    "@xo-cash/engine": "0.1.1-next.17778370827",
+    "@xo-cash/templates": "0.0.12",
+    "@xo-cash/utils": "0.0.10",
+    "@xo-cash/types": "0.0.8"
+  },
+  "engineSha256": "8ca4f242a0683e3698842d2dcc64384f71785fff73900c5cd4b0649a48c83364",
+  "diagnosticTemplateIdentifier": "016bf6584e966a548b3db5075fb7bd30888d9ec6c20b673b1a01da40de064352",
+  "markerMeaning": "Constant public synthetic bytes, not an actual invoice commitment",
+  "unresolvedPath": {
+    "outputs": [
+      {
+        "satoshis": "1000",
+        "script": "76a914222222222222222222222222222222222222222288ac",
+        "hasToken": false
+      },
+      {
+        "satoshis": "0",
+        "script": "6a20abababababababababababababababababababababababababababababababab",
+        "hasToken": false
+      },
+      {
+        "satoshis": "8500",
+        "script": "76a914111111111111111111111111111111111111111188ac",
+        "hasToken": false
+      }
+    ],
+    "outputCount": 3,
+    "dataOutputCount": 1,
+    "candidateSha256": "6702bb5b79e1fcd4e320e5b6348b12a3fb32245cfac09dcc54c4aa1ed73e74c3",
+    "candidateBytes": 162,
+    "equalsOriginalPaymentBytes": false,
+    "guard": {
+      "status": "REJECTED",
+      "issues": [
+        "UNSUPPORTED_OUTPUT_SCRIPT"
+      ],
+      "feeSatoshis": null,
+      "canSign": false
+    }
+  },
+  "resolvedPath": {
+    "outputs": [
+      {
+        "satoshis": "1000",
+        "script": "76a914222222222222222222222222222222222222222288ac",
+        "hasToken": false
+      },
+      {
+        "satoshis": "8500",
+        "script": "76a914111111111111111111111111111111111111111188ac",
+        "hasToken": false
+      }
+    ],
+    "outputCount": 2,
+    "dataOutputCount": 0,
+    "candidateSha256": "3a53ea3568a1cdd44615abb16c1a2090b9d8c55197c60955bcd2fb637bdb1e56",
+    "candidateBytes": 119,
+    "equalsOriginalPaymentBytes": true,
+    "guard": {
+      "status": "MATCH_OFFLINE",
+      "issues": [],
+      "feeSatoshis": "500",
+      "canSign": false
+    }
+  },
+  "paymentControl": {
+    "outputs": [
+      {
+        "satoshis": "1000",
+        "script": "76a914222222222222222222222222222222222222222288ac",
+        "hasToken": false
+      },
+      {
+        "satoshis": "8500",
+        "script": "76a914111111111111111111111111111111111111111188ac",
+        "hasToken": false
+      }
+    ],
+    "outputCount": 2,
+    "dataOutputCount": 0,
+    "candidateSha256": "3a53ea3568a1cdd44615abb16c1a2090b9d8c55197c60955bcd2fb637bdb1e56",
+    "candidateBytes": 119,
+    "equalsOriginalPaymentBytes": true,
+    "guard": {
+      "status": "MATCH_OFFLINE",
+      "issues": [],
+      "feeSatoshis": "500",
+      "canSign": false
+    }
+  },
+  "normalAccountFlow": "NOT_EXECUTED: normal-flow implication requires separate source-trace review",
+  "canSign": false,
+  "broadcastable": false,
+  "receiptValid": false,
+  "networkVerified": false,
+  "ownershipVerified": false
+}

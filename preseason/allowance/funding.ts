@@ -78,7 +78,7 @@ function inspect(value: unknown) {
     const ids = remaining === 1 ? ['payout'] : ['reserve', 'payout'];
     const outputs = ids.map((outputIdentifier, outputIndex) => ({ ...completeMergedOutput({ outputIdentifier, sourceCommitIdentifier }, outputIndex, variables, template, action), sourceCommitIdentifier }));
     const parentHash = hashTransaction(encodeTransaction(previous));
-    const merged: MergedInvitation = { transactionVersion: 2, transactionLocktime: 0, variables, inputs: [{ sourceCommitIdentifier, outpointTransactionHash: hexToBin(parentHash), outpointIndex: index, sequenceNumber: request.parameters.delayBlocks, unlockingBytecode: release, valueSatoshis: source.valueSatoshis }], outputs };
+    const merged: MergedInvitation = { transactionVersion: 2, transactionLocktime: 0, variables: variables.map(v => ({ ...v, sourceCommitIdentifier })), inputs: [{ sourceCommitIdentifier, outpointTransactionHash: hexToBin(parentHash), outpointIndex: index, sequenceNumber: request.parameters.delayBlocks, unlockingBytecode: release, valueSatoshis: source.valueSatoshis }], outputs };
     const built = buildInvitationTransactionFromMergedCommit(merged, template, action);
     const tx = decodeTransaction(hexToBin(built.serializedTransaction));
     if (typeof tx === 'string' || tx.inputs.length !== 1 || tx.inputs[0]!.outpointIndex !== index || binToHex(tx.inputs[0]!.outpointTransactionHash) !== parentHash || verifySynthetic(tx, [previous.outputs[index]!]) !== true) return report('SIMULATION_REJECTED', 'PARENT_BOUND_VM_REJECTED');

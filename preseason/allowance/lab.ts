@@ -21,7 +21,7 @@ export function syntheticCase(value: unknown, tranches: number) {
   const action = tranches === 1 ? 'final' : 'continue';
   const sourceCommitIdentifier = 'offline-synthetic-tranche-test';
   const outputs = tranches === 1 ? [completeMergedOutput({ outputIdentifier: 'payout', sourceCommitIdentifier }, 0, variables, template, action)] : [completeMergedOutput({ outputIdentifier: 'reserve', sourceCommitIdentifier }, 0, variables, template, action), completeMergedOutput({ outputIdentifier: 'payout', sourceCommitIdentifier }, 1, variables, template, action)];
-  const merged: MergedInvitation = { transactionVersion: 2, transactionLocktime: 0, variables, inputs: [{ sourceCommitIdentifier, outpointTransactionHash: hexToBin(hashTransaction(encodeTransaction(parent))), outpointIndex: 0, sequenceNumber: parameters.delayBlocks, unlockingBytecode: release, valueSatoshis: sourceOutput.valueSatoshis }], outputs: outputs.map(o => ({ ...o, sourceCommitIdentifier })) };
+  const merged: MergedInvitation = { transactionVersion: 2, transactionLocktime: 0, variables: variables.map(v => ({ ...v, sourceCommitIdentifier })), inputs: [{ sourceCommitIdentifier, outpointTransactionHash: hexToBin(hashTransaction(encodeTransaction(parent))), outpointIndex: 0, sequenceNumber: parameters.delayBlocks, unlockingBytecode: release, valueSatoshis: sourceOutput.valueSatoshis }], outputs: outputs.map(o => ({ ...o, sourceCommitIdentifier })) };
   const build = () => buildInvitationTransactionFromMergedCommit(merged, template, action);
   const built = build(), transaction = decodeTransaction(hexToBin(built.serializedTransaction));
   if (typeof transaction === 'string') throw Error('XO_DECODE_FAILED');

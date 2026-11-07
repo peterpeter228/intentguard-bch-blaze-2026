@@ -11,7 +11,7 @@
 5. The existing plan supplies selected inputs with empty unlocking bytecode and their claimed parent amounts/tokens, transaction version/locktime, and exact change outputs. `buildInvitationTransactionFromMergedCommit` serializes the actual XO candidate. Its required source labels are explicitly `offline-diagnostic:<request-plan-digest>`, not actual authenticated commit identifiers. No Invitation or commit is created or accepted.
 6. Guard independently decodes those candidate bytes against the intent and supplied snapshot. Require matching intent digest and actual fee, then byte-for-byte equality to the independent plan. The engine's input/output-count fee estimate is shown only as a non-authoritative diagnostic; it never replaces actual fee or signed-size policy checks.
 
-Installed versions remain engine `0.1.0-next.17612568780`, templates `0.0.12`, utils `0.0.10`, types `0.0.8`. No package changes are needed.
+The November 7 compatibility update pins engine `0.1.1-next.17778370827`, the npm `next` tag observed that day. Templates remain `0.0.12`, utils `0.0.10`, and types `0.0.8`. Merged variables now carry the same explicit local source label as inputs/outputs; this is not authenticated commit provenance. The zero-valued-output and real Invitation gates remain open. See [upgrade evidence](../evidence/upstream-next-20261107/README.md).
 
 ## Output and trust boundary
 

@@ -1,0 +1,44 @@
+[
+  {
+    "path": "core/xo-candidate.ts",
+    "baseBlob": "a95e5ca37e52199e45d09a880a9829c08f348e05",
+    "candidateBlob": "7f216821447af9be0aef472b6b3d3c8ee37aff1a",
+    "sha256": "478222b70ec945686f5148d9de939a4a0d922ec97c33ba69c6f032b43db45c4f"
+  },
+  {
+    "path": "core/xo-candidate.test.ts",
+    "baseBlob": "1484cf94b5421ac6911c90b9e4e779cf708a6755",
+    "candidateBlob": "d015c2688d3b35f5051a956fa19d6c4ee6eadce1",
+    "sha256": "79b884cdbc530d8c6b196974b60fb4b9af2a3c462f2f7264807ee3307fc8cbf3"
+  },
+  {
+    "path": "preseason/allowance/lab.ts",
+    "baseBlob": "7216c4754443f01493eacf66f2eefd2697ea0a34",
+    "candidateBlob": "1d8f105909bbc6ab8b133be246c261184653fbf7",
+    "sha256": "2f66ada5c864be3aa6080855564923abd9bcc9d914dd65c279c762fde6a4f3a7"
+  },
+  {
+    "path": "preseason/allowance/lab.test.ts",
+    "baseBlob": "5c0ee645412e97e864d614aaa0cb08b17916a4ea",
+    "candidateBlob": "7b9e3df4b78cca053bfc47bf48272eda623cb5cd",
+    "sha256": "36c85bf73c68170cc1618e3542b5dcad8f38dfe10335ae7b1891e9175ae5be55"
+  },
+  {
+    "path": "preseason/allowance/funding.ts",
+    "baseBlob": "07e8b4a0bd59847c643cd17a49630b5aa99b4eca",
+    "candidateBlob": "6c0c5eec165ed902435026b9620a9fc8c11702eb",
+    "sha256": "67cb768aa9d338fe4b5b951c018d05a966046eddc65280f6e1f099b36054d22b"
+  },
+  {
+    "path": "package.json",
+    "baseBlob": "e1d2157ebecaa9c1f2ad74f235e30024393b4ab3",
+    "candidateBlob": "572ee8b84a5a9990c562307bc86df62656d29999",
+    "sha256": "3880cd44c1c773ce0ab8025177341cd368dd449d6b1e811448cfe9b0fcc18799"
+  },
+  {
+    "path": "package-lock.json",
+    "baseBlob": "64a72fa2a6c582ea99152f0fa61cbb35f8468bd0",
+    "candidateBlob": "cdd9b1dbd48c85b0617cd40f886c5c371919e211",
+    "sha256": "c97ac66dcc70b702393adcfe7851cbe58fb1f5d77a37ebf5facc26eccff41e87"
+  }
+]

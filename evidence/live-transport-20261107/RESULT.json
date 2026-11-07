@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-11-07T14:50:48.130Z",
+  "sourceCommit": "61e0895d21ab173a74cf5363a9392d73a3b2314f",
+  "endpoint": {
+    "id": "chipnet-ninja",
+    "hostname": "chipnet.bch.ninja",
+    "port": 50002
+  },
+  "scope": "public features/checkpoint/tip only; no user data or transaction",
+  "operations": [],
+  "status": "UNVERIFIED",
+  "canSign": false,
+  "broadcastable": false,
+  "receiptValid": false,
+  "consensusVerified": false,
+  "issue": "ELECTRUM_CONNECTION_FAILED",
+  "completedAt": "2026-11-07T14:50:48.136Z"
+}

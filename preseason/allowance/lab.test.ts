@@ -173,7 +173,7 @@ test('XO helper variables and precompleted fields are not on-chain authorization
   const lied = syntheticCase(config, 2);
   const wrongVariables = [{ variableIdentifier: 'reserveSatoshis', value: 3000n }];
   const sourceCommitIdentifier = 'offline-synthetic-tranche-test';
-  lied.merged.variables = wrongVariables;
+  lied.merged.variables = wrongVariables.map(v => ({ ...v, sourceCommitIdentifier }));
   lied.merged.outputs[0] = { ...completeMergedOutput({ outputIdentifier: 'reserve', sourceCommitIdentifier }, 0, wrongVariables, lied.template, 'continue'), sourceCommitIdentifier };
   const liedBytes = decode(lied.build().serializedTransaction);
   assert.equal(liedBytes.outputs[0]!.valueSatoshis, 1000n);

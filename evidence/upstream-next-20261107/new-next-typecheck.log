@@ -1,0 +1,25 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> intentguard-bch-g0@0.0.0-preseason typecheck
+> tsc --noEmit
+
+core/xo-candidate.test.ts(102,38): error TS2322: Type 'XOInvitationVariable[]' is not assignable to type 'MergedInvitationVariable[]'.
+  Type 'XOInvitationVariable' is not assignable to type 'MergedInvitationVariable' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Property 'sourceCommitIdentifier' is missing in type 'XOInvitationVariable' but required in type '{ sourceCommitIdentifier: string; }'.
+core/xo-candidate.ts(64,124): error TS2322: Type 'XOInvitationVariable[]' is not assignable to type 'MergedInvitationVariable[]'.
+  Type 'XOInvitationVariable' is not assignable to type 'MergedInvitationVariable' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Property 'sourceCommitIdentifier' is missing in type 'XOInvitationVariable' but required in type '{ sourceCommitIdentifier: string; }'.
+preseason/allowance/funding.ts(81,87): error TS2322: Type '{ variableIdentifier: string; value: bigint; }[]' is not assignable to type 'MergedInvitationVariable[]'.
+  Type '{ variableIdentifier: string; value: bigint; }' is not assignable to type 'MergedInvitationVariable'.
+    Property 'sourceCommitIdentifier' is missing in type '{ variableIdentifier: string; value: bigint; }' but required in type '{ sourceCommitIdentifier: string; }'.
+preseason/allowance/lab.test.ts(176,3): error TS2322: Type '{ variableIdentifier: string; value: bigint; }[]' is not assignable to type 'MergedInvitationVariable[]'.
+  Type '{ variableIdentifier: string; value: bigint; }' is not assignable to type 'MergedInvitationVariable'.
+    Property 'sourceCommitIdentifier' is missing in type '{ variableIdentifier: string; value: bigint; }' but required in type '{ sourceCommitIdentifier: string; }'.
+preseason/allowance/lab.ts(24,85): error TS2322: Type '{ variableIdentifier: string; value: bigint; }[]' is not assignable to type 'MergedInvitationVariable[]'.
+  Type '{ variableIdentifier: string; value: bigint; }' is not assignable to type 'MergedInvitationVariable'.
+    Property 'sourceCommitIdentifier' is missing in type '{ variableIdentifier: string; value: bigint; }' but required in type '{ sourceCommitIdentifier: string; }'.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

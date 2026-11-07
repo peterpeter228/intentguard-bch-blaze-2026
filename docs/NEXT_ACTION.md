@@ -1,6 +1,21 @@
 # Next action
 
-## Current gate, 2026-11-05
+## Current gate, 2026-11-07
+
+The official npm next-version compatibility update is now separately evidenced
+in [upstream-next-20261107](../evidence/upstream-next-20261107/README.md). It does not
+unblock the zero-output or normal signed-Invitation paths. A new public sample
+clue was checked and rejected as unsigned/incomplete; do not repeat the search.
+The current public TLS attempt also returned no RPC response. No alternate host,
+IP or insecure connection was used. Continue with the existing-artifact gate below,
+not new synthetic integrations. No DID, bridge or migration side project is opened.
+
+Workshop roll-call completion and token visibility are now user-provided evidence;
+do not tell the user to repeat them. Overall eligibility and real execution remain
+separate. Multiple qualifying bounties can be stacked, with Mainnet + Build with XO
+the coherent priority and Community Choice conditional. Read the full
+[rules matrix](../evidence/rules-20261107/track-matrix.md), including source freshness
+and portal-opening versus coding-window differences, before any future submission.
 
 G1 remains IN_PROGRESS. The independent next step is **verification of an already
 existing, shareable XO participant artifact**, if the user has one. Request only

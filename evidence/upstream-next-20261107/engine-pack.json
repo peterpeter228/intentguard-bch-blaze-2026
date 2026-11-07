@@ -1,0 +1,51 @@
+[
+  {
+    "id": "@xo-cash/engine@0.1.1-next.17778370827",
+    "name": "@xo-cash/engine",
+    "version": "0.1.1-next.17778370827",
+    "size": 280010,
+    "unpackedSize": 1538875,
+    "shasum": "5a7550791898c1782b2b78836b7ea827607560a0",
+    "integrity": "sha512-qjhA75DKhfPizS9VI7qkuiqZI9i3mpyjuKOvYezmmD7JUEddAadm6U1AyoiGY56Ij2TThvLG0KfNS5VkKxNMoA==",
+    "filename": "xo-cash-engine-0.1.1-next.17778370827.tgz",
+    "files": [
+      {
+        "path": "LICENSE",
+        "size": 1078,
+        "mode": 420
+      },
+      {
+        "path": "README.md",
+        "size": 1751,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.mts",
+        "size": 205256,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.mts.map",
+        "size": 33152,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.mjs",
+        "size": 481445,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.mjs.map",
+        "size": 813856,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 2337,
+        "mode": 420
+      }
+    ],
+    "entryCount": 7,
+    "bundled": []
+  }
+]

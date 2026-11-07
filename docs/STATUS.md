@@ -1,5 +1,43 @@
 # IntentGuard BCH status
 
+## 2026-11-07 current XO compatibility and event evidence
+
+Updated the engine from `0.1.0-next.17612568780` to the official npm `next`
+observed today, `0.1.1-next.17778370827`. Directly substituting the new version
+first failed typechecking at five sites. The minimal compatibility repair attaches
+the already explicit offline/synthetic source label to merged variables. It does
+not create commits, identities or signatures. Utils remains `0.0.10`, matching the
+engine dependency. Guard, covenant, fee policy and authority flags are unchanged.
+
+The fixed candidate passed typecheck/build and all 253 existing tests. A fresh
+selected-source baseline install also passed the 16 existing public-vector tests.
+This is dependency compatibility maintenance, not a new payment capability.
+See [exact source, logs and limits](../evidence/upstream-next-20261107/README.md).
+
+The new package still drops resolved zero-satoshi data outputs. Its source map
+changes only merge/provenance code; transaction encoding and signing context are
+unchanged. A new execution of the bounded pure reproduction confirms the blocker.
+A newly discovered Paytaca historical sample is unsigned, token-free and lacks
+the full raw parent, so it cannot close either signature-positive gap.
+The permitted public Chipnet transport attempt returned no RPC response:
+`ELECTRUM_CONNECTION_FAILED`, not verified node evidence or a specific DNS diagnosis.
+
+The user-provided workshop screenshot reports "Roll call completed" and the user
+reports seeing the token. This advances attendance evidence only, not every
+eligibility, registration, Telegram, Mainnet or bounty gate. Exa and Parallel
+research confirms multiple bounties may be entered if each independently qualifies.
+Prioritize Mainnet plus Build with XO; Community Choice is conditional. Migrate,
+Stablecoin Bridge and DID are not presently implemented or claimed.
+See [current rules, freshness and source differences](../evidence/rules-20261107/track-matrix.md).
+
+G1 remains IN_PROGRESS / PRESEASON; normal authenticated XO/payment integration
+is BLOCKED_EXTERNAL. No new keys, signatures, wallet session, funds, transaction,
+deployment, public sharing, submission, rights waiver or personal feedback was
+created. An existing shareable Invitation plus exact template/network/independent
+pin is still the smallest next input. Pre-event work remains disclosed, with the
+November 14 14:00 UTC event-time fork/demo boundary and November 22 14:00 UTC
+deadline preserved. Argon/Opus review still has no usable current report.
+
 ## 2026-11-05 startup failure repair and self-check
 
 Fixed a real HTTP test hang after a server had already exited. Test-only lifecycle

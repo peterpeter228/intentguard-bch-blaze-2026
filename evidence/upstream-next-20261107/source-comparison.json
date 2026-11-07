@@ -1,0 +1,32 @@
+{
+  "oldVersion": "0.1.0-next.17612568780",
+  "newVersion": "0.1.1-next.17778370827",
+  "newGitHead": "f3b90b41c2ca2302e995895c9a0d029666952abc",
+  "sourceCountOld": 62,
+  "sourceCountNew": 62,
+  "changedSources": [
+    "../source/invitation/merge/merge-commits.ts"
+  ],
+  "selectedSources": [
+    {
+      "path": "../source/compilation/generate-unlocking-bytecode.ts",
+      "oldSha256": "e47bff2a7c08965ad54882431be4a135a9b57a8818b85f4dc58f8cd819af8ead",
+      "newSha256": "e47bff2a7c08965ad54882431be4a135a9b57a8818b85f4dc58f8cd819af8ead",
+      "unchanged": true
+    },
+    {
+      "path": "../source/invitation/generation/transaction.ts",
+      "oldSha256": "a28ed29894b4779cf6006efc0c6dc9ce87420a403359472a2f50237f000df64c",
+      "newSha256": "a28ed29894b4779cf6006efc0c6dc9ce87420a403359472a2f50237f000df64c",
+      "unchanged": true
+    },
+    {
+      "path": "../source/invitation/merge/merge-commits.ts",
+      "oldSha256": "b78115f2cada7e10cdbe75906923c821dc524c358869e3638152456e25040b3d",
+      "newSha256": "64ec1b20a77dc0fc49f3989a26f2f5292b8f027b6715204b10be92876a69a8cf",
+      "unchanged": false
+    }
+  ],
+  "runtimeDependenciesIdentical": true,
+  "scope": "Static comparison of source maps supplied in official npm tarballs, not independent upstream repository attestation"
+}

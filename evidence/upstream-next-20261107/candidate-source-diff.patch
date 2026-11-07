@@ -1,0 +1,97 @@
+--- a/core/xo-candidate.ts
++++ b/core/xo-candidate.ts
+@@ -61,7 +61,9 @@
+     // No XOInvitation, unsigned commit, entity or random identity is fabricated.
+     const sourceCommitIdentifier = 'offline-diagnostic:' + requestPlan.binding.requestPlanDigest;
+     const compiledRecipient = completeMergedOutput({ outputIdentifier: recipient.token ? 'transferFungibleTokensOutput' : 'transferSatoshisOutput', ...(recipient.token ? { valueSatoshis: BigInt(recipient.satoshis) } : {}), sourceCommitIdentifier }, 0, variables, template, actionIdentifier);
+-    const merged: MergedInvitation = { transactionVersion: transaction.version, transactionLocktime: transaction.locktime, variables,
++    // The next engine requires variable provenance too. Reuse the explicit local
++    // diagnostic label; it is not an authenticated participant/commit identity.
++    const merged: MergedInvitation = { transactionVersion: transaction.version, transactionLocktime: transaction.locktime, variables: variables.map(v => ({ ...v, sourceCommitIdentifier })),
+       inputs: transaction.inputs.map((i, index) => { const source = plan.selectedInputs[index]!.sourceOutput; return { ...i, valueSatoshis: BigInt(source.satoshis), ...(source.token ? { token: { category: hexToBin(source.token.category), amount: BigInt(source.token.amount) } } : {}), sourceCommitIdentifier }; }),
+       outputs: [{ ...compiledRecipient, sourceCommitIdentifier }, ...plan.outputSummary.filter(o => o.role !== 'recipient').map(o => ({ ...output(o), sourceCommitIdentifier }))] };
+     const built = buildInvitationTransactionFromMergedCommit(merged, template, actionIdentifier);
+--- a/core/xo-candidate.test.ts
++++ b/core/xo-candidate.test.ts
+@@ -99,7 +99,7 @@
+   const action = token ? 'sendFungibleTokens' : 'sendSatoshis'; const sourceCommitIdentifier = 'synthetic-test-only';
+   const variables: XOInvitationVariable[] = [{ variableIdentifier: 'recipientLockingscript', value: mutation === 'recipient' ? stranger : r.script }, ...(token ? [{ variableIdentifier: 'transferredTokenCategory', value: mutation === 'category' ? '55'.repeat(32) : r.token!.category }, { variableIdentifier: 'transferredTokenAmount', value: BigInt(r.token!.amount) + (mutation === 'tokenAmount' ? 1n : 0n) }] : [{ variableIdentifier: 'transferredSatoshis', value: BigInt(r.satoshis) + (mutation === 'amount' ? 1n : 0n) }])];
+   const compiled = completeMergedOutput({ outputIdentifier: token ? 'transferFungibleTokensOutput' : 'transferSatoshisOutput', ...(token ? { valueSatoshis: BigInt(r.satoshis) + (mutation === 'amount' ? 1n : 0n) } : {}), sourceCommitIdentifier }, 0, variables, template, action);
+-  const merged: MergedInvitation = { variables, transactionVersion: tx.version, transactionLocktime: tx.locktime, inputs: tx.inputs.map(i => ({ ...i, sequenceNumber: mutation === 'sequence' ? i.sequenceNumber - 1 : i.sequenceNumber, sourceCommitIdentifier })), outputs: [{ ...compiled, sourceCommitIdentifier }, ...(mutation === 'changeOrder' ? tx.outputs.slice(1).reverse() : tx.outputs.slice(1)).map(o => ({ ...o, sourceCommitIdentifier }))] };
++  const merged: MergedInvitation = { variables: variables.map(v => ({ ...v, sourceCommitIdentifier })), transactionVersion: tx.version, transactionLocktime: tx.locktime, inputs: tx.inputs.map(i => ({ ...i, sequenceNumber: mutation === 'sequence' ? i.sequenceNumber - 1 : i.sequenceNumber, sourceCommitIdentifier })), outputs: [{ ...compiled, sourceCommitIdentifier }, ...(mutation === 'changeOrder' ? tx.outputs.slice(1).reverse() : tx.outputs.slice(1)).map(o => ({ ...o, sourceCommitIdentifier }))] };
+   const built = buildInvitationTransactionFromMergedCommit(merged, template, action);
+   return { check: compareXoCandidateBytes({ intent, snapshot: s.context.snapshot, candidateHex: built.serializedTransaction, now: s.now }, p.plan.unsignedHex), compiled, r, built };
+ }
+--- a/preseason/allowance/lab.ts
++++ b/preseason/allowance/lab.ts
+@@ -21,7 +21,7 @@
+   const action = tranches === 1 ? 'final' : 'continue';
+   const sourceCommitIdentifier = 'offline-synthetic-tranche-test';
+   const outputs = tranches === 1 ? [completeMergedOutput({ outputIdentifier: 'payout', sourceCommitIdentifier }, 0, variables, template, action)] : [completeMergedOutput({ outputIdentifier: 'reserve', sourceCommitIdentifier }, 0, variables, template, action), completeMergedOutput({ outputIdentifier: 'payout', sourceCommitIdentifier }, 1, variables, template, action)];
+-  const merged: MergedInvitation = { transactionVersion: 2, transactionLocktime: 0, variables, inputs: [{ sourceCommitIdentifier, outpointTransactionHash: hexToBin(hashTransaction(encodeTransaction(parent))), outpointIndex: 0, sequenceNumber: parameters.delayBlocks, unlockingBytecode: release, valueSatoshis: sourceOutput.valueSatoshis }], outputs: outputs.map(o => ({ ...o, sourceCommitIdentifier })) };
++  const merged: MergedInvitation = { transactionVersion: 2, transactionLocktime: 0, variables: variables.map(v => ({ ...v, sourceCommitIdentifier })), inputs: [{ sourceCommitIdentifier, outpointTransactionHash: hexToBin(hashTransaction(encodeTransaction(parent))), outpointIndex: 0, sequenceNumber: parameters.delayBlocks, unlockingBytecode: release, valueSatoshis: sourceOutput.valueSatoshis }], outputs: outputs.map(o => ({ ...o, sourceCommitIdentifier })) };
+   const build = () => buildInvitationTransactionFromMergedCommit(merged, template, action);
+   const built = build(), transaction = decodeTransaction(hexToBin(built.serializedTransaction));
+   if (typeof transaction === 'string') throw Error('XO_DECODE_FAILED');
+--- a/preseason/allowance/lab.test.ts
++++ b/preseason/allowance/lab.test.ts
+@@ -173,7 +173,7 @@
+   const lied = syntheticCase(config, 2);
+   const wrongVariables = [{ variableIdentifier: 'reserveSatoshis', value: 3000n }];
+   const sourceCommitIdentifier = 'offline-synthetic-tranche-test';
+-  lied.merged.variables = wrongVariables;
++  lied.merged.variables = wrongVariables.map(v => ({ ...v, sourceCommitIdentifier }));
+   lied.merged.outputs[0] = { ...completeMergedOutput({ outputIdentifier: 'reserve', sourceCommitIdentifier }, 0, wrongVariables, lied.template, 'continue'), sourceCommitIdentifier };
+   const liedBytes = decode(lied.build().serializedTransaction);
+   assert.equal(liedBytes.outputs[0]!.valueSatoshis, 1000n);
+--- a/preseason/allowance/funding.ts
++++ b/preseason/allowance/funding.ts
+@@ -78,7 +78,7 @@
+     const ids = remaining === 1 ? ['payout'] : ['reserve', 'payout'];
+     const outputs = ids.map((outputIdentifier, outputIndex) => ({ ...completeMergedOutput({ outputIdentifier, sourceCommitIdentifier }, outputIndex, variables, template, action), sourceCommitIdentifier }));
+     const parentHash = hashTransaction(encodeTransaction(previous));
+-    const merged: MergedInvitation = { transactionVersion: 2, transactionLocktime: 0, variables, inputs: [{ sourceCommitIdentifier, outpointTransactionHash: hexToBin(parentHash), outpointIndex: index, sequenceNumber: request.parameters.delayBlocks, unlockingBytecode: release, valueSatoshis: source.valueSatoshis }], outputs };
++    const merged: MergedInvitation = { transactionVersion: 2, transactionLocktime: 0, variables: variables.map(v => ({ ...v, sourceCommitIdentifier })), inputs: [{ sourceCommitIdentifier, outpointTransactionHash: hexToBin(parentHash), outpointIndex: index, sequenceNumber: request.parameters.delayBlocks, unlockingBytecode: release, valueSatoshis: source.valueSatoshis }], outputs };
+     const built = buildInvitationTransactionFromMergedCommit(merged, template, action);
+     const tx = decodeTransaction(hexToBin(built.serializedTransaction));
+     if (typeof tx === 'string' || tx.inputs.length !== 1 || tx.inputs[0]!.outpointIndex !== index || binToHex(tx.inputs[0]!.outpointTransactionHash) !== parentHash || verifySynthetic(tx, [previous.outputs[index]!]) !== true) return report('SIMULATION_REJECTED', 'PARENT_BOUND_VM_REJECTED');
+--- a/package.json
++++ b/package.json
+@@ -25,7 +25,7 @@
+     "@wizardconnect/core": "0.2.5",
+     "@wizardconnect/dapp": "0.2.2",
+     "@wizardconnect/react": "0.2.3",
+-    "@xo-cash/engine": "0.1.0-next.17612568780",
++    "@xo-cash/engine": "0.1.1-next.17778370827",
+     "@xo-cash/templates": "0.0.12",
+     "@xo-cash/types": "0.0.8",
+     "@xo-cash/utils": "0.0.10",
+@@ -41,4 +41,3 @@
+     "typescript": "5.9.3"
+   }
+ }
+-
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -12,7 +12,7 @@
+         "@wizardconnect/core": "0.2.5",
+         "@wizardconnect/dapp": "0.2.2",
+         "@wizardconnect/react": "0.2.3",
+-        "@xo-cash/engine": "0.1.0-next.17612568780",
++        "@xo-cash/engine": "0.1.1-next.17778370827",
+         "@xo-cash/templates": "0.0.12",
+         "@xo-cash/types": "0.0.8",
+         "@xo-cash/utils": "0.0.10",
+@@ -916,9 +916,9 @@
+       }
+     },
+     "node_modules/@xo-cash/engine": {
+-      "version": "0.1.0-next.17612568780",
+-      "resolved": "https://registry.npmjs.org/@xo-cash/engine/-/engine-0.1.0-next.17612568780.tgz",
+-      "integrity": "sha512-5oUa6byj+GXu6cbQwlUW7ThRBP0Lr9lJ8LbJX8Su2Cxo8JerRCLT18ER4Z3gLlM8cMZhW2pRpnO2xdffGF4xEA==",
++      "version": "0.1.1-next.17778370827",
++      "resolved": "https://registry.npmjs.org/@xo-cash/engine/-/engine-0.1.1-next.17778370827.tgz",
++      "integrity": "sha512-qjhA75DKhfPizS9VI7qkuiqZI9i3mpyjuKOvYezmmD7JUEddAadm6U1AyoiGY56Ij2TThvLG0KfNS5VkKxNMoA==",
+       "license": "MIT",
+       "dependencies": {
+         "@bitauth/libauth": "^3.1.0-next.8",

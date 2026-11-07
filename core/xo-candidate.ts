@@ -61,7 +61,9 @@ export function buildXoTemplateCandidate(request: unknown, expectedRequestDigest
     // No XOInvitation, unsigned commit, entity or random identity is fabricated.
     const sourceCommitIdentifier = 'offline-diagnostic:' + requestPlan.binding.requestPlanDigest;
     const compiledRecipient = completeMergedOutput({ outputIdentifier: recipient.token ? 'transferFungibleTokensOutput' : 'transferSatoshisOutput', ...(recipient.token ? { valueSatoshis: BigInt(recipient.satoshis) } : {}), sourceCommitIdentifier }, 0, variables, template, actionIdentifier);
-    const merged: MergedInvitation = { transactionVersion: transaction.version, transactionLocktime: transaction.locktime, variables,
+    // The next engine requires variable provenance too. Reuse the explicit local
+    // diagnostic label; it is not an authenticated participant/commit identity.
+    const merged: MergedInvitation = { transactionVersion: transaction.version, transactionLocktime: transaction.locktime, variables: variables.map(v => ({ ...v, sourceCommitIdentifier })),
       inputs: transaction.inputs.map((i, index) => { const source = plan.selectedInputs[index]!.sourceOutput; return { ...i, valueSatoshis: BigInt(source.satoshis), ...(source.token ? { token: { category: hexToBin(source.token.category), amount: BigInt(source.token.amount) } } : {}), sourceCommitIdentifier }; }),
       outputs: [{ ...compiledRecipient, sourceCommitIdentifier }, ...plan.outputSummary.filter(o => o.role !== 'recipient').map(o => ({ ...output(o), sourceCommitIdentifier }))] };
     const built = buildInvitationTransactionFromMergedCommit(merged, template, actionIdentifier);
