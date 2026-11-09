@@ -1,22 +1,23 @@
 # Next action
 
-## Current gate: five-WP code candidate,2026-11-09
+## Current gate: B1 corrected, final independent acceptance pending,2026-11-09
 
-Read PROGRESS and task `intentguard-mainnet-20261109/artifacts/IMPLEMENTATION_RESULT.json`.
-Implementation source is `96e39581b37fdcba2037fd8ca8dfaf134693cebf`; metadata candidate
-is bound externally. Parent now obtains actual embedded-browser public root/pay
-proof and fresh runtime Astra using ONLY task/acceptance+exact candidate diff+repo.
-Verifier independently runs validate, HTTP/SDK integration, production distribution,
-empirical skill, finite builder mutation/restoration and official statechart/TLC;
-it must not read Builder reasoning/evidence to derive its verdict or edit source.
-Do not replay protected identity/create/reconcile/faucet/sign/send. There is no
-live txid in this task; only the explicit flagged mock-transport exception.
+Read PROGRESS and task `artifacts/implementation-3/IMPLEMENTATION_RESULT.json`.
+B1 source `a8f1589a55ce91023c10e182a55b19764a44174c`, baseline
+`0b17c070cd34645d72a9928c64dfa015c4ded860`; exact metadata candidate/diff bound externally.
+Parent freezes the candidate and launches second/final fresh Astra runtime round
+from prior B1 + new diff/task/repo ONLY. Do not use Builder reasoning/test outputs
+to derive an independent verdict; do not edit candidate source. Parent owns actual
+embedded-browser public proof. Validate277/277, compiled UI/HTTP/SQLite edit/rebuild,
+production build/smoke, empirical, finite builder mutation/restoration and official
+TLC ran as Builder evidence, not acceptance. No live wallet/identity/faucet/real
+signing/broadcast in this repair; do not replay consumed operations.
 
 After actual PASS/BLOCKER0+green, parent ONLY uses supported native route, existing
 feature ownership plus main lock/CAS/expected source to publish without force and
 records exact feature/main SHAs. Child never pushes/merges or manufactures verdicts.
-Pending: Q_FAUCET(10000sat public free-faucet human step), five banner owner fields,
-hosting decision. These keep final needs_owner, not false payment/judging readiness.
+Parent reconciles later owner funding/hosting decisions and outstanding banner
+fields from current task DECISIONS/QUESTIONS; this child performed no live action.
 Mainnet remains0sat/unsigned-only. No deploy/public URL, visibility/license/IP change,
 contest submission, social/Notion/Linear writes or repeated attendance/token action.
 Older paragraphs below are preserved historical gates, not current scope denial.

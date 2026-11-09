@@ -1,41 +1,52 @@
 # IntentGuard / BCH BLAZE — Progress
 
-## Current: intentguard-mainnet-20261109 — PRESEASON / code ready for independent acceptance
+## Current: intentguard-mainnet-20261109 — PRESEASON / B1 corrected, final acceptance pending
 
-Owner decision t304u; implementation source **96e39581b37fdcba2037fd8ca8dfaf134693cebf**
-(2026-11-09T16:01:11+08:00), base **48f5311c1deb4c61b9a8c2732599cca69984f4b3**.
-Feature: `feat/intentguard-mainnet-20261109`. Metadata/candidate SHA is bound in
-this task's external `artifacts/IMPLEMENTATION_RESULT.json`, avoiding circular self-hash.
+Owner decision t304u; B1 correction source **a8f1589a55ce91023c10e182a55b19764a44174c**
+(2026-11-09T17:11:13+08:00), correction baseline **0b17c070cd34645d72a9928c64dfa015c4ded860**;
+original implementation **96e39581b37fdcba2037fd8ca8dfaf134693cebf**, task base **48f5311c1deb4c61b9a8c2732599cca69984f4b3**.
+Feature: `feat/intentguard-mainnet-20261109`. Exact metadata/candidate/diff hashes:
+task `artifacts/implementation-3/IMPLEMENTATION_RESULT.json` (external, no circular hash).
 
 - WP1: actual memory-only WizardConnect adapter, fresh SDK handshake/paths,
   sign-only sequence/envelope/expiry binding and immediate disconnect/replay refusal.
 - WP2: `/pay` confirmed request/build/preflight/sign/postGuard/one-send/observe,
   separate durable payment journal and original-hash recovery. Mainnet immutable
   **0sat**, unsigned-only. **MOCK_TRANSPORT / NO_CHAIN_TRANSACTION** integration.
-  Public funding read returned NO_ORDINARY_CONFIRMED_FUNDS; only real broadcast is
-  **WP2_BROADCAST_BLOCKED / Q_FAUCET** (10000sat public free-faucet human step).
+  B1: authenticated same-economic-ID unsigned revision with atomic input-transfer/CAS;
+  no replacement after signature reservation/UNKNOWN/signed/send reservation.
+  This repair used no live wallet, protected identity, faucet, signing or broadcast.
+  Prior WP2_BROADCAST_BLOCKED receipt is historical; later owner funding screenshot
+  in task DECISIONS is parent-owned and not independently rechecked here.
 - WP3: actual root banner/private repo label + five obvious TODO_OWNER fields;
   all unknowns in task QUESTIONS. Parent actual browser proof still required.
-- WP4: complete production HTML/CSS/JS/Node runtime/notices packaged; standalone
-  external-directory install/native rebuild/runtime/journal-reopen smoke passed.
-  Payload2087941bytes excluding manifest/external deps; hosting question recommends
+- WP4: complete production HTML/CSS/JS/Node runtime/notices packaged. Prior candidate's
+  external-directory install/native rebuild is historical; repair package/root-pay-
+  assets/private-runtime/journal-reopen smoke passed using existing dependencies.
+  Payload2090718bytes excluding manifest/external deps; inherited hosting question recommends
   persistent Tencent Node24/SQLite. No deployment or public URL.
 - WP5: [actual pre-event SHA/date/features disclosure](docs/PRE_EXISTING_WORK.md),
   original history/baseline/notices preserved. No event novelty/eligibility claim.
-- Builder verification: `npm run validate`274/274, no fail/cancel/skip (258 prior+16
-  focused); real builder1512finite cases, corrupt-source negative control caught
-  546→547sat substitution, restoration passed; TLC124states/346steps passed.
-  These are bounded/synthetic checks, not stock-wallet/live-chain/mainnet proof.
+- Builder verification: final `npm run validate`277/277, no fail/cancel/skip
+  (258 historical+16 prior focused+3 B1 regressions); compiled UI5000→4000sat exact
+  outputs/reconfirm/reopen, zero sign/send, SIGNING/UNKNOWN edits blocked; competing
+  revisions/signature reservation and input-transfer rollback/release checked.
+  Production build/runtime smoke; builder1512finite cases and actual546→547sat
+  bad-source control/restoration; TLC124states/346steps/seven rules passed.
+  Empirical/statechart execute the concrete revised UI journey before abstraction.
+  These are bounded/synthetic Builder checks, not independent acceptance or browser/
+  stock-wallet/live-chain/mainnet proof. Raw receipts: task artifacts/implementation-3/.
 
 Next/resume: Node24 locked install/native rebuild; `npm run validate`,
 `npm run build:production`; read `core/PAYMENT_FLOW.md` and task artifacts.
-Parent must run fresh runtime Astra from task/acceptance+exact diff+repo ONLY,
-actual embedded-browser public proof, then supported locked/CAS publication if
-PASS+green. Child never pushes/merges. No independent runtime verdict or main SHA
-is claimed yet. Banner/hosting/faucet remain needs_owner even if code is accepted.
-Never repeat consumed old identity create/reconcile; no protected identity was
-opened in this task. No mainnet key/sign/send, deploy, visibility/license change,
-contest submission or external record writes. Existing attendance/token facts stand.
+Parent freezes this exact metadata candidate and runs second/final fresh runtime
+Astra on prior B1 + new diff/task/repo, not Builder reasoning/evidence. Parent owns
+actual embedded-browser public proof and locked/CAS publication only after PASS+
+green. No independent runtime PASS or main SHA is claimed by this Builder.
+Parent reconciles current funding/hosting/banner decisions; no public-release or
+judging-readiness claim. Never replay consumed identity create/reconcile; protected
+identity remained unopened. Mainnet0sat/unsigned-only; no deploy, push/merge,
+visibility/license/IP/submission/social/Notion/Linear or other external writes.
 
 ## Historical identity-only milestone (superseded scope; preserved evidence)
 

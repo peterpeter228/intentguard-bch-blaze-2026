@@ -60,6 +60,8 @@ not assertions that every wallet/network/browser combination was exercised.
 | 48f5311c1deb4c61b9a8c2732599cca69984f4b3 | 2026-11-09T12:04:34+08:00 | Prior merged identity milestone PROGRESS |
 | 8abb754d16bf4498952f99c8dc63237ac85bda8d | 2026-11-09T15:52:30+08:00 | Current WP1–4 and verification code: WizardConnect, guarded payment/journal, banner, production packaging, empirical/builder/state verification |
 | 96e39581b37fdcba2037fd8ca8dfaf134693cebf | 2026-11-09T16:01:11+08:00 | Current receipt conflict downgrade, historical state separation and signature-reservation restart regression |
+| 0b17c070cd34645d72a9928c64dfa015c4ded860 | 2026-11-09T16:05:31+08:00 | Original five-WP disclosure/progress metadata; independent round1 later found unsigned edit/rebuild B1 |
+| a8f1589a55ce91023c10e182a55b19764a44174c | 2026-11-09T17:11:13+08:00 | B1 authenticated atomic never-sign-reserved draft revision, consistent input reservations; compiled UI/HTTP/SQLite regression and empirical/model synchronization |
 
 This disclosure/progress metadata candidate follows the immutable implementation
 commits above; its final full SHA/date are
@@ -68,11 +70,14 @@ November9 PRESEASON, not event-period functionality or a new business capability
 
 ## Evidence limits, owners and third parties
 
-Current implementation:274 tests pass; synthetic relay/RPC payment path, actual
-signature VM and durable restart checked; production distribution run privately.
-No funded live payment/public txid: WP2_BROADCAST_BLOCKED. Mainnet cap0, no mainnet
-keys/signatures/broadcast. Stock-wallet combinations, public demo and mainnet
-receipt remain NOT_RUN. This does not replace judging or eligibility evidence.
+Current Builder correction:277 tests pass, including UI5000→4000sat reconfirm/rebuild
+with zero signature/send calls and refusal after signing reservation/UNKNOWN;
+synthetic relay/RPC crypto/recovery, production private runtime and bounded checks
+also ran. Independent final acceptance remains parent-owned, NOT_RUN by Builder.
+No funded live payment/public txid was created in this repair; historical task
+WP2_BROADCAST_BLOCKED and later parent-owned funding decisions are separate evidence.
+Mainnet cap0, no mainnet keys/signatures/broadcast. Stock-wallet combinations,
+public demo and mainnet receipt remain NOT_RUN here; no eligibility claim.
 
 Current repository `https://github.com/peterpeter228/intentguard-bch` is private.
 Old/new event repository roles, slides, EMBER2026 address and pre-hack demo are

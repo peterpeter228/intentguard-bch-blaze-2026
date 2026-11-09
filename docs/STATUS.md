@@ -2,21 +2,25 @@
 
 ## 2026-11-09 guarded connected-wallet code — PRESEASON
 
-Task `intentguard-mainnet-20261109`, owner t304u. Implementation source
-`96e39581b37fdcba2037fd8ca8dfaf134693cebf`; metadata/final candidate bound externally.
+Task `intentguard-mainnet-20261109`, owner t304u. B1 correction source
+`a8f1589a55ce91023c10e182a55b19764a44174c`; final metadata candidate bound externally
+in task `artifacts/implementation-3/IMPLEMENTATION_RESULT.json`.
 Actual WizardConnect adapter and `/pay` now implement confirmed intent, full-parent
 unsigned build, fresh session/source preflight, sign-only, structural+cryptographic
 postcheck, durable one-send reservation and original-hash observation/recovery.
 Mainnet cap remains exactly0sat: unsigned only, no pairing/key/sign/send.
 Distinct live payment journal does not promote simulation flags or imported success.
 
-Builder checks274/274, production packaging/standalone runtime smoke, synthetic
-HTTP/SDK recovery, actual builder mutation/restoration and bounded TLC124/346 passed.
-Live Chipnet payment is WP2_BROADCAST_BLOCKED (public funding read found no ordinary
-confirmed funds; faucet human checks). No protected identity was opened/replayed.
-Visible homepage owner TODOs/hosting/faucet questions remain; parent real-browser
-proof and fresh independent Astra runtime acceptance are NOT_RUN here. No merged
-main SHA, deployment/public URL, stock-wallet/mainnet/contest completion is claimed.
+B1 now revises only authenticated never-sign-reserved unsigned drafts atomically,
+retaining economic identity and consistent input reservations. Actual compiled UI
+5000→4000sat edit/reconfirm/rebuild passes with zero sign/send; later SIGNING/UNKNOWN
+edits remain blocked. Builder final validate277/277, production build/private runtime,
+synthetic SDK/HTTP recovery, builder mutation/restoration and TLC124/346 passed.
+This repair did not recheck public funding or use any protected/live wallet. Prior
+WP2_BROADCAST_BLOCKED is historical; parent reconciles later owner decisions.
+Parent second/final independent runtime acceptance and actual browser evidence
+remain separate. No merge/main SHA, deployment/public URL, stock-wallet/mainnet/
+contest completion is claimed here.
 See [current progress](../PROGRESS.md), [flow](../core/PAYMENT_FLOW.md), and
 [pre-existing disclosure](PRE_EXISTING_WORK.md). Earlier identity-only restrictions
 below are historical; new scoped Chipnet payment permission comes from t304u only.
