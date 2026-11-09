@@ -1,6 +1,30 @@
 # IntentGuard / BCH BLAZE — Progress
 
-## Current: intentguard-mainnet-20261109 — PRESEASON / B1 corrected, final acceptance pending
+## Current: intentguard-mainnet-20261109 — code accepted / live WP2 BLOCKED_EXTERNAL
+
+Accepted code candidate: **d3629041c6454efa8a393618bd11baf3bf78cf05**;
+implementation source: **a8f1589a55ce91023c10e182a55b19764a44174c**.
+Done: actual final Astra round2 **PASS / BLOCKER0 / 277 tests, 0 fail, 0 skip**;
+actual parent public-browser smoke passed. WP1–WP5 code accepted; live WP2 is separate.
+Evidence: task `artifacts/verifier-2/verify-evidence.md` and parent visual receipts.
+Parent observed original funding outpoint
+`8a9495f75362764b74612da733295bfa1bdd5084b31a1320085dc33193801ebd:1`, **10000sat**,
+on Ninja at **height0 / 0conf**, absent Imaginary. Unchanged production funding gate
+refused before any secret/wallet/sign/send. WP2 live remains **BLOCKED_EXTERNAL**,
+not a missing faucet request; known funding is **not a self-payment receipt**.
+Mainnet cap **0sat**, unsigned-only; no real-wallet/chain/mainnet payment or contest-ready claim.
+Owner t313u/t314u chose hosting **B: Vercel frontend + Railway persistent Node/SQLite**
+and authorized later deployment after PASS+green+merge without re-ask. This code task
+has not deployed; public Host/Origin configuration belongs to the separate queued deployment goal.
+Next: parent-only locked/CAS push/merge; five owner banner fields still missing.
+Resume: **Node24**, locked install/native dependencies, `npm run validate` and
+`npm run build:production`; live work only rechecks the **SAME public funding outpoint**
+then original gates. Never replay consumed operations. No private identity opened here.
+Exact final metadata SHA/tree/diff are external in task `artifacts/metadata-final/` and
+parent publication receipt (no circular self-hash). No child push/merge, deployment,
+visibility/license/IP/submission/Telegram/Notion/Linear or desktop/Windows/global-service work.
+
+## Historical: B1 implementation checkpoint — final acceptance was pending
 
 Owner decision t304u; B1 correction source **a8f1589a55ce91023c10e182a55b19764a44174c**
 (2026-11-09T17:11:13+08:00), correction baseline **0b17c070cd34645d72a9928c64dfa015c4ded860**;
