@@ -1,5 +1,23 @@
 # XO offline lab — pre-event baseline, 2026-11-04
 
+## November 9 Q1=B identity-only evidence
+
+One explicitly owner-authorized, new dedicated Chipnet identity/session produced a
+real Engine identity-signed initial Invitation and unchanged `serializeInvitation`
+export. Existing CLI returned REVIEW_REQUIRED / canSign=false with no issues;
+public signature tampering returned CommitSignatureInvalidError. Exact public
+bytes, template, independent pin/provenance, trusted timestamps and hashes are in
+task bch-blaze-chipnet-20261109 artifacts, not a repository signed fixture.
+
+`chipnet-session.mjs` is a consumed, single-task evidence command, NOT a production
+wallet adapter or general credential loader. Doctor is read-only. The initial
+wrapper host:port mismatch and exact same-identity, proved-zero-signing continuation
+are retained, not erased. One identity, two connection initializations, ONE signing
+call; no financial transaction/signature/funding/broadcast. Never run create or the
+consumed reconciliation again. Use the generated project-local verification skills
+for public offline inspection and bounded lifecycle checks. No Guard rule changed.
+Parent fresh Astra/static gate and independent public smoke remain separate.
+
 This is preparation code, not the contest-period product, novel template, wallet, or executed invitation. It extends the existing G0 branch a304f8810c402fd29b105563a136379e42f246af without modifying main or PR #1.
 
 ## Reproduce

@@ -1,5 +1,28 @@
 # Decisions
 
+## 2026-11-09 — Q1=B, dedicated Chipnet identity-only exception
+
+Owner card t292s1301 authorizes one NEW dedicated Chipnet identity/session,
+identity-only createInvitation, serializeInvitation and the existing offline
+inspector. This supersedes prior signing prohibitions ONLY for that identity and
+path. Preserve the original preparation plan/PASS; it does not prove this new path.
+No owner Selene wallet/token, mainnet, transaction signing, executeAction, funding,
+broadcast, deployment, submission or external record write is included.
+
+Use the locked official P2PKH template without a role/generate list, inputs or
+outputs: pinned source confirms this does not store generated private template
+material. Only the one protected env stores the mnemonic. Account/Electrum state
+is task-private and was internally checked for known secret bytes; only the actual
+Invitation (not StoredInvitation) is exported after strict public-shape checks.
+
+The first wrapper rejected the SDK's hostname-only hostIdentifier after Engine
+initialization returned. Preserve this failure and its original unsigned journal.
+One exceptional continuation is pinned to that exact journal SHA/operation ID and
+the same public key/address, checks no signing history and no stored Invitations,
+and retains all prior records/counters. It cannot create a replacement identity or
+repeat signing; signing/export uncertainty remains quarantined. This is not a
+general retry policy or a change to Guard/fee/expiry/ownership/UNKNOWN rules.
+
 2026-10-27: follow supplied new-project G0/preseason path. Existing NEAR IntentGuard is unrelated and not reused as BCH migration evidence. Core G1 implementation deferred to official contest window, unless user later explicitly chooses a transparently disclosed prior-project strategy compatible with confirmed rules.
 
 Use one npm lockfile, strict official types, no custom SDK declarations or type suppression. Pin candidate package versions only after actual install/build. Use no wallets/secrets/chain side effects for G0. Avoid Next.js scaffolding/visual payment UI before G1; browser-target SDK bundling is a compatibility experiment, not a runnable product.

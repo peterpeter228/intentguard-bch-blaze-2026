@@ -105,8 +105,20 @@ test('wrong ids, malformed envelopes, RPC errors and extra frames are sanitized 
   }
 });
 
+test('Fulcrum canonical 1.5 response permits the requested 1.5.0 read without fallback', async () => {
+  let socket: FakeTLS | undefined;
+  const transport = createSyntheticElectrumTransport(allowlist, 'fixture', () => {
+    socket = new FakeTLS((r, s) => s.frame(r.id, r.method === 'server.version' ? ['Fulcrum fixture', '1.5'] : 'checkpoint header'));
+    return socket;
+  });
+  const abortSignal = signal();
+  assert.equal(await transport.request('blockchain.block.header', [121957], abortSignal), 'checkpoint header');
+  assert.deepEqual(socket!.requests.map(r => r.method), ['server.version', 'blockchain.block.header']);
+  await assertClean(socket!, abortSignal);
+});
+
 test('unsupported protocol and unverified TLS never send the application read', async () => {
-  for (const version of ['1.4', '1.5.1', null, ['fixture', '1.5.0', 'extra']]) {
+  for (const version of ['1.4', '1.5.1', '1.6', '01.5', '1.05', '1.5.', '1.5.0.0', '1.5\n', null, ['fixture', '1.5.0', 'extra']]) {
     let socket: FakeTLS | undefined;
     const t = createSyntheticElectrumTransport(allowlist, 'fixture', () => { socket = new FakeTLS((r, s) => s.frame(r.id, Array.isArray(version) ? version : ['fixture', version])); return socket; });
     const abortSignal = signal(); await assert.rejects(t.request('server.features', [], abortSignal), /ELECTRUM_UNSUPPORTED_PROTOCOL/); assert.equal(socket?.requests.length, 1); await assertClean(socket!, abortSignal);

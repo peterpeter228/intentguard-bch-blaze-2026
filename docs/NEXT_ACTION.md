@@ -1,5 +1,26 @@
 # Next action
 
+## Current gate, 2026-11-09 — Q1=B identity-only export exists
+
+The task bch-blaze-chipnet-20261109 now contains an actual new dedicated Chipnet
+identity-signed serializeInvitation export, exact official P2PKH template and
+independent pin/provenance. Existing CLI verified schema/signatures/current expiry
+as REVIEW_REQUIRED / canSign=false and rejected public signature tampering.
+The old missing-participant-artifact gate below is historical for this bounded path.
+
+Next: parent dispatches fresh explicit Astra STATIC readonly diff review covering
+the actual decision delta, source/candidate, failed initial wrapper check, pinned
+same-identity continuation, final validate, formal mutation/restoration and real
+CLI evidence. Parent independently repeats only public original/tamper inspection
+and stat-only custody checks. Never run create/reconcile-session again: the one
+identity and signing operation are consumed. Do not adjust the clock at expiry.
+
+No payment/executeAction, transaction signing, funding, broadcast, mainnet readiness
+or bounty qualification is established. Further financial/session capabilities
+remain separate scope/authorization gates. Parent owns final result/report/HANDOFF,
+both atomic terminal receipts and release of its existing lock; this implementation
+does not forge those receipts or perform publication.
+
 ## Current gate, 2026-11-07
 
 The official npm next-version compatibility update is now separately evidenced

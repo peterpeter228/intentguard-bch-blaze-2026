@@ -1,5 +1,41 @@
 # IntentGuard BCH status
 
+## 2026-11-09 dedicated Chipnet identity / Q1=B — PRESEASON
+
+The owner decision t292s1301 narrowly supersedes the old preparation-only signing
+prohibition for ONE new dedicated Chipnet identity, Engine session and identity-only
+Invitation. The original Opus/Astra plan PASS is reused as historical preparation
+approval, not evidence that this path was already proved.
+
+Actual pinned Engine identity signing and `serializeInvitation(stored.invitation)`
+now produced one public shareable initial proposal. Existing offline CLI returned
+REVIEW_REQUIRED, one commit, no issues, canSign=false; a one-nibble public signature
+mutation returned REJECTED / CommitSignatureInvalidError. A separate offline-only
+run repeated both results without opening a session or signing. No transaction
+inputs/outputs, generated template secrets, payment, funding, broadcast or receipt.
+
+The TLS root cause was literal version spelling: both bounded observations returned
+Fulcrum `1.5` for requested `1.5.0`. The minimal transport repair accepts only those
+equivalent spellings, preserving parser/TLS/deadline/token/unsupported-version rules.
+Actual fixed-transport block 121957 matched the independent Chipnet hash pin.
+The Engine uses its separate official WSS/checkpoint path, successfully connected
+to chipnet.bch.ninja. Its first initialization returned before a wrapper hostname
+check failed (SDK hostIdentifier omits the port). Original records show ZERO
+signing attempts; a journal-SHA/operation-ID/public-identity-bound continuation
+reused the same identity once, then made the SOLE signing call. No reset/re-sign.
+
+Secret recovery and scanning occurred only inside the owned process; metadata
+confirmed 0600 within 0700. Public export and exact template remain outside Git
+under task bch-blaze-chipnet-20261109 artifacts. No owner wallet/token was accessed.
+Final restored `npm run validate`: 258/258, typecheck/build passed. Official TLC
+checked 65 states/158 steps; real guard removal produced the expected counterexample,
+then restoration passed. This is a bounded lifecycle model, not whole-system proof.
+
+Parent-owned fresh Astra static diff gate and independent public-artifact smoke
+remain separate, NOT yet claimed. G1 remains IN_PROGRESS / PRESEASON; identity
+signature is not an executed Invitation, mainnet readiness or bounty qualification.
+See [scope, failures, commands and formal limits](../evidence/chipnet-identity-20261109/README.md).
+
 ## 2026-11-09 keyless preparation after host resume — PRESEASON
 
 Source `a82807ae0293baee39a185e229f906718e095e59` on

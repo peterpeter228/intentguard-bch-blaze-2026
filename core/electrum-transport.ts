@@ -5,7 +5,7 @@
  * The allowlist is validated, cloned and frozen at construction. DNS/TLS identity
  * is not chain truth, operator independence, or spending authorization.
  *
- * Each call uses one verified TLS connection, one fixed protocol-1.5.0 handshake,
+ * Each call uses one verified TLS connection, one protocol-1.5.0 handshake,
  * and at most one allowed read request. No reconnect, fallback, or retry. Self-
  * signed/untrusted certificates fail normally; there is no insecure TLS option.
  * The whole connection (handshake included) has a 5s deadline and 512KiB response
@@ -110,7 +110,8 @@ function transport(endpoint: Readonly<ElectrumEndpoint>, factory: SyntheticTLSFa
             if (!object(message) || message.jsonrpc !== '2.0' || message.id !== expectedId || Object.keys(message).some(k => !['jsonrpc', 'id', 'result', 'error'].includes(k)) || (!Object.hasOwn(message, 'result') && !Object.hasOwn(message, 'error')) || (Object.hasOwn(message, 'result') && Object.hasOwn(message, 'error'))) { finish('ELECTRUM_PROTOCOL_ERROR'); return; }
             if (Object.hasOwn(message, 'error')) { finish('ELECTRUM_RPC_ERROR'); return; }
             if (stage === 'version') {
-              if (!Array.isArray(message.result) || message.result.length !== 2 || typeof message.result[0] !== 'string' || message.result[0].length > 256 || message.result[1] !== '1.5.0') { finish('ELECTRUM_UNSUPPORTED_PROTOCOL'); return; }
+              // Electrum permits omitted zero revision: Fulcrum returns "1.5" for "1.5.0".
+              if (!Array.isArray(message.result) || message.result.length !== 2 || typeof message.result[0] !== 'string' || message.result[0].length > 256 || (message.result[1] !== '1.5.0' && message.result[1] !== '1.5')) { finish('ELECTRUM_UNSUPPORTED_PROTOCOL'); return; }
               // No unsolicited frames may be queued before the actual read request.
               if (buffer.length !== 0) { finish('ELECTRUM_PROTOCOL_ERROR'); return; }
               stage = 'response'; send(requestId, method, captured); return;
