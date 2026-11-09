@@ -68,7 +68,10 @@ export class PaymentFlow {
       if (!digest(input.id)) throw Error('INVALID_PAYMENT_SCHEMA');
       const op = this.journal.get(input.id);
       if (!op) throw Error('OPERATION_NOT_FOUND');
-      return { ...publicOperation(op), recoveryObservation: op.signedHex ? await this.observeOriginal(op) : null };
+      const recoveryObservation = op.signedHex ? await this.observeOriginal(op) : null;
+      const state = op.state === 'CONFIRMED_ON_CHAIN' && (recoveryObservation?.status !== 'CONFIRMED_ON_CHAIN' || recoveryObservation.blockHash !== op.observation?.blockHash) ? 'CONFLICTED' :
+        op.state === 'OBSERVED' && recoveryObservation?.status === 'UNKNOWN' ? 'UNKNOWN' : op.state;
+      return { ...publicOperation(op), state, persistedState: op.state, observation: recoveryObservation ?? op.observation, recoveryObservation };
     }
     const names = action === 'reserve' ? ['sequence', 'sessionId', 'planDigest'] : action === 'signed' ? ['envelope', 'signedHex'] : [];
     if (!['reserve', 'signed', 'uncertain', 'broadcast', 'observe'].includes(String(action))) throw Error('INVALID_PAYMENT_SCHEMA');

@@ -168,6 +168,16 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       assert.equal((await f.api(f.prepare)).http, 409);
       assert.equal((await f.api({ action: 'observe', id: first.value.id, revision: first.value.revision, capability: first.value.capability })).value.issue, 'ORIGINAL_HASH_REQUIRED');
       await f.restart(); assert.equal((await f.api(f.prepare)).http, 409); assert.deepEqual(f.stats(), { sends: 0, signs: 0 });
+      const reserve = { action: 'reserve', id: first.value.id, revision: first.value.revision, capability: first.value.capability,
+        sequence: f.wallet.nextSequence('chipnet', new AbortController().signal), sessionId: f.wallet.currentSessionId(), planDigest: first.value.plan.planDigest };
+      const signing = (await f.api(reserve)).value; assert.equal(signing.state, 'SIGNING');
+      await f.restart();
+      const recovered = (await f.api({ action: 'get', id: first.value.id })).value;
+      assert.equal(recovered.state, 'SIGNING'); assert.equal(recovered.txid, null);
+      assert.equal((await f.api({ ...reserve, revision: recovered.revision, sequence: 999 })).http, 409);
+      const unknown = (await f.api({ action: 'uncertain', id: recovered.id, revision: recovered.revision, capability: first.value.capability })).value;
+      assert.equal((await f.api({ action: 'observe', id: unknown.id, revision: unknown.revision, capability: first.value.capability })).value.issue, 'ORIGINAL_HASH_REQUIRED');
+      assert.deepEqual(f.stats(), { sends: 0, signs: 0 });
     } finally { await f.close(); }
   });
   test('matching original raw bytes and inclusion confirm; later source conflict invalidates the receipt', async () => {
@@ -178,6 +188,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       current = (await f.api({ action: 'observe', id: current.id, revision: current.revision, capability })).value;
       assert.equal(current.state, 'CONFIRMED_ON_CHAIN'); assert.match(current.observation.blockHash, /^[0-9a-f]{64}$/);
       options.conflict = true;
+      const readOnly = (await f.api({ action: 'get', id: current.id })).value;
+      assert.equal(readOnly.state, 'CONFLICTED');
+      assert.equal(readOnly.persistedState, 'CONFIRMED_ON_CHAIN');
       current = (await f.api({ action: 'observe', id: current.id, revision: current.revision, capability })).value;
       assert.equal(current.state, 'CONFLICTED'); assert.equal(f.stats().sends, 1);
     } finally { await f.close(); }
