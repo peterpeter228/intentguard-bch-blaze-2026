@@ -45,22 +45,30 @@ export class PaymentFlow {
       return { mainnetCapSatoshis: MAINNET_CAP_SATOSHIS, network: 'chipnet', evidenceKind: this.chain.sources[0]!.kind,
         sources: this.chain.sources.map(({ id, operatorId, network, genesisHash, checkpoint, maxTipAgeMs, kind }) => ({ id, operatorId, network, genesisHash, checkpoint, maxTipAgeMs, kind })) };
     }
-    if (action === 'prepare') {
-      shape(input, ['action', 'request', 'expectedRequestDigest', 'scripts', 'changeScript', 'feePolicy']);
+    if (action === 'prepare' || action === 'revise') {
+      shape(input, ['action', 'request', 'expectedRequestDigest', 'scripts', 'changeScript', 'feePolicy', ...(action === 'revise' ? ['id', 'revision', 'capability'] : [])]);
       const parsed = createPaymentRequestDraft(input.request, this.clock());
       if (parsed.status !== 'DRAFT_READY' || parsed.draft.requestDigest !== input.expectedRequestDigest || parsed.draft.request.recipients.some(r => r.token)) throw Error('REQUEST_RECONFIRM_REQUIRED');
       if (parsed.draft.request.network !== 'chipnet') throw Error('MAINNET_CAP_ZERO');
       if (!Array.isArray(input.scripts) || !input.scripts.every((s): s is string => typeof s === 'string') || typeof input.changeScript !== 'string' || !input.scripts.includes(input.changeScript)) throw Error('UNKNOWN_OWNER_SCRIPT');
+      const id = paymentHash('intentguard/payment/v1\0' + parsed.draft.request.network + '\0' + parsed.draft.request.requestId);
+      if (action === 'revise') {
+        if (input.id !== id || !digest(input.capability) || !Number.isSafeInteger(input.revision)) throw Error('INVALID_PAYMENT_SCHEMA');
+        const previous = this.journal.get(id);
+        if (!previous || previous.capabilityHash !== paymentHash(input.capability)) throw Error('CAPABILITY_REQUIRED');
+        if (previous.revision !== input.revision) throw Error('REVISION_CONFLICT');
+        if (previous.state !== 'PREFLIGHTED' || previous.envelope !== null || previous.signedHex !== null || previous.txid !== null || previous.observation !== null) throw Error('INVALID_TRANSITION');
+      }
       const evidence = await this.chain.funding(input.scripts);
       const context = { ownerScripts: input.scripts, changeScript: input.changeScript, snapshot: evidence.snapshot, selectedInputs: evidence.selected, feePolicy: input.feePolicy };
       const bound = buildPaymentRequestPlan(parsed.draft.request, parsed.draft.requestDigest, context, this.clock());
       if (!bound.intent || !bound.plan?.unsignedHex || !bound.binding || bound.status !== 'REQUEST_PLAN_BOUND_OFFLINE') throw Error('BUILD_REJECTED');
-      const capability = randomBytes(32).toString('hex');
-      const op: PaymentRecord = { id: paymentHash('intentguard/payment/v1\0' + parsed.draft.request.network + '\0' + parsed.draft.request.requestId), revision: 0,
+      const capability = action === 'revise' ? String(input.capability) : randomBytes(32).toString('hex');
+      let op: PaymentRecord = { id, revision: 0,
         state: 'PREFLIGHTED', capabilityHash: paymentHash(capability), request: parsed.draft.request, requestDigest: parsed.draft.requestDigest,
         build: { intent: structuredClone({ ...bound.intent, recipients: [...bound.intent.recipients], ownerScripts: [...bound.intent.ownerScripts] }), snapshot: evidence.snapshot, selectedInputs: evidence.selected, changeScript: input.changeScript, now: this.clock(), feePolicy: structuredClone(input.feePolicy) as UnsignedFeePolicy },
         plan: structuredClone({ ...bound.plan, outputSummary: [...bound.plan.outputSummary], selectedInputs: [...bound.plan.selectedInputs] }), sourceDigest: evidence.sourceDigest, envelope: null, signedHex: null, txid: null, observation: null };
-      this.journal.insert(op);
+      op = action === 'revise' ? this.journal.reviseUnsigned(op, Number(input.revision)) : this.journal.insert(op);
       return { ...publicOperation(op), capability, evidenceKind: evidence.kind };
     }
     if (action === 'get') {

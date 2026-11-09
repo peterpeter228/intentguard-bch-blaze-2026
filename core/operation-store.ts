@@ -287,6 +287,27 @@ export class PaymentJournal {
       this.db.prepare('INSERT INTO payments VALUES(?,?,?,?)').run(op.id, op.revision, document, hash(document)); return structuredClone(op);
     });
   }
+  /** Same economic identity/capability; no signature reservation may ever have existed.
+   * reserve always retains its envelope, including UNKNOWN and late-callback states. */
+  reviseUnsigned(replacement: PaymentRecord, revision: number): PaymentRecord {
+    return this.commit(() => {
+      const previous = this.get(replacement.id);
+      if (!previous || previous.capabilityHash !== replacement.capabilityHash) throw Error('CAPABILITY_REQUIRED');
+      if (previous.revision !== revision) throw Error('REVISION_CONFLICT');
+      for (const op of [previous, replacement]) {
+        if (op.state !== 'PREFLIGHTED' || op.envelope !== null || op.signedHex !== null || op.txid !== null || op.observation !== null) throw Error('INVALID_TRANSITION');
+      }
+      if (previous.request.network !== replacement.request.network || previous.request.requestId !== replacement.request.requestId) throw Error('ECONOMIC_KEY_MISMATCH');
+      // Release/reacquire only this draft's inputs in the SAME transaction. Any
+      // conflicting input or failed CAS rolls back both document and reservations.
+      this.db.prepare('DELETE FROM payment_inputs WHERE operation=?').run(previous.id);
+      for (const i of replacement.build.selectedInputs) this.db.prepare('INSERT INTO payment_inputs VALUES(?,?)').run(replacement.request.network + ':' + i.txid + ':' + i.index, previous.id);
+      const op = { ...replacement, revision: revision + 1 }, document = JSON.stringify(op);
+      const result = this.db.prepare('UPDATE payments SET revision=?,document=?,checksum=? WHERE id=? AND revision=?').run(op.revision, document, hash(document), op.id, revision);
+      if (result.changes !== 1) throw Error('REVISION_CONFLICT');
+      return structuredClone(op);
+    });
+  }
   /** Orchestrator-only API. Not reachable as an HTTP event import. */
   advance(id: string, revision: number, from: readonly PaymentState[], work: (op: PaymentRecord) => void): PaymentRecord {
     return this.commit(() => {

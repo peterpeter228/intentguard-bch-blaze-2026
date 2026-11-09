@@ -46,6 +46,7 @@ function invalidate(): void {
   epoch++; confirmed = false; draft = null; verified = null; controller.abort();
   for (const id of ['confirm', 'build', 'sign', 'broadcast']) enabled(id, false);
   text('terms-summary', 'Terms/session changed: review and confirm again.');
+  text('candidate', 'No current candidate. Review, confirm and rebuild.');
   if (op && capability && ['SIGNING', 'POSTCHECKED'].includes(op.state)) {
     const original = op;
     void api({ action: 'uncertain', id: original.id, revision: original.revision, capability }).then(() => text('result', 'UNKNOWN: reconcile ORIGINAL operation; never re-sign/resend.')).catch(() => text('result', 'UNKNOWN: reload/read original operation.'));
@@ -111,8 +112,11 @@ action('build', async () => {
     text('candidate', bound); text('result', 'UNSIGNED / OFFLINE ONLY — cap0. Supplied context is not chain or ownership evidence.'); return;
   }
   owned();
-  const raw = await api({ action: 'prepare', request: d.request, expectedRequestDigest: d.requestDigest, scripts: paths.map(p => p.script), changeScript: paths[1]!.script, feePolicy: policy });
+  const prior = op;
+  const raw = await api({ action: prior ? 'revise' : 'prepare', ...(prior ? { id: prior.id, revision: prior.revision, capability } : {}),
+    request: d.request, expectedRequestDigest: d.requestDigest, scripts: paths.map(p => p.script), changeScript: paths[1]!.script, feePolicy: policy });
   const candidate = acceptOperation(raw);
+  if (prior && (candidate.id !== prior.id || candidate.revision !== prior.revision + 1)) throw Error('INVALID_PAYMENT_RESPONSE');
   localStorage.setItem('intentguard/payment/original-id', candidate.id); // Public recovery ID only, before any prompt.
   if (!raw || typeof raw !== 'object' || !('capability' in raw) || typeof raw.capability !== 'string' || !/^[0-9a-f]{64}$/.test(raw.capability)) throw Error('CAPABILITY_REQUIRED');
   op = candidate; capability = raw.capability;

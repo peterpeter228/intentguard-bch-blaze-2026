@@ -1,12 +1,12 @@
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { createHash } from 'node:crypto';
-import { drivePayment } from '../../../../core/payment-http.test.mjs';
+import { drivePayment, driveUnsignedRevision } from '../../../../core/payment-http.test.mjs';
 
 const destination = resolve(process.argv[2] ?? 'dist/payment-model-' + Date.now());
 await mkdir(destination);
 // Execute the concrete HTTP/SQLite/SDK path before constructing the bounded abstraction.
-const concrete = [await drivePayment(), await drivePayment({ loss: true })];
+const concrete = [await driveUnsignedRevision(), await drivePayment(), await drivePayment({ loss: true })];
 const states = [], ids = new Map(), edges = [], starts = [];
 const add = state => { const key = JSON.stringify(state); if (!ids.has(key)) { ids.set(key, states.length); states.push(state); } return ids.get(key); };
 for (const network of ['chipnet', 'mainnet']) starts.push(add({ network, phase: 'DRAFT', confirmed: false, edits: 0, restarted: false, callbacks: 0,
@@ -14,9 +14,10 @@ for (const network of ['chipnet', 'mainnet']) starts.push(add({ network, phase: 
 for (let i = 0; i < states.length; i++) {
   if (states.length > 5000) throw Error('MODEL_SCOPE_EXCEEDED');
   const s = states[i], edge = (action, changes) => edges.push({ from: i, to: add({ ...s, ...changes }), action });
-  // UI independent review/confirmation; prepare persists immutable plan before reserve.
+  // UI invalidates terms; reconfirmed build uses PaymentFlow.revise and
+  // PaymentJournal.reviseUnsigned CAS with retained capability/economic ID.
   if (s.phase === 'DRAFT') edge('ConfirmTerms', { phase: 'CONFIRMED', confirmed: true });
-  if (s.phase === 'CONFIRMED') edge('BuildPreflight', { phase: 'PREFLIGHTED' });
+  if (s.phase === 'CONFIRMED' && !s.signReserved) edge(s.edits ? 'ReviseUnsignedPreflight' : 'BuildPreflight', { phase: 'PREFLIGHTED' });
   if (['CONFIRMED', 'PREFLIGHTED'].includes(s.phase) && s.edits === 0) edge('EditTerms', { phase: 'DRAFT', confirmed: false, edits: 1 });
   // PaymentFlow.reserve -> FULL-sync journal commit, separate from adapter.sendSignRequest.
   if (s.phase === 'PREFLIGHTED' && s.network === 'chipnet' && !s.signReserved) edge('ReserveSignature', { phase: 'SIGNING', signReserved: true });
@@ -71,7 +72,7 @@ await writeFile(destination + '/view.mjs', `export const state = ({s}) => ({DRAF
 const sources = ['core/payment-flow.ts', 'core/operation-store.ts', 'core/wallet-adapter.ts', 'core/payment-ui.ts', 'core/payment-chain.ts'];
 const hashes = await Promise.all(sources.map(async file => ({ file, sha256: createHash('sha256').update(await readFile(file)).digest('hex') })));
 const evidence = { kind: 'BOUNDED_CODE_ANCHORED_ABSTRACTION_NOT_WHOLE_PROGRAM_PROOF', states: states.length, edges: edges.length, hashes, concrete,
-  anchors: { ReserveSignature: 'PaymentFlow.handle reserve / PaymentJournal.advance commit', SdkSignEffect: 'ConnectedWallet.sign sendSignRequest', CheckedCallback: 'PaymentFlow signed verifySignedPlan+0x61', ReserveBroadcast: 'PaymentFlow broadcast CAS commit', RpcSendEffect: 'PaymentChain.broadcast', RestartNoReplay: 'payment-ui invalidate/recover; journal reopen', ObserveOriginalBytes: 'PaymentChain.observe exact original bytes' },
+  anchors: { EditTerms: 'payment-ui invalidate clears confirmation/candidate', ReviseUnsignedPreflight: 'payment-ui build -> PaymentFlow revise -> PaymentJournal.reviseUnsigned atomic CAS/input transfer, no envelope/signed bytes/observation', ReserveSignature: 'PaymentFlow.handle reserve / PaymentJournal.advance commit', SdkSignEffect: 'ConnectedWallet.sign sendSignRequest', CheckedCallback: 'PaymentFlow signed verifySignedPlan+0x61', ReserveBroadcast: 'PaymentFlow broadcast CAS commit', RpcSendEffect: 'PaymentChain.broadcast', RestartNoReplay: 'payment-ui invalidate/recover; journal reopen', ObserveOriginalBytes: 'PaymentChain.observe exact original bytes' },
   bounds: 'one economic operation;2 networks;1 edit;1 browser+service restart;1 reserved sign/send;up to2 callbacks;good/stale/bad evidence;doubleclick represented by refused self-step',
   assumptions: ['synchronous SQLite commit is atomic/durable per local filesystem contract', 'valid callback abstracts full verifier success, exercised by real crypto tests', 'source observation abstracts bounded independent node agreement/inclusion, not consensus'],
   excluded: ['arbitrary interleavings outside named awaits', 'unbounded inputs', 'cryptography/TLS internals', 'malicious SDK/wallet broadcasts', 'browser security', 'hardware durability'],
