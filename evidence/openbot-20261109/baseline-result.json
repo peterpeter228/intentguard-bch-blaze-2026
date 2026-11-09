@@ -1,0 +1,85 @@
+{
+  "phase": "baseline",
+  "startedAt": "2026-11-09T01:07:20.152Z",
+  "node": "v24.22.2",
+  "npm": "11.19.1",
+  "source": "a82807ae0293baee39a185e229f906718e095e59",
+  "environment": {
+    "TMPDIR": "/var/lib/docker/volumes/openbot-eval_openbot-data/_data/OpenBot/Shared/loop/bch-blaze-dev-20261109/runtime-tmp",
+    "npm_config_cache": "/var/lib/docker/volumes/openbot-eval_openbot-data/_data/OpenBot/Shared/loop/bch-blaze-dev-20261109/npm-cache",
+    "npm_config_devdir": "/var/lib/docker/volumes/openbot-eval_openbot-data/_data/OpenBot/Shared/loop/bch-blaze-dev-20261109/node-gyp",
+    "npm_config_nodedir": "/opt/aicc/node-v24.22.2-linux-x64",
+    "PI_CODEX_WEBSOCKET": "0",
+    "OMP_TIMEOUT": "0"
+  },
+  "before": {
+    "package": "3880cd44c1c773ce0ab8025177341cd368dd449d6b1e811448cfe9b0fcc18799",
+    "lock": "c97ac66dcc70b702393adcfe7851cbe58fb1f5d77a37ebf5facc26eccff41e87"
+  },
+  "commands": [
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit": 0,
+      "signal": null,
+      "durationMs": 4,
+      "errorCode": null
+    },
+    {
+      "command": [
+        "npm",
+        "--version"
+      ],
+      "exit": 0,
+      "signal": null,
+      "durationMs": 87,
+      "errorCode": null
+    },
+    {
+      "command": [
+        "npm",
+        "ci",
+        "--ignore-scripts",
+        "--no-fund",
+        "--no-audit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "durationMs": 3519,
+      "errorCode": null
+    },
+    {
+      "command": [
+        "npm",
+        "rebuild",
+        "sqlite3",
+        "better-sqlite3"
+      ],
+      "exit": 0,
+      "signal": null,
+      "durationMs": 696,
+      "errorCode": null
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "validate"
+      ],
+      "exit": 0,
+      "signal": null,
+      "durationMs": 16677,
+      "errorCode": null,
+      "testSummary": []
+    }
+  ],
+  "after": {
+    "package": "3880cd44c1c773ce0ab8025177341cd368dd449d6b1e811448cfe9b0fcc18799",
+    "lock": "c97ac66dcc70b702393adcfe7851cbe58fb1f5d77a37ebf5facc26eccff41e87"
+  },
+  "packageAndLockUnchanged": true,
+  "finishedAt": "2026-11-09T01:07:41.138Z"
+}

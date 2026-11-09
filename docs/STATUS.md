@@ -1,5 +1,40 @@
 # IntentGuard BCH status
 
+## 2026-11-09 keyless preparation after host resume — PRESEASON
+
+Source `a82807ae0293baee39a185e229f906718e095e59` on
+`feat/openbot-bch-20261108`; prior revised preparation plan/Astra PASS reused,
+not replanned. Current task: `bch-blaze-dev-20261109`. Exact candidate SHA is bound
+in that task's `result.json` and post-commit `artifacts/final-result.json`, rather
+than self-embedded in this commit. Fresh parent-owned Astra diff review and
+independent inspection are separate required gates; no final PASS is claimed here.
+
+Node24 clean install, native SQLite rebuild and fresh validate passed:
+253/253 tests, zero failures/cancellations. Package and lock hashes unchanged.
+Final exact-candidate validation is recorded separately in the current task's raw
+`artifacts/final.log` and `artifacts/final-result.json`. No application path changed;
+baseline tests are not a signed-Invitation positive or payment proof.
+
+Each existing Chipnet endpoint was probed once using the unchanged 5s TLS
+transport. Both returned `ELECTRUM_UNSUPPORTED_PROTOCOL`; no header result,
+retry, protocol edit or IP/TLS/proxy bypass. This is not a DNS diagnosis or proof
+that the different Engine network path fails. Static installed-source inspection
+confirms Engine.create initializes network/storage and mnemonic-derived identity;
+createInvitation performs a real identity signature even without funding.
+
+G1 remains IN_PROGRESS / PRESEASON; authenticated integration is BLOCKED_EXTERNAL.
+Wallet not created (unnecessary for this keyless outcome), public address
+unavailable, current funding request **0 sat**. No Engine session, new signature,
+signed fixture, funds, broadcast, payment, receipt, preview or deployment.
+Guard/fees/expiry/ownership/UNKNOWN rules and the never-fundable tranche are unchanged.
+Current-task QUESTIONS requests an existing shareable serialized Invitation with
+exact template/network/independent pin/provenance (recommended), separate narrowly
+scoped Chipnet session/identity-signature authorization, or defer. No account
+backup, owner seed/key/token or private artifact upload is requested. All work
+remains disclosed pre-event; no external ownership/status write or submission.
+
+Evidence: [actual baseline, raw probes, installed API boundaries and limits](../evidence/openbot-20261109/README.md).
+
 ## 2026-11-07 current XO compatibility and event evidence
 
 Updated the engine from `0.1.0-next.17612568780` to the official npm `next`

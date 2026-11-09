@@ -1,0 +1,44 @@
+{
+  "capturedAt": "2026-11-09T01:13:23.103Z",
+  "source": "a82807ae0293baee39a185e229f906718e095e59",
+  "files": {
+    "baseline.log": {
+      "bytes": 31312,
+      "sha256": "c630feb682998061554d62179fa6f45890eb13aaf512ab14ebdbb2d954de0438"
+    },
+    "baseline-result.json": {
+      "bytes": 2150,
+      "sha256": "e510889c4c2338df44cb3b9c614a2ff5a408208f10fa051263faf7141682086f"
+    },
+    "transport-probe.log": {
+      "bytes": 1372,
+      "sha256": "8aabf0f26b4359f015cfbaf25db7033be1eb703fbcaffc0a1043ad32fa988d78"
+    },
+    "api-source.log": {
+      "bytes": 60473,
+      "sha256": "b34fac58e548611a65db4e4d958dde5d088fd96c9fd24c207ae54bd3763d05f4"
+    },
+    "api-source-hashes.json": {
+      "bytes": 1731,
+      "sha256": "00a3d88da837e6578d95e97208c7f369b609eae6b33befdf52858008e1b6b101"
+    },
+    "preflight.md": {
+      "bytes": 2167,
+      "sha256": "a3b9175a4bbda71577f66d9c949866bcee78b1eb20c77461f4ae5d6139c5d0c1"
+    },
+    "preparation-sources.log": {
+      "bytes": 8815,
+      "sha256": "e3893e85493443229c92e28ba1f1698fdfdb7a95d5064c2c891d5fd29b8e409f"
+    }
+  },
+  "baselineTestSummary": [
+    "ℹ tests 253",
+    "ℹ suites 0",
+    "ℹ pass 253",
+    "ℹ fail 0",
+    "ℹ cancelled 0",
+    "ℹ skipped 0",
+    "ℹ todo 0",
+    "ℹ duration_ms 7573.497846"
+  ]
+}

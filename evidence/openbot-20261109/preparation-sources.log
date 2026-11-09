@@ -1,0 +1,121 @@
+Task-only preparation source record. Not product runtime; do not rerun network probes during static review.
+Baseline recorder originally matched only TAP # totals; final recorder also matches Node ℹ totals. Raw baseline.log is authoritative; baseline was not rerun.
+
+## run-command.mjs SHA256=cf6d442275ea32ed9ee8962698095ecabedbecec18e5e5c11727d29c3f158536
+import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { readFileSync, writeFileSync, appendFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
+const root = '/root/work/intentguard-bch';
+const out = '/var/lib/docker/volumes/openbot-eval_openbot-data/_data/OpenBot/Shared/loop/bch-blaze-dev-20261109/artifacts';
+const phase = process.argv[2];
+if (!['baseline', 'final'].includes(phase)) throw Error('invalid phase');
+const log = join(out, `${phase}.log`);
+const result = join(out, `${phase}-result.json`);
+if (existsSync(log) || existsSync(result)) throw Error('refusing repeated execution');
+const hash = path => createHash('sha256').update(readFileSync(join(root, path))).digest('hex');
+const before = { package: hash('package.json'), lock: hash('package-lock.json') };
+const report = { phase, startedAt: new Date().toISOString(), node: process.version, npm: null, source: null, environment: Object.fromEntries(['TMPDIR','npm_config_cache','npm_config_devdir','npm_config_nodedir','PI_CODEX_WEBSOCKET','OMP_TIMEOUT'].map(k => [k,process.env[k] ?? null])), before, commands: [] };
+writeFileSync(log, JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
+const commands = [['git', ['rev-parse', 'HEAD']], ['npm', ['--version']], ...(phase === 'baseline' ? [['npm', ['ci', '--ignore-scripts', '--no-fund', '--no-audit']], ['npm', ['rebuild', 'sqlite3', 'better-sqlite3']]] : []), ['npm', ['run', 'validate']]];
+for (const [command, args] of commands) {
+  const start = Date.now();
+  appendFileSync(log, `\n$ ${command} ${args.join(' ')}\nstartedAt=${new Date(start).toISOString()}\n`);
+  const run = spawnSync(command, args, { cwd: root, encoding: 'utf8', timeout: command === 'git' ? 20000 : 600000, maxBuffer: 32 * 1024 * 1024, env: process.env });
+  appendFileSync(log, (run.stdout ?? '') + (run.stderr ?? '') + `\nexit=${run.status} signal=${run.signal} durationMs=${Date.now()-start}\n`);
+  const entry = { command: [command,...args], exit: run.status, signal: run.signal, durationMs: Date.now()-start, errorCode: run.error?.code ?? null };
+  if (command === 'git') report.source = run.stdout?.trim();
+  if (args[0] === '--version') report.npm = run.stdout?.trim();
+  if (args[0] === 'run') entry.testSummary = (run.stdout ?? '').split('\n').filter(line => /^(#|ℹ) (tests|suites|pass|fail|cancelled|skipped|todo|duration_ms) /.test(line));
+  report.commands.push(entry);
+  console.log(JSON.stringify(entry));
+  if (run.status !== 0) break;
+}
+report.after = { package: hash('package.json'), lock: hash('package-lock.json') };
+report.packageAndLockUnchanged = JSON.stringify(before) === JSON.stringify(report.after);
+report.finishedAt = new Date().toISOString();
+writeFileSync(result, JSON.stringify(report,null,2)+'\n', {flag:'wx'});
+console.log(JSON.stringify(report,null,2));
+process.exitCode = report.commands.at(-1)?.exit === 0 && report.commands.at(-1)?.command.join(' ') === 'npm run validate' && report.packageAndLockUnchanged ? 0 : 1;
+
+
+## probe.mjs SHA256=5c9637c89024656058915b7d53b62d848316670ab2a9be5e79c08d1607ca1166
+import { createHash } from 'node:crypto';
+import { writeFileSync, appendFileSync } from 'node:fs';
+import { createReviewedChipnetCandidates, REVIEWED_CHIPNET_ENDPOINTS } from '/root/work/intentguard-bch/dist/core/public-sources.js';
+import { ELECTRUM_DEADLINE_MS } from '/root/work/intentguard-bch/dist/core/electrum-transport.js';
+const log = '/var/lib/docker/volumes/openbot-eval_openbot-data/_data/OpenBot/Shared/loop/bch-blaze-dev-20261109/artifacts/transport-probe.log';
+writeFileSync(log, JSON.stringify({startedAt:new Date().toISOString(),node:process.version,deadlineMs:ELECTRUM_DEADLINE_MS,attemptsPerEndpoint:1,retries:0,scope:'existing verified-TLS transport: internal server.version 1.5.0 then one checkpoint header read; no wallet, identity, address, transaction, subscription or broadcast'})+'\n',{flag:'wx'});
+for (const source of createReviewedChipnetCandidates()) {
+  const start = Date.now();
+  const record = {startedAt:new Date(start).toISOString(),endpoint:REVIEWED_CHIPNET_ENDPOINTS.find(e=>e.id===source.id),method:'blockchain.block.header',params:[source.checkpoint.height],deadlineMs:ELECTRUM_DEADLINE_MS,attempt:1,retries:0,expectedCheckpoint:source.checkpoint,status:'UNVERIFIED'};
+  try {
+    const header = await source.transport.request('blockchain.block.header',[source.checkpoint.height],new AbortController().signal);
+    record.rawHeader = header;
+    record.transportOutcome = 'RESPONSE_RETURNED';
+    if (typeof header === 'string' && /^[0-9a-fA-F]{160}$/.test(header)) {
+      const hash = createHash('sha256').update(createHash('sha256').update(Buffer.from(header,'hex')).digest()).digest().reverse().toString('hex');
+      record.reportedHeaderHash = hash;
+      record.status = hash === source.checkpoint.hash ? 'SINGLE_NODE_CHECKPOINT_MATCH_ONLY' : 'CHECKPOINT_MISMATCH';
+    } else record.status = 'INVALID_HEADER';
+  } catch(error) {
+    record.transportOutcome = error instanceof Error ? error.message : 'UNKNOWN';
+    record.status = 'NO_HEADER_RESULT';
+  }
+  record.durationMs = Date.now()-start;
+  record.chainPaymentOrOwnershipVerified = false;
+  appendFileSync(log,JSON.stringify(record)+'\n');
+  console.log(JSON.stringify(record));
+}
+appendFileSync(log,JSON.stringify({finishedAt:new Date().toISOString(),walletCreated:false,fundingRequestedSatoshis:'0',signatureCreated:false,engineSessionCreated:false})+'\n');
+
+
+## capture-api.mjs SHA256=15e2c79fae317dff686cf8aefc22e04bcab075783349b94e65d6a303a40c1f4d
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+const root = '/root/work/intentguard-bch/';
+const out = '/var/lib/docker/volumes/openbot-eval_openbot-data/_data/OpenBot/Shared/loop/bch-blaze-dev-20261109/artifacts/';
+const selections = [
+ ['@xo-cash/engine',61,[[101,204],[512,516],[1076,1096]]],
+ ['@xo-cash/engine',0,[[14,17],[128,160]]],
+ ['@xo-cash/engine',1,null],
+ ['@xo-cash/engine',51,null],
+ ['@xo-cash/utils',11,null],
+ ['@xo-cash/state',5,null],
+ ['@xo-cash/state',10,null],
+ ['@xo-cash/state',9,[[108,130]]],
+ ['@electrum-cash/application',14,[[1161,1237]]],
+ ['@electrum-cash/application',5,[[128,168]]],
+ ['@xo-cash/crypto',5,[[76,94],[176,205]]],
+ ['@xo-cash/crypto',4,[[180,280]]]
+];
+const hashes = {};
+let text = `Captured ${new Date().toISOString()}; static source-map extraction only. No dependency import or API invocation. Line numbers are 1-based embedded source lines.\n`;
+for (const [pkg,index,ranges] of selections) {
+ const mapPath = `node_modules/${pkg}/dist/index.mjs.map`;
+ const bytes = readFileSync(root+mapPath);
+ hashes[mapPath] = createHash('sha256').update(bytes).digest('hex');
+ const map = JSON.parse(bytes);
+ const source = map.sourcesContent[index];
+ const lines = source.split('\n');
+ text += `\n## ${mapPath} sources[${index}] = ${map.sources[index]}\nsourceSHA256=${createHash('sha256').update(source).digest('hex')}\n`;
+ for (const [start,end] of ranges ?? [[1,lines.length]]) for(let line=start;line<=Math.min(end,lines.length);line++) text += `${line}: ${lines[line-1]}\n`;
+}
+for (const [path,ranges] of [
+ ['node_modules/@xo-cash/engine/dist/index.d.mts',[[190,247],[575,604],[762,770],[947,970]]],
+ ['node_modules/@xo-cash/utils/dist/index.d.mts',[[783,803]]],
+ ['core/electrum-transport.ts',[[1,27],[94,119],[133,136]]],
+ ['core/public-sources.ts',[[1,25]]],
+ ['preseason/xo/inspect.ts',[[1,5],[27,68]]]
+]) {
+ const bytes = readFileSync(root+path); const lines = bytes.toString().split('\n');
+ hashes[path] = createHash('sha256').update(bytes).digest('hex'); text += `\n## ${path}\n`;
+ for(const [start,end] of ranges) for(let line=start;line<=Math.min(end,lines.length);line++) text += `${line}: ${lines[line-1]}\n`;
+}
+for (const pkg of ['@xo-cash/engine','@xo-cash/utils','@xo-cash/state','@xo-cash/crypto','@electrum-cash/application']) {
+ const path=`node_modules/${pkg}/package.json`; const bytes=readFileSync(root+path); hashes[path]=createHash('sha256').update(bytes).digest('hex'); const data=JSON.parse(bytes); text+=`\npackage ${data.name} version=${data.version} license=${data.license}\n`;
+}
+writeFileSync(out+'api-source.log',text,{flag:'wx'});
+writeFileSync(out+'api-source-hashes.json',JSON.stringify(hashes,null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({staticOnly:true,dependencyImports:0,apiInvocations:0,log:'api-source.log',bytes:Buffer.byteLength(text),hashes},null,2));
+
