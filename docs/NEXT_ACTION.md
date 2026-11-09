@@ -1,5 +1,27 @@
 # Next action
 
+## Current gate: five-WP code candidate,2026-11-09
+
+Read PROGRESS and task `intentguard-mainnet-20261109/artifacts/IMPLEMENTATION_RESULT.json`.
+Implementation source is `96e39581b37fdcba2037fd8ca8dfaf134693cebf`; metadata candidate
+is bound externally. Parent now obtains actual embedded-browser public root/pay
+proof and fresh runtime Astra using ONLY task/acceptance+exact candidate diff+repo.
+Verifier independently runs validate, HTTP/SDK integration, production distribution,
+empirical skill, finite builder mutation/restoration and official statechart/TLC;
+it must not read Builder reasoning/evidence to derive its verdict or edit source.
+Do not replay protected identity/create/reconcile/faucet/sign/send. There is no
+live txid in this task; only the explicit flagged mock-transport exception.
+
+After actual PASS/BLOCKER0+green, parent ONLY uses supported native route, existing
+feature ownership plus main lock/CAS/expected source to publish without force and
+records exact feature/main SHAs. Child never pushes/merges or manufactures verdicts.
+Pending: Q_FAUCET(10000sat public free-faucet human step), five banner owner fields,
+hosting decision. These keep final needs_owner, not false payment/judging readiness.
+Mainnet remains0sat/unsigned-only. No deploy/public URL, visibility/license/IP change,
+contest submission, social/Notion/Linear writes or repeated attendance/token action.
+Older paragraphs below are preserved historical gates, not current scope denial.
+
+
 ## Current gate, 2026-11-09 — Q1=B identity-only export exists
 
 The task bch-blaze-chipnet-20261109 now contains an actual new dedicated Chipnet

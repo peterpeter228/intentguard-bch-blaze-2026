@@ -1,5 +1,45 @@
 # IntentGuard / BCH BLAZE — Progress
 
+## Current: intentguard-mainnet-20261109 — PRESEASON / code ready for independent acceptance
+
+Owner decision t304u; implementation source **96e39581b37fdcba2037fd8ca8dfaf134693cebf**
+(2026-11-09T16:01:11+08:00), base **48f5311c1deb4c61b9a8c2732599cca69984f4b3**.
+Feature: `feat/intentguard-mainnet-20261109`. Metadata/candidate SHA is bound in
+this task's external `artifacts/IMPLEMENTATION_RESULT.json`, avoiding circular self-hash.
+
+- WP1: actual memory-only WizardConnect adapter, fresh SDK handshake/paths,
+  sign-only sequence/envelope/expiry binding and immediate disconnect/replay refusal.
+- WP2: `/pay` confirmed request/build/preflight/sign/postGuard/one-send/observe,
+  separate durable payment journal and original-hash recovery. Mainnet immutable
+  **0sat**, unsigned-only. **MOCK_TRANSPORT / NO_CHAIN_TRANSACTION** integration.
+  Public funding read returned NO_ORDINARY_CONFIRMED_FUNDS; only real broadcast is
+  **WP2_BROADCAST_BLOCKED / Q_FAUCET** (10000sat public free-faucet human step).
+- WP3: actual root banner/private repo label + five obvious TODO_OWNER fields;
+  all unknowns in task QUESTIONS. Parent actual browser proof still required.
+- WP4: complete production HTML/CSS/JS/Node runtime/notices packaged; standalone
+  external-directory install/native rebuild/runtime/journal-reopen smoke passed.
+  Payload2087941bytes excluding manifest/external deps; hosting question recommends
+  persistent Tencent Node24/SQLite. No deployment or public URL.
+- WP5: [actual pre-event SHA/date/features disclosure](docs/PRE_EXISTING_WORK.md),
+  original history/baseline/notices preserved. No event novelty/eligibility claim.
+- Builder verification: `npm run validate`274/274, no fail/cancel/skip (258 prior+16
+  focused); real builder1512finite cases, corrupt-source negative control caught
+  546→547sat substitution, restoration passed; TLC124states/346steps passed.
+  These are bounded/synthetic checks, not stock-wallet/live-chain/mainnet proof.
+
+Next/resume: Node24 locked install/native rebuild; `npm run validate`,
+`npm run build:production`; read `core/PAYMENT_FLOW.md` and task artifacts.
+Parent must run fresh runtime Astra from task/acceptance+exact diff+repo ONLY,
+actual embedded-browser public proof, then supported locked/CAS publication if
+PASS+green. Child never pushes/merges. No independent runtime verdict or main SHA
+is claimed yet. Banner/hosting/faucet remain needs_owner even if code is accepted.
+Never repeat consumed old identity create/reconcile; no protected identity was
+opened in this task. No mainnet key/sign/send, deploy, visibility/license change,
+contest submission or external record writes. Existing attendance/token facts stand.
+
+## Historical identity-only milestone (superseded scope; preserved evidence)
+
+
 Updated: 2026-11-09 12:05 Asia/Shanghai · Agent: Grok Bot executor · task_id: bch-blaze-chipnet-20261109 · owner decision t299s1349
 
 ## 已完成 / Done

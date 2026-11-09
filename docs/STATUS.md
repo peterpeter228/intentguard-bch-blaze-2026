@@ -1,5 +1,27 @@
 # IntentGuard BCH status
 
+## 2026-11-09 guarded connected-wallet code — PRESEASON
+
+Task `intentguard-mainnet-20261109`, owner t304u. Implementation source
+`96e39581b37fdcba2037fd8ca8dfaf134693cebf`; metadata/final candidate bound externally.
+Actual WizardConnect adapter and `/pay` now implement confirmed intent, full-parent
+unsigned build, fresh session/source preflight, sign-only, structural+cryptographic
+postcheck, durable one-send reservation and original-hash observation/recovery.
+Mainnet cap remains exactly0sat: unsigned only, no pairing/key/sign/send.
+Distinct live payment journal does not promote simulation flags or imported success.
+
+Builder checks274/274, production packaging/standalone runtime smoke, synthetic
+HTTP/SDK recovery, actual builder mutation/restoration and bounded TLC124/346 passed.
+Live Chipnet payment is WP2_BROADCAST_BLOCKED (public funding read found no ordinary
+confirmed funds; faucet human checks). No protected identity was opened/replayed.
+Visible homepage owner TODOs/hosting/faucet questions remain; parent real-browser
+proof and fresh independent Astra runtime acceptance are NOT_RUN here. No merged
+main SHA, deployment/public URL, stock-wallet/mainnet/contest completion is claimed.
+See [current progress](../PROGRESS.md), [flow](../core/PAYMENT_FLOW.md), and
+[pre-existing disclosure](PRE_EXISTING_WORK.md). Earlier identity-only restrictions
+below are historical; new scoped Chipnet payment permission comes from t304u only.
+
+
 ## 2026-11-09 dedicated Chipnet identity / Q1=B — PRESEASON
 
 The owner decision t292s1301 narrowly supersedes the old preparation-only signing
