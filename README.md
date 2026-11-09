@@ -1,3 +1,49 @@
+# Current guarded-payment code — November9,2026 / PRESEASON
+
+`/pay` now implements a real pinned WizardConnect user-wallet session and
+confirm → unsigned build → fresh preflight → sign-only → cryptographic postcheck →
+explicit one-time Chipnet broadcast → original-hash observation/recovery.
+No production server wallet. Mainnet cap is hard-coded **0 sat**: unsigned builds
+only; no mainnet pairing, keys, signing or broadcast. All work predates Nov14.
+Read [payment trust boundaries](core/PAYMENT_FLOW.md),
+[current progress](PROGRESS.md) and [pre-existing work](docs/PRE_EXISTING_WORK.md).
+
+Use Node24 and the unchanged npm lockfile/native rebuild below, then:
+
+```sh
+npm run validate
+npm run build:production
+node scripts/smoke-production.mjs
+INTENTGUARD_PAYMENT_DIR=/absolute/private/new-journal npm run core:preview -- --create-payment-journal
+```
+
+Only the first start uses `--create-payment-journal`; restart with the SAME durable
+directory and omit create. Missing/corrupt/replaced journals fail closed. Do not
+delete or replace UNKNOWN operations. Open only loopback127.0.0.1:8788/pay.
+Without a journal, offline pages remain available and payment API refuses.
+
+`dist/production/` includes HTML/CSS/browser JS, bundled Node entry, exact lockfile,
+runtime instructions and upstream notices. Production dependencies are external:
+from that directory run `npm ci --omit=dev --ignore-scripts`, native rebuild, then
+`INTENTGUARD_PUBLIC_ROOT=./public INTENTGUARD_PAYMENT_DIR=/absolute/private/journal node server.mjs`.
+Current Node/native SQLite needs persistent local disk and one writer; static-only
+Vercel/Pages or ephemeral serverless SQLite are not durable backend deployments.
+Tencent persistent Node24 is the pending hosting recommendation, not a deployment.
+
+`npm run payment:verify -- NEW_DIRECTORY`, `npm run builder:verify -- NEW_DIRECTORY`
+and `npm run payment:statechart -- NEW_DIRECTORY` provide empirical and bounded
+verification (read generated model with pinned official /statechart separately).
+The scripted relay/RPC integration is **MOCK_TRANSPORT / NO_CHAIN_TRANSACTION**.
+Public funding read returned NO_ORDINARY_CONFIRMED_FUNDS; human faucet checks block
+ONLY WP2 live broadcast. No identity secret was opened. Stock-wallet/live-chain/
+mainnet/public-demo combinations are NOT_RUN, not a claimed judging-ready entry.
+Actual root banner contains private-repository disclosure and five explicit
+TODO_OWNER fields; each, hosting and faucet are in task QUESTIONS.json.
+Parent owns independent runtime Astra, actual embedded-browser proof and publication.
+No deployment, visibility/license/IP change, contest submission or external posting.
+
+## Historical reproduction instructions (retained)
+
 # Current local reproduction — November 5, 2026
 
 G1 is in progress. The request/plan UI, ordinary-payment Guard, pure XO byte

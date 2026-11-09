@@ -3,14 +3,14 @@
   "version": "0.0.0-preseason",
   "private": true,
   "type": "module",
-  "description": "Preseason SDK compatibility probes only; not a payment application",
+  "description": "PRESEASON guarded noncustodial BCH payment; Chipnet only, mainnet unsigned cap0",
   "engines": {
     "node": ">=24"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "build": "tsc && esbuild probes/browser-types.tsx --bundle --platform=browser --format=esm --outfile=dist/browser-probe.js && esbuild core/ui.ts --bundle --platform=browser --format=esm --outfile=dist/core/app.js && esbuild core/request-ui.ts --bundle --platform=browser --format=esm --outfile=dist/core/request.js",
-    "test": "node --test test-support/server-process.test.mjs dist/probes/sdk.test.js dist/preseason/xo/inspect.test.js preseason/xo/redact.test.mjs preseason/xo/http.test.mjs preseason/xo/cli.test.mjs preseason/xo/legacy.test.mjs preseason/xo/chipnet-lifecycle.test.mjs dist/core/guard.test.js core/http.test.mjs dist/core/evidence.test.js dist/core/operation-store.test.js dist/core/electrum-transport.test.js dist/core/public-sources.test.js dist/core/review-coordinator.test.js dist/core/unsigned-builder.test.js dist/core/signed-verifier.test.js dist/core/presentation.test.js dist/core/payment-request.test.js dist/core/request-plan.test.js dist/core/request-plan-form.test.js core/request-ui.test.mjs dist/core/xo-candidate.test.js dist/preseason/allowance/lab.test.js preseason/allowance/cli.test.mjs dist/preseason/allowance/funding.test.js preseason/allowance/funding-cli.test.mjs",
+    "build": "tsc && esbuild probes/browser-types.tsx --bundle --platform=browser --format=esm --outfile=dist/browser-probe.js && esbuild core/ui.ts --bundle --platform=browser --format=esm --outfile=dist/core/app.js && esbuild core/request-ui.ts --bundle --platform=browser --format=esm --outfile=dist/core/request.js && esbuild core/payment-ui.ts --bundle --platform=browser --format=esm --drop:console --outfile=dist/core/payment.js",
+    "test": "node --test test-support/server-process.test.mjs dist/probes/sdk.test.js dist/preseason/xo/inspect.test.js preseason/xo/redact.test.mjs preseason/xo/http.test.mjs preseason/xo/cli.test.mjs preseason/xo/legacy.test.mjs preseason/xo/chipnet-lifecycle.test.mjs dist/core/guard.test.js core/http.test.mjs dist/core/evidence.test.js dist/core/operation-store.test.js dist/core/electrum-transport.test.js dist/core/public-sources.test.js dist/core/review-coordinator.test.js dist/core/unsigned-builder.test.js dist/core/signed-verifier.test.js dist/core/presentation.test.js dist/core/payment-request.test.js dist/core/request-plan.test.js dist/core/request-plan-form.test.js core/request-ui.test.mjs dist/core/xo-candidate.test.js dist/preseason/allowance/lab.test.js preseason/allowance/cli.test.mjs dist/preseason/allowance/funding.test.js preseason/allowance/funding-cli.test.mjs dist/core/wallet-adapter.test.js dist/core/payment.test.js core/payment-http.test.mjs",
     "validate": "npm run typecheck && npm run build && npm test",
     "xo:inspect": "node dist/preseason/xo/cli.js",
     "xo:preview": "node dist/preseason/xo/server.js",
@@ -18,7 +18,11 @@
     "core:preview": "node dist/core/server.js",
     "allowance:test": "node --test dist/preseason/allowance/lab.test.js preseason/allowance/cli.test.mjs dist/preseason/allowance/funding.test.js preseason/allowance/funding-cli.test.mjs",
     "allowance:demo": "node dist/preseason/allowance/cli.js",
-    "allowance:funding-demo": "node dist/preseason/allowance/funding-cli.js"
+    "allowance:funding-demo": "node dist/preseason/allowance/funding-cli.js",
+    "build:production": "npm run build && node scripts/build-production.mjs",
+    "payment:verify": "node .cursor/skills/verify-payment/scripts/drive.mjs",
+    "builder:verify": "node .cursor/skills/verify-builder/scripts/check.mjs",
+    "payment:statechart": "node .cursor/skills/verify-builder/scripts/model.mjs"
   },
   "dependencies": {
     "@bitauth/libauth": "3.1.0-next.8",

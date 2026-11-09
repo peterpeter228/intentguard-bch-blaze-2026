@@ -55,10 +55,20 @@ function captureParams(method: ReadMethod, params: readonly unknown[]): readonly
   }
   throw Error('ELECTRUM_INVALID_PARAMS');
 }
-function transport(endpoint: Readonly<ElectrumEndpoint>, factory: SyntheticTLSFactory, deadlineMs: number): ReadTransport {
+export type ObservationMethod = 'blockchain.scripthash.get_history' | 'blockchain.transaction.get_merkle';
+export interface ObservationTransport { request(method: ObservationMethod, params: readonly unknown[], signal: AbortSignal): Promise<unknown>; }
+function transport(endpoint: Readonly<ElectrumEndpoint>, factory: SyntheticTLSFactory, deadlineMs: number, send = false, observe = false) {
   return Object.freeze({
-    async request(method: ReadMethod, params: readonly unknown[], signal: AbortSignal): Promise<unknown> {
-      const captured = captureParams(method, params);
+    async request(method: ReadMethod | ObservationMethod | 'blockchain.transaction.broadcast', params: readonly unknown[], signal: AbortSignal): Promise<unknown> {
+      const captured = method === 'blockchain.transaction.broadcast' ? (() => {
+        if (!send) throw Error('ELECTRUM_METHOD_FORBIDDEN');
+        if (params.length !== 1 || typeof params[0] !== 'string' || params[0].length > 200000 || !/^(?:[0-9a-f]{2})+$/.test(params[0])) throw Error('ELECTRUM_INVALID_PARAMS');
+        return [params[0]];
+      })() : method === 'blockchain.scripthash.get_history' || method === 'blockchain.transaction.get_merkle' ? (() => {
+        if (!observe) throw Error('ELECTRUM_METHOD_FORBIDDEN');
+        if (!Array.isArray(params) || !hash(params[0]) || (method === 'blockchain.scripthash.get_history' ? params.length !== 1 : params.length !== 2 || !safeInteger(params[1]) || params[1] < 1)) throw Error('ELECTRUM_INVALID_PARAMS');
+        return params as readonly (string | number)[];
+      })() : captureParams(method, params);
       if (!(signal instanceof AbortSignal)) throw Error('ELECTRUM_INVALID_SIGNAL');
       if (signal.aborted) throw Error('ELECTRUM_ABORTED');
       const handshakeId = randomUUID(); const requestId = randomUUID();
@@ -139,4 +149,15 @@ export function createElectrumTransport(allowlist: readonly ElectrumEndpoint[], 
 export function createSyntheticElectrumTransport(allowlist: readonly ElectrumEndpoint[], endpointId: string, factory: SyntheticTLSFactory, deadlineMs = ELECTRUM_DEADLINE_MS): ReadTransport {
   if (!Number.isSafeInteger(deadlineMs) || deadlineMs < 1 || deadlineMs > ELECTRUM_DEADLINE_MS) throw Error('ELECTRUM_INVALID_TEST_DEADLINE');
   return transport(captureEndpoint(allowlist, endpointId), factory, deadlineMs);
+}
+
+/** Send-only transport; the payment orchestrator persists a send reservation first. */
+export function createChipnetSender(allowlist: readonly ElectrumEndpoint[], endpointId: string): (hex: string, signal: AbortSignal) => Promise<unknown> {
+  const wire = transport(captureEndpoint(allowlist, endpointId), options => connect(options), ELECTRUM_DEADLINE_MS, true);
+  return (hex, signal) => wire.request('blockchain.transaction.broadcast', [hex], signal);
+}
+
+/** Separate inclusion reader; ordinary ReadTransport retains its original five methods. */
+export function createChipnetObservationTransport(allowlist: readonly ElectrumEndpoint[], endpointId: string): ObservationTransport {
+  return transport(captureEndpoint(allowlist, endpointId), options => connect(options), ELECTRUM_DEADLINE_MS, false, true);
 }

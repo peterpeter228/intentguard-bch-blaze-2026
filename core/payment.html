@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>IntentGuard guarded payment</title><link rel="stylesheet" href="/style.css"></head>
+<body><main>
+<header><h1>IntentGuard — guarded BCH payment</h1><p><a href="/">Disclosure banner / offline inspector</a> · <a href="/request">Offline request planner</a></p></header>
+<p class="warning">PRESEASON · Mainnet cap exactly 0 sat. Mainnet unsigned-only; no pairing/signing/broadcast. Chipnet requires a real connected wallet and two fresh pinned sources. No server keys. Stock-wallet/live-chain combinations remain UNVERIFIED.</p>
+<section><h2>1. Connect your Chipnet wallet</h2>
+<label>Network <select id="network"><option value="chipnet">Chipnet (test coins only)</option><option value="mainnet">Mainnet (unsigned only, cap0)</option></select></label>
+<label><input id="chain-ack" type="checkbox"> My wallet is explicitly on Chipnet; bchtest alone is not chain proof.</label>
+<button id="connect" type="button">Connect WizardConnect</button><button id="disconnect" type="button">Disconnect / cancel</button>
+<p id="wallet-state" role="status">Disconnected</p><p id="pairing" hidden></p>
+<label>Receive address index <input id="receive-index" type="number" min="0" max="10000" value="0"></label>
+<label>Change address index <input id="change-index" type="number" min="0" max="10000" value="0"></label>
+</section>
+<section id="terms"><h2>2. Independently confirm the intent</h2>
+<label>Recipient CashAddr <input id="recipient" maxlength="120" autocomplete="off"></label>
+<label>Amount BCH <input id="amount" inputmode="decimal" value="0.00005"></label>
+<label>Maximum fee BCH <input id="max-fee" inputmode="decimal" value="0.000006"></label>
+<label>Target sat / 1000 bytes <input id="target-rate" value="1000" inputmode="numeric"></label>
+<label>Maximum sat / 1000 bytes <input id="max-rate" value="3000" inputmode="numeric"></label>
+<label>Validity seconds (30–600) <input id="ttl" type="number" min="30" max="600" value="300"></label>
+<button id="review" type="button">Review independent terms</button><pre id="terms-summary"></pre>
+<button id="confirm" type="button" disabled>Confirm these exact terms</button>
+</section>
+<section><h2>3. Build, preflight, approve exact transaction</h2>
+<p>Only token-free confirmed ordinary P2PKH inputs from the selected two wallet paths are selected. No NFT consumption or dust donation. Signed size assumes compressed Schnorr; final signatures and actual fee must pass independently.</p>
+<label>Mainnet-only offline planning context (public JSON; no keys) <textarea id="offline-context" rows="3" placeholder="Use the offline /request planner context; supplied data is not network evidence."></textarea></label>
+<button id="build" type="button" disabled>Build unsigned / preflight</button><pre id="candidate"></pre>
+<button id="sign" type="button" disabled>Approve exact candidate; sign only</button>
+<button id="broadcast" type="button" disabled>Broadcast checked Chipnet bytes ONCE</button>
+</section>
+<section><h2>4. Original operation / recovery</h2>
+<p>Signing or send uncertainty never authorizes a replacement, re-sign or resend. Reload retains only public operation/request IDs, not wallet or mutation credentials. Recovery reads the original hash; disappearance of inputs is not payment.</p>
+<button id="recover" type="button">Read original operation / chain evidence</button><pre id="result" role="status">No payment attempted.</pre>
+</section>
+</main><script type="module" src="/payment.js"></script></body></html>

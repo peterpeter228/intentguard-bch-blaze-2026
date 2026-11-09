@@ -33,6 +33,10 @@ import { closeSync, constants, fsyncSync, lstatSync, mkdirSync, openSync } from 
 import { join, resolve } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { validatedIntentDigest, type PaymentIntent } from './guard.js';
+import type { UnsignedBuildInput, UnsignedBuildResult } from './unsigned-builder.js';
+import type { PaymentRequestWire } from './payment-request.js';
+import type { SignEnvelope } from './wallet-adapter.js';
+import type { DeepReadonly } from './request-plan.js';
 
 const STATES = ['DRAFT', 'CONFIRMED', 'BUILT', 'READY', 'SIGNING', 'SIGNED', 'BROADCASTING', 'UNKNOWN', 'NEEDS_REVIEW', 'OBSERVED', 'SIMULATED_CONFIRMED_ON_CHAIN', 'CANCELLED', 'BLOCKED', 'CONFLICTED'] as const;
 export type OperationState = typeof STATES[number];
@@ -218,6 +222,81 @@ export class SimulationOperationStore {
       const document = JSON.stringify(op);
       const result = this.db.prepare('UPDATE operations SET revision=?,locked=?,document=?,checksum=? WHERE id=? AND revision=?').run(op.revision, locked(op), document, hash(document), operationId, expectedRevision);
       if (result.changes !== 1) throw Error('REVISION_CONFLICT'); return op;
+    });
+  }
+}
+
+/** Live public transaction facts; never imports simulation events or wallet secrets. */
+export type PaymentState = 'PREFLIGHTED' | 'SIGNING' | 'POSTCHECKED' | 'BROADCASTING' | 'UNKNOWN' | 'NEEDS_REVIEW' | 'OBSERVED' | 'CONFIRMED_ON_CHAIN' | 'CONFLICTED';
+export interface PaymentRecord {
+  id: string; revision: number; state: PaymentState; capabilityHash: string;
+  request: PaymentRequestWire; requestDigest: string; build: UnsignedBuildInput; plan: DeepReadonly<UnsignedBuildResult>;
+  envelope: SignEnvelope | null; signedHex: string | null; txid: string | null; sourceDigest: string;
+  observation: { status: string; blockHash: string | null; height: number | null; observedAt: number } | null;
+}
+export class PaymentJournal {
+  private readonly db: DatabaseSync;
+  private readonly file: string;
+  private readonly identity: { ino: number; dev: number };
+  private readonly dirIdentity: { ino: number; dev: number };
+  static create(directory: string): PaymentJournal { return new PaymentJournal(resolve(directory), true); }
+  static open(directory: string): PaymentJournal { return new PaymentJournal(resolve(directory), false); }
+  private constructor(private readonly directory: string, create: boolean) {
+    this.file = join(directory, 'payments.sqlite');
+    if (create) { mkdirSync(directory, { mode: 0o700 }); closeSync(openSync(this.file, constants.O_CREAT | constants.O_EXCL | constants.O_WRONLY, 0o600)); }
+    privatePath(directory, true); privatePath(this.file, false);
+    this.identity = lstatSync(this.file); this.dirIdentity = lstatSync(directory);
+    this.db = new DatabaseSync(this.file);
+    try {
+      this.db.exec('PRAGMA busy_timeout=1000; PRAGMA journal_mode=DELETE; PRAGMA synchronous=FULL; PRAGMA trusted_schema=OFF;');
+      if (create) {
+        this.db.exec('BEGIN IMMEDIATE; CREATE TABLE payment_metadata(version INTEGER); INSERT INTO payment_metadata VALUES(1); CREATE TABLE payments(id TEXT PRIMARY KEY, revision INTEGER NOT NULL, document TEXT NOT NULL, checksum TEXT NOT NULL); CREATE TABLE payment_inputs(outpoint TEXT PRIMARY KEY, operation TEXT NOT NULL); COMMIT;');
+        syncDirectory(directory); syncDirectory(resolve(directory, '..'));
+      }
+      const versions = this.db.prepare('SELECT version FROM payment_metadata').all();
+      if (versions.length !== 1 || versions[0]?.version !== 1 || this.db.prepare('PRAGMA integrity_check').get()?.integrity_check !== 'ok') throw Error('CORRUPT_PAYMENT_STORE');
+      for (const row of this.db.prepare('SELECT id FROM payments').all()) this.get(String(row.id));
+    } catch (error) { this.db.close(); throw error; }
+  }
+  close(): void { this.db.close(); }
+  private check(): void {
+    privatePath(this.directory, true); privatePath(this.file, false);
+    const f = lstatSync(this.file), d = lstatSync(this.directory);
+    if (f.ino !== this.identity.ino || f.dev !== this.identity.dev || d.ino !== this.dirIdentity.ino || d.dev !== this.dirIdentity.dev) throw Error('STORE_PATH_REPLACED');
+  }
+  get(id: string): PaymentRecord | null {
+    this.check(); requireDigest(id);
+    const row = this.db.prepare('SELECT * FROM payments WHERE id=?').get(id);
+    if (!row) return null;
+    if (typeof row.document !== 'string' || row.document.length > 1600000 || hash(row.document) !== row.checksum) throw Error('CORRUPT_PAYMENT');
+    const op = JSON.parse(row.document) as PaymentRecord;
+    if (op.id !== id || op.revision !== row.revision || !digest(op.requestDigest) || !digest(op.capabilityHash) || !integer(op.revision) ||
+        op.id !== hash('intentguard/payment/v1\0' + op.request.network + '\0' + op.request.requestId)) throw Error('CORRUPT_PAYMENT');
+    return op;
+  }
+  private commit<T>(work: () => T): T {
+    this.check(); this.db.exec('BEGIN IMMEDIATE');
+    try { const result = work(); this.check(); this.db.exec('COMMIT'); return result; }
+    catch (error) { try { this.db.exec('ROLLBACK'); } catch { /* Ambiguous commit: read ORIGINAL operation, never retry effect. */ } throw error; }
+  }
+  insert(op: PaymentRecord): PaymentRecord {
+    return this.commit(() => {
+      if (this.get(op.id)) throw Error('ECONOMIC_KEY_EXISTS');
+      for (const i of op.build.selectedInputs) this.db.prepare('INSERT INTO payment_inputs VALUES(?,?)').run(op.request.network + ':' + i.txid + ':' + i.index, op.id);
+      const document = JSON.stringify(op);
+      this.db.prepare('INSERT INTO payments VALUES(?,?,?,?)').run(op.id, op.revision, document, hash(document)); return structuredClone(op);
+    });
+  }
+  /** Orchestrator-only API. Not reachable as an HTTP event import. */
+  advance(id: string, revision: number, from: readonly PaymentState[], work: (op: PaymentRecord) => void): PaymentRecord {
+    return this.commit(() => {
+      const op = this.get(id);
+      if (!op || op.revision !== revision) throw Error('REVISION_CONFLICT');
+      if (!from.includes(op.state)) throw Error('INVALID_TRANSITION');
+      work(op); op.revision++;
+      const document = JSON.stringify(op);
+      this.db.prepare('UPDATE payments SET revision=?,document=?,checksum=? WHERE id=? AND revision=?').run(op.revision, document, hash(document), id, revision);
+      return structuredClone(op);
     });
   }
 }

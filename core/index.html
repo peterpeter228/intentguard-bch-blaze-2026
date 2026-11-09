@@ -1,4 +1,13 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>IntentGuard BCH · Transaction comparison</title><link rel="stylesheet" href="/style.css"><body><main>
+<aside id="owner-banner" aria-label="Project disclosure"><strong>PRESEASON · Mainnet cap 0 sat · Not judging-ready</strong>
+<p><a href="/pay">Open guarded connected-wallet payment</a> — Chipnet only; mainnet unsigned-only. No public demo deployment or mainnet payment verified.</p>
+<dl><dt>Introduction slides</dt><dd>TODO_OWNER_SLIDES_URL</dd>
+<dt>Source repository</dt><dd><a href="https://github.com/peterpeter228/intentguard-bch">IntentGuard BCH — private repository</a></dd>
+<dt>EMBER2026 receive address</dt><dd>TODO_OWNER_EMBER2026_ADDRESS</dd>
+<dt>Old pre-event repository</dt><dd>TODO_OWNER_OLD_REPO_URL</dd>
+<dt>New event-period repository</dt><dd>TODO_OWNER_NEW_REPO_URL</dd>
+<dt>Pre-hackathon demo</dt><dd>TODO_OWNER_PRE_HACK_DEMO_URL</dd></dl>
+<p>Owner-controlled fields are missing. Public release and contest qualification remain blocked; no fork, visibility or eligibility claim.</p></aside>
 <header><span class="eyebrow">INTENTGUARD BCH · PRE-EVENT CORE</span><h1>Check what a payment will actually send.</h1><p>Compare a confirmed payment request with raw BCH transaction outputs. See exactly why a substituted recipient or token is refused.</p><p><a href="/request">Create or review a structured payment request</a> · local draft only</p></header>
 <aside><strong>Offline demonstration. No funds move.</strong> All presets are synthetic, unbroadcast transactions with a fixed simulated clock. A match is not a signature, wallet approval, live-chain check, or proof of contest completion.</aside>
 <section><h2>1. Choose a scenario</h2><p>The request pays 100 units of an explicitly identified teaching token, plus 1,000 satoshis, to the merchant. Change returns to a separately supplied owner script; fee cap is 600 satoshis.</p><nav aria-label="Scenarios"><button data-scenario="normal">Original payment</button><button data-scenario="recipient">Recipient replaced</button><button data-scenario="token">Wrong token</button><button data-scenario="fee">Excessive fee</button><button data-scenario="stale">Stale evidence</button><button data-scenario="missing">Missing parent</button></nav></section>
