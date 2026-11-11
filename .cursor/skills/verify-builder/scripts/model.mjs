@@ -9,15 +9,21 @@ await mkdir(destination);
 const concrete = [await driveUnsignedRevision(), await drivePayment(), await drivePayment({ loss: true })];
 const states = [], ids = new Map(), edges = [], starts = [];
 const add = state => { const key = JSON.stringify(state); if (!ids.has(key)) { ids.set(key, states.length); states.push(state); } return ids.get(key); };
-for (const network of ['chipnet', 'mainnet']) starts.push(add({ network, phase: 'DRAFT', confirmed: false, edits: 0, restarted: false, callbacks: 0,
+for (const network of ['chipnet', 'mainnet']) for (const mode of ['private-loopback', 'public-demo']) for (const store of ['absent', 'healthy', 'unsafe']) starts.push(add({ network, mode, store, served: false, created: false, phase: 'STARTUP', confirmed: false, edits: 0, restarted: false, callbacks: 0,
   signReserved: false, signCalls: 0, valid: false, hash: false, sendReserved: false, sendCalls: 0, unknown: false, unknownSends: 0 }));
 for (let i = 0; i < states.length; i++) {
   if (states.length > 5000) throw Error('MODEL_SCOPE_EXCEEDED');
   const s = states[i], edge = (action, changes) => edges.push({ from: i, to: add({ ...s, ...changes }), action });
+  // Existing strict PaymentJournal create/open; no unsafe/missing reopen repair.
+  if (s.phase === 'STARTUP') {
+    if (s.store === 'healthy') edge('StrictOpenExisting', { phase: 'DRAFT', served: true });
+    else edge('RefuseMissingOrUnsafeOpen', { phase: 'STOPPED' });
+    if (s.store === 'absent' && s.mode === 'private-loopback') edge('ExplicitExclusiveCreate', { phase: 'DRAFT', store: 'healthy', served: true, created: true });
+  }
   // UI invalidates terms; reconfirmed build uses PaymentFlow.revise and
   // PaymentJournal.reviseUnsigned CAS with retained capability/economic ID.
   if (s.phase === 'DRAFT') edge('ConfirmTerms', { phase: 'CONFIRMED', confirmed: true });
-  if (s.phase === 'CONFIRMED' && !s.signReserved) edge(s.edits ? 'ReviseUnsignedPreflight' : 'BuildPreflight', { phase: 'PREFLIGHTED' });
+  if (s.phase === 'CONFIRMED' && !s.signReserved && s.mode === 'private-loopback') edge(s.edits ? 'ReviseUnsignedPreflight' : 'BuildPreflight', { phase: 'PREFLIGHTED' });
   if (['CONFIRMED', 'PREFLIGHTED'].includes(s.phase) && s.edits === 0) edge('EditTerms', { phase: 'DRAFT', confirmed: false, edits: 1 });
   // PaymentFlow.reserve -> FULL-sync journal commit, separate from adapter.sendSignRequest.
   if (s.phase === 'PREFLIGHTED' && s.network === 'chipnet' && !s.signReserved) edge('ReserveSignature', { phase: 'SIGNING', signReserved: true });
@@ -44,7 +50,7 @@ for (let i = 0; i < states.length; i++) {
 const scalar = v => typeof v === 'string' ? JSON.stringify(v) : typeof v === 'boolean' ? v ? 'TRUE' : 'FALSE' : String(v);
 const row = s => '[' + Object.entries(s).map(([k, v]) => k + ' |-> ' + scalar(v)).join(', ') + ']';
 const actions = [...new Set(edges.map(e => e.action))];
-const invariants = ['MainnetCapZero', 'AtMostOneEffect', 'ConfirmedBeforeEffect', 'CheckedBytesBeforeSend', 'UnknownNeverReplacement', 'OriginalHashBeforeReceipt'];
+const invariants = ['MainnetCapZero', 'AtMostOneEffect', 'ConfirmedBeforeEffect', 'CheckedBytesBeforeSend', 'UnknownNeverReplacement', 'OriginalHashBeforeReceipt', 'PublicReadOnly', 'StrictStoreAdmission'];
 const text = `---------------- MODULE GuardedPayment ----------------
 EXTENDS Naturals
 VARIABLE s
@@ -64,12 +70,14 @@ ConfirmedBeforeEffect == (s.signReserved \\/ s.sendReserved) => s.confirmed
 CheckedBytesBeforeSend == s.sendCalls > 0 => s.valid /\\ s.hash /\\ s.signReserved /\\ s.sendReserved /\\ s.signCalls = 1
 UnknownNeverReplacement == s.unknown => s.sendCalls <= s.unknownSends
 OriginalHashBeforeReceipt == s.phase \\in {"OBSERVED", "CONFIRMED_ON_CHAIN"} => s.hash /\\ s.sendCalls = 1
+PublicReadOnly == s.mode = "public-demo" => ~s.signReserved /\\ ~s.sendReserved /\\ s.signCalls = 0 /\\ s.sendCalls = 0
+StrictStoreAdmission == s.served => s.store = "healthy"
 ====
 `;
 await writeFile(destination + '/GuardedPayment.tla', text);
 await writeFile(destination + '/GuardedPayment.cfg', 'INIT Init\nNEXT Next\nINVARIANT ' + invariants.join(' ') + '\n');
-await writeFile(destination + '/view.mjs', `export const state = ({s}) => ({DRAFT:'Review payment terms',CONFIRMED:'Terms independently confirmed',PREFLIGHTED:'Exact unsigned candidate ready',SIGNING:'Signature reserved; wallet may sign',POSTCHECKED:'Signed bytes cryptographically checked',BROADCASTING:'Send reserved; reply may be lost',UNKNOWN:'Uncertain: original operation only',NEEDS_REVIEW:'Signed bytes quarantined',OBSERVED:'Original bytes node-observed',CONFIRMED_ON_CHAIN:'Matching node inclusion',CONFLICTED:'Receipt invalidated by conflict'})[s.phase];\nexport const step = a => a === 'RefuseDoubleClickOrWait' || a === 'DuplicateCallbackRefused' ? null : a;\nexport const title = 'IntentGuard: confirm, sign-only, check, one send, original-hash recovery';\n`);
-const sources = ['core/payment-flow.ts', 'core/operation-store.ts', 'core/wallet-adapter.ts', 'core/payment-ui.ts', 'core/payment-chain.ts'];
+await writeFile(destination + '/view.mjs', `export const state = ({s}) => ({STARTUP:'Validate create or strict reopen',STOPPED:'Unsafe or missing journal refused',DRAFT:'Review payment terms',CONFIRMED:'Terms independently confirmed',PREFLIGHTED:'Exact unsigned candidate ready',SIGNING:'Signature reserved; wallet may sign',POSTCHECKED:'Signed bytes cryptographically checked',BROADCASTING:'Send reserved; reply may be lost',UNKNOWN:'Uncertain: original operation only',NEEDS_REVIEW:'Signed bytes quarantined',OBSERVED:'Original bytes node-observed',CONFIRMED_ON_CHAIN:'Matching node inclusion',CONFLICTED:'Receipt invalidated by conflict'})[s.phase];\nexport const step = a => a === 'RefuseDoubleClickOrWait' || a === 'DuplicateCallbackRefused' ? null : a;\nexport const title = 'IntentGuard: strict journal admission, read-only public mode, one private send';\n`);
+const sources = ['core/server.ts', 'core/payment-flow.ts', 'core/operation-store.ts', 'core/wallet-adapter.ts', 'core/payment-ui.ts', 'core/payment-chain.ts'];
 const hashes = await Promise.all(sources.map(async file => ({ file, sha256: createHash('sha256').update(await readFile(file)).digest('hex') })));
 const evidence = { kind: 'BOUNDED_CODE_ANCHORED_ABSTRACTION_NOT_WHOLE_PROGRAM_PROOF', states: states.length, edges: edges.length, hashes, concrete,
   anchors: { EditTerms: 'payment-ui invalidate clears confirmation/candidate', ReviseUnsignedPreflight: 'payment-ui build -> PaymentFlow revise -> PaymentJournal.reviseUnsigned atomic CAS/input transfer, no envelope/signed bytes/observation', ReserveSignature: 'PaymentFlow.handle reserve / PaymentJournal.advance commit', SdkSignEffect: 'ConnectedWallet.sign sendSignRequest', CheckedCallback: 'PaymentFlow signed verifySignedPlan+0x61', ReserveBroadcast: 'PaymentFlow broadcast CAS commit', RpcSendEffect: 'PaymentChain.broadcast', RestartNoReplay: 'payment-ui invalidate/recover; journal reopen', ObserveOriginalBytes: 'PaymentChain.observe exact original bytes' },

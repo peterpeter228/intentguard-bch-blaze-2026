@@ -1,14 +1,13 @@
-# Current guarded-payment code — November9,2026 / PRESEASON
+# Current public-demo preparation — November11,2026 / PRESEASON
 
-`/pay` now implements a real pinned WizardConnect user-wallet session and
-confirm → unsigned build → fresh preflight → sign-only → cryptographic postcheck →
-explicit one-time Chipnet broadcast → original-hash observation/recovery.
-No production server wallet. Mainnet cap is hard-coded **0 sat**: unsigned builds
-only; no mainnet pairing, keys, signing or broadcast. All work predates Nov14.
-Read [payment trust boundaries](core/PAYMENT_FLOW.md),
-[current progress](PROGRESS.md) and [pre-existing work](docs/PRE_EXISTING_WORK.md).
+Public mode is **read-only**, not a deployed or completed payment claim.
+Mainnet cap remains hard-coded **0 sat**, unsigned/offline only. Private-loopback
+keeps the existing guarded Chipnet flow; live completion remains blocked by the
+SDK wire codec and exact-input selection prerequisites in current task evidence.
+Read [current progress](PROGRESS.md), [payment boundaries](core/PAYMENT_FLOW.md)
+and [pre-existing work](docs/PRE_EXISTING_WORK.md). Older status entries are historical.
 
-Use Node24 and the unchanged npm lockfile/native rebuild below, then:
+Use Node24 and the unchanged lockfile/native rebuild instructions below:
 
 ```sh
 npm run validate
@@ -17,30 +16,35 @@ node scripts/smoke-production.mjs
 INTENTGUARD_PAYMENT_DIR=/absolute/private/new-journal npm run core:preview -- --create-payment-journal
 ```
 
-Only the first start uses `--create-payment-journal`; restart with the SAME durable
-directory and omit create. Missing/corrupt/replaced journals fail closed. Do not
-delete or replace UNKNOWN operations. Open only loopback127.0.0.1:8788/pay.
-Without a journal, offline pages remain available and payment API refuses.
+Create is exclusive and first-start-only; omit the flag on every reopen.
+Missing/corrupt/replaced/unsafe journals fail closed. Never reset UNKNOWN.
+Default private-loopback binds 127.0.0.1:8788; validated PORT may override it.
+Without a journal, local offline pages work but the payment API refuses.
 
-`dist/production/` includes HTML/CSS/browser JS, bundled Node entry, exact lockfile,
-runtime instructions and upstream notices. Production dependencies are external:
-from that directory run `npm ci --omit=dev --ignore-scripts`, native rebuild, then
-`INTENTGUARD_PUBLIC_ROOT=./public INTENTGUARD_PAYMENT_DIR=/absolute/private/journal node server.mjs`.
-Current Node/native SQLite needs persistent local disk and one writer; static-only
-Vercel/Pages or ephemeral serverless SQLite are not durable backend deployments.
-Tencent persistent Node24 is the pending hosting recommendation, not a deployment.
+`vercel.json` publishes only `dist/production/public`, with two exact API rewrites
+to Railway; no serverless SQLite. `Dockerfile` packages Node24 runtime/dependencies/
+notices for one writer with `/data/intentguard-payments` (0700, database0600).
+Set INTENTGUARD_MODE=public-demo, PORT=8080, INTENTGUARD_PUBLIC_ROOT=./public and
+INTENTGUARD_PAYMENT_DIR=/data/intentguard-payments. Never deploy wallet credentials.
+Only intentguard-bch.vercel.app and intentguard-api-production.up.railway.app are
+allowed public Hosts and exact HTTPS POST Origins; forwarded headers grant nothing.
+Public payment actions are config/read/get only, before PaymentFlow allocation.
+Wallet controls and handlers fail closed until runtime config is known.
 
-`npm run payment:verify -- NEW_DIRECTORY`, `npm run builder:verify -- NEW_DIRECTORY`
-and `npm run payment:statechart -- NEW_DIRECTORY` provide empirical and bounded
-verification (read generated model with pinned official /statechart separately).
-The scripted relay/RPC integration is **MOCK_TRANSPORT / NO_CHAIN_TRANSACTION**.
-Public funding read returned NO_ORDINARY_CONFIRMED_FUNDS; human faucet checks block
-ONLY WP2 live broadcast. No identity secret was opened. Stock-wallet/live-chain/
-mainnet/public-demo combinations are NOT_RUN, not a claimed judging-ready entry.
-Actual root banner contains private-repository disclosure and five explicit
-TODO_OWNER fields; each, hosting and faucet are in task QUESTIONS.json.
-Parent owns independent runtime Astra, actual embedded-browser proof and publication.
-No deployment, visibility/license/IP change, contest submission or external posting.
+One-time private loopback bootstrap must precede public serving. After that initial
+deployment set startCommand to `node server.mjs` **and redeploy before restarting**;
+restarting the initial create-command deployment would repeat exclusive creation.
+Task-private supported-startup inputs provide no public bootstrap/key route.
+Actual Railway persistence/restart, proxy headers and anonymous Vercel browser
+proof remain parent gates. Target URLs are not evidence of successful deployment.
+
+Local empirical checks use isolated fixture transports, not a real payment/browser.
+Run payment:verify, builder:verify and payment:statechart with new evidence paths;
+read the generated model using the pinned official statechart/TLC tool separately.
+Production disclosure fills decided Slides/EMBER/private-old/new-after-start fields;
+Q_PRE_DEMO remains TODO_OWNER_PRE_HACK_DEMO_URL. No contest-readiness claim.
+No protected identity, live signature/send, deployment, publication or external post
+was performed by this worker. Parent owns fresh independent Astra and cloud/browser gates.
 
 ## Historical reproduction instructions (retained)
 

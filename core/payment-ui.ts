@@ -14,8 +14,10 @@ const network = (): string => value('network');
 let epoch = 0, draft: PaymentRequestDraft | null = null, fingerprint = '', confirmed = false;
 let op: PaymentRecord | null = null, capability = '', paths: PathBinding[] = [], verified: { envelope: SignEnvelope; signedHex: string } | null = null;
 let controller = new AbortController(), busy = false;
+let mode: 'unknown' | 'private-loopback' | 'public-demo' = 'unknown';
+const publicRestriction = 'PUBLIC DEMO — read-only API; no pairing, signing or broadcast. Mainnet unsigned/offline only.';
 const wallet = new ConnectedWallet(() => {
-  text('wallet-state', wallet.currentSessionId() ? 'Authenticated live SDK session (selected Chipnet; not chain proof)' : 'Disconnected / invalidated');
+  text('wallet-state', mode === 'public-demo' ? publicRestriction : wallet.currentSessionId() ? 'Authenticated live SDK session (selected Chipnet; not chain proof)' : 'Disconnected / invalidated');
   text('pairing', ''); el('pairing').hidden = true;
   invalidate();
 }, undefined, (envelope, signedHex) => {
@@ -39,6 +41,13 @@ async function api(body: unknown): Promise<unknown> {
   }
   return result;
 }
+enabled('connect', false);
+void api({ action: 'config' }).then(config => {
+  if (!config || typeof config !== 'object' || !('mode' in config) || !['private-loopback', 'public-demo'].includes(String(config.mode))) throw Error('RUNTIME_MODE_REQUIRED');
+  mode = config.mode as 'private-loopback' | 'public-demo';
+  enabled('connect', mode === 'private-loopback' && network() === 'chipnet');
+  if (mode === 'public-demo') text('wallet-state', publicRestriction);
+}).catch(() => text('wallet-state', 'Runtime config unavailable — wallet actions disabled.'));
 function fields(): string {
   return JSON.stringify(['network', 'recipient', 'amount', 'max-fee', 'target-rate', 'max-rate', 'ttl', 'receive-index', 'change-index', 'offline-context'].map(value).concat(String(el<HTMLInputElement>('chain-ack').checked), wallet.currentSessionId() ?? ''));
 }
@@ -67,7 +76,7 @@ function owned(): string {
   return session;
 }
 for (const id of ['network', 'chain-ack', 'recipient', 'amount', 'max-fee', 'target-rate', 'max-rate', 'ttl', 'receive-index', 'change-index', 'offline-context']) el(id).addEventListener('input', () => {
-  if (id === 'network') { wallet.disconnect(); enabled('connect', network() === 'chipnet'); }
+  if (id === 'network') { wallet.disconnect(); enabled('connect', mode === 'private-loopback' && network() === 'chipnet'); }
   invalidate();
 });
 function action(id: string, run: () => Promise<void> | void): void {
@@ -81,6 +90,7 @@ function action(id: string, run: () => Promise<void> | void): void {
   });
 }
 action('connect', () => {
+  if (mode !== 'private-loopback') throw Error('PUBLIC_DEMO_READ_ONLY');
   if (network() !== 'chipnet' || !el<HTMLInputElement>('chain-ack').checked) throw Error('CHIPNET_ACK_REQUIRED');
   const uri = wallet.connect(network());
   text('pairing', uri); el('pairing').hidden = false; text('wallet-state', 'Pair in a Chipnet-capable WizardConnect wallet. Private URI: do not capture/share it.');
@@ -111,6 +121,7 @@ action('build', async () => {
     const bound = buildPaymentRequestPlan(d.request, d.requestDigest, { ...context, feePolicy: policy }, Date.now());
     text('candidate', bound); text('result', 'UNSIGNED / OFFLINE ONLY — cap0. Supplied context is not chain or ownership evidence.'); return;
   }
+  if (mode !== 'private-loopback') throw Error('PUBLIC_DEMO_READ_ONLY');
   owned();
   const prior = op;
   const raw = await api({ action: prior ? 'revise' : 'prepare', ...(prior ? { id: prior.id, revision: prior.revision, capability } : {}),
@@ -130,6 +141,7 @@ action('build', async () => {
   enabled('sign', true); enabled('build', false); text('result', 'Exact candidate ready. Approve outputs/change/fee before sign-only.');
 });
 action('sign', async () => {
+  if (mode !== 'private-loopback') throw Error('PUBLIC_DEMO_READ_ONLY');
   if (!op || !capability || !confirmed || fingerprint !== fields()) throw Error('REQUEST_RECONFIRM_REQUIRED');
   const sessionId = owned(), captured = epoch, original = op;
   controller = new AbortController();
@@ -155,6 +167,7 @@ action('sign', async () => {
   }
 });
 action('broadcast', async () => {
+  if (mode !== 'private-loopback') throw Error('PUBLIC_DEMO_READ_ONLY');
   if (network() !== 'chipnet' || !op || !verified || !confirmed || fingerprint !== fields() || owned() !== verified.envelope.sessionId) throw Error('NO_SEND_AUTHORITY');
   enabled('broadcast', false);
   op = acceptOperation(await api({ action: 'broadcast', id: op.id, revision: op.revision, capability }), op);

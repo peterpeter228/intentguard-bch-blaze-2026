@@ -1,6 +1,48 @@
 # IntentGuard / BCH BLAZE — Progress
 
-## Current: intentguard-mainnet-20261109 — code accepted / live WP2 BLOCKED_EXTERNAL
+## Current: intentguard-live-20261111 — local public boundary; live acceptance pending
+
+Change log: added exact public Host/HTTPS Origin admission, validated PORT/external
+bind only in public-demo, config-first wallet handler/control restriction and
+config/read/get-only payment API. Added Vercel static proxy/header configuration,
+allowlisted Node24 Docker packaging and explicit create-exclusive/strict-reopen
+deployment instructions. No storage schema, dependencies, lock or mainnet cap change.
+Decided disclosure fields are packaged; Q_PRE_DEMO remains an explicit placeholder.
+
+Local Node24 locked install/native rebuild, validation279/279, production runtime
+create/reopen/unsafe/missing/corrupt refusals, public API no-allocation negatives,
+unsigned HTTP draft public readback across reopen, builder1512-case mutation/
+restoration and bounded TLC332states/868steps passed. Source-broken open/public
+guards are detected and original sources retained. These are local/fixture proofs,
+not browser, cloud restart, stock wallet, live transaction or independent acceptance.
+Exact final-candidate command results are external in task artifacts/implementation-1.
+
+Fresh public selection reports THREE ordinary confirmed inputs at the funded script,
+including the approved10000sat outpoint; current prepare selects all three. The
+fixed-one-input gate stopped BEFORE protected identity/session/sign/send. Both frozen
+explorers show that original funding output unspent in block331589,232confirmations;
+funding is not a payment receipt. No faucet requested.
+
+An isolated encrypted real-SDK fixture reached UNKNOWN without a wallet signature
+or send: ConnectedWallet passes native BigInt sourceOutputs to RelayClient's JSON
+codec. Official sourceOutputToRelay fixes the isolated wire/signature fixture but
+the product adapter is unchanged. Exact-input UI/API and adapter corrections require
+a named plan/file-ceiling exception; no fake session, filtered source or shim applied.
+Task-private guarded driver/counterpart, public gate and independent receipt helper
+exist, but the complete driver fixture is RED. Do not launch it with secrets yet.
+
+Next/resume: owner/parent resolves the bounded correction exception in QUESTIONS;
+same task_id, then fresh candidate Astra + green checks before any publication.
+Parent still owns native accepted-main deployment, anonymous browser/proxy checks,
+real volume bootstrap/redeploy/restart and the sole secret-enabled Chipnet continuation.
+Targets https://intentguard-bch.vercel.app and
+https://intentguard-api-production.up.railway.app are **not verified deployments** here.
+Candidate SHA is bound externally in IMPLEMENTATION_RESULT.json, not self-embedded.
+No child push/merge/deploy/browser, protected identity startup, live sign/send,
+Notion/Linear, visibility/license/IP/submission/outreach or consumed-operation replay.
+Historical STATUS/NEXT_ACTION checkpoints below remain historical, not current denial.
+
+## Historical: intentguard-mainnet-20261109 — code accepted / live WP2 BLOCKED_EXTERNAL
 
 Accepted code candidate: **d3629041c6454efa8a393618bd11baf3bf78cf05**;
 implementation source: **a8f1589a55ce91023c10e182a55b19764a44174c**.

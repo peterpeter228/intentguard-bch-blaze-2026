@@ -175,13 +175,14 @@ export async function driveUnsignedRevision() {
       assert.equal(url, '/api/payment');
       const base = `http://127.0.0.1:${f.port()}`;
       const response = await originals.fetch(base + url, { ...options, headers: { ...options.headers, Origin: base } });
-      requests.push({ action: JSON.parse(options.body).action, http: response.status, value: await response.clone().json() }); return response;
+      if (JSON.parse(options.body).action !== 'config') requests.push({ action: JSON.parse(options.body).action, http: response.status, value: await response.clone().json() }); return response;
     };
     for (const [name, implementation] of Object.entries({ currentSessionId: () => session, paths: () => f.bindings, getPubkey, hasPath,
       sign: () => { signCalls++; throw Error('FORBIDDEN_UI_SIGN'); } })) {
       prototypes[name] = ConnectedWallet.prototype[name]; ConnectedWallet.prototype[name] = implementation;
     }
     await import(pathToFileURL(resolve('dist/core/payment-ui.js')).href + '?unsigned-revision=' + Date.now());
+    await wait(() => !el('connect').disabled);
     await click('review'); await click('confirm'); await click('build'); await wait(() => !el('sign').disabled);
     const first = requests.at(-1).value;
     assert.equal(first.state, 'PREFLIGHTED'); assert.equal(first.envelope, null);
@@ -229,6 +230,26 @@ export async function driveUnsignedRevision() {
   }
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  test('public demo reads an unsigned HTTP-prepared draft unchanged across strict journal reopen', async () => {
+    const f = await instance(); let publicServer;
+    const launch = async () => { publicServer = createPaymentServer(new PaymentFlow(f.journal(), f.chain), undefined, true); await new Promise(r => publicServer.listen(0, '127.0.0.1', r)); };
+    const stop = async () => { publicServer.closeAllConnections(); await new Promise(r => publicServer.close(r)); };
+    const read = id => new Promise((resolve, reject) => {
+      import('node:http').then(({ request }) => {
+        const req = request(`http://127.0.0.1:${publicServer.address().port}/api/payment`, { method: 'POST', headers: { Host: 'intentguard-api-production.up.railway.app', Origin: 'https://intentguard-bch.vercel.app', 'Content-Type': 'application/json' } }, res => {
+          let raw = ''; res.on('data', b => raw += b); res.on('end', () => { try { assert.equal(res.statusCode, 200); resolve(JSON.parse(raw)); } catch (e) { reject(e); } });
+        }); req.on('error', reject); req.end(JSON.stringify({ action: 'get', id }));
+      }, reject);
+    });
+    try {
+      const prepared = await f.api(f.prepare); assert.equal(prepared.http, 200);
+      await launch(); const before = await read(prepared.value.id); await stop();
+      await f.restart(); await launch(); const after = await read(prepared.value.id);
+      assert.deepEqual(after, before); assert.equal(after.state, 'PREFLIGHTED'); assert.equal(after.envelope, null); assert.equal(after.txid, null);
+      assert.equal(Object.hasOwn(after, 'capability'), false); assert.equal(Object.hasOwn(after, 'capabilityHash'), false);
+      assert.deepEqual(f.stats(), { sends: 0, signs: 0 });
+    } finally { if (publicServer?.listening) await stop(); await f.close(); }
+  });
   test('compiled UI edits 5000 to 4000 sat, reconfirms and atomically rebuilds the same unsigned payment', driveUnsignedRevision);
   test('unsigned revision authenticates, rejects stale CAS and rolls back conflicting input reservations', async () => {
     const f = await instance();

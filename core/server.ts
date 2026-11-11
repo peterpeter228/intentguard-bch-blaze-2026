@@ -54,21 +54,25 @@ function parseBody(text: string, payment = false): Record<string, unknown> {
     typeof value.expectedRequestPlanDigest !== 'string' || !/^[0-9a-f]{64}$/.test(value.expectedRequestPlanDigest)) throw Error('INVALID_SCHEMA');
   return value;
 }
-function sameOrigin(req: IncomingMessage): boolean {
+const publicHosts = ['intentguard-bch.vercel.app', 'intentguard-api-production.up.railway.app'];
+function singleHeader(req: IncomingMessage, name: string): boolean {
+  return req.rawHeaders.filter((_, i) => i % 2 === 0 && req.rawHeaders[i]!.toLowerCase() === name).length === 1;
+}
+function sameOrigin(req: IncomingMessage, publicDemo: boolean): boolean {
   const origin = req.headers.origin;
   const metadata = Object.keys(req.headers).filter(k => k.startsWith('sec-fetch-'));
-  if (!origin) return metadata.length === 0 && req.headers.referer === undefined;
-  if (origin !== `http://${req.headers.host}`) return false;
+  if (!origin) return !publicDemo && metadata.length === 0 && req.headers.referer === undefined;
+  if (!singleHeader(req, 'origin') || (publicDemo ? !publicHosts.some(host => origin === `https://${host}`) : origin !== `http://${req.headers.host}`)) return false;
   if (req.headers['sec-fetch-site'] !== undefined && req.headers['sec-fetch-site'] !== 'same-origin') return false;
   if (req.headers['sec-fetch-mode'] !== undefined && !['cors', 'same-origin'].includes(String(req.headers['sec-fetch-mode']))) return false;
   if (req.headers['sec-fetch-dest'] !== undefined && req.headers['sec-fetch-dest'] !== 'empty') return false;
   return req.headers['sec-fetch-user'] === undefined;
 }
-async function candidate(req: IncomingMessage, res: ServerResponse, flow?: PaymentFlow): Promise<void> {
+async function candidate(req: IncomingMessage, res: ServerResponse, flow?: PaymentFlow, publicDemo = false): Promise<void> {
   // Aborted streams may emit a later error after body listeners are removed.
   req.on('error', () => {});
   if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); reply(res, 405, 'METHOD_NOT_ALLOWED'); return; }
-  if (!sameOrigin(req) || req.headers['access-control-request-method'] !== undefined || req.headers['access-control-request-headers'] !== undefined) { reply(res, 403, 'ORIGIN_REJECTED'); return; }
+  if (!sameOrigin(req, publicDemo) || req.headers['access-control-request-method'] !== undefined || req.headers['access-control-request-headers'] !== undefined) { reply(res, 403, 'ORIGIN_REJECTED'); return; }
   if (!/^application\/json(?:\s*;\s*charset=utf-8)?$/i.test(req.headers['content-type'] ?? '') || req.headers['content-encoding'] !== undefined) { reply(res, 415, 'CONTENT_TYPE_REJECTED'); return; }
   const length = req.headers['content-length'];
   if (length !== undefined && (!/^\d+$/.test(length) || Number(length) > MAX_BODY_BYTES)) { reply(res, 413, 'BODY_TOO_LARGE'); return; }
@@ -95,7 +99,10 @@ async function candidate(req: IncomingMessage, res: ServerResponse, flow?: Payme
   if (res.destroyed || req.aborted) return;
   try {
     if (flow) {
-      const result = await flow.handle(input), json = JSON.stringify(result);
+      if (publicDemo && !['config', 'read', 'get'].includes(String(input.action))) { reply(res, 403, 'PUBLIC_DEMO_READ_ONLY'); return; }
+      const handled = await flow.handle(input);
+      if (input.action === 'config' && !isRecord(handled)) throw Error('INVALID_PAYMENT_RESPONSE');
+      const result = input.action === 'config' && isRecord(handled) ? { ...handled, mode: publicDemo ? 'public-demo' : 'private-loopback' } : handled, json = JSON.stringify(result);
       if (Buffer.byteLength(json) > 1600000) { reply(res, 503, 'PAYMENT_UNAVAILABLE'); return; }
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' }); res.end(json); return;
     }
@@ -120,18 +127,18 @@ async function candidate(req: IncomingMessage, res: ServerResponse, flow?: Payme
     reply(res, 409, flow ? allowed.test(code) ? code : 'PAYMENT_UNAVAILABLE_RECONCILE_ORIGINAL' : 'DIAGNOSTIC_UNAVAILABLE');
   }
 }
-export function createPaymentServer(flow?: PaymentFlow, publicRoot?: string) {
+export function createPaymentServer(flow?: PaymentFlow, publicRoot?: string, publicDemo = false) {
 let active = 0;
 const server = createServer(async (req, res) => {
   res.setHeader('Cache-Control', 'no-store'); res.setHeader('X-Content-Type-Options', 'nosniff'); res.setHeader('Referrer-Policy', 'no-referrer');
   res.setHeader('Content-Security-Policy', "default-src 'self'; connect-src 'self' wss://relay.riften.net:443; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'");
   const address = server.address(), port = address && typeof address !== 'string' ? address.port : 8788;
-  if (![`localhost:${port}`, `127.0.0.1:${port}`].includes(req.headers.host ?? '')) { reply(res, 403, 'HOST_REJECTED'); return; }
+  if (!singleHeader(req, 'host') || !(publicDemo ? publicHosts : [`localhost:${port}`, `127.0.0.1:${port}`]).includes(req.headers.host ?? '')) { reply(res, 403, 'HOST_REJECTED'); return; }
   if (req.url === '/api/payment' || req.url === '/api/xo-candidate') {
     if (active >= 8) { reply(res, 503, 'BUSY'); return; }
     if (req.url === '/api/payment' && !flow) { reply(res, 503, 'PAYMENT_JOURNAL_REQUIRED'); return; }
     active++;
-    try { await candidate(req, res, req.url === '/api/payment' ? flow : undefined); } finally { active--; }
+    try { await candidate(req, res, req.url === '/api/payment' ? flow : undefined, publicDemo); } finally { active--; }
     return;
   }
   const asset = assets[req.url ?? ''];
@@ -143,10 +150,16 @@ server.requestTimeout = 20000; server.headersTimeout = 10000; server.keepAliveTi
 return server;
 }
 if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) {
+  const mode = process.env.INTENTGUARD_MODE ?? 'private-loopback';
+  const portText = process.env.PORT ?? '8788';
+  if (!['private-loopback', 'public-demo'].includes(mode) || !/^[1-9][0-9]{0,4}$/.test(portText) || Number(portText) > 65535) throw Error('INVALID_RUNTIME_CONFIG');
+  const publicDemo = mode === 'public-demo', port = Number(portText);
   const directory = process.env.INTENTGUARD_PAYMENT_DIR;
   const journal = directory ? process.argv.includes('--create-payment-journal') ? PaymentJournal.create(directory) : PaymentJournal.open(directory) : null;
   const flow = journal ? new PaymentFlow(journal, new PaymentChain()) : undefined;
-  const server = createPaymentServer(flow, process.env.INTENTGUARD_PUBLIC_ROOT);
-  server.listen(8788, '127.0.0.1', () => console.log('Offline core demo http://127.0.0.1:8788; /pay Chipnet only; mainnet cap0; no server wallet.'));
+  if (publicDemo && !journal) throw Error('PAYMENT_JOURNAL_REQUIRED');
+  const server = createPaymentServer(flow, process.env.INTENTGUARD_PUBLIC_ROOT, publicDemo);
+  const host = publicDemo ? '0.0.0.0' : '127.0.0.1';
+  server.listen(port, host, () => console.log(`IntentGuard ${mode} http://${host}:${port}; mainnet cap0; no server wallet.`));
   process.once('SIGTERM', () => { server.closeAllConnections(); server.close(() => { journal?.close(); }); });
 }

@@ -26,7 +26,7 @@ function rawPost(body, headers = {}) {
   });
 }
 test('loopback static UI and bounded XO diagnostics preserve all offline authority boundaries', async () => {
-  const server = spawnServerProcess(['dist/core/server.js'], { readyText: 'Offline core demo http://127.0.0.1:8788' });
+  const server = spawnServerProcess(['dist/core/server.js'], { readyText: 'http://127.0.0.1:8788' });
   try {
     await server.ready;
     for (const path of ['/', '/app.js', '/style.css', '/request', '/request.js']) {
@@ -74,4 +74,42 @@ test('loopback static UI and bounded XO diagnostics preserve all offline authori
     assert.equal((await fetch(base + '/', { method: 'POST' })).status, 404);
     assert.equal((await fetch(base + '/api/wallet')).status, 404);
   } finally { await server.stop(); }
+});
+
+test('public demo denies authority before payment allocation and accepts only exact HTTPS headers', async () => {
+  const { mkdtemp, rm } = await import('node:fs/promises');
+  const { tmpdir } = await import('node:os');
+  const { join } = await import('node:path');
+  const { PaymentJournal } = await import('../dist/core/operation-store.js');
+  const { PaymentFlow } = await import('../dist/core/payment-flow.js');
+  const { PaymentChain } = await import('../dist/core/payment-chain.js');
+  const { createPaymentServer } = await import('../dist/core/server.js');
+  const root = await mkdtemp(join(tmpdir(), 'intentguard-public-'));
+  const journal = PaymentJournal.create(join(root, 'journal'));
+  const server = createPaymentServer(new PaymentFlow(journal, new PaymentChain()), undefined, true);
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  const send = (body, headers = {}) => new Promise((resolve, reject) => {
+    const req = httpRequest(`http://127.0.0.1:${server.address().port}/api/payment`, { method: 'POST', headers: {
+      Host: 'intentguard-api-production.up.railway.app', Origin: 'https://intentguard-bch.vercel.app', 'Content-Type': 'application/json', ...headers
+    } }, res => { let text = ''; res.on('data', b => text += b); res.on('end', () => resolve({ status: res.statusCode, data: JSON.parse(text), headers: res.headers })); });
+    req.on('error', reject); req.end(typeof body === 'string' ? body : JSON.stringify(body));
+  });
+  try {
+    const config = await send({ action: 'config' });
+    assert.equal(config.status, 200); assert.equal(config.data.mode, 'public-demo'); assert.equal(config.data.mainnetCapSatoshis, '0');
+    assert.equal(config.headers['access-control-allow-origin'], undefined);
+    for (const Host of ['evil.example', 'intentguard-bch.vercel.app.evil', 'intentguard-api-production.up.railway.app:8080', 'localhost:8080']) assert.equal((await send({ action: 'config' }, { Host })).status, 403);
+    for (const Origin of ['', 'null', 'http://intentguard-bch.vercel.app', 'https://evil.example', 'https://intentguard-bch.vercel.app/', ['https://intentguard-bch.vercel.app', 'https://intentguard-bch.vercel.app']]) assert.equal((await send({ action: 'config' }, { Origin })).status, 403);
+    assert.equal((await send({ action: 'config' }, { Origin: '', 'X-Forwarded-Host': 'intentguard-bch.vercel.app', 'X-Forwarded-Proto': 'https' })).status, 403);
+    assert.equal((await send({ action: 'config' }, { 'Sec-Fetch-Site': 'cross-site' })).status, 403);
+    assert.equal((await send('{"action":"config","action":"prepare"}')).status, 400);
+    for (const action of ['prepare', 'revise', 'reserve', 'signed', 'uncertain', 'broadcast', 'observe', 'anything']) {
+      const denied = await send({ action, capability: '00'.repeat(32), network: 'mainnet' });
+      assert.equal(denied.status, 403); assert.equal(denied.data.issue, 'PUBLIC_DEMO_READ_ONLY'); assert.equal(denied.data.canSign, false);
+    }
+    assert.equal((await send({ action: 'get', id: '00'.repeat(32) })).data.issue, 'OPERATION_NOT_FOUND');
+    const { DatabaseSync } = await import('node:sqlite');
+    const db = new DatabaseSync(join(root, 'journal/payments.sqlite'), { readOnly: true });
+    try { assert.equal(db.prepare('SELECT count(*) AS n FROM payments').get().n, 0); assert.equal(db.prepare('SELECT count(*) AS n FROM payment_inputs').get().n, 0); } finally { db.close(); }
+  } finally { server.closeAllConnections(); await new Promise(resolve => server.close(resolve)); journal.close(); await rm(root, { recursive: true }); }
 });
