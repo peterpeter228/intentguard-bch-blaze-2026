@@ -1,6 +1,6 @@
 # IntentGuard / BCH BLAZE — Progress
 
-## Current: intentguard-live-20261111 — consumer repairs verified locally; live gates pending
+## Current: intentguard-live-20261111 — pre-deploy PASS; live gates PENDING
 
 Change log: exact public Host/HTTPS Origin admission, validated PORT/public bind,
 config-first wallet restrictions, config/read/get-only public payment API, Vercel
@@ -27,17 +27,18 @@ production read-only startup strictly reopens and preserves it. This is LOCAL fi
 proof, not Railway persistence or browser evidence. Old failures/source hashes stay
 immutable; current commands/results/candidate binding are in task artifacts/implementation-3.
 
-Next/resume: parent obtains fresh independent candidate/runtime Astra PASS+green
-before separately permitted publication. Then native accepted-main Vercel/Railway
-deployment, anonymous HTTPS browser/proxy checks, exclusive bootstrap→strict-command
-REDEPLOY→actual restart/persistence, fresh fixed-source funding gate, and the sole
-secret-enabled Chipnet continuation plus independent original receipt/live closeout.
+Done: fresh independent Astra PRE-DEPLOY PASS/BLOCKER0; 279/279 green. Accepted code
+candidate `ef93ed1107e163175bd52dec10663a6b7423d45f`; runtime evidence:
+task `artifacts/verifier-1/verify-evidence-candidate.md` (not final live acceptance).
+Next/resume (parent): publication, public deployment/browser, Railway restart/persistence,
+one real Chipnet /pay payment+original receipt, final independent closeout: PENDING.
+Use metadata candidate binding and fresh fixed-source funding gate; never retry UNKNOWN.
 Targets https://intentguard-bch.vercel.app and
 https://intentguard-api-production.up.railway.app are NOT verified deployments here.
 No child push/merge/deploy/browser, protected identity startup, live sign/send,
 Notion/Linear, visibility/license/IP/submission/outreach or consumed-operation replay.
 Q_PRE_DEMO stays an explicit placeholder. Historical STATUS/NEXT_ACTION entries below
-remain history, not current scope denial. Exact candidate SHA is external, not self-embedded.
+remain history, not current scope denial. Exact metadata SHA/tree are external.
 
 ## Historical: intentguard-mainnet-20261109 — code accepted / live WP2 BLOCKED_EXTERNAL
 
