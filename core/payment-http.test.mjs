@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { EventEmitter } from 'eventemitter3';
-import { RelayClient, RelayStatus, RelayMsgAction, generateKeyExchangeCredentials } from '@wizardconnect/core';
+import { RelayClient, RelayStatus, RelayMsgAction, generateKeyExchangeCredentials, toBigInt, toUint8Array } from '@wizardconnect/core';
 import { binToHex, hexToBin, hash160, hash256, hashTransaction, sha256, secp256k1, deriveHdPrivateNodeFromSeed, deriveHdPublicNode, deriveHdPath, encodeHdPublicKey,
   encodeTransaction, decodeTransaction, lockingBytecodeToCashAddress, generateSigningSerializationBCH } from '@bitauth/libauth';
 import { ConnectedWallet } from '../dist/core/wallet-adapter.js';
@@ -39,10 +39,11 @@ async function instance(options = {}) {
       messages.push(message);
       if (message.action !== RelayMsgAction.SignTransactionRequest) return;
       signs++; assert.equal(message.transaction.broadcast, false);
+      const sources = JSON.parse(JSON.stringify(message.transaction.sourceOutputs)).map(s => ({ ...s, valueSatoshis: toBigInt(s.valueSatoshis), lockingBytecode: toUint8Array(s.lockingBytecode), outpointTransactionHash: toUint8Array(s.outpointTransactionHash), unlockingBytecode: toUint8Array(s.unlockingBytecode) }));
       const tx = decodeTransaction(hexToBin(message.transaction.transaction)); assert.notEqual(typeof tx, 'string');
       assert.deepEqual(message.inputPaths, [[0, 'receive', 0]]);
-      const serialization = generateSigningSerializationBCH({ inputIndex: 0, transaction: tx, sourceOutputs: message.transaction.sourceOutputs },
-        { coveredBytecode: message.transaction.sourceOutputs[0].lockingBytecode, signingSerializationType: Uint8Array.of(options.flag ?? 0x61) });
+      const serialization = generateSigningSerializationBCH({ inputIndex: 0, transaction: tx, sourceOutputs: sources },
+        { coveredBytecode: sources[0].lockingBytecode, signingSerializationType: Uint8Array.of(options.flag ?? 0x61) });
       const signature = secp256k1.signMessageHashSchnorr(privateNode.privateKey, hash256(serialization)); assert.notEqual(typeof signature, 'string');
       tx.inputs[0].unlockingBytecode = Uint8Array.from([65, ...signature, options.flag ?? 0x61, 33, ...pub]);
       options.mutate?.(tx);
@@ -73,8 +74,8 @@ async function instance(options = {}) {
       await options.beforeFunding?.();
       if (options.disappeared) return [];
       const expected = binToHex(sha256.hash(hexToBin(ownedScript)).reverse());
-      const funding = fundingParents[options.fundingVariant ?? 0];
-      return params[0] === expected ? [{ tx_hash: funding.id, tx_pos: 0, value: options.disagree && index === 1 ? 9999 : 10000, height: 99, ...(options.token ? { token_data: { amount: '1' } } : {}) }] : [];
+      const funding = options.threeInputs ? fundingParents : [fundingParents[options.fundingVariant ?? 0]];
+      return params[0] === expected ? funding.map(f => ({ tx_hash: f.id, tx_pos: 0, value: options.disagree && index === 1 ? 9999 : 10000, height: 99, ...(options.token ? { token_data: { amount: '1' } } : {}) })) : [];
     }
     if (method === 'blockchain.transaction.get') {
       const funding = fundingParents.find(p => p.id === params[0]);
@@ -100,10 +101,10 @@ async function instance(options = {}) {
   assert.notEqual(typeof recipient, 'string');
   const request = { schemaVersion: 1, kind: 'intentguard-payment-request', requestId: 'one-economic-payment', network: 'chipnet', expiresAt: Date.now() + 60000, maxFeeBch: '0.000006', recipients: [{ address: recipient.address, bch: '0.00005' }] };
   const reviewed = createPaymentRequestDraft(request, Date.now()); assert.equal(reviewed.status, 'DRAFT_READY');
-  const prepare = { action: 'prepare', request, expectedRequestDigest: reviewed.draft.requestDigest, scripts: bindings.map(p => p.script), changeScript: bindings[1].script,
+  const prepare = { action: 'prepare', request, expectedRequestDigest: reviewed.draft.requestDigest, scripts: bindings.map(p => p.script), changeScript: bindings[1].script, selectedOutpoint: null,
     feePolicy: { targetSatoshisPer1000Bytes: '1000', maxSatoshisPer1000Bytes: '3000', signatureModel: 'compressed-p2pkh-schnorr', allowBchDustToFee: false } };
   return { api, prepare, chain, wallet, bindings, options, stats: () => ({ sends, signs }), original: () => storedSigned,
-    port: () => server.address().port, journal: () => journal,
+    funding: fundingParents.map(p => ({ txid: p.id, index: 0 })), port: () => server.address().port, journal: () => journal,
     restart: async () => { server.closeAllConnections(); await new Promise(r => server.close(r)); journal.close(); journal = PaymentJournal.open(directory); await launch(); },
     close: async () => { wallet.disconnect(); server.closeAllConnections(); await new Promise(r => server.close(r)); journal.close(); await rm(root, { recursive: true }); } };
 }
@@ -153,7 +154,7 @@ export async function drivePayment(options = {}) {
 /** Compiled UI handlers -> real HTTP/builder/SQLite; public-wallet/RPC seams only.
  * No browser/stock-wallet claim. No signature or send is permitted on this path. */
 export async function driveUnsignedRevision() {
-  const f = await instance(), originals = { document: globalThis.document, window: globalThis.window, localStorage: globalThis.localStorage, fetch: globalThis.fetch };
+  const f = await instance({ threeInputs: true }), originals = { document: globalThis.document, window: globalThis.window, localStorage: globalThis.localStorage, fetch: globalThis.fetch };
   const prototypes = {}, elements = new Map(), storage = new Map(), requests = [];
   const session = f.wallet.currentSessionId(), getPubkey = f.wallet.getPubkey.bind(f.wallet), hasPath = f.wallet.hasPath.bind(f.wallet);
   let signCalls = 0;
@@ -169,6 +170,7 @@ export async function driveUnsignedRevision() {
     const html = await readFile(new URL('./payment.html', import.meta.url), 'utf8');
     for (const tag of html.matchAll(/<[^>]+id="([^"]+)"[^>]*>/g)) { el(tag[1]).disabled = /\bdisabled\b/.test(tag[0]); el(tag[1]).value = tag[0].match(/\bvalue="([^"]*)"/)?.[1] ?? ''; }
     el('network').value = 'chipnet'; el('chain-ack').checked = true; el('recipient').value = f.prepare.request.recipients[0].address;
+    el('selected-outpoint').value = f.funding[0].txid + ':0';
     globalThis.document = { getElementById: el }; globalThis.window = { addEventListener() {} };
     globalThis.localStorage = { getItem: k => storage.get(k) ?? null, setItem: (k, v) => storage.set(k, v) };
     globalThis.fetch = async (url, options) => {
@@ -186,21 +188,38 @@ export async function driveUnsignedRevision() {
     await click('review'); await click('confirm'); await click('build'); await wait(() => !el('sign').disabled);
     const first = requests.at(-1).value;
     assert.equal(first.state, 'PREFLIGHTED'); assert.equal(first.envelope, null);
+    assert.deepEqual(first.build.selectedInputs, [f.funding[0]]);
     assert.equal(decodeTransaction(hexToBin(first.plan.unsignedHex)).outputs[0].valueSatoshis, 5000n);
     const requestId = storage.get('intentguard/payment/chipnet/request-id');
     el('amount').value = '0.00004'; el('amount').emit('input');
     assert.equal(el('sign').disabled, true); assert.equal(el('build').disabled, true);
+    el('selected-outpoint').value = f.funding[1].txid + ':0'; el('selected-outpoint').emit('input');
     assert.ok(!el('candidate').textContent.includes(first.plan.planDigest));
     await click('review'); assert.equal(el('build').disabled, true); await click('confirm'); await click('build');
     await wait(() => requests.length === 2 && (!el('sign').disabled || el('result').textContent === 'ECONOMIC_KEY_EXISTS'));
     const second = requests.at(-1); assert.equal(second.http, 200, JSON.stringify(second)); assert.equal(second.action, 'revise');
-    const revised = second.value, tx = decodeTransaction(hexToBin(revised.plan.unsignedHex)); assert.notEqual(typeof tx, 'string');
+    let revised = second.value; const tx = decodeTransaction(hexToBin(revised.plan.unsignedHex)); assert.notEqual(typeof tx, 'string');
     assert.equal(revised.id, first.id); assert.equal(revised.revision, first.revision + 1); assert.notEqual(revised.plan.planDigest, first.plan.planDigest);
     assert.notEqual(revised.requestDigest, first.requestDigest); assert.equal(storage.get('intentguard/payment/chipnet/request-id'), requestId);
+    assert.deepEqual(revised.build.selectedInputs, [f.funding[1]]); assert.notEqual(revised.plan.unsignedHex, first.plan.unsignedHex);
     assert.deepEqual(tx.outputs, [{ lockingBytecode: hexToBin('76a914' + '22'.repeat(20) + '88ac'), valueSatoshis: 4000n },
       { lockingBytecode: hexToBin(f.bindings[1].script), valueSatoshis: 10000n - 4000n - BigInt(revised.plan.feeSatoshis) }]);
     assert.ok(tx.inputs.every(i => i.unlockingBytecode.length === 0)); assert.equal(revised.envelope, null); assert.equal(revised.txid, null);
     assert.equal(el('sign').disabled, false); assert.ok(el('candidate').textContent.includes(revised.plan.planDigest));
+    for (const control of ['build', 'sign']) {
+      el('selected-outpoint').value = f.funding[0].txid + ':0'; el('selected-outpoint').emit('input');
+      await click('review'); await click('confirm');
+      if (control === 'sign') { await click('build'); await wait(() => !el('sign').disabled); }
+      let enter, release; const entered = new Promise(r => enter = r), gate = new Promise(r => release = r);
+      f.options.beforeFunding = async () => { enter(); await gate; };
+      await click(control); await entered;
+      el('selected-outpoint').value = f.funding[2].txid + ':0'; el('selected-outpoint').emit('input'); release();
+      await wait(() => el('result').textContent === (control === 'build' ? 'REQUEST_RECONFIRM_REQUIRED' : 'FRESH_EVIDENCE_REQUIRED'));
+      f.options.beforeFunding = undefined;
+      assert.equal(el('sign').disabled, true); assert.equal(el('broadcast').disabled, true); assert.equal(requests.some(r => r.action === 'reserve'), false);
+    }
+    await click('review'); await click('confirm'); await click('build'); await wait(() => !el('sign').disabled);
+    revised = requests.at(-1).value; assert.deepEqual(revised.build.selectedInputs, [f.funding[2]]);
     await f.restart(); assert.equal(f.journal().get(first.id).plan.unsignedHex, revised.plan.unsignedHex);
     const mutateOriginal = async body => {
       const base = `http://127.0.0.1:${f.port()}`;
@@ -213,8 +232,10 @@ export async function driveUnsignedRevision() {
     const blockedEdits = [];
     for (const [amount, expectedState] of [['0.00003', 'SIGNING'], ['0.00002', 'UNKNOWN']]) {
       if (expectedState === 'UNKNOWN') await mutateOriginal({ action: 'uncertain', id: revised.id, revision: signing.revision, capability: revised.capability });
-      el('amount').value = amount; el('amount').emit('input'); await click('review'); await click('confirm'); await click('build');
-      await wait(() => requests.length === 3 + blockedEdits.length && el('result').textContent === 'REVISION_CONFLICT');
+      const count = requests.length;
+      el('amount').value = amount; el('amount').emit('input'); el('selected-outpoint').value = f.funding[0].txid + ':0'; el('selected-outpoint').emit('input');
+      await click('review'); await click('confirm'); await click('build');
+      await wait(() => requests.length === count + 1 && el('result').textContent === 'REVISION_CONFLICT');
       assert.equal(requests.at(-1).http, 409); assert.equal(el('sign').disabled, true); assert.equal(el('broadcast').disabled, true);
       const original = f.journal().get(revised.id); assert.equal(original.state, expectedState);
       assert.equal(original.plan.unsignedHex, revised.plan.unsignedHex); assert.deepEqual(original.envelope, signing.envelope);
@@ -251,6 +272,26 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     } finally { if (publicServer?.listening) await stop(); await f.close(); }
   });
   test('compiled UI edits 5000 to 4000 sat, reconfirms and atomically rebuilds the same unsigned payment', driveUnsignedRevision);
+  test('explicit funding selects only the confirmed input among three; null discovers all without substitution', async () => {
+    const f = await instance({ threeInputs: true });
+    try {
+      const missing = { ...f.prepare }; delete missing.selectedOutpoint;
+      for (const body of [missing, ...[{}, [], { txid: 'AA'.repeat(32), index: 0 }, { txid: f.funding[0].txid, index: -1 }, { txid: f.funding[0].txid, index: 0x100000000 }, { ...f.funding[0], extra: true }].map(selectedOutpoint => ({ ...f.prepare, selectedOutpoint }))]) assert.equal((await f.api(body)).http, 409);
+      const selected = await f.api({ ...f.prepare, selectedOutpoint: f.funding[1] }); assert.equal(selected.http, 200);
+      const first = selected.value; assert.deepEqual(first.build.selectedInputs, [f.funding[1]]);
+      const tx = decodeTransaction(hexToBin(first.plan.unsignedHex)); assert.equal(tx.inputs.length, 1); assert.equal(binToHex(tx.inputs[0].outpointTransactionHash), f.funding[1].txid);
+      const revised = await f.api({ ...f.prepare, action: 'revise', id: first.id, revision: first.revision, capability: first.capability });
+      assert.equal(revised.http, 200); assert.equal(revised.value.build.selectedInputs.length, 3); assert.equal(revised.value.plan.intentDigest, first.plan.intentDigest); assert.notEqual(revised.value.plan.planDigest, first.plan.planDigest);
+      const request = { ...f.prepare.request, requestId: 'reserved-explicit-input' };
+      assert.equal((await f.api({ ...f.prepare, request, expectedRequestDigest: createPaymentRequestDraft(request, Date.now()).draft.requestDigest, selectedOutpoint: f.funding[1] })).http, 409);
+      assert.deepEqual(f.stats(), { signs: 0, sends: 0 });
+    } finally { await f.close(); }
+    for (const options of [{ disappeared: true }, { token: true }, { disagree: true }]) {
+      const f = await instance({ threeInputs: true, ...options });
+      try { assert.equal((await f.api({ ...f.prepare, selectedOutpoint: f.funding[1] })).http, 409); assert.deepEqual(f.stats(), { signs: 0, sends: 0 }); }
+      finally { await f.close(); }
+    }
+  });
   test('unsigned revision authenticates, rejects stale CAS and rolls back conflicting input reservations', async () => {
     const f = await instance();
     try {

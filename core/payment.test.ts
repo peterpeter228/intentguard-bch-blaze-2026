@@ -29,7 +29,7 @@ test('mainnet unsigned construction preserves all terms with empty unlocks; flow
     const request = { schemaVersion: 1, kind: 'intentguard-payment-request', requestId: 'mainnet', network: 'mainnet', expiresAt: Date.now() + 60000, maxFeeBch: '0.000006', recipients: [{ address: address.address, bch: '0.00001' }] };
     const parsed = createPaymentRequestDraft(request, Date.now()); assert.equal(parsed.status, 'DRAFT_READY');
     if (parsed.status !== 'DRAFT_READY') throw Error('INVALID_FIXTURE');
-    await assert.rejects(flow.handle({ action: 'prepare', request, expectedRequestDigest: parsed.draft.requestDigest, scripts: [owner], changeScript: owner, feePolicy: build.feePolicy }), /^Error: MAINNET_CAP_ZERO$/);
+    await assert.rejects(flow.handle({ action: 'prepare', request, expectedRequestDigest: parsed.draft.requestDigest, scripts: [owner], changeScript: owner, selectedOutpoint: null, feePolicy: build.feePolicy }), /^Error: MAINNET_CAP_ZERO$/);
     assert.equal(sends, 0);
   } finally { journal.close(); rmSync(root, { recursive: true }); }
 });

@@ -46,11 +46,16 @@ export class PaymentFlow {
         sources: this.chain.sources.map(({ id, operatorId, network, genesisHash, checkpoint, maxTipAgeMs, kind }) => ({ id, operatorId, network, genesisHash, checkpoint, maxTipAgeMs, kind })) };
     }
     if (action === 'prepare' || action === 'revise') {
-      shape(input, ['action', 'request', 'expectedRequestDigest', 'scripts', 'changeScript', 'feePolicy', ...(action === 'revise' ? ['id', 'revision', 'capability'] : [])]);
+      shape(input, ['action', 'request', 'expectedRequestDigest', 'scripts', 'changeScript', 'feePolicy', 'selectedOutpoint', ...(action === 'revise' ? ['id', 'revision', 'capability'] : [])]);
       const parsed = createPaymentRequestDraft(input.request, this.clock());
       if (parsed.status !== 'DRAFT_READY' || parsed.draft.requestDigest !== input.expectedRequestDigest || parsed.draft.request.recipients.some(r => r.token)) throw Error('REQUEST_RECONFIRM_REQUIRED');
       if (parsed.draft.request.network !== 'chipnet') throw Error('MAINNET_CAP_ZERO');
       if (!Array.isArray(input.scripts) || !input.scripts.every((s): s is string => typeof s === 'string') || typeof input.changeScript !== 'string' || !input.scripts.includes(input.changeScript)) throw Error('UNKNOWN_OWNER_SCRIPT');
+      const selected = input.selectedOutpoint;
+      if (selected !== null) {
+        shape(selected, ['txid', 'index']);
+        if (!digest(selected.txid) || !Number.isSafeInteger(selected.index) || Number(selected.index) < 0 || Number(selected.index) > 0xffffffff) throw Error('INVALID_PAYMENT_SCHEMA');
+      }
       const id = paymentHash('intentguard/payment/v1\0' + parsed.draft.request.network + '\0' + parsed.draft.request.requestId);
       if (action === 'revise') {
         if (input.id !== id || !digest(input.capability) || !Number.isSafeInteger(input.revision)) throw Error('INVALID_PAYMENT_SCHEMA');
@@ -59,7 +64,7 @@ export class PaymentFlow {
         if (previous.revision !== input.revision) throw Error('REVISION_CONFLICT');
         if (previous.state !== 'PREFLIGHTED' || previous.envelope !== null || previous.signedHex !== null || previous.txid !== null || previous.observation !== null) throw Error('INVALID_TRANSITION');
       }
-      const evidence = await this.chain.funding(input.scripts);
+      const evidence = await this.chain.funding(input.scripts, selected === null ? undefined : [{ txid: String(selected.txid), index: Number(selected.index) }]);
       const context = { ownerScripts: input.scripts, changeScript: input.changeScript, snapshot: evidence.snapshot, selectedInputs: evidence.selected, feePolicy: input.feePolicy };
       const bound = buildPaymentRequestPlan(parsed.draft.request, parsed.draft.requestDigest, context, this.clock());
       if (!bound.intent || !bound.plan?.unsignedHex || !bound.binding || bound.status !== 'REQUEST_PLAN_BOUND_OFFLINE') throw Error('BUILD_REJECTED');

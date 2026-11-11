@@ -1,5 +1,6 @@
 import { DappConnectionManager } from '@wizardconnect/dapp';
 import { initiateDappRelay, RelayMsgAction, isHdwalletv1Session, type DappRelayResult, type SignTransactionRequest } from '@wizardconnect/core';
+import { sourceOutputToRelay } from '@wizardconnect/core/hdwalletv1-serialize';
 import { binToHex, hexToBin, decodeTransaction, hashTransaction, hash160, sha256, decodeHdPublicKey } from '@bitauth/libauth';
 import { deriveSessionOwnership, type PathBinding, type PublicKeySession } from './evidence.js';
 import type { UnsignedBuildResult } from './unsigned-builder.js';
@@ -97,7 +98,7 @@ export class ConnectedWallet implements PublicKeySession {
       const path = paths.find(p => p.script === source.sourceOutput.script);
       if (!path) throw Error('UNKNOWN_WALLET_PATH');
       inputPaths.push([index, path.childIndex === 0 ? 'receive' : 'change', path.index]);
-      return { ...input, lockingBytecode: hexToBin(source.sourceOutput.script), valueSatoshis: BigInt(source.sourceOutput.satoshis) };
+      return sourceOutputToRelay({ ...input, lockingBytecode: hexToBin(source.sourceOutput.script), valueSatoshis: BigInt(source.sourceOutput.satoshis) });
     });
     this.pending = { ...envelope };
     const abort = (): void => this.disconnect();

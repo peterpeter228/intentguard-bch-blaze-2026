@@ -11,6 +11,13 @@ const text = (id: string, value: unknown): void => { el(id).textContent = typeof
 const value = (id: string): string => el<HTMLInputElement>(id).value;
 const enabled = (id: string, on: boolean): void => { el<HTMLButtonElement>(id).disabled = !on; };
 const network = (): string => value('network');
+function selectedOutpoint(): { txid: string; index: number } | null {
+  const raw = value('selected-outpoint');
+  if (raw === '') return null;
+  const match = /^([0-9a-f]{64}):(0|[1-9][0-9]{0,9})$/.exec(raw);
+  if (!match || Number(match[2]) > 0xffffffff) throw Error('INVALID_SELECTED_OUTPOINT');
+  return { txid: match[1]!, index: Number(match[2]) };
+}
 let epoch = 0, draft: PaymentRequestDraft | null = null, fingerprint = '', confirmed = false;
 let op: PaymentRecord | null = null, capability = '', paths: PathBinding[] = [], verified: { envelope: SignEnvelope; signedHex: string } | null = null;
 let controller = new AbortController(), busy = false;
@@ -49,7 +56,7 @@ void api({ action: 'config' }).then(config => {
   if (mode === 'public-demo') text('wallet-state', publicRestriction);
 }).catch(() => text('wallet-state', 'Runtime config unavailable — wallet actions disabled.'));
 function fields(): string {
-  return JSON.stringify(['network', 'recipient', 'amount', 'max-fee', 'target-rate', 'max-rate', 'ttl', 'receive-index', 'change-index', 'offline-context'].map(value).concat(String(el<HTMLInputElement>('chain-ack').checked), wallet.currentSessionId() ?? ''));
+  return JSON.stringify(['network', 'recipient', 'amount', 'max-fee', 'target-rate', 'max-rate', 'ttl', 'receive-index', 'change-index', 'selected-outpoint', 'offline-context'].map(value).concat(String(el<HTMLInputElement>('chain-ack').checked), wallet.currentSessionId() ?? ''));
 }
 function invalidate(): void {
   epoch++; confirmed = false; draft = null; verified = null; controller.abort();
@@ -75,7 +82,7 @@ function owned(): string {
   if (deriveSessionOwnership(wallet, session, paths, Date.now()).status !== 'SESSION_DERIVED') throw Error('OWNERSHIP_REQUIRED');
   return session;
 }
-for (const id of ['network', 'chain-ack', 'recipient', 'amount', 'max-fee', 'target-rate', 'max-rate', 'ttl', 'receive-index', 'change-index', 'offline-context']) el(id).addEventListener('input', () => {
+for (const id of ['network', 'chain-ack', 'recipient', 'amount', 'max-fee', 'target-rate', 'max-rate', 'ttl', 'receive-index', 'change-index', 'selected-outpoint', 'offline-context']) el(id).addEventListener('input', () => {
   if (id === 'network') { wallet.disconnect(); enabled('connect', mode === 'private-loopback' && network() === 'chipnet'); }
   invalidate();
 });
@@ -107,7 +114,7 @@ action('review', () => {
   if (parsed.status !== 'DRAFT_READY') throw Error(parsed.issue);
   draft = parsed.draft; fingerprint = fields(); confirmed = false;
   text('terms-summary', { network: draft.request.network, recipients: draft.display.recipients, maxFeeSatoshis: draft.display.maxFeeSatoshis,
-    targetRate: value('target-rate'), maximumRate: value('max-rate'), expiresAt: new Date(draft.request.expiresAt).toISOString(), mainnetCapSatoshis: '0' });
+    targetRate: value('target-rate'), maximumRate: value('max-rate'), expiresAt: new Date(draft.request.expiresAt).toISOString(), selectedOutpoint: selectedOutpoint(), mainnetCapSatoshis: '0' });
   enabled('confirm', true); enabled('build', false);
 });
 action('confirm', () => { if (!draft || fingerprint !== fields()) throw Error('REQUEST_RECONFIRM_REQUIRED'); confirmed = true; enabled('build', true); text('result', 'Confirmed independent terms. Build next; no wallet prompt yet.'); });
@@ -123,15 +130,16 @@ action('build', async () => {
   }
   if (mode !== 'private-loopback') throw Error('PUBLIC_DEMO_READ_ONLY');
   owned();
-  const prior = op;
+  const prior = op, selected = selectedOutpoint();
   const raw = await api({ action: prior ? 'revise' : 'prepare', ...(prior ? { id: prior.id, revision: prior.revision, capability } : {}),
-    request: d.request, expectedRequestDigest: d.requestDigest, scripts: paths.map(p => p.script), changeScript: paths[1]!.script, feePolicy: policy });
+    request: d.request, expectedRequestDigest: d.requestDigest, scripts: paths.map(p => p.script), changeScript: paths[1]!.script, feePolicy: policy, selectedOutpoint: selected });
   const candidate = acceptOperation(raw);
   if (prior && (candidate.id !== prior.id || candidate.revision !== prior.revision + 1)) throw Error('INVALID_PAYMENT_RESPONSE');
   localStorage.setItem('intentguard/payment/original-id', candidate.id); // Public recovery ID only, before any prompt.
   if (!raw || typeof raw !== 'object' || !('capability' in raw) || typeof raw.capability !== 'string' || !/^[0-9a-f]{64}$/.test(raw.capability)) throw Error('CAPABILITY_REQUIRED');
   op = candidate; capability = raw.capability;
   if (captured !== epoch || fingerprint !== fields()) throw Error('REQUEST_RECONFIRM_REQUIRED');
+  if (selected && (candidate.build.selectedInputs.length !== 1 || candidate.build.selectedInputs[0]?.txid !== selected.txid || candidate.build.selectedInputs[0]?.index !== selected.index)) throw Error('CANDIDATE_SUBSTITUTED');
   const bound = buildPaymentRequestPlan(d.request, d.requestDigest, { ownerScripts: paths.map(p => p.script), changeScript: paths[1]!.script, snapshot: candidate.build.snapshot,
     selectedInputs: candidate.build.selectedInputs, feePolicy: policy }, Date.now());
   if (bound.plan?.unsignedHex !== candidate.plan.unsignedHex || bound.plan?.planDigest !== candidate.plan.planDigest || candidate.requestDigest !== d.requestDigest) throw Error('CANDIDATE_SUBSTITUTED');

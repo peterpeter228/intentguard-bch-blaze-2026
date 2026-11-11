@@ -1,46 +1,43 @@
 # IntentGuard / BCH BLAZE — Progress
 
-## Current: intentguard-live-20261111 — local public boundary; live acceptance pending
+## Current: intentguard-live-20261111 — consumer repairs verified locally; live gates pending
 
-Change log: added exact public Host/HTTPS Origin admission, validated PORT/external
-bind only in public-demo, config-first wallet handler/control restriction and
-config/read/get-only payment API. Added Vercel static proxy/header configuration,
-allowlisted Node24 Docker packaging and explicit create-exclusive/strict-reopen
-deployment instructions. No storage schema, dependencies, lock or mainnet cap change.
-Decided disclosure fields are packaged; Q_PRE_DEMO remains an explicit placeholder.
+Change log: exact public Host/HTTPS Origin admission, validated PORT/public bind,
+config-first wallet restrictions, config/read/get-only public payment API, Vercel
+static proxy and Node24 Docker packaging remain. Create-exclusive/strict-reopen,
+private journal rules, dependencies/schema and mainnet cap0 are unchanged.
+Plan exception/static gate3 adds official sourceOutputToRelay at the validated
+adapter boundary and confirmed selected-outpoint through UI/HTTP/Flow funding.
+Null retains default discovery; explicit selection never substitutes other UTXOs.
+Selection edits invalidate confirmation and planDigest/revision/input reservations
+bind the rebuilt candidate. SIGNING/UNKNOWN cannot gain replacement authority.
 
-Local Node24 locked install/native rebuild, validation279/279, production runtime
-create/reopen/unsafe/missing/corrupt refusals, public API no-allocation negatives,
-unsigned HTTP draft public readback across reopen, builder1512-case mutation/
-restoration and bounded TLC332states/868steps passed. Source-broken open/public
-guards are detected and original sources retained. These are local/fixture proofs,
-not browser, cloud restart, stock wallet, live transaction or independent acceptance.
-Exact final-candidate command results are external in task artifacts/implementation-1.
+Node24 locked install/native rebuild and validate279/279 pass (one obsolete wiring
+test removed, one funding-behavior regression added). Production build/runtime
+create/reopen/unsafe/missing/corrupt refusals, public admission, exact selected-input
+HTTP/SQLite and async build/preflight edit refusals pass. Builder1512-case source
+mutation/restoration and actual pinned TLC332states/868steps/nine rules pass.
+Isolated compiled UI→HTTP→SQLite→real encrypted SDK wire→full-parent crypto→one
+synthetic send reaches OBSERVED and reopens the original hash with sign/send1/1.
+Preserved adapter/flow controls fail native-wire/exact-selection properties; repaired
+and restored controls pass. No protected identity or live financial attempt occurred.
+Exact serialized private bootstrap selects only the approved input among three,
+prepares an unsigned row with null signedHex/envelope/txid and zero sign/send, then
+production read-only startup strictly reopens and preserves it. This is LOCAL fixture
+proof, not Railway persistence or browser evidence. Old failures/source hashes stay
+immutable; current commands/results/candidate binding are in task artifacts/implementation-3.
 
-Fresh public selection reports THREE ordinary confirmed inputs at the funded script,
-including the approved10000sat outpoint; current prepare selects all three. The
-fixed-one-input gate stopped BEFORE protected identity/session/sign/send. Both frozen
-explorers show that original funding output unspent in block331589,232confirmations;
-funding is not a payment receipt. No faucet requested.
-
-An isolated encrypted real-SDK fixture reached UNKNOWN without a wallet signature
-or send: ConnectedWallet passes native BigInt sourceOutputs to RelayClient's JSON
-codec. Official sourceOutputToRelay fixes the isolated wire/signature fixture but
-the product adapter is unchanged. Exact-input UI/API and adapter corrections require
-a named plan/file-ceiling exception; no fake session, filtered source or shim applied.
-Task-private guarded driver/counterpart, public gate and independent receipt helper
-exist, but the complete driver fixture is RED. Do not launch it with secrets yet.
-
-Next/resume: owner/parent resolves the bounded correction exception in QUESTIONS;
-same task_id, then fresh candidate Astra + green checks before any publication.
-Parent still owns native accepted-main deployment, anonymous browser/proxy checks,
-real volume bootstrap/redeploy/restart and the sole secret-enabled Chipnet continuation.
+Next/resume: parent obtains fresh independent candidate/runtime Astra PASS+green
+before separately permitted publication. Then native accepted-main Vercel/Railway
+deployment, anonymous HTTPS browser/proxy checks, exclusive bootstrap→strict-command
+REDEPLOY→actual restart/persistence, fresh fixed-source funding gate, and the sole
+secret-enabled Chipnet continuation plus independent original receipt/live closeout.
 Targets https://intentguard-bch.vercel.app and
-https://intentguard-api-production.up.railway.app are **not verified deployments** here.
-Candidate SHA is bound externally in IMPLEMENTATION_RESULT.json, not self-embedded.
+https://intentguard-api-production.up.railway.app are NOT verified deployments here.
 No child push/merge/deploy/browser, protected identity startup, live sign/send,
 Notion/Linear, visibility/license/IP/submission/outreach or consumed-operation replay.
-Historical STATUS/NEXT_ACTION checkpoints below remain historical, not current denial.
+Q_PRE_DEMO stays an explicit placeholder. Historical STATUS/NEXT_ACTION entries below
+remain history, not current scope denial. Exact candidate SHA is external, not self-embedded.
 
 ## Historical: intentguard-mainnet-20261109 — code accepted / live WP2 BLOCKED_EXTERNAL
 

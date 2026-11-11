@@ -68,18 +68,6 @@ test('mainnet and already-aborted invocation refuse before relay allocation/sign
     assert.equal(h.messages.filter(m => m.action === RelayMsgAction.SignTransactionRequest).length, 0);
   } finally { h.wallet.disconnect(); }
 });
-test('actual low-level SDK request uses complete source input+output and broadcast:false; response binds sequence', async () => {
-  const h = harness();
-  try {
-    h.connect(); const { plan, envelope, bindings } = h.candidate();
-    const promise = h.wallet.sign('chipnet', envelope, plan, bindings, new AbortController().signal);
-    const request = h.messages.find(m => m.action === RelayMsgAction.SignTransactionRequest) as SignTransactionRequest;
-    assert.equal(request.transaction.broadcast, false); assert.deepEqual(request.inputPaths, [[0, 'receive', 0]]);
-    assert.equal(request.transaction.sourceOutputs[0]!.outpointIndex, 0); assert.equal(request.transaction.sourceOutputs[0]!.valueSatoshis, 10000n);
-    h.wire.emit('message', { action: RelayMsgAction.SignTransactionResponse, sequence: envelope.sequence, time: Math.floor(Date.now() / 1000), signedTransaction: '0100' });
-    assert.deepEqual(await promise, { envelope, signedHex: '0100' });
-  } finally { h.wallet.disconnect(); }
-});
 test('candidate/session substitutions refuse; cancellation removes SDK pending replay and late callback cannot sign again', async () => {
   const h = harness();
   try {

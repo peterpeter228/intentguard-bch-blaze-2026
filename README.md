@@ -2,10 +2,15 @@
 
 Public mode is **read-only**, not a deployed or completed payment claim.
 Mainnet cap remains hard-coded **0 sat**, unsigned/offline only. Private-loopback
-keeps the existing guarded Chipnet flow; live completion remains blocked by the
-SDK wire codec and exact-input selection prerequisites in current task evidence.
+keeps the guarded Chipnet flow. SDK-wire and confirmed-input repairs pass local
+consumer checks; real payment, deployment and browser acceptance remain parent-pending.
 Read [current progress](PROGRESS.md), [payment boundaries](core/PAYMENT_FLOW.md)
 and [pre-existing work](docs/PRE_EXISTING_WORK.md). Older status entries are historical.
+
+`/pay` displays and confirms the optional `selected-outpoint` (`lowercase txid:index`).
+Prepare/revise require `selectedOutpoint: null | {txid,index}`; null discovers funds,
+explicit selection never substitutes another input. Selection edits invalidate consent.
+The adapter uses the locked SDK's official relay codec after validating native sources.
 
 Use Node24 and the unchanged lockfile/native rebuild instructions below:
 
