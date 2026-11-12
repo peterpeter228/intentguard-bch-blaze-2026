@@ -133,7 +133,8 @@ const server = createServer(async (req, res) => {
   res.setHeader('Cache-Control', 'no-store'); res.setHeader('X-Content-Type-Options', 'nosniff'); res.setHeader('Referrer-Policy', 'no-referrer');
   res.setHeader('Content-Security-Policy', "default-src 'self'; connect-src 'self' wss://relay.riften.net:443; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'");
   const address = server.address(), port = address && typeof address !== 'string' ? address.port : 8788;
-  if (!singleHeader(req, 'host') || !(publicDemo ? publicHosts : [`localhost:${port}`, `127.0.0.1:${port}`]).includes(req.headers.host ?? '')) { reply(res, 403, 'HOST_REJECTED'); return; }
+  const healthRead = publicDemo && req.method === 'GET' && req.url === '/pay' && req.headers.host === 'healthcheck.railway.app';
+  if (!singleHeader(req, 'host') || (!healthRead && !(publicDemo ? publicHosts : [`localhost:${port}`, `127.0.0.1:${port}`]).includes(req.headers.host ?? ''))) { reply(res, 403, 'HOST_REJECTED'); return; }
   if (req.url === '/api/payment' || req.url === '/api/xo-candidate') {
     if (active >= 8) { reply(res, 503, 'BUSY'); return; }
     if (req.url === '/api/payment' && !flow) { reply(res, 503, 'PAYMENT_JOURNAL_REQUIRED'); return; }

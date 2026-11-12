@@ -1,4 +1,5 @@
 import { test } from 'node:test';
+import { request as httpRequest } from 'node:http';
 import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
 import { mkdtemp, rm, readFile } from 'node:fs/promises';
@@ -251,6 +252,68 @@ export async function driveUnsignedRevision() {
   }
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  test('Railway health Host admits only public-demo GET /pay without API authority', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'intentguard-health-'));
+    const journal = PaymentJournal.create(join(root, 'journal'));
+    const flow = new PaymentFlow(journal, new PaymentChain());
+    let server;
+    const health = 'healthcheck.railway.app', publicHost = 'intentguard-api-production.up.railway.app';
+    const call = (path, method = 'GET', host = health, origin, body) => new Promise((resolve, reject) => {
+      const headers = ['Host', host, ...(origin ? ['Origin', origin] : []), ...(body ? ['Content-Type', 'application/json'] : [])];
+      const req = httpRequest({ hostname: '127.0.0.1', port: server.address().port, path, method, headers }, res => {
+        let text = ''; res.on('data', b => text += b);
+        res.on('end', () => resolve({ status: res.statusCode, headers: res.headers, text }));
+      });
+      req.on('error', reject); req.setTimeout(5000, () => req.destroy(Error('HTTP_TEST_TIMEOUT'))); req.end(body);
+    });
+    const stop = async () => { server.closeAllConnections(); await new Promise(r => server.close(r)); };
+    try {
+      server = createPaymentServer(flow, undefined, true); await new Promise(r => server.listen(0, '127.0.0.1', r));
+      const healthy = await call('/pay');
+      assert.equal(healthy.status, 200, 'Railway GET /pay must serve the static payment page');
+      assert.equal(healthy.text, await readFile(new URL('./payment.html', import.meta.url), 'utf8'));
+      assert.equal(healthy.headers['cache-control'], 'no-store'); assert.equal(healthy.headers['x-content-type-options'], 'nosniff');
+      assert.equal(healthy.headers['referrer-policy'], 'no-referrer'); assert.match(healthy.headers['content-security-policy'], /frame-ancestors 'none'/);
+      for (const path of ['/api/payment', '/api/xo-candidate', '/', '/request', '/payment.js', '/style.css', '/pay?probe=1', '/pay/', '/missing']) {
+        for (const method of ['GET', 'POST']) {
+          const r = await call(path, method, health, 'https://' + publicHost, method === 'POST' ? '{"action":"config"}' : undefined);
+          assert.equal(r.status, 403, method + ' ' + path); assert.equal(JSON.parse(r.text).issue, 'HOST_REJECTED');
+        }
+      }
+      for (const method of ['HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']) assert.equal((await call('/pay', method)).status, 403, method);
+      for (const host of [health + ':8080', health.toUpperCase(), health + '.', health + '.evil.example', publicHost + ':443', '127.0.0.1:' + server.address().port]) {
+        assert.equal((await call('/pay', 'GET', host)).status, 403, host);
+      }
+      // Raw duplicate Host headers must not acquire the static exception.
+      const duplicate = await new Promise((resolve, reject) => {
+        const req = httpRequest({ hostname: '127.0.0.1', port: server.address().port, path: '/pay', headers: ['Host', health, 'Host', health] }, res => {
+          res.resume(); res.on('end', () => resolve(res.statusCode));
+        });
+        req.on('error', reject); req.setTimeout(5000, () => req.destroy(Error('HTTP_TEST_TIMEOUT'))); req.end();
+      });
+      assert.equal(duplicate, 403);
+      for (const host of [publicHost, 'intentguard-bch.vercel.app']) {
+        assert.equal((await call('/pay', 'GET', host)).status, 200);
+        for (const origin of ['https://' + publicHost, 'https://intentguard-bch.vercel.app']) {
+          const config = await call('/api/payment', 'POST', host, origin, '{"action":"config"}');
+          assert.equal(config.status, 200); assert.equal(JSON.parse(config.text).mode, 'public-demo'); assert.equal(JSON.parse(config.text).mainnetCapSatoshis, '0');
+        }
+      }
+      for (const origin of [undefined, 'https://' + health, 'http://' + publicHost, 'https://evil.example']) {
+        const r = await call('/api/payment', 'POST', publicHost, origin, '{"action":"config"}');
+        assert.equal(r.status, 403); assert.equal(JSON.parse(r.text).issue, 'ORIGIN_REJECTED');
+      }
+      for (const action of ['prepare', 'revise', 'reserve', 'signed', 'uncertain', 'broadcast', 'observe']) {
+        const r = await call('/api/payment', 'POST', publicHost, 'https://' + publicHost, JSON.stringify({ action }));
+        assert.equal(r.status, 403); assert.equal(JSON.parse(r.text).issue, 'PUBLIC_DEMO_READ_ONLY');
+      }
+      await stop(); server = createPaymentServer(flow); await new Promise(r => server.listen(0, '127.0.0.1', r));
+      assert.equal((await call('/pay')).status, 403, 'private runtime has no health Host exception');
+      const localHost = '127.0.0.1:' + server.address().port;
+      assert.equal((await call('/api/payment', 'POST', localHost, 'http://' + localHost, '{"action":"config"}')).status, 200);
+      assert.equal((await call('/api/payment', 'POST', localHost, 'https://' + health, '{"action":"config"}')).status, 403);
+    } finally { if (server?.listening) await stop(); journal.close(); await rm(root, { recursive: true }); }
+  });
   test('public demo reads an unsigned HTTP-prepared draft unchanged across strict journal reopen', async () => {
     const f = await instance(); let publicServer;
     const launch = async () => { publicServer = createPaymentServer(new PaymentFlow(f.journal(), f.chain), undefined, true); await new Promise(r => publicServer.listen(0, '127.0.0.1', r)); };
