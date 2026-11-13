@@ -1,6 +1,23 @@
 # IntentGuard / BCH BLAZE — Progress
 
-## Current: intentguard-live-20261111 — pre-deploy PASS; live gates PENDING
+## Current: intentguard-live-20261111 rev17 — health code PASS; live proof pending
+
+Accepted runtime candidate: `940713b68d3cb9b77694eccfe7ceb78c8d963e31`.
+Fresh independent Astra acceptance (2026-11-13): scoped PREDEPLOY CODE / H3
+read-only diagnostic safety PASS, focused HTTP 13/13. Builder validate 280/280
+and production build passed; old compiled health regression failed before repair.
+Exact public-demo GET /pay admits Railway health Host only; APIs, other paths,
+non-GET, duplicate Host and Origin/mutation boundaries remain denied/unchanged.
+No dependency, wallet or payment state-machine change.
+Evidence: shared task artifacts/health-followup-17/acceptance/verify-evidence.md.
+Next/resume: parent publishes this reviewed source, deploys the original Railway
+service/volume, inspects original journal read-only, verifies browser/API and
+actual original nonempty-row restart retention. These live gates are PENDING.
+Payment PAUSED; no helper/sign/send/faucet/reconcile; mainnet 0 sat; txid null.
+Prior payment allowance remains consumed; no automatic financial retry.
+Q_PRE_DEMO remains owner-pending. New metadata commit changes this file only.
+
+## Historical: prior pre-deploy checkpoint (superseded by rev17 scope)
 
 Change log: exact public Host/HTTPS Origin admission, validated PORT/public bind,
 config-first wallet restrictions, config/read/get-only public payment API, Vercel
