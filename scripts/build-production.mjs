@@ -11,8 +11,9 @@ const bannerPath = join(out, 'public/index.html');
 let banner = await readFile(bannerPath, 'utf8');
 for (const [field, decided] of Object.entries({ SLIDES_URL: '<a href="https://docs.google.com/presentation/d/1TwJWG2ECG8dBk-DYNTwLw9T35JaWD5BTvXSxTPKQVIk/edit?usp=sharing">Introduction slides</a>',
   EMBER2026_ADDRESS: 'bitcoincash:zzkuruucxhqr7sx77ee8uyvvagw7atrf3520fhy2ds', OLD_REPO_URL: 'https://github.com/peterpeter228/intentguard-bch (private)',
-  NEW_REPO_URL: 'Owner will specify public contest repository after contest starts' })) banner = banner.replace('TODO_OWNER_' + field, decided);
-banner = banner.replace('Owner-controlled fields are missing.', 'Pre-hackathon demo URL remains owner-pending.');
+  NEW_REPO_URL: 'peterpeter228/intentguard-bch-blaze-2026 — post-kickoff placeholder; not yet created or published',
+  PRE_HACK_DEMO_URL: '<a href="https://intentguard-pdyx17t6x-peterpeter228s-projects.vercel.app/">Pre-event offline demonstration</a> — not mainnet-usable' })) banner = banner.replace('TODO_OWNER_' + field, decided);
+banner = banner.replace('Owner-controlled fields are missing.', 'Owner-selected fixed pre-event offline demonstration; not contest-period work.');
 await writeFile(bannerPath, banner);
 await build({ entryPoints: ['core/server.ts'], outfile: join(out, 'server.mjs'), bundle: true, platform: 'node', format: 'esm', packages: 'external', legalComments: 'eof' });
 for (const name of ['package.json', 'package-lock.json']) await copyFile(name, join(out, name));
