@@ -2,6 +2,7 @@ import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import { drivePayment, driveUnsignedRevision } from '../../../../core/payment-http.test.mjs';
+import { visitorModel } from './visitor-model.mjs';
 
 const destination = resolve(process.argv[2] ?? 'dist/payment-model-' + Date.now());
 await mkdir(destination);
@@ -86,4 +87,6 @@ const evidence = { kind: 'BOUNDED_CODE_ANCHORED_ABSTRACTION_NOT_WHOLE_PROGRAM_PR
   excluded: ['arbitrary interleavings outside named awaits', 'unbounded inputs', 'cryptography/TLS internals', 'malicious SDK/wallet broadcasts', 'browser security', 'hardware durability'],
   hiddenSteps: ['refused doubleclick/wait self-steps', 'duplicate callback refusals'], next: 'Run pinned official /statechart against generated spec+cfg+view and retain its TLC/report/chart. Read every counterexample; replay via actual HTTP/SDK harness before calling it a code bug.' };
 await writeFile(destination + '/model-source.json', JSON.stringify(evidence, null, 2) + '\n');
+const visitor = await visitorModel(destination);
+console.log(JSON.stringify({ visitor }, null, 2));
 console.log(JSON.stringify(evidence, null, 2));

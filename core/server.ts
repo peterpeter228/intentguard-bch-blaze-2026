@@ -6,6 +6,7 @@ import { buildPaymentRequestPlan } from './request-plan.js';
 import { PaymentFlow } from './payment-flow.js';
 import { PaymentChain } from './payment-chain.js';
 import { PaymentJournal } from './operation-store.js';
+import { VisitorPaymentReader } from './visitor-payment-reader.js';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
 
@@ -68,7 +69,7 @@ function sameOrigin(req: IncomingMessage, publicDemo: boolean): boolean {
   if (req.headers['sec-fetch-dest'] !== undefined && req.headers['sec-fetch-dest'] !== 'empty') return false;
   return req.headers['sec-fetch-user'] === undefined;
 }
-async function candidate(req: IncomingMessage, res: ServerResponse, flow?: PaymentFlow, publicDemo = false): Promise<void> {
+async function candidate(req: IncomingMessage, res: ServerResponse, flow?: PaymentFlow | VisitorPaymentReader, publicDemo = false): Promise<void> {
   // Aborted streams may emit a later error after body listeners are removed.
   req.on('error', () => {});
   if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); reply(res, 405, 'METHOD_NOT_ALLOWED'); return; }
@@ -99,10 +100,10 @@ async function candidate(req: IncomingMessage, res: ServerResponse, flow?: Payme
   if (res.destroyed || req.aborted) return;
   try {
     if (flow) {
-      if (publicDemo && !['config', 'read', 'get'].includes(String(input.action))) { reply(res, 403, 'PUBLIC_DEMO_READ_ONLY'); return; }
+      if (publicDemo && flow instanceof PaymentFlow && !['config', 'read', 'get'].includes(String(input.action))) { reply(res, 403, 'PUBLIC_DEMO_READ_ONLY'); return; }
       const handled = await flow.handle(input);
       if (input.action === 'config' && !isRecord(handled)) throw Error('INVALID_PAYMENT_RESPONSE');
-      const result = input.action === 'config' && isRecord(handled) ? { ...handled, mode: publicDemo ? 'public-demo' : 'private-loopback' } : handled, json = JSON.stringify(result);
+      const result = input.action === 'config' && isRecord(handled) ? { ...handled, mode: flow instanceof VisitorPaymentReader ? 'visitor-wallet' : publicDemo ? 'public-demo' : 'private-loopback' } : handled, json = JSON.stringify(result);
       if (Buffer.byteLength(json) > 1600000) { reply(res, 503, 'PAYMENT_UNAVAILABLE'); return; }
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' }); res.end(json); return;
     }
@@ -127,7 +128,7 @@ async function candidate(req: IncomingMessage, res: ServerResponse, flow?: Payme
     reply(res, 409, flow ? allowed.test(code) ? code : 'PAYMENT_UNAVAILABLE_RECONCILE_ORIGINAL' : 'DIAGNOSTIC_UNAVAILABLE');
   }
 }
-export function createPaymentServer(flow?: PaymentFlow, publicRoot?: string, publicDemo = false) {
+export function createPaymentServer(flow?: PaymentFlow | VisitorPaymentReader, publicRoot?: string, publicDemo = false) {
 let active = 0;
 const server = createServer(async (req, res) => {
   res.setHeader('Cache-Control', 'no-store'); res.setHeader('X-Content-Type-Options', 'nosniff'); res.setHeader('Referrer-Policy', 'no-referrer');
@@ -144,7 +145,12 @@ const server = createServer(async (req, res) => {
   }
   const asset = assets[req.url ?? ''];
   if (req.method !== 'GET' || !asset) { res.writeHead(404); res.end(); return; }
-  try { const data = await readFile(publicRoot ? resolve(publicRoot, req.url === '/' ? 'index.html' : req.url === '/pay' ? 'pay.html' : req.url === '/request' ? 'request.html' : req.url!.slice(1)) : new URL(asset[0], import.meta.url)); res.writeHead(200, { 'Content-Type': asset[1] + '; charset=utf-8' }); res.end(data); }
+  try {
+    const visitorBundle = req.url === '/payment.js' && flow instanceof VisitorPaymentReader;
+    const file = req.url === '/' ? 'index.html' : req.url === '/pay' ? 'pay.html' : req.url === '/request' ? 'request.html' : visitorBundle ? 'visitor-payment.js' : req.url!.slice(1);
+    const data = await readFile(publicRoot ? resolve(publicRoot, file) : new URL(visitorBundle ? './visitor-payment.js' : asset[0], import.meta.url));
+    res.writeHead(200, { 'Content-Type': asset[1] + '; charset=utf-8' }); res.end(data);
+  }
   catch { res.writeHead(500); res.end('Build the local core demo first.'); }
 });
 server.requestTimeout = 20000; server.headersTimeout = 10000; server.keepAliveTimeout = 1000; server.maxConnections = 32;
@@ -153,12 +159,15 @@ return server;
 if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) {
   const mode = process.env.INTENTGUARD_MODE ?? 'private-loopback';
   const portText = process.env.PORT ?? '8788';
-  if (!['private-loopback', 'public-demo'].includes(mode) || !/^[1-9][0-9]{0,4}$/.test(portText) || Number(portText) > 65535) throw Error('INVALID_RUNTIME_CONFIG');
-  const publicDemo = mode === 'public-demo', port = Number(portText);
+  if (!['private-loopback', 'public-demo', 'visitor-wallet'].includes(mode) || !/^[1-9][0-9]{0,4}$/.test(portText) || Number(portText) > 65535) throw Error('INVALID_RUNTIME_CONFIG');
+  const publicDemo = mode !== 'private-loopback', port = Number(portText);
   const directory = process.env.INTENTGUARD_PAYMENT_DIR;
-  const journal = directory ? process.argv.includes('--create-payment-journal') ? PaymentJournal.create(directory) : PaymentJournal.open(directory) : null;
-  const flow = journal ? new PaymentFlow(journal, new PaymentChain()) : undefined;
-  if (publicDemo && !journal) throw Error('PAYMENT_JOURNAL_REQUIRED');
+  // Visitor startup never opens, creates, migrates or reads the production journal,
+  // even when the previous service environment still contains its directory.
+  if (mode === 'visitor-wallet' && process.argv.includes('--create-payment-journal')) throw Error('VISITOR_STATELESS_ONLY');
+  const journal = mode !== 'visitor-wallet' && directory ? process.argv.includes('--create-payment-journal') ? PaymentJournal.create(directory) : PaymentJournal.open(directory) : null;
+  const flow = mode === 'visitor-wallet' ? new VisitorPaymentReader() : journal ? new PaymentFlow(journal, new PaymentChain()) : undefined;
+  if (mode === 'public-demo' && !journal) throw Error('PAYMENT_JOURNAL_REQUIRED');
   const server = createPaymentServer(flow, process.env.INTENTGUARD_PUBLIC_ROOT, publicDemo);
   const host = publicDemo ? '0.0.0.0' : '127.0.0.1';
   server.listen(port, host, () => console.log(`IntentGuard ${mode} http://${host}:${port}; mainnet cap0; no server wallet.`));

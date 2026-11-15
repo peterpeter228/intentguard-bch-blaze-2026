@@ -1,3 +1,28 @@
+# Event-period increment boundary — WPREV4,2026-11-15
+
+Immutable qualification baseline `78e6ab6b9f072b8bde8f3cd5d2474bfdf7a426dd`
+has actual author/committer time 2026-11-14T20:13:33+08:00, before kickoff
+2026-11-14T22:00:00+08:00. WPREV4 visitor-wallet/IndexedDB/native handoff,
+attributed mainnet reads and stateless packaging are created after kickoff;
+exact candidate/commit dates are bound externally, never backdated/self-embedded.
+
+Fixed pre-event offline demo:
+https://intentguard-pdyx17t6x-peterpeter228s-projects.vercel.app/ from historical
+`275ba32d0677aa9e44aaa76f641b42d9f8f0683a`, distinct from qualification baseline.
+Old https://github.com/peterpeter228/intentguard-bch remains private.
+Approved new source peterpeter228/intentguard-bch-blaze-2026 is NOT published here.
+An independent public copy is not organizer-proven associated-fork eligibility.
+Actual wallet/payment, Chipnet receipt, original nonempty-row restart, deployment,
+independent candidate acceptance and ordinary submission remain separate evidence.
+No existing-license/ownership change or bounty IP waiver. Publication review limits:
+
+WPREV4 local snapshot review inventories every proposed file/hash without publishing
+history; it found no high-confidence credential pattern. Historical screenshots
+still require visual privacy review, and source/history selection is NOT cleared.
+WizardConnect LGPLv3 notice/source/relinking obligations and fixture notices remain;
+no root project license grant was established. Do not infer permission to relicense
+or publicly release the entire old private repository. Publication stays gated.
+
 # Pre-existing work disclosure — PRESEASON
 
 All work below predates the announced November14–22,2026 hacking window. This is

@@ -23,16 +23,19 @@ export class ConnectedWallet implements PublicKeySession {
   private cancelled: SignEnvelope | null = null;
   private timer: NodeJS.Timeout | undefined;
   private closed = true;
+  private network: string | null = null;
   constructor(private readonly changed: () => void, private readonly start: RelayStarter = initiateDappRelay,
-    private readonly quarantine: (envelope: SignEnvelope, signedHex: string) => void = () => {}) {}
+    private readonly quarantine: (envelope: SignEnvelope, signedHex: string) => void = () => {},
+    private readonly allowedNetwork: 'chipnet' | 'mainnet' = 'chipnet') {}
   currentSessionId(): string | null { return this.live && !this.closed ? this.session : null; }
   hasPath(childIndex: number): boolean { return this.currentSessionId() !== null && this.manager.hasPath(childIndex); }
   getPubkey(childIndex: number, index: bigint): Uint8Array | undefined { return this.currentSessionId() ? this.manager.getPubkey(childIndex, index) : undefined; }
   connect(network: string): string {
-    if (network !== 'chipnet') throw Error('MAINNET_CAP_ZERO');
+    if (network !== this.allowedNetwork) throw Error('MAINNET_CAP_ZERO');
     if (!this.closed) throw Error('CONNECTION_EXISTS');
     this.manager = new DappConnectionManager('IntentGuard PRESEASON', undefined, { session: false });
     this.closed = false;
+    this.network = network;
     this.manager.on('messagereceived', msg => {
       if (msg.action === RelayMsgAction.SignTransactionResponse && this.cancelled && 'sequence' in msg && msg.sequence === this.cancelled.sequence &&
           'signedTransaction' in msg && typeof msg.signedTransaction === 'string' && msg.signedTransaction.length <= 200000 && /^(?:[0-9a-f]{2})+$/.test(msg.signedTransaction)) {
@@ -77,13 +80,13 @@ export class ConnectedWallet implements PublicKeySession {
   }
   nextSequence(network: string, signal: AbortSignal): number {
     if (signal.aborted) throw Error('ABORTED');
-    if (network !== 'chipnet') throw Error('MAINNET_CAP_ZERO');
+    if (network !== this.allowedNetwork || network !== this.network) throw Error('MAINNET_CAP_ZERO');
     if (!this.currentSessionId() || this.pending) throw Error('SESSION_UNAVAILABLE');
     return this.manager.nextSequence();
   }
   async sign(network: string, envelope: SignEnvelope, plan: DeepReadonly<UnsignedBuildResult>, paths: PathBinding[], signal: AbortSignal): Promise<{ envelope: SignEnvelope; signedHex: string }> {
     if (signal.aborted) throw Error('ABORTED');
-    if (network !== 'chipnet') throw Error('MAINNET_CAP_ZERO');
+    if (network !== this.allowedNetwork || network !== this.network) throw Error('MAINNET_CAP_ZERO');
     if (!Number.isSafeInteger(envelope.expiresAt) || Date.now() >= envelope.expiresAt) throw Error('INTENT_EXPIRED');
     const owned = deriveSessionOwnership(this, envelope.sessionId, paths, Date.now());
     if (!this.currentSessionId() || this.pending || owned.status !== 'SESSION_DERIVED' || !plan.unsignedHex ||
@@ -107,17 +110,20 @@ export class ConnectedWallet implements PublicKeySession {
     try {
       const response = await this.manager.sendSignRequest({ action: RelayMsgAction.SignTransactionRequest, sequence: envelope.sequence,
         time: Math.floor(Date.now() / 1000), inputPaths,
-        transaction: { transaction: plan.unsignedHex, sourceOutputs, broadcast: false, userPrompt: 'IntentGuard Chipnet: sign ONLY, app checks bytes before broadcast' } });
+        transaction: { transaction: plan.unsignedHex, sourceOutputs, broadcast: false, userPrompt: `IntentGuard ${network}: sign ONLY. App verifies exact bytes before your separate native-wallet broadcast.` } });
       if (signal.aborted || !this.pending || this.session !== envelope.sessionId || JSON.stringify(this.pending) !== JSON.stringify(envelope) ||
           response.action !== RelayMsgAction.SignTransactionResponse || response.sequence !== envelope.sequence || response.error !== undefined ||
           !Number.isSafeInteger(response.time) || Math.abs(Date.now() / 1000 - response.time) > 120 ||
-          typeof response.signedTransaction !== 'string' || response.signedTransaction.length > 200000 || !/^(?:[0-9a-f]{2})+$/.test(response.signedTransaction)) throw Error('STALE_OR_INVALID_RESPONSE');
+          typeof response.signedTransaction !== 'string' || response.signedTransaction.length > 200000 || !/^(?:[0-9a-f]{2})+$/.test(response.signedTransaction)) {
+        if (typeof response.signedTransaction === 'string' && response.signedTransaction.length <= 200000 && /^(?:[0-9a-f]{2})+$/.test(response.signedTransaction)) this.quarantine(envelope, response.signedTransaction);
+        throw Error('STALE_OR_INVALID_RESPONSE');
+      }
       return { envelope: { ...envelope }, signedHex: response.signedTransaction };
     } catch { throw Error('SIGNING_UNKNOWN'); }
     finally { clearTimeout(timeout); signal.removeEventListener('abort', abort); this.pending = null; }
   }
   disconnect(): void {
-    this.closed = true; this.live = false; this.session = null; this.exchanged = null;
+    this.closed = true; this.live = false; this.session = null; this.exchanged = null; this.network = null;
     clearTimeout(this.timer);
     this.timer = undefined;
     if (this.pending) { this.cancelled = this.pending; void this.manager.sendSignCancel(this.pending.sequence, 'IntentGuard invalidated').catch(() => {}); }

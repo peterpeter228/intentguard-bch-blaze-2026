@@ -2,6 +2,7 @@
   "buildCommand": "npm run build:production",
   "outputDirectory": "dist/production/public",
   "rewrites": [
+    { "source": "/payment.js", "destination": "/visitor-payment.js" },
     { "source": "/pay", "destination": "/pay.html" },
     { "source": "/request", "destination": "/request.html" },
     { "source": "/api/payment", "destination": "https://intentguard-api-production.up.railway.app/api/payment" },

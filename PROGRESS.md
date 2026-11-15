@@ -1,5 +1,28 @@
 # IntentGuard / BCH BLAZE — Progress
 
+## Current: WPREV4 implementation — 2026-11-15
+
+Baseline78e6ab6b9f072b8bde8f3cd5d2474bfdf7a426dd; branch unchanged.
+Visitor mainnet sign-only/full-byte postcheck/native Electron Cash handoff and
+IndexedDB UNKNOWN/input reservations implemented; stateless production reader
+never opens original journal. Mainnet source TLS/genesis/Axion checkpoint/raw/
+inclusion methods observed under this OMP job; independence bounded by public
+operator/backend attribution, not consensus/collusion proof. Agent mainnet0sat.
+Affected legacy and visitor compiled UI/HTTP/IndexedDB-shim regressions passed,
+including late/substituted callbacks, failed storage, atomic duplicate intents and
+UNKNOWN/no replacement. Production build/stateless sentinel smoke and finite
+builder1512-case mutation/restoration passed. Final candidate commands/formal
+counts and exact SHA/tree/build hashes are bound externally, not self-embedded.
+Local snapshot inventory found no high-confidence credential pattern; historical
+assets/history and concrete LGPL/application license clearance remain publication
+gates, not completed public-source acceptance. Browser eval denied; parent required.
+No deployment, publication, main operation, submission or funds/key action.
+Next: parent uses frozen candidate/evidence for native embedded-browser acceptance
+and fresh independent Astra; then owner exact-main approval. No release here.
+Chipnet key/non-replay reconciliation and original nonempty-row location remain
+BLOCKED. Real visitor wallet/payment UNVERIFIED. Old checkpoints below historical.
+
+
 ## Current: intentguard-live-20261111 rev17 — health code PASS; live proof pending
 
 Accepted runtime candidate: `940713b68d3cb9b77694eccfe7ceb78c8d963e31`.

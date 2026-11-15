@@ -2,7 +2,7 @@ import { binToHex, hexToBin, hash256, sha256, decodeTransaction, encodeTransacti
 import type { SourceConfig, ReadMethod } from './evidence.js';
 import type { EvidenceSnapshot } from './guard.js';
 import type { SelectedOutpoint } from './unsigned-builder.js';
-import { createReviewedChipnetCandidates, REVIEWED_CHIPNET_ENDPOINTS } from './public-sources.js';
+import { createReviewedChipnetCandidates, REVIEWED_CHIPNET_ENDPOINTS, REVIEWED_MAINNET_ENDPOINTS } from './public-sources.js';
 import { createChipnetSender, createChipnetObservationTransport, type ObservationMethod } from './electrum-transport.js';
 
 export const paymentHash = (value: string): string => binToHex(sha256.hash(new TextEncoder().encode(value)));
@@ -25,7 +25,7 @@ function header(raw: unknown): { raw: string; hash: string; time: number } {
 export interface FundingEvidence { snapshot: EvidenceSnapshot; selected: SelectedOutpoint[]; sourceDigest: string; kind: 'node' | 'synthetic'; }
 export interface PaymentObservation { status: 'UNKNOWN' | 'OBSERVED' | 'CONFIRMED_ON_CHAIN'; blockHash: string | null; height: number | null; observedAt: number; }
 type ObservationRead = (sourceId: string, method: ObservationMethod, params: readonly unknown[], signal: AbortSignal) => Promise<unknown>;
-const inclusionReaders = new Map(REVIEWED_CHIPNET_ENDPOINTS.map(e => [e.id, createChipnetObservationTransport(REVIEWED_CHIPNET_ENDPOINTS, e.id)]));
+const inclusionReaders = new Map([...REVIEWED_CHIPNET_ENDPOINTS, ...REVIEWED_MAINNET_ENDPOINTS].map(e => [e.id, createChipnetObservationTransport([...REVIEWED_CHIPNET_ENDPOINTS, ...REVIEWED_MAINNET_ENDPOINTS], e.id)]));
 const readInclusion: ObservationRead = (id, method, params, signal) => {
   const reader = inclusionReaders.get(id);
   if (!reader) throw Error('SOURCE_CONFIGURATION');
@@ -37,7 +37,7 @@ export class PaymentChain {
   constructor(sources: readonly SourceConfig[] = createReviewedChipnetCandidates(), private readonly sender = createChipnetSender(REVIEWED_CHIPNET_ENDPOINTS, REVIEWED_CHIPNET_ENDPOINTS[0]!.id), private readonly clock = Date.now, private readonly observationRead: ObservationRead = readInclusion) {
     this.sources = sources.map(s => Object.freeze({ ...s, checkpoint: { ...s.checkpoint } }));
     if (sources.length !== 2 || new Set(sources.map(s => s.id)).size !== 2 || new Set(sources.map(s => s.operatorId)).size !== 2 ||
-        sources.some(s => s.network !== 'chipnet' || s.genesisHash !== sources[0]!.genesisHash || s.checkpoint.hash !== sources[0]!.checkpoint.hash || s.checkpoint.height !== sources[0]!.checkpoint.height || s.kind !== sources[0]!.kind)) throw Error('SOURCE_CONFIGURATION');
+        sources.some(s => !['chipnet', 'mainnet'].includes(s.network) || s.network !== sources[0]!.network || s.genesisHash !== sources[0]!.genesisHash || s.checkpoint.hash !== sources[0]!.checkpoint.hash || s.checkpoint.height !== sources[0]!.checkpoint.height || s.kind !== sources[0]!.kind)) throw Error('SOURCE_CONFIGURATION');
   }
   async read(sourceId: string, method: ReadMethod, params: readonly unknown[], signal: AbortSignal): Promise<unknown> {
     const source = this.sources.find(s => s.id === sourceId);
@@ -90,11 +90,11 @@ export class PaymentChain {
     }));
     if (signal.aborted || this.clock() - started > 10000 || JSON.stringify(observations[0]) !== JSON.stringify(observations[1])) throw Error('SOURCES_DISAGREE_OR_STALE');
     const o = observations[0]!;
-    return { snapshot: { network: 'chipnet', observedAt: started, parentTransactionHexes: o.parents, unspentOutpoints: o.chosen.map(r => r.txid + ':' + r.index) },
+    return { snapshot: { network: this.sources[0]!.network, observedAt: started, parentTransactionHexes: o.parents, unspentOutpoints: o.chosen.map(r => r.txid + ':' + r.index) },
       selected: o.chosen.map(r => ({ txid: r.txid, index: r.index })), sourceDigest: paymentHash(JSON.stringify(o)), kind: this.sources[0]!.kind };
   }
   async broadcast(network: string, signedHex: string): Promise<string> {
-    if (network !== 'chipnet') throw Error('MAINNET_CAP_ZERO');
+    if (network !== 'chipnet' || this.sources.some(s => s.network !== 'chipnet')) throw Error('MAINNET_CAP_ZERO');
     const expected = hashTransaction(hexToBin(signedHex));
     const result = await this.sender(signedHex, AbortSignal.timeout(5000));
     if (result !== expected) throw Error('BROADCAST_UNKNOWN');
@@ -111,7 +111,11 @@ export class PaymentChain {
         const rows = history.map(record).filter(r => r.tx_hash === id);
         if (rows.length !== 1 || !Number.isSafeInteger(rows[0]!.height)) throw Error('ORIGINAL_HEIGHT_MISSING');
         const height = Number(rows[0]!.height);
-        if (height <= 0) return { status: 'OBSERVED' as const, blockHash: null, height: null };
+        if (height <= 0) {
+          const after = await this.tip(source, signal);
+          if (JSON.stringify(tip) !== JSON.stringify(after) || signal.aborted) throw Error('SOURCE_IDENTITY_OR_FRESHNESS');
+          return { observation: { status: 'OBSERVED' as const, blockHash: null, height: null }, tip: after };
+        }
         if (height > tip.height) throw Error('INVALID_HEIGHT');
         const [raw, proof] = await Promise.all([source.transport.request('blockchain.block.header', [height], signal), this.observationRead(source.id, 'blockchain.transaction.get_merkle', [id, height], signal)]);
         const h = header(raw), p = record(proof);
@@ -123,10 +127,12 @@ export class PaymentChain {
           node = hash256(Uint8Array.from(pos % 2 ? [...other, ...node] : [...node, ...other])); pos = Math.floor(pos / 2);
         }
         if (pos !== 0 || binToHex(node) !== h.raw.slice(72, 136)) throw Error('INVALID_INCLUSION');
-        return { status: 'CONFIRMED_ON_CHAIN' as const, blockHash: h.hash, height };
+        const after = await this.tip(source, signal);
+        if (JSON.stringify(tip) !== JSON.stringify(after) || signal.aborted) throw Error('SOURCE_IDENTITY_OR_FRESHNESS');
+        return { observation: { status: 'CONFIRMED_ON_CHAIN' as const, blockHash: h.hash, height }, tip: after };
       }));
       if (JSON.stringify(replies[0]) !== JSON.stringify(replies[1])) throw Error('SOURCES_DISAGREE');
-      return { ...replies[0]!, observedAt: this.clock() };
+      return { ...replies[0]!.observation, observedAt: this.clock() };
     } catch { return { status: 'UNKNOWN', blockHash: null, height: null, observedAt: this.clock() }; }
   }
 }

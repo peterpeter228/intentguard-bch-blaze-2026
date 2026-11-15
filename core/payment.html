@@ -2,10 +2,10 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>IntentGuard guarded payment</title><link rel="stylesheet" href="/style.css"></head>
 <body><main>
 <header><h1>IntentGuard — guarded BCH payment</h1><p><a href="/">Disclosure banner / offline inspector</a> · <a href="/request">Offline request planner</a></p></header>
-<p class="warning">PRESEASON · Mainnet cap exactly 0 sat. Mainnet unsigned-only; no pairing/signing/broadcast. Chipnet requires a real connected wallet and two fresh pinned sources. No server keys. Stock-wallet/live-chain combinations remain UNVERIFIED.</p>
-<section><h2>1. Connect your Chipnet wallet</h2>
-<label>Network <select id="network"><option value="chipnet">Chipnet (test coins only)</option><option value="mainnet">Mainnet (unsigned only, cap0)</option></select></label>
-<label><input id="chain-ack" type="checkbox"> My wallet is explicitly on Chipnet; bchtest alone is not chain proof.</label>
+<p class="warning">Pre-event core + event-period visitor-wallet increment. Agent mainnet cap exactly 0 sat. Your wallet alone holds keys and signs. This app/server NEVER broadcasts mainnet. Actual wallet interoperability/payment remains UNVERIFIED. Chipnet execution BLOCKED pending dedicated-key and consumed-operation reconciliation; original nonempty-row restart evidence BLOCKED.</p>
+<section><h2>1. Connect your own wallet</h2>
+<label>Network <select id="network"><option value="mainnet">BCH Mainnet — visitor wallet only</option><option value="chipnet">Chipnet — private legacy only</option></select></label>
+<label><input id="chain-ack" type="checkbox"> I checked my wallet's selected network. The SDK has no authenticated chain ID; fixed BCH sources and path ownership are separate checks.</label>
 <button id="connect" type="button">Connect WizardConnect</button><button id="disconnect" type="button">Disconnect / cancel</button>
 <p id="wallet-state" role="status">Disconnected</p><p id="pairing" hidden></p>
 <label>Receive address index <input id="receive-index" type="number" min="0" max="10000" value="0"></label>
@@ -18,19 +18,22 @@
 <label>Target sat / 1000 bytes <input id="target-rate" value="1000" inputmode="numeric"></label>
 <label>Maximum sat / 1000 bytes <input id="max-rate" value="3000" inputmode="numeric"></label>
 <label>Validity seconds (30–600) <input id="ttl" type="number" min="30" max="600" value="300"></label>
-<label>Selected Chipnet outpoint (blank = default discovery) <input id="selected-outpoint" maxlength="75" autocomplete="off" placeholder="lowercase txid:index"></label>
+<label>Selected outpoint (blank = token-free confirmed discovery) <input id="selected-outpoint" maxlength="75" autocomplete="off" placeholder="lowercase txid:index"></label>
 <button id="review" type="button">Review independent terms</button><pre id="terms-summary"></pre>
 <button id="confirm" type="button" disabled>Confirm these exact terms</button>
 </section>
 <section><h2>3. Build, preflight, approve exact transaction</h2>
 <p>Only token-free confirmed ordinary P2PKH inputs from the selected two wallet paths are selected. No NFT consumption or dust donation. Signed size assumes compressed Schnorr; final signatures and actual fee must pass independently.</p>
-<label>Mainnet-only offline planning context (public JSON; no keys) <textarea id="offline-context" rows="3" placeholder="Use the offline /request planner context; supplied data is not network evidence."></textarea></label>
+<label>Legacy offline planning context (not visitor funding evidence) <textarea id="offline-context" rows="3" placeholder="Offline claims never authorize signing."></textarea></label>
 <button id="build" type="button" disabled>Build unsigned / preflight</button><pre id="candidate"></pre>
 <button id="sign" type="button" disabled>Approve exact candidate; sign only</button>
-<button id="broadcast" type="button" disabled>Broadcast checked Chipnet bytes ONCE</button>
+<button id="broadcast" type="button" disabled>Approve native handoff of these checked bytes ONCE</button>
+<label><input id="handoff-ack" type="checkbox"> I rechecked BCH mainnet, recipient, amount, change and exact fee. I will use Electron Cash 4.4.6.1 to broadcast identical bytes without re-signing.</label>
+<div id="handoff" hidden><h3>Visitor-only Electron Cash handoff — outcome UNKNOWN</h3><p>Save the exact raw hex below as signed.txn. In your own BCH mainnet Electron Cash 4.4.6.1 terminal, review with <code>cat signed.txn | electron-cash deserialize -</code>, compare every output/fee and the displayed local txid, then choose whether to run <code>cat signed.txn | electron-cash broadcast -</code>. Never run signtransaction or request another signature. This site cannot observe command success; failed/cancelled/unknown invocation is UNKNOWN. Do not retry; observe original hash only. The app never executes these commands.</p><label>Exact postchecked signed raw hex <textarea id="signed-raw" readonly rows="5"></textarea></label></div>
 </section>
 <section><h2>4. Original operation / recovery</h2>
-<p>Signing or send uncertainty never authorizes a replacement, re-sign or resend. Reload retains only public operation/request IDs, not wallet or mutation credentials. Recovery reads the original hash; disappearance of inputs is not payment.</p>
+<p>Uncertain signing/handoff never authorizes a replacement, re-sign or resend. Public operations/input tombstones live in same-origin IndexedDB, not wallet credentials. Storage deletion/rollback, another origin/device or independently used wallets defeat global duplicate prevention. Reload never restores signing authority; only the original hash can be observed. A node report is not SPV/consensus proof. Missing/conflicting/stale evidence removes receipt status.</p>
 <button id="recover" type="button">Read original operation / chain evidence</button><pre id="result" role="status">No payment attempted.</pre>
+<button id="new-payment" type="button" disabled>Start a distinct payment after fresh original confirmation</button>
 </section>
 </main><script type="module" src="/payment.js"></script></body></html>

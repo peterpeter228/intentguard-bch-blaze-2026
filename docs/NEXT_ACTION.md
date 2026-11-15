@@ -1,5 +1,18 @@
 # Next action
 
+## Current WPREV4 gate — 2026-11-15
+
+Finish candidate visitor consumer regression, executable finite/TLC models and
+Node24 validate/production build/smoke; bind exact candidate externally. Parent
+provides actual same-build embedded-browser/IndexedDB evidence and fresh separate
+Astra security/runtime acceptance. Only then present exact required main change
+to owner; never auto-push/merge, deploy, publish or submit in implementation.
+Real visitor wallet/native broadcast/receipt remains UNVERIFIED. Preserve original
+Chipnet consumed attempt, separate key gate and original-row/location blockers;
+no replay/key access/helper/volume experiment. All R1–R9/A1–A12 remain retained.
+Historical next-action paragraphs below do not override rev4 owner choices.
+
+
 ## Current gate: B1 corrected, final independent acceptance pending,2026-11-09
 
 Read PROGRESS and task `artifacts/implementation-3/IMPLEMENTATION_RESULT.json`.

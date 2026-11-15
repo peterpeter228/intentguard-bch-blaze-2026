@@ -1,55 +1,55 @@
-# Current public-demo preparation — November11,2026 / PRESEASON
+# WPREV4 visitor-wallet increment — November15,2026
 
-Public mode is **read-only**, not a deployed or completed payment claim.
-Mainnet cap remains hard-coded **0 sat**, unsigned/offline only. Private-loopback
-keeps the guarded Chipnet flow. SDK-wire and confirmed-input repairs pass local
-consumer checks; real payment, deployment and browser acceptance remain parent-pending.
-Read [current progress](PROGRESS.md), [payment boundaries](core/PAYMENT_FLOW.md)
-and [pre-existing work](docs/PRE_EXISTING_WORK.md). Older status entries are historical.
+Pre-event core baseline: `78e6ab6b9f072b8bde8f3cd5d2474bfdf7a426dd`.
+Event-period `/pay`: explicit recipient/amount/network/fee approval, fresh
+session-owned paths and two fixed BCH sources, sign-only (`broadcast:false`),
+full exact-byte/parent/VM/fee postcheck, then separate visitor-operated Electron
+Cash4.4.6.1 raw-hex broadcast handoff. The app/server NEVER broadcasts mainnet;
+agent mainnet cap remains **0sat**. Real wallet/payment interoperability is
+**UNVERIFIED** until a human visitor supplies actual evidence.
 
-`/pay` displays and confirms the optional `selected-outpoint` (`lowercase txid:index`).
-Prepare/revise require `selectedOutpoint: null | {txid,index}`; null discovers funds,
-explicit selection never substitutes another input. Selection edits invalidate consent.
-The adapter uses the locked SDK's official relay codec after validating native sources.
+Public operations/input reservations use strict-durability IndexedDB; no wallet
+credentials/xpub mappings are stored. Reserve before signing/handoff. Cancellation,
+reload, stale evidence or uncertain effect means UNKNOWN; no retry/re-sign/repeated
+handoff. Observe only original checked bytes/hash. Storage deletion/rollback,
+other devices/origins and independent wallet actions defeat global duplicate
+prevention. Two attributed node reports/inclusion are NOT SPV/consensus proof.
 
-Use Node24 and the unchanged lockfile/native rebuild instructions below:
-
+Node24, unchanged lockfile:
 ```sh
 npm run validate
 npm run build:production
 node scripts/smoke-production.mjs
-INTENTGUARD_PAYMENT_DIR=/absolute/private/new-journal npm run core:preview -- --create-payment-journal
 ```
+Production visitor mode permits only exact configured HTTPS Hosts/Origins.
+For local browser checks use the same stateless reader via
+`createPaymentServer(new VisitorPaymentReader())` on loopback.
+No signer/test seam is exposed as HTTP configuration.
 
-Create is exclusive and first-start-only; omit the flag on every reopen.
-Missing/corrupt/replaced/unsafe journals fail closed. Never reset UNKNOWN.
-Default private-loopback binds 127.0.0.1:8788; validated PORT may override it.
-Without a journal, local offline pages work but the payment API refuses.
+Docker defaults to stateless `visitor-wallet`: `INTENTGUARD_PAYMENT_DIR` is ignored,
+no journal is opened/created/migrated, and create flag is refused. Original Railway
+volume is untouched. Rollback only to an accepted stateless artifact; old journal
+startup is not an authorized rollback. Vercel maps `/payment.js` to visitor bundle
+and uses existing exact HTTPS API rewrites. Legacy private Chipnet/SQLite paths
+remain separate; never bootstrap or replay them to obtain historical evidence.
 
-`vercel.json` publishes only `dist/production/public`, with two exact API rewrites
-to Railway; no serverless SQLite. `Dockerfile` packages Node24 runtime/dependencies/
-notices for one writer with `/data/intentguard-payments` (0700, database0600).
-Set INTENTGUARD_MODE=public-demo, PORT=8080, INTENTGUARD_PUBLIC_ROOT=./public and
-INTENTGUARD_PAYMENT_DIR=/data/intentguard-payments. Never deploy wallet credentials.
-Only intentguard-bch.vercel.app and intentguard-api-production.up.railway.app are
-allowed public Hosts and exact HTTPS POST Origins; forwarded headers grant nothing.
-Public payment actions are config/read/get only, before PaymentFlow allocation.
-Wallet controls and handlers fail closed until runtime config is known.
+Fixed [pre-event offline demo](https://intentguard-pdyx17t6x-peterpeter228s-projects.vercel.app/)
+is not current wallet proof. Old repository remains private; approved new source
+`peterpeter228/intentguard-bch-blaze-2026` is not published here. Reviewed snapshots,
+license/privacy clearance, anonymous readback and organizer fork eligibility remain
+separate gates. Chipnet transaction requires dedicated-key confirmation and original
+consumed-operation reconciliation. Original nonempty-row location/restart evidence
+is missing. No external publication/deploy/submission or funds action in this stage.
 
-One-time private loopback bootstrap must precede public serving. After that initial
-deployment set startCommand to `node server.mjs` **and redeploy before restarting**;
-restarting the initial create-command deployment would repeat exclusive creation.
-Task-private supported-startup inputs provide no public bootstrap/key route.
-Actual Railway persistence/restart, proxy headers and anonymous Vercel browser
-proof remain parent gates. Target URLs are not evidence of successful deployment.
+Run `payment:verify`, `builder:verify`, `payment:statechart` with NEW absolute
+evidence paths. Visitor tests use installed indexeddbshim, compiled UI/HTTP and
+existing isolated Chipnet signatures; not native-browser/real-wallet proof.
+Statechart generation is NOT TLC PASS: execute pinned official tool against both
+GuardedPayment and VisitorPayment specs. Fresh independent Astra and candidate-bound
+parent browser acceptance remain mandatory before owner exact-main-change gate.
+See [flow](core/PAYMENT_FLOW.md), [progress](PROGRESS.md), and
+[pre-existing work](docs/PRE_EXISTING_WORK.md). Historical entries follow.
 
-Local empirical checks use isolated fixture transports, not a real payment/browser.
-Run payment:verify, builder:verify and payment:statechart with new evidence paths;
-read the generated model using the pinned official statechart/TLC tool separately.
-Production disclosure fills decided Slides/EMBER/private-old/new-after-start fields;
-Q_PRE_DEMO remains TODO_OWNER_PRE_HACK_DEMO_URL. No contest-readiness claim.
-No protected identity, live signature/send, deployment, publication or external post
-was performed by this worker. Parent owns fresh independent Astra and cloud/browser gates.
 
 ## Historical reproduction instructions (retained)
 

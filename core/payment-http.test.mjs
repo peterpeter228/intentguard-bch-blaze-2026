@@ -20,7 +20,7 @@ import { verifySignedPlan } from '../dist/core/signed-verifier.js';
 import { createEvidenceCollector, deriveSessionOwnership } from '../dist/core/evidence.js';
 
 /** TEST ONLY: fresh in-memory Chipnet-labelled keys, synthetic RPC/relay, NO chain transaction. */
-async function instance(options = {}) {
+export async function instance(options = {}) {
   const root = await mkdtemp(join(tmpdir(), 'intentguard-payment-')), directory = join(root, 'journal');
   let journal = PaymentJournal.create(directory), sends = 0, signs = 0, storedSigned = null, sessionChanged = false;
   const master = deriveHdPrivateNodeFromSeed(randomBytes(32));

@@ -1,5 +1,22 @@
 # IntentGuard BCH status
 
+## 2026-11-15 WPREV4 event-period implementation
+
+Visitor-owned BCH mainnet path separates sign-only/full signed-byte verification
+from explicit native Electron Cash4.4.6.1 handoff. No app/server mainnet broadcast,
+agent cap0. Strict IndexedDB public-operation/input reservation before effects;
+UNKNOWN retains original identity without retry/re-sign/repeated handoff.
+Production visitor reader is stateless and ignores original journal environment.
+Fresh mainnet source method/TLS/checkpoint observations are bounded node trust.
+Real wallet/payment interoperability and native-browser durability UNVERIFIED;
+parent browser/independent same-candidate Astra and full acceptance pending.
+Chipnet dedicated-key/consumed-attempt boundary and original nonempty row BLOCKED.
+OMP browser eval was denied by existing policy; no alternate browser used.
+Compiled UI/HTTP/IndexedDB-shim proof is not native-browser visual acceptance.
+No financial action, secrets, original-volume operation, deployment/publication,
+main change, bounty waiver or submission. Earlier entries below are history.
+
+
 ## 2026-11-09 guarded connected-wallet code — PRESEASON
 
 Task `intentguard-mainnet-20261109`, owner t304u. B1 correction source

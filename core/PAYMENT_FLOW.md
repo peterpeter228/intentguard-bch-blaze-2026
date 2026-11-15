@@ -1,3 +1,40 @@
+# WPREV4 visitor-wallet flow — 2026-11-15
+
+`visitor-wallet` is a stateless server reader, not PaymentFlow/PaymentJournal.
+It accepts only config/fixed-source read/independently rebuilt prepare/original
+signed-byte observe. No wallet, journal, mainnet sender, privileged actor flag or
+arbitrary endpoint. Production ignores old journal environment without accessing
+the path. Docker/Vercel select visitor bundle; legacy Chipnet remains separate.
+
+Visitor: explicit network/recipient/amount/maximum fee/rates review -> confirm ->
+live SDK paths + two attributed BCH sources -> independent deterministic plan ->
+display ALL inputs/outputs/change/exact fee/size -> explicit sign-only approval ->
+strict IndexedDB input/economic and invocation reservation -> wallet broadcast:false
+-> full verifySignedPlan/0x61 -> persist exact signedHex/local txid -> fresh sources,
+ownership and full postcheck -> explicit native handoff acknowledgement -> persist
+handoff intent -> display IDENTICAL bytes and Electron Cash4.4.6.1 instructions.
+Only visitor executes `cat signed.txn | electron-cash broadcast -`; app/server never
+runs it, sends RPC, requests second signature or treats ACK/download as payment.
+
+Failed/unknown/cancel/drop/reload/stale/changed session/terms/source after any
+possible effect: UNKNOWN, retain original identity and input tombstones. Late
+original callback quarantined; duplicate callbacks/CAS losers cannot re-sign or
+repeat handoff. Persistence failure refuses, no memory fallback. Reopen restores
+public facts only, never wallet authority. Same-origin retained-storage durability
+is not global exactly-once after deletion/rollback/other device/origin/wallet use.
+
+Receipt: original hash/structure/parent-bound crypto, exact raw agreement from both
+fixed nodes; confirmed also matching merkle/header inclusion. Recheck freshness,
+invalidate stale/conflict/reorg status, never infer payment from missing UTXO.
+Sources: Kallisti cashnode.bch.ninja and Cyberbits Labs bch.cyberbits.eu, public
+operator/backend attribution with TLS and BCHN Axion661648 pin; NOT proof against
+collusion, SPV or consensus. Genesis/checkpoint provenance: BCHN07576013c91ff4a3a74acd85f189c69121cdad1b.
+
+Actual human wallet interoperability/payment UNVERIFIED. Agent mainnet0sat; no
+protected identity/helper/Chipnet financial effect, original-volume operation,
+publication, deployment or submission. Independent Astra + parent embedded browser
+are separate acceptance. Historical pre-event flow below is not current authority.
+
 # Guarded payment — PRESEASON / task mainnet cap0
 
 `/pay` uses the real pinned WizardConnect session, not XO server custody. Explicit Chipnet selection + fresh key exchange + live hdwalletv1 paths are required. Protocol has no authenticated chain ID; wallet network acknowledgement, fixed post-split Chipnet sources and exact current path-derived scripts are separate requirements. bchtest/xpub alone is not chain proof. Session/relay credentials remain in memory; only public economic/operation IDs enter localStorage.

@@ -1,10 +1,9 @@
 # Guarded payment
 ## Sub-features
-Independent terms review/confirmation, fresh sources, deterministic build, final exact outputs/fee approval, sign-only, cryptographic postcheck, one app broadcast.
+Independent terms review/confirmation, fresh sources, deterministic reconstruction, all outputs/fee approval, sign-only, full cryptographic postcheck, explicit SAME-byte visitor native handoff. No app/server mainnet broadcast.
 ## How to get to it (user POV)
-`/pay` → recipient/amount/fee/rate/expiry → #review → #confirm → #build → review #candidate → #sign → #broadcast.
+`/pay` → recipient/amount/fee/rate/network/expiry → #review → #confirm → #build → inspect all #candidate terms → #sign → #handoff-ack → #broadcast → identical #signed-raw for Electron Cash4.4.6.1 native broadcast. App never runs that command.
 ## Driving it with HTTP/SDK harness
-`npm run payment:verify -- NEW_DIRECTORY` first drives the actual compiled UI handlers through 5000sat prepare → edit4000sat → review → explicit confirmation → rebuild, over real HTTP/builder/SQLite with public-wallet/RPC seams; it asserts exact new recipient/change, retained economic ID, durable revision and zero sign/send. Then it checks full-parent signatures and one effect under racing broadcast requests, reopening SQLite before send. This is a Node DOM harness, not real-browser proof. Parent browser checks the same edit journey; mainnet only accepts explicit offline context and cannot sign/send.
+`payment:verify` retains legacy compiled UI→HTTP/SQLite/SDK checks and adds `driveVisitor`: actual compiled visitor UI→stateless HTTP→deterministic build→installed IndexedDB shim→verify-only existing Chipnet signature→native handoff text. Tests atomic competing-tab reserve/handoff, late original bytes quarantine, reopened original hash, failed persistence, conflict invalidation and no replacement. MOCK_TRANSPORT/NO_CHAIN_TRANSACTION; NOT native-browser durability or wallet interoperability.
 ## Gotchas
-Only ordinary token-free confirmed P2PKH inputs on chosen receive/change indices. Unsupported wallet signature model, missing/stale sources, tokens/NFTs or changed terms fail closed. Faucet blocked: no live txid/receipt; mock sender counters are not chain facts.
-Unsigned replacement needs the original in-memory capability and expected revision; reload without that capability remains read-only. Once signing was reserved, edits cannot replace the original operation, including UNKNOWN/signed/send-reserved states. No ID clearing or journal reset.
+Only ordinary token-free confirmed P2PKH inputs from fresh session-owned paths. Tokens/NFTs, missing/stale/conflicting sources, changed terms or failed storage refuse. Every effect intent commits first; uncertain effects keep original economic/input reservations. No fallback to memory/new request IDs. Agent mainnet0sat; real visitor payment UNVERIFIED.

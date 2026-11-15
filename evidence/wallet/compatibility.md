@@ -30,3 +30,28 @@ contain private paths. App errors stay bounded public codes, not raw SDK message
 Nested `broadcast:false` expresses sign-only intent; stock-wallet adherence remains
 NOT_RUN. Mainnet cap0 prohibits pairing/signing/sending; unsigned tests only.
 Original G0 matrix/diagnostic above is historical, not the new adapter's capability.
+
+## November15 WPREV4 visitor route
+
+Visitor adapter is explicitly network-bound mainnet; default legacy adapter still
+refuses mainnet. Sign-only uses locked core0.2.5/dapp0.2.2/interfaces0.0.8, no
+dependency upgrade, session:false, fresh key exchange, pre-abort and replay cleanup.
+Official protocol https://docs.riftenlabs.com/wizardconnect/protocol/ has no
+authenticated chain ID or broadcast-only action. Network acknowledgement is not
+chain proof. Fixed BCH genesis/Axion661648 sources and session-owned paths required.
+
+Full verifySignedPlan/all-parent/VM/fee/0x61 checks precede durable exact signed
+bytes/local txid and explicit visitor-only native handoff. Electron Cash4.4.6.1
+official commands.py broadcast is network-only and tx_from_str accepts raw hex:
+https://github.com/Electron-Cash/Electron-Cash/blob/4.4.6.1/electroncash/commands.py
+https://github.com/Electron-Cash/Electron-Cash/blob/4.4.6.1/electroncash/transaction.py
+https://electroncash.readthedocs.io/en/latest/old/coldstorage_cmdline.html
+Visitor reviews/deserializes signed.txn then chooses native `electron-cash broadcast -`.
+No second signature, broadcast:true or app/server broadcast. Handoff remains UNKNOWN
+until independent original-byte/inclusion observations; no retry/repeated handoff.
+
+Compiled UI/stateless HTTP/installed IndexedDB-shim regression passes using existing
+isolated Chipnet signatures verify-only; no generated mainnet signatures or chain
+transaction. Actual wallet/app/browser interoperability, sign-only adherence and
+real visitor payment remain UNVERIFIED. Parent native-browser/Astra evidence separate.
+

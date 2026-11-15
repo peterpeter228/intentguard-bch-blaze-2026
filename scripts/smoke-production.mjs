@@ -49,5 +49,16 @@ try {
   });
   assert.equal(publicConfig.status, 200); assert.equal(publicConfig.value.mode, 'public-demo');
   assert.equal((await fetch('http://127.0.0.1:8080/pay')).status, 403, 'loopback Host cannot masquerade as public authority');
-  console.log(JSON.stringify({ status: 'PASS', kind: 'LOOPBACK_DISTRIBUTION_SMOKE', visualProof: 'PARENT_REQUIRED', sourceAssetsUsed: false, journalReopened: true, mainnetCapSatoshis: '0', files: manifest.files, totalBytes: manifest.totalBytes, deploy: false }, null, 2));
+  await stop();
+  // Unusable sentinel is isolated scratch, never the original production volume.
+  const sentinel = join(root, 'must-not-open'); await writeFile(sentinel, 'NO_JOURNAL_ACCESS');
+  child = spawn(process.execPath, ['server.mjs'], { cwd: distribution, env: { ...process.env, INTENTGUARD_MODE: 'visitor-wallet', PORT: '8080', INTENTGUARD_PUBLIC_ROOT: join(distribution, 'public'), INTENTGUARD_PAYMENT_DIR: sentinel }, stdio: ['ignore', 'pipe', 'pipe'] });
+  exited = new Promise(resolve => child.once('exit', resolve));
+  await new Promise((resolve, reject) => { const timer = setTimeout(() => reject(Error('VISITOR_START_TIMEOUT')), 10000); child.stdout.on('data', b => { if (String(b).includes('http://0.0.0.0:8080')) { clearTimeout(timer); resolve(); } }); child.once('error', reject); child.once('exit', () => { clearTimeout(timer); reject(Error('VISITOR_EXITED')); }); });
+  const visitor = await new Promise((resolve, reject) => { const req = request('http://127.0.0.1:8080/api/payment', { method: 'POST', headers: { Host: 'intentguard-api-production.up.railway.app', Origin: 'https://intentguard-bch.vercel.app', 'Content-Type': 'application/json' } }, res => { let body = ''; res.on('data', b => body += b); res.on('end', () => resolve({ status: res.statusCode, value: JSON.parse(body) })); }); req.on('error', reject); req.end('{"action":"config"}'); });
+  assert.equal(visitor.status, 200); assert.equal(visitor.value.mode, 'visitor-wallet'); assert.equal(visitor.value.network, 'mainnet');
+  assert.equal(await readFile(sentinel, 'utf8'), 'NO_JOURNAL_ACCESS');
+  await stop();
+  console.log('VISITOR_STATELESS_STARTUP_PASS: ignored unusable journal path; no volume/journal open; no network effect');
+  console.log(JSON.stringify({ status: 'PASS', kind: 'LOOPBACK_DISTRIBUTION_SMOKE', visualProof: 'PARENT_REQUIRED', sourceAssetsUsed: false, legacyScratchJournalReopened: true, visitorStatelessStartup: true, originalVolumeAccess: false, mainnetCapSatoshis: '0', files: manifest.files, totalBytes: manifest.totalBytes, deploy: false }, null, 2));
 } finally { await stop(); await rm(root, { recursive: true }); }

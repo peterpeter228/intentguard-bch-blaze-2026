@@ -14,6 +14,6 @@ FROM node:24.22.2-bookworm-slim@sha256:01d566e8d94d8c619591d78652babfccd3c6992a3
 WORKDIR /app
 COPY --from=build /app/dist/production/ ./
 COPY --from=build /app/node_modules/ ./node_modules/
-ENV INTENTGUARD_PUBLIC_ROOT=./public INTENTGUARD_PAYMENT_DIR=/data/intentguard-payments INTENTGUARD_MODE=public-demo PORT=8080
+ENV INTENTGUARD_PUBLIC_ROOT=./public INTENTGUARD_MODE=visitor-wallet PORT=8080
 EXPOSE 8080
 CMD ["node", "server.mjs"]
