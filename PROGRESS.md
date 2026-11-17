@@ -1,16 +1,20 @@
 # IntentGuard / BCH BLAZE — Progress
 
-## WPREV5 Phase 2B — license and delivery
+## WPREV5 Phase 2B-2 — license and delivery closeout
 
-The IntentGuard BCH application source uses the root MIT license. The production
-package includes WizardConnect GNU LGPLv3/GPLv3 and third-party notices under
-`/notices/`, plus read-only `/health` and `/api/payment-config` routes. The intended
-public contest repository is `peterpeter228/intentguard-bch-blaze-2026`; the
-original repository must remain private.
+The application source has a root MIT LICENSE. The public contest repository
+is `peterpeter228/intentguard-bch-blaze-2026`; its publication is pending the
+coordinator's push. The production package retains LGPLv3/GPLv3 and third-party
+notices at `/notices/`. Publication caveats have been cleaned up; the original
+repository remains private.
 
-Final local verification and exact results are recorded separately in the rev5
-`engineering/phase2b` evidence directory. Publication, main merge, deployment,
-and real-wallet/live-chain operation remain unverified until independently recorded.
+Local LGPL relinking with modified WizardConnect source passed for both payment
+bundles in an isolated application build; the exact experiment and digests are
+recorded in the Phase 2B-2 evidence. The owner accepted the ten MIT-declared
+locked runtime packages and 12 npm audit advisories under
+`owner-2026-11-17-phase2b2-relink-and-wording`. Subject to final local verification,
+this work is ready for coordinator merge, push and deployment; none is claimed
+here as completed. Real-wallet/live-chain proof remains pending owner A7.
 No wallet, signing, broadcast, original-volume access or deployment is authorized
 in this work package; the agent mainnet cap remains 0 sat.
 
@@ -19,13 +23,13 @@ in this work package; the agent mainnet cap remains 0 sat.
 A5 real-browser acceptance passed in `ob-bch-rev5-a5-browser-fix1-complete-20261117`:
 five scenarios and 15 screenshots, using synthetic loopback rather than a live wallet
 or chain. The homepage disclosure identifies the pre-event baseline and demo, the
-independent contest repository target `peterpeter228/intentguard-bch-blaze-2026`,
+public contest repository `peterpeter228/intentguard-bch-blaze-2026`,
 the private old repository and the 0 sat agent cap.
 
 Final validation, payment and builder verification, TLC, production build and
 isolated smoke evidence are recorded separately in the rev5 `engineering/phase2a`
-directory. Publication and merge remain pending; real-wallet/live-chain operation
-requires visitor/owner verification. Chipnet authorization is withdrawn; the
+directory. Real-wallet/live-chain operation requires visitor/owner verification.
+Chipnet authorization is withdrawn; the
 unavailable historical row is a non-official engineering gap.
 
 ## Earlier: WPREV5 visitor relay implementation

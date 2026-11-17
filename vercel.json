@@ -2,6 +2,7 @@
   "buildCommand": "npm run build:production",
   "outputDirectory": "dist/production/public",
   "rewrites": [
+    { "source": "/favicon.ico", "destination": "/favicon.svg" },
     { "source": "/payment.js", "destination": "/visitor-payment.js" },
     { "source": "/pay", "destination": "/pay.html" },
     { "source": "/request", "destination": "/request.html" },

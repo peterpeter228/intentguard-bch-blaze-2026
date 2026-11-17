@@ -44,6 +44,19 @@ function assertSecurityHeaders(headers) {
   assert.match(headers['content-security-policy'], /frame-ancestors 'none'/);
   assert.equal(headers['access-control-allow-origin'], undefined);
 }
+async function assertFavicon(port, host) {
+  const response = await rawRequest(port, '/favicon.svg', 'GET', { Host: host });
+  assert.equal(response.status, 200);
+  assert.equal(response.headers['content-type'], 'image/svg+xml; charset=utf-8');
+  assertSecurityHeaders(response.headers);
+  assert.deepEqual(response.body, await readFile(join(process.cwd(), 'core/favicon.svg')));
+  assert.match(response.body.toString('utf8'), /<svg\b/);
+  const alias = await rawRequest(port, '/favicon.ico', 'GET', { Host: host });
+  assert.equal(alias.status, 200);
+  assert.equal(alias.headers['content-type'], 'image/svg+xml; charset=utf-8');
+  assertSecurityHeaders(alias.headers);
+  assert.deepEqual(alias.body, response.body);
+}
 async function assertNoticeRoutes(port, noticeRoot, host) {
   const paths = [
     ['/notices', 'index.html', 'text/html'], ['/notices/', 'index.html', 'text/html'], ['/notices/index.html', 'index.html', 'text/html'],
@@ -83,6 +96,7 @@ test('loopback static UI and bounded XO diagnostics preserve all offline authori
       const response = await fetch(base + path); assert.equal(response.status, 200);
       const csp = response.headers.get('content-security-policy'); assert(csp.includes("'wasm-unsafe-eval'")); assert(!csp.includes("'unsafe-eval'")); assert(csp.includes("connect-src 'self'")); assert.equal(response.headers.get('cache-control'), 'no-store');
     }
+    await assertFavicon(8788, '127.0.0.1:8788');
     await assertNoticeRoutes(8788, join(process.cwd(), 'notices'), '127.0.0.1:8788');
     const health = await rawRequest(8788, '/health');
     assert.equal(health.status, 200); assert.equal(health.headers['content-type'], 'application/json; charset=utf-8'); assertSecurityHeaders(health.headers);
@@ -155,6 +169,7 @@ test('production publicRoot serves only exact notice files with security headers
   let server;
   try {
     await mkdir(publicRoot);
+    await cp(join(process.cwd(), 'core/favicon.svg'), join(publicRoot, 'favicon.svg'));
     await cp(join(process.cwd(), 'notices'), noticeRoot, { recursive: true });
     await appendFile(join(noticeRoot, 'LICENSE-XO.txt'), '\nPublic-root fixture marker.\n');
     await writeFile(join(noticeRoot, 'LICENSE-WizardConnect-upstream.txt'), 'not publicly accessible');
@@ -163,6 +178,7 @@ test('production publicRoot serves only exact notice files with security headers
     server = createPaymentServer(undefined, publicRoot, true);
     await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
     const port = server.address().port, host = 'intentguard-api-production.up.railway.app';
+    await assertFavicon(port, host);
     await assertNoticeRoutes(port, noticeRoot, host);
     const health = await rawRequest(port, '/health', 'GET', { Host: host });
     assert.equal(health.status, 200); assert.deepEqual(JSON.parse(health.body), { status: 'ok', mode: 'public-demo', mainnetCapSatoshis: '0' });

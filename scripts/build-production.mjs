@@ -6,13 +6,14 @@ const out = resolve('dist/production');
 await rm(out, { recursive: true, force: true }); // Generated owned output only; never carry stale assets.
 await mkdir(join(out, 'public'), { recursive: true });
 for (const [source, target] of [['core/index.html', 'index.html'], ['core/payment.html', 'pay.html'], ['core/request.html', 'request.html'], ['core/style.css', 'style.css'],
+  ['core/favicon.svg', 'favicon.svg'],
   ['dist/core/app.js', 'app.js'], ['dist/core/request.js', 'request.js'], ['dist/core/payment.js', 'payment.js'], ['dist/core/visitor-payment.js', 'visitor-payment.js']]) await copyFile(source, join(out, 'public', target));
 const bannerPath = join(out, 'public/index.html');
 let banner = await readFile(bannerPath, 'utf8');
 for (const [field, decided] of Object.entries({ SLIDES_URL: '<a href="https://docs.google.com/presentation/d/1TwJWG2ECG8dBk-DYNTwLw9T35JaWD5BTvXSxTPKQVIk/edit?usp=sharing">Introduction slides</a>',
   EMBER2026_ADDRESS: 'bitcoincash:zzkuruucxhqr7sx77ee8uyvvagw7atrf3520fhy2ds', OLD_REPO_URL: 'https://github.com/peterpeter228/intentguard-bch (private)',
-  SOURCE_REPO_URL: '<a href="https://github.com/peterpeter228/intentguard-bch-blaze-2026">BCH BLAZE 2026 contest repository target</a> (publication not yet verified)',
-  NEW_REPO_URL: '<a href="https://github.com/peterpeter228/intentguard-bch-blaze-2026">https://github.com/peterpeter228/intentguard-bch-blaze-2026</a> (target for an independent contest copy from baseline 78e6ab6b; publication not yet verified)',
+  SOURCE_REPO_URL: '<a href="https://github.com/peterpeter228/intentguard-bch-blaze-2026">IntentGuard BCH — BCH BLAZE 2026 public contest repository</a>',
+  NEW_REPO_URL: '<a href="https://github.com/peterpeter228/intentguard-bch-blaze-2026">https://github.com/peterpeter228/intentguard-bch-blaze-2026</a> (independent public contest copy from baseline 78e6ab6b)',
   PRE_HACK_DEMO_URL: '<a href="https://intentguard-pdyx17t6x-peterpeter228s-projects.vercel.app/">Pre-event offline demonstration</a> — not mainnet-usable' })) banner = banner.replaceAll('TODO_OWNER_' + field, decided);
 if (banner.includes('TODO_OWNER_')) throw Error('UNRESOLVED_OWNER_PLACEHOLDER');
 await writeFile(bannerPath, banner);

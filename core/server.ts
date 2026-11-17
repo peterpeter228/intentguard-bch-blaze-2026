@@ -16,6 +16,8 @@ const COMPUTE_DEADLINE_MS = 15000;
 const assets: Record<string, [string, string]> = {
   '/': ['../../core/index.html', 'text/html'], '/request': ['../../core/request.html', 'text/html'],
   '/request.js': ['./request.js', 'text/javascript'], '/style.css': ['../../core/style.css', 'text/css'], '/app.js': ['./app.js', 'text/javascript'],
+  '/favicon.svg': ['../../core/favicon.svg', 'image/svg+xml'],
+  '/favicon.ico': ['../../core/favicon.svg', 'image/svg+xml'],
   '/pay': ['../../core/payment.html', 'text/html'], '/payment.js': ['./payment.js', 'text/javascript']
 };
 const notices: Record<string, [string, string]> = {
@@ -180,7 +182,7 @@ const server = createServer(async (req, res) => {
       res.writeHead(200, { 'Content-Type': notice[1] + '; charset=utf-8' }); res.end(data);
     } else if (asset) {
       const visitorBundle = req.url === '/payment.js' && flow instanceof VisitorPaymentReader;
-      const file = req.url === '/' ? 'index.html' : req.url === '/pay' ? 'pay.html' : req.url === '/request' ? 'request.html' : visitorBundle ? 'visitor-payment.js' : req.url!.slice(1);
+      const file = req.url === '/' ? 'index.html' : req.url === '/pay' ? 'pay.html' : req.url === '/request' ? 'request.html' : req.url === '/favicon.ico' ? 'favicon.svg' : visitorBundle ? 'visitor-payment.js' : req.url!.slice(1);
       const data = await readFile(publicRoot ? resolve(publicRoot, file) : new URL(visitorBundle ? './visitor-payment.js' : asset[0], import.meta.url));
       res.writeHead(200, { 'Content-Type': asset[1] + '; charset=utf-8' }); res.end(data);
     }

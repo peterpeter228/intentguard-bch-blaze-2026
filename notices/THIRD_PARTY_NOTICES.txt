@@ -6,7 +6,8 @@ the browser payment bundle; the production image retains runtime dependencies
 and some packages occur in other build or probe artifacts. This file includes
 available installed LICENSE, LICENCE, COPYING and NOTICE texts verbatim,
 grouped only when their complete text is identical. Additional nested notices
-and installed README license passages are included where identified. Package
+and installed README license passages are included where identified. Selected
+upstream license texts and release provenance are also included below. Package
 metadata are not substitutes for an absent complete copyright/license notice.
 The inventory is not legal clearance or a complete audit of vendored code.
 
@@ -19,30 +20,40 @@ upstream gitHead license evidence is available in /notices/license-evidence.json
 The LGPLv3 and incorporated GPLv3 texts are in /notices/LICENSE-LGPLv3.txt and
 /notices/LICENSE-GPLv3.txt. Upstream source:
 https://gitlab.com/riftenlabs/lib/wizardconnect
-Target application source (publication and availability are not verified):
+Application source:
 https://github.com/peterpeter228/intentguard-bch-blaze-2026
 LGPLv3 section 4 requires appropriate corresponding source and, when using its
 relinking option, suitable application material to allow modification and
 recombination or relinking; preserve notices and applicable reverse-engineering
-rights. An exact corresponding-source offer and workable relinking procedure
-for any distribution have not yet been verified.
+rights. A local source-replacement and recombination check passed for both
+payment bundles; /notices/ describes the verified procedure and its limits.
 
-@xo-cash/state@0.0.5: package.json and README declare MIT and author
-GeneralProtocols; no installed standalone license text or copyright notice was
-found. Registry metadata reports gitHead ee2103eda8aa93688c4a1174fa5e8b7626e48440:
+@xo-cash/state@0.0.5: package.json and README.md both declare MIT;
+package.json names GeneralProtocols as author, not necessarily copyright owner.
+Registry metadata reports gitHead ee2103eda8aa93688c4a1174fa5e8b7626e48440:
 https://registry.npmjs.org/@xo-cash%2Fstate/0.0.5
+https://gitlab.com/GeneralProtocols/xo/state/-/blob/ee2103eda8aa93688c4a1174fa5e8b7626e48440/package.json
+https://gitlab.com/GeneralProtocols/xo/state/-/blob/ee2103eda8aa93688c4a1174fa5e8b7626e48440/README.md
 https://gitlab.com/GeneralProtocols/xo/state/-/tree/ee2103eda8aa93688c4a1174fa5e8b7626e48440
-The pinned upstream tree has no LICENSE/COPYING file; its README and package
-metadata state MIT but provide no copyright statement or full text. The XO
-fixture and other XO packages' licenses are not evidence of state copyright.
-Full license text and exact copyright for this package remain unverified.
+The pinned upstream tree has no standalone LICENSE/COPYING file; the README
+and package metadata provide no copyright statement or complete license text.
+The XO fixture and other XO packages' licenses are not evidence of state
+copyright. The full package license text and exact copyright remain unverified.
+The owner explicitly accepted this locked MIT-declared package under decision
+owner-2026-11-17-phase2b2-relink-and-wording; acceptance does not supply the
+missing text or establish copyright.
 
 INSTALLED PACKAGE INVENTORY
 
 @bch-wc2/interfaces@0.0.8
   Installed path: node_modules/@bch-wc2/interfaces
   Declared license: MIT
-  Full package license text and exact copyright not established from installed files; further evidence required.
+  Registry gitHead: d0d2db0ea2b2022110583a0c58d4b8198a3d8570 (upstream v0.0.8).
+  https://registry.npmjs.org/@bch-wc2%2Finterfaces/0.0.8
+  https://github.com/mainnet-pat/bch-wc2/blob/d0d2db0ea2b2022110583a0c58d4b8198a3d8570/packages/interfaces/package.json
+  https://github.com/mainnet-pat/bch-wc2/tree/d0d2db0ea2b2022110583a0c58d4b8198a3d8570
+  No standalone license file was found in the pinned tree or installed package;
+  the complete package license text and exact copyright remain unverified.
 
 @bitauth/libauth@3.1.0-next.8
   Installed path: node_modules/@bitauth/libauth
@@ -82,7 +93,12 @@ INSTALLED PACKAGE INVENTORY
   Declared license: MIT
   Upstream repository: git+https://gitlab.com/electrum-cash/debug-logs.git
   Author metadata (not a copyright assertion): Jonathan Silverblood
-  Full package license text and exact copyright not established from installed files; further evidence required.
+  Registry gitHead: b2780d5ebbc208561ea7994f0af10e2d1176114f.
+  https://registry.npmjs.org/@electrum-cash%2Fdebug-logs/1.0.0
+  https://gitlab.com/electrum-cash/debug-logs/-/blob/b2780d5ebbc208561ea7994f0af10e2d1176114f/package.json
+  https://gitlab.com/electrum-cash/debug-logs/-/tree/b2780d5ebbc208561ea7994f0af10e2d1176114f
+  No standalone license file was found in the pinned tree or installed package;
+  the complete package license text and exact copyright remain unverified.
 
 @electrum-cash/network@4.4.8
   Installed path: node_modules/@electrum-cash/network
@@ -116,14 +132,24 @@ INSTALLED PACKAGE INVENTORY
   Declared license: MIT
   Upstream repository: git+https://gitlab.com/electrum-cash/socket.git
   Author metadata (not a copyright assertion): Jonathan Silverblood
-  Full package license text and exact copyright not established from installed files; further evidence required.
+  Registry gitHead: 20048ac3d148aaec88d9cdfd0a82971e4307a8c7.
+  https://registry.npmjs.org/@electrum-cash%2Fsocket/4.2.0
+  https://gitlab.com/electrum-cash/socket/-/blob/20048ac3d148aaec88d9cdfd0a82971e4307a8c7/package.json
+  https://gitlab.com/electrum-cash/socket/-/tree/20048ac3d148aaec88d9cdfd0a82971e4307a8c7
+  No standalone license file was found in the pinned tree or installed package;
+  the complete package license text and exact copyright remain unverified.
 
 @electrum-cash/web-socket@4.2.0
   Installed path: node_modules/@electrum-cash/web-socket
   Declared license: MIT
   Upstream repository: git+https://gitlab.com/electrum-cash/web-socket.git
   Author metadata (not a copyright assertion): Jonathan Silverblood
-  Full package license text and exact copyright not established from installed files; further evidence required.
+  Registry gitHead: 8c3c9f73761e20cb87cc0af34f08728ef5b9971d.
+  https://registry.npmjs.org/@electrum-cash%2Fweb-socket/4.2.0
+  https://gitlab.com/electrum-cash/web-socket/-/blob/8c3c9f73761e20cb87cc0af34f08728ef5b9971d/package.json
+  https://gitlab.com/electrum-cash/web-socket/-/tree/8c3c9f73761e20cb87cc0af34f08728ef5b9971d
+  No standalone license file was found in the pinned tree or installed package;
+  the complete package license text and exact copyright remain unverified.
 
 @exodus/bytes@1.16.0
   Installed path: node_modules/@exodus/bytes
@@ -190,13 +216,23 @@ INSTALLED PACKAGE INVENTORY
   Installed path: node_modules/@pnpm/config.env-replace
   Declared license: MIT
   Upstream repository: https://github.com/pnpm/components
-  Full package license text and exact copyright not established from installed files; further evidence required.
+  https://registry.npmjs.org/@pnpm%2Fconfig.env-replace/1.1.0
+  Registry metadata does not report a gitHead. The installed source files
+  env-replace.ts and index.ts match this pre-publication upstream snapshot:
+  https://github.com/pnpm/components/tree/d8c73634415cb24b558c06990846a2d6045c1de7/config/env-replace
+  This snapshot's repository-root MIT license is reproduced as [154]; the
+  exact release commit has not been established.
 
 @pnpm/network.ca-file@1.0.2
   Installed path: node_modules/@pnpm/network.ca-file
   Declared license: MIT
   Upstream repository: https://github.com/pnpm/components
-  Full package license text and exact copyright not established from installed files; further evidence required.
+  https://registry.npmjs.org/@pnpm%2Fnetwork.ca-file/1.0.2
+  Registry metadata does not report a gitHead. The installed source files
+  ca-file.ts and index.ts match this pre-publication upstream snapshot:
+  https://github.com/pnpm/components/tree/4d8f2832e8538be2f41c71c0a3c0e592e0921bb9/network/ca-file
+  This snapshot's repository-root MIT license is reproduced as [154]; the
+  exact release commit has not been established.
 
 graceful-fs@4.2.10
   Installed path: node_modules/@pnpm/network.ca-file/node_modules/graceful-fs
@@ -236,7 +272,15 @@ graceful-fs@4.2.10
   Declared license: MIT
   Upstream repository: git://github.com/TooTallNate/once.git
   Author metadata (not a copyright assertion): Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
-  Full package license text and exact copyright not established from installed files; further evidence required.
+  Registry gitHead: 3948afcb5803013e184861943e0018e37830fcfe (release 1.1.2).
+  https://registry.npmjs.org/@tootallnate%2Fonce/1.1.2
+  https://github.com/TooTallNate/once/blob/3948afcb5803013e184861943e0018e37830fcfe/package.json
+  https://github.com/TooTallNate/once/tree/3948afcb5803013e184861943e0018e37830fcfe
+  The pinned tree and installed package contain no standalone license text.
+  Upstream added a complete MIT LICENSE in later commit
+  de4a704b54936d83c8d6347d28665fe3b66c6de6; its text is reproduced as [155].
+  That later file was not present at the release commit; its applicability to
+  the earlier release is not independently established by its later date.
 
 @types/mime@3.0.4
   Installed path: node_modules/@types/mime
@@ -307,7 +351,8 @@ graceful-fs@4.2.10
   Declared license: MIT
   Upstream repository: git+https://gitlab.com/GeneralProtocols/xo/state.git
   Author metadata (not a copyright assertion): GeneralProtocols
-  Full package license text and exact copyright not established from installed files; further evidence required.
+  See the state-specific provenance and owner decision above; complete package
+  license text and exact copyright remain unverified.
 
 @xo-cash/primitives@0.0.2
   Installed path: node_modules/@xo-cash/state/node_modules/@xo-cash/primitives
@@ -807,7 +852,15 @@ err-code@2.0.3
   Declared license: MIT
   Upstream repository: git://github.com/IndigoUnited/js-err-code.git
   Author metadata (not a copyright assertion): IndigoUnited <hello@indigounited.com> (http://indigounited.com)
-  Full package license text and exact copyright not established from installed files; further evidence required.
+  Registry gitHead: 92511d41a6a926c94c9d11493404867b1e92a77a.
+  https://registry.npmjs.org/err-code/2.0.3
+  https://github.com/IndigoUnited/js-err-code/blob/92511d41a6a926c94c9d11493404867b1e92a77a/package.json
+  https://github.com/IndigoUnited/js-err-code/blob/92511d41a6a926c94c9d11493404867b1e92a77a/README.md
+  https://github.com/IndigoUnited/js-err-code/tree/92511d41a6a926c94c9d11493404867b1e92a77a
+  The pinned README says "Released under the MIT License" and links to the
+  Open Source Initiative MIT text, reproduced as [157]. Neither the README nor
+  pinned tree supplies a standalone package license or copyright notice; the
+  copyright template in [157] does not establish this package's copyright.
 
 escape-goat@4.0.0
   Installed path: node_modules/escape-goat
@@ -1355,7 +1408,15 @@ nostr-wasm@0.1.0
   Installed path: node_modules/nostr-wasm
   Declared license: MIT
   Author metadata (not a copyright assertion): fiatjaf <fiatjaf@gmail.com>
-  Full package license text and exact copyright not established from installed files; further evidence required.
+  Registry gitHead: 8c65c3e1a2e5d7615f23727a882d3285c767c313.
+  https://registry.npmjs.org/nostr-wasm/0.1.0
+  https://github.com/fiatjaf/nostr-wasm/blob/8c65c3e1a2e5d7615f23727a882d3285c767c313/package.json
+  https://github.com/fiatjaf/nostr-wasm/blob/8c65c3e1a2e5d7615f23727a882d3285c767c313/README.md
+  https://github.com/fiatjaf/nostr-wasm/tree/8c65c3e1a2e5d7615f23727a882d3285c767c313
+  The pinned package tree has no standalone license or verified package
+  copyright notice. Its README identifies an upstream libsecp256k1 submodule,
+  used for the packaged WASM; the pinned submodule's separate MIT text is [156]
+  and is not evidence of the nostr-wasm package's own copyright.
 
 npmlog@6.0.2
   Installed path: node_modules/npmlog
@@ -7164,5 +7225,109 @@ Source(s):
 //  http://www.denso-wave.com/qrcode/faqpatent-e.html
 //
 //---------------------------------------------------------------------
+
+===== END TEXT =====
+
+===== [154] =====
+Source(s): pnpm/components repository-root LICENSE at the matching snapshots
+  https://raw.githubusercontent.com/pnpm/components/d8c73634415cb24b558c06990846a2d6045c1de7/LICENSE
+  https://raw.githubusercontent.com/pnpm/components/4d8f2832e8538be2f41c71c0a3c0e592e0921bb9/LICENSE
+
+The MIT License (MIT)
+
+Copyright (c) 2015-2016 Rico Sta. Cruz and other contributors
+Copyright (c) 2016-2022 Zoltan Kochan and other contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===== END TEXT =====
+
+===== [155] =====
+Source(s): TooTallNate/once LICENSE added after the 1.1.2 release
+  https://raw.githubusercontent.com/TooTallNate/once/de4a704b54936d83c8d6347d28665fe3b66c6de6/LICENSE
+
+MIT License
+
+Copyright (c) 2020 Nathan Rajlich
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===== END TEXT =====
+
+===== [156] =====
+Source(s): nostr-wasm's libsecp256k1 submodule at commit
+  77af1da9f631fa622fb5b5895fd27be431432368, as pinned by
+  https://github.com/fiatjaf/nostr-wasm/tree/8c65c3e1a2e5d7615f23727a882d3285c767c313/submodules
+  https://raw.githubusercontent.com/fiatjaf/nostr-wasm/8c65c3e1a2e5d7615f23727a882d3285c767c313/.gitmodules
+  https://raw.githubusercontent.com/bitcoin-core/secp256k1/77af1da9f631fa622fb5b5895fd27be431432368/COPYING
+
+Copyright (c) 2013 Pieter Wuille
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+===== END TEXT =====
+
+===== [157] =====
+Source(s): err-code's pinned README links to the Open Source Initiative text:
+  http://www.opensource.org/licenses/mit-license.php
+  That URL now redirects to https://opensource.org/license/mit
+The following is the linked license template, not a package-specific
+copyright notice. Its placeholders do not identify err-code's copyright owner.
+
+Copyright <YEAR> <COPYRIGHT HOLDER>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ===== END TEXT =====
