@@ -3,7 +3,7 @@ import type { SourceConfig, ReadMethod } from './evidence.js';
 import type { EvidenceSnapshot } from './guard.js';
 import type { SelectedOutpoint } from './unsigned-builder.js';
 import { createReviewedChipnetCandidates, REVIEWED_CHIPNET_ENDPOINTS, REVIEWED_MAINNET_ENDPOINTS } from './public-sources.js';
-import { createChipnetSender, createChipnetObservationTransport, type ObservationMethod } from './electrum-transport.js';
+import { createElectrumSender, createChipnetObservationTransport, type ObservationMethod } from './electrum-transport.js';
 
 export const paymentHash = (value: string): string => binToHex(sha256.hash(new TextEncoder().encode(value)));
 export function publicTransaction(raw: unknown): Transaction {
@@ -34,7 +34,7 @@ const readInclusion: ObservationRead = (id, method, params, signal) => {
 /** Public reads only. Session ownership is separately derived in the browser. */
 export class PaymentChain {
   readonly sources: readonly SourceConfig[];
-  constructor(sources: readonly SourceConfig[] = createReviewedChipnetCandidates(), private readonly sender = createChipnetSender(REVIEWED_CHIPNET_ENDPOINTS, REVIEWED_CHIPNET_ENDPOINTS[0]!.id), private readonly clock = Date.now, private readonly observationRead: ObservationRead = readInclusion) {
+  constructor(sources: readonly SourceConfig[] = createReviewedChipnetCandidates(), private readonly sender = createElectrumSender(REVIEWED_CHIPNET_ENDPOINTS, REVIEWED_CHIPNET_ENDPOINTS[0]!.id), private readonly clock = Date.now, private readonly observationRead: ObservationRead = readInclusion) {
     this.sources = sources.map(s => Object.freeze({ ...s, checkpoint: { ...s.checkpoint } }));
     if (sources.length !== 2 || new Set(sources.map(s => s.id)).size !== 2 || new Set(sources.map(s => s.operatorId)).size !== 2 ||
         sources.some(s => !['chipnet', 'mainnet'].includes(s.network) || s.network !== sources[0]!.network || s.genesisHash !== sources[0]!.genesisHash || s.checkpoint.hash !== sources[0]!.checkpoint.hash || s.checkpoint.height !== sources[0]!.checkpoint.height || s.kind !== sources[0]!.kind)) throw Error('SOURCE_CONFIGURATION');

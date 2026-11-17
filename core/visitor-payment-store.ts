@@ -108,10 +108,10 @@ export class VisitorPaymentStore {
       p.state = valid && p.state === 'SIGNING' ? 'POSTCHECKED' : 'NEEDS_REVIEW';
     });
   }
-  handoff(op: VisitorOperation): Promise<VisitorOperation> {
+  reserveDelivery(op: VisitorOperation): Promise<VisitorOperation> {
     return this.advance(op.id, op.revision, p => {
       if (p.state !== 'POSTCHECKED' || p.handedOff || !p.signedHex || p.txid !== hashTransaction(hexToBin(p.signedHex)) || p.request.expiresAt <= Date.now()) throw Error('NO_SEND_AUTHORITY');
-      p.handedOff = true; p.state = 'UNKNOWN'; // Reserve BEFORE releasing bytes. No wallet ACK is payment.
+      p.handedOff = true; p.state = 'UNKNOWN'; // One shared reservation for either relay or native handoff.
     });
   }
   observed(op: VisitorOperation, observation: PaymentObservation): Promise<VisitorOperation> {

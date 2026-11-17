@@ -1,5 +1,49 @@
 # IntentGuard / BCH BLAZE — Progress
 
+## WPREV5 Phase 2B — license and delivery
+
+The IntentGuard BCH application source uses the root MIT license. The production
+package includes WizardConnect GNU LGPLv3/GPLv3 and third-party notices under
+`/notices/`, plus read-only `/health` and `/api/payment-config` routes. The intended
+public contest repository is `peterpeter228/intentguard-bch-blaze-2026`; the
+original repository must remain private.
+
+Final local verification and exact results are recorded separately in the rev5
+`engineering/phase2b` evidence directory. Publication, main merge, deployment,
+and real-wallet/live-chain operation remain unverified until independently recorded.
+No wallet, signing, broadcast, original-volume access or deployment is authorized
+in this work package; the agent mainnet cap remains 0 sat.
+
+## WPREV5 Phase 2A — closeout in progress
+
+A5 real-browser acceptance passed in `ob-bch-rev5-a5-browser-fix1-complete-20261117`:
+five scenarios and 15 screenshots, using synthetic loopback rather than a live wallet
+or chain. The homepage disclosure identifies the pre-event baseline and demo, the
+independent contest repository target `peterpeter228/intentguard-bch-blaze-2026`,
+the private old repository and the 0 sat agent cap.
+
+Final validation, payment and builder verification, TLC, production build and
+isolated smoke evidence are recorded separately in the rev5 `engineering/phase2a`
+directory. Publication and merge remain pending; real-wallet/live-chain operation
+requires visitor/owner verification. Chipnet authorization is withdrawn; the
+unavailable historical row is a non-official engineering gap.
+
+## Earlier: WPREV5 visitor relay implementation
+
+Pre-event baseline `78e6ab6b9f072b8bde8f3cd5d2474bfdf7a426dd`; implementation
+input `f5e31128e68f6cedd5e59cdedc20ac5732697a0d`. The visitor signs only in their
+own wallet; independently checked identical bytes may be relayed once after a
+separate approval. Native handoff is exclusive. The focused local synthetic
+consumer fixture has exercised positive, invalid, cancelled and UNKNOWN cases;
+complete acceptance evidence is separate. No live transaction is implied.
+
+Browser, owner mainnet proof, deployment, source publication and Rio submission
+remain NOT_RUN. Agent mainnet cap 0 sat. Chipnet payment is withdrawn; the
+missing original row is a non-official engineering gap, not a blocker. No access
+to the original volume. Owner approvals for the exact main change and production
+deployment are separate; Rio retains submission ownership. Earlier entries are
+historical, including obsolete model-review-gate language.
+
 ## Current: WPREV4 implementation — 2026-11-15
 
 Baseline78e6ab6b9f072b8bde8f3cd5d2474bfdf7a426dd; branch unchanged.

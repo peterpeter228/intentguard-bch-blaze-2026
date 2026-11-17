@@ -151,8 +151,8 @@ export function createSyntheticElectrumTransport(allowlist: readonly ElectrumEnd
   return transport(captureEndpoint(allowlist, endpointId), factory, deadlineMs);
 }
 
-/** Send-only transport; the payment orchestrator persists a send reservation first. */
-export function createChipnetSender(allowlist: readonly ElectrumEndpoint[], endpointId: string): (hex: string, signal: AbortSignal) => Promise<unknown> {
+/** Send-only transport; its caller must commit the applicable send reservation first. */
+export function createElectrumSender(allowlist: readonly ElectrumEndpoint[], endpointId: string): (hex: string, signal: AbortSignal) => Promise<unknown> {
   const wire = transport(captureEndpoint(allowlist, endpointId), options => connect(options), ELECTRUM_DEADLINE_MS, true);
   return (hex, signal) => wire.request('blockchain.transaction.broadcast', [hex], signal);
 }

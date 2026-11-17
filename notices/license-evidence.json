@@ -1,0 +1,108 @@
+{
+  "observedAt": "2026-10-27T08:56:21.189021+00:00",
+  "packages": [
+    {
+      "package": "@wizardconnect/core",
+      "version": "0.2.5",
+      "registryUrl": "https://registry.npmjs.org/@wizardconnect/core/0.2.5",
+      "registryLicense": null,
+      "gitHead": "ca2b02f14ccfa2e367625c5f9291c62fb34f4a59",
+      "repository": {
+        "url": "git+https://gitlab.com/riftenlabs/lib/wizardconnect.git",
+        "type": "git",
+        "directory": "packages/core"
+      },
+      "distTarball": "https://registry.npmjs.org/@wizardconnect/core/-/core-0.2.5.tgz",
+      "registryShasum": "23ef78de5ccd1cde792c7516bb34f17328805ad1",
+      "observedTarballSha1": "23ef78de5ccd1cde792c7516bb34f17328805ad1",
+      "tarballLicensePaths": [],
+      "npmAttestationUrl": "https://registry.npmjs.org/-/npm/v1/attestations/@wizardconnect%2fcore@0.2.5",
+      "reportedProvenanceConfigSource": {
+        "uri": "git+https://gitlab.com/riftenlabs/lib/wizardconnect",
+        "digest": {
+          "sha1": "ca2b02f14ccfa2e367625c5f9291c62fb34f4a59"
+        },
+        "entryPoint": "publish"
+      },
+      "provenanceSignatureIndependentlyVerified": false,
+      "upstreamLicense": {
+        "name": "core",
+        "version": "0.2.5",
+        "gitHead": "ca2b02f14ccfa2e367625c5f9291c62fb34f4a59",
+        "url": "https://gitlab.com/api/v4/projects/80015883/repository/files/LICENSE.txt/raw?ref=ca2b02f14ccfa2e367625c5f9291c62fb34f4a59",
+        "status": 200,
+        "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+        "bytes": 7652
+      }
+    },
+    {
+      "package": "@wizardconnect/dapp",
+      "version": "0.2.2",
+      "registryUrl": "https://registry.npmjs.org/@wizardconnect/dapp/0.2.2",
+      "registryLicense": null,
+      "gitHead": "201e234bef057751a333e70c5618d626be27ed2c",
+      "repository": {
+        "url": "git+https://gitlab.com/riftenlabs/lib/wizardconnect.git",
+        "type": "git",
+        "directory": "packages/dapp"
+      },
+      "distTarball": "https://registry.npmjs.org/@wizardconnect/dapp/-/dapp-0.2.2.tgz",
+      "registryShasum": "8a80a4a0f3647ae3ee73e744190e9a33f03e088f",
+      "observedTarballSha1": "8a80a4a0f3647ae3ee73e744190e9a33f03e088f",
+      "tarballLicensePaths": [],
+      "npmAttestationUrl": "https://registry.npmjs.org/-/npm/v1/attestations/@wizardconnect%2fdapp@0.2.2",
+      "reportedProvenanceConfigSource": {
+        "uri": "git+https://gitlab.com/riftenlabs/lib/wizardconnect",
+        "digest": {
+          "sha1": "201e234bef057751a333e70c5618d626be27ed2c"
+        },
+        "entryPoint": "publish"
+      },
+      "provenanceSignatureIndependentlyVerified": false,
+      "upstreamLicense": {
+        "name": "dapp",
+        "version": "0.2.2",
+        "gitHead": "201e234bef057751a333e70c5618d626be27ed2c",
+        "url": "https://gitlab.com/api/v4/projects/80015883/repository/files/LICENSE.txt/raw?ref=201e234bef057751a333e70c5618d626be27ed2c",
+        "status": 200,
+        "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+        "bytes": 7652
+      }
+    },
+    {
+      "package": "@wizardconnect/react",
+      "version": "0.2.3",
+      "registryUrl": "https://registry.npmjs.org/@wizardconnect/react/0.2.3",
+      "registryLicense": null,
+      "gitHead": "1c93878f21c742a62ae8d7ef81ae329cea78f55c",
+      "repository": {
+        "url": "git+https://gitlab.com/riftenlabs/lib/wizardconnect.git",
+        "type": "git",
+        "directory": "packages/react"
+      },
+      "distTarball": "https://registry.npmjs.org/@wizardconnect/react/-/react-0.2.3.tgz",
+      "registryShasum": "b73a9e2258b94cf9d4e16bec8c478c006209c32f",
+      "observedTarballSha1": "b73a9e2258b94cf9d4e16bec8c478c006209c32f",
+      "tarballLicensePaths": [],
+      "npmAttestationUrl": "https://registry.npmjs.org/-/npm/v1/attestations/@wizardconnect%2freact@0.2.3",
+      "reportedProvenanceConfigSource": {
+        "uri": "git+https://gitlab.com/riftenlabs/lib/wizardconnect",
+        "digest": {
+          "sha1": "1c93878f21c742a62ae8d7ef81ae329cea78f55c"
+        },
+        "entryPoint": "publish"
+      },
+      "provenanceSignatureIndependentlyVerified": false,
+      "upstreamLicense": {
+        "name": "react",
+        "version": "0.2.3",
+        "gitHead": "1c93878f21c742a62ae8d7ef81ae329cea78f55c",
+        "url": "https://gitlab.com/api/v4/projects/80015883/repository/files/LICENSE.txt/raw?ref=1c93878f21c742a62ae8d7ef81ae329cea78f55c",
+        "status": 200,
+        "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+        "bytes": 7652
+      }
+    }
+  ],
+  "scope": "Official registry/gitHead/tarball and upstream LICENSE.txt read-only evidence. Not a legal opinion or full dependency-license clearance."
+}

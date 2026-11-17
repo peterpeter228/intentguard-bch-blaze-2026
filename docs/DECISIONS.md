@@ -1,5 +1,20 @@
 # Decisions
 
+## 2026-11-16 — WPREV5 visitor delivery and proof boundaries
+
+Owner's recorded judge-path choice: after the visitor confirms the terms and
+signs in their own wallet with broadcast disabled, verify the exact signed bytes
+and permit one in-page app relay of those bytes. Optional Electron Cash handoff
+is an alternative, not the judge path. No agent key, signing, funded payment or
+retry/resend of an UNKNOWN operation; agent mainnet cap remains 0 sat.
+Chipnet payment authorization is withdrawn. The unavailable original row is a
+non-official engineering gap; do not access, restore or restart that volume.
+After actual acceptance and separate owner approval for the exact main change and
+production deployment, the owner personally performs the small mainnet proof.
+Rio owns ordinary DoraHacks submission. No automatic main change, publication,
+deployment, submission or bounty IP waiver. Executed acceptance replaces a
+mandatory model-review gate; browser proof remains a separate later action.
+
 ## 2026-11-09 — Q1=B, dedicated Chipnet identity-only exception
 
 Owner card t292s1301 authorizes one NEW dedicated Chipnet identity/session,

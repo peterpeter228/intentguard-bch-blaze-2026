@@ -2,8 +2,9 @@
   "name": "intentguard-bch-g0",
   "version": "0.0.0-preseason",
   "private": true,
+  "license": "MIT",
   "type": "module",
-  "description": "PRESEASON guarded noncustodial BCH payment; Chipnet only, mainnet unsigned cap0",
+  "description": "Noncustodial BCH intent verification and visitor-approved exact-byte relay; agent mainnet cap 0",
   "engines": {
     "node": ">=24"
   },

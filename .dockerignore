@@ -1,6 +1,9 @@
 **
 !package.json
 !package-lock.json
+!LICENSE
+!notices/
+!notices/**
 !tsconfig.json
 !core/
 !core/**

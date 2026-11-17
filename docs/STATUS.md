@@ -1,5 +1,22 @@
 # IntentGuard BCH status
 
+## WPREV5 visitor relay — implementation in progress
+
+The rev5 input is `f5e31128e68f6cedd5e59cdedc20ac5732697a0d`; the
+pre-event baseline remains `78e6ab6b9f072b8bde8f3cd5d2474bfdf7a426dd`.
+The visitor path signs only in the visitor's wallet, checks exact bytes against
+the confirmed request, reserves one delivery and permits an in-page relay or
+exclusive native handoff. A local synthetic consumer trace exercised relay,
+rejections and UNKNOWN recovery; complete command/model evidence is recorded
+separately and must not be inferred from this entry.
+
+Browser proof: NOT_RUN in this overlay. Real wallet, owner mainnet payment,
+deployment, source publication and Rio submission: NOT_RUN. Agent cap 0 sat.
+Chipnet payment authorization is withdrawn; the missing original historical row
+is a non-official engineering gap, not a blocker. No original-volume action.
+Exact main/master change and production deployment each require owner approval;
+the owner personally performs the later mainnet proof. Earlier sections are history.
+
 ## 2026-11-15 WPREV4 event-period implementation
 
 Visitor-owned BCH mainnet path separates sign-only/full signed-byte verification

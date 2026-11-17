@@ -18,6 +18,17 @@ const assets: Record<string, [string, string]> = {
   '/request.js': ['./request.js', 'text/javascript'], '/style.css': ['../../core/style.css', 'text/css'], '/app.js': ['./app.js', 'text/javascript'],
   '/pay': ['../../core/payment.html', 'text/html'], '/payment.js': ['./payment.js', 'text/javascript']
 };
+const notices: Record<string, [string, string]> = {
+  '/notices': ['index.html', 'text/html'],
+  '/notices/': ['index.html', 'text/html'],
+  '/notices/index.html': ['index.html', 'text/html'],
+  '/notices/LICENSE-MIT.txt': ['LICENSE-MIT.txt', 'text/plain'],
+  '/notices/LICENSE-LGPLv3.txt': ['LICENSE-LGPLv3.txt', 'text/plain'],
+  '/notices/LICENSE-GPLv3.txt': ['LICENSE-GPLv3.txt', 'text/plain'],
+  '/notices/LICENSE-XO.txt': ['LICENSE-XO.txt', 'text/plain'],
+  '/notices/license-evidence.json': ['license-evidence.json', 'application/json'],
+  '/notices/THIRD_PARTY_NOTICES.txt': ['THIRD_PARTY_NOTICES.txt', 'text/plain']
+};
 function reply(res: ServerResponse, status: number, issue: string): void {
   if (res.destroyed || res.writableEnded) return;
   res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' });
@@ -69,41 +80,51 @@ function sameOrigin(req: IncomingMessage, publicDemo: boolean): boolean {
   if (req.headers['sec-fetch-dest'] !== undefined && req.headers['sec-fetch-dest'] !== 'empty') return false;
   return req.headers['sec-fetch-user'] === undefined;
 }
-async function candidate(req: IncomingMessage, res: ServerResponse, flow?: PaymentFlow | VisitorPaymentReader, publicDemo = false): Promise<void> {
+async function candidate(req: IncomingMessage, res: ServerResponse, mode: 'private-loopback' | 'public-demo' | 'visitor-wallet', flow?: PaymentFlow | VisitorPaymentReader, publicDemo = false): Promise<void> {
   // Aborted streams may emit a later error after body listeners are removed.
   req.on('error', () => {});
-  if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); reply(res, 405, 'METHOD_NOT_ALLOWED'); return; }
-  if (!sameOrigin(req, publicDemo) || req.headers['access-control-request-method'] !== undefined || req.headers['access-control-request-headers'] !== undefined) { reply(res, 403, 'ORIGIN_REJECTED'); return; }
-  if (!/^application\/json(?:\s*;\s*charset=utf-8)?$/i.test(req.headers['content-type'] ?? '') || req.headers['content-encoding'] !== undefined) { reply(res, 415, 'CONTENT_TYPE_REJECTED'); return; }
-  const length = req.headers['content-length'];
-  if (length !== undefined && (!/^\d+$/.test(length) || Number(length) > MAX_BODY_BYTES)) { reply(res, 413, 'BODY_TOO_LARGE'); return; }
-  let body: Buffer;
-  try {
-    body = await new Promise<Buffer>((resolve, reject) => {
-      const chunks: Buffer[] = []; let count = 0;
-      const cleanup = (): void => { clearTimeout(timer); req.off('data', data); req.off('end', end); req.off('aborted', aborted); req.off('error', aborted); };
-      const fail = (code: string): void => { cleanup(); req.resume(); reject(Error(code)); };
-      const data = (chunk: Buffer): void => { count += chunk.length; if (count > MAX_BODY_BYTES) fail('BODY_TOO_LARGE'); else chunks.push(chunk); };
-      const end = (): void => { cleanup(); resolve(Buffer.concat(chunks)); };
-      const aborted = (): void => fail('REQUEST_INTERRUPTED');
-      const timer = setTimeout(() => fail('BODY_TIMEOUT'), BODY_DEADLINE_MS);
-      req.on('data', data); req.once('end', end); req.once('aborted', aborted); req.once('error', aborted);
-    });
-  } catch (error) {
-    const issue = error instanceof Error ? error.message : 'REQUEST_INTERRUPTED';
-    reply(res, issue === 'BODY_TOO_LARGE' ? 413 : issue === 'BODY_TIMEOUT' ? 408 : 400, issue);
-    return;
-  }
+  const configRead = req.url === '/api/payment-config';
+  if (!configRead && req.method !== 'POST') { res.setHeader('Allow', 'POST'); reply(res, 405, 'METHOD_NOT_ALLOWED'); return; }
   let input: Record<string, unknown>;
-  try { input = parseBody(new TextDecoder('utf-8', { fatal: true }).decode(body), flow !== undefined); }
-  catch { reply(res, 400, 'INVALID_REQUEST'); return; }
+  if (configRead) input = { action: 'config' };
+  else {
+    if (!sameOrigin(req, publicDemo) || req.headers['access-control-request-method'] !== undefined || req.headers['access-control-request-headers'] !== undefined) { reply(res, 403, 'ORIGIN_REJECTED'); return; }
+    if (!/^application\/json(?:\s*;\s*charset=utf-8)?$/i.test(req.headers['content-type'] ?? '') || req.headers['content-encoding'] !== undefined) { reply(res, 415, 'CONTENT_TYPE_REJECTED'); return; }
+    const length = req.headers['content-length'];
+    if (length !== undefined && (!/^\d+$/.test(length) || Number(length) > MAX_BODY_BYTES)) { reply(res, 413, 'BODY_TOO_LARGE'); return; }
+    let body: Buffer;
+    try {
+      body = await new Promise<Buffer>((resolve, reject) => {
+        const chunks: Buffer[] = []; let count = 0;
+        const cleanup = (): void => { clearTimeout(timer); req.off('data', data); req.off('end', end); req.off('aborted', aborted); req.off('error', aborted); };
+        const fail = (code: string): void => { cleanup(); req.resume(); reject(Error(code)); };
+        const data = (chunk: Buffer): void => { count += chunk.length; if (count > MAX_BODY_BYTES) fail('BODY_TOO_LARGE'); else chunks.push(chunk); };
+        const end = (): void => { cleanup(); resolve(Buffer.concat(chunks)); };
+        const aborted = (): void => fail('REQUEST_INTERRUPTED');
+        const timer = setTimeout(() => fail('BODY_TIMEOUT'), BODY_DEADLINE_MS);
+        req.on('data', data); req.once('end', end); req.once('aborted', aborted); req.once('error', aborted);
+      });
+    } catch (error) {
+      const issue = error instanceof Error ? error.message : 'REQUEST_INTERRUPTED';
+      reply(res, issue === 'BODY_TOO_LARGE' ? 413 : issue === 'BODY_TIMEOUT' ? 408 : 400, issue);
+      return;
+    }
+    try { input = parseBody(new TextDecoder('utf-8', { fatal: true }).decode(body), flow !== undefined); }
+    catch { reply(res, 400, 'INVALID_REQUEST'); return; }
+  }
   if (res.destroyed || req.aborted) return;
   try {
     if (flow) {
       if (publicDemo && flow instanceof PaymentFlow && !['config', 'read', 'get'].includes(String(input.action))) { reply(res, 403, 'PUBLIC_DEMO_READ_ONLY'); return; }
-      const handled = await flow.handle(input);
+      const disconnected = new AbortController();
+      const cancel = (): void => { if (!res.writableEnded) disconnected.abort(); };
+      req.once('aborted', cancel); res.once('close', cancel);
+      let handled: unknown;
+      try { handled = flow instanceof VisitorPaymentReader ? await flow.handle(input, disconnected.signal) : await flow.handle(input); }
+      finally { req.off('aborted', cancel); res.off('close', cancel); }
+      if (res.destroyed || req.aborted) return;
       if (input.action === 'config' && !isRecord(handled)) throw Error('INVALID_PAYMENT_RESPONSE');
-      const result = input.action === 'config' && isRecord(handled) ? { ...handled, mode: flow instanceof VisitorPaymentReader ? 'visitor-wallet' : publicDemo ? 'public-demo' : 'private-loopback' } : handled, json = JSON.stringify(result);
+      const result = input.action === 'config' && isRecord(handled) ? { ...handled, mode } : handled, json = JSON.stringify(result);
       if (Buffer.byteLength(json) > 1600000) { reply(res, 503, 'PAYMENT_UNAVAILABLE'); return; }
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' }); res.end(json); return;
     }
@@ -130,26 +151,39 @@ async function candidate(req: IncomingMessage, res: ServerResponse, flow?: Payme
 }
 export function createPaymentServer(flow?: PaymentFlow | VisitorPaymentReader, publicRoot?: string, publicDemo = false) {
 let active = 0;
+const mode = flow instanceof VisitorPaymentReader ? 'visitor-wallet' : publicDemo ? 'public-demo' : 'private-loopback';
 const server = createServer(async (req, res) => {
   res.setHeader('Cache-Control', 'no-store'); res.setHeader('X-Content-Type-Options', 'nosniff'); res.setHeader('Referrer-Policy', 'no-referrer');
   res.setHeader('Content-Security-Policy', "default-src 'self'; connect-src 'self' wss://relay.riften.net:443; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'");
   const address = server.address(), port = address && typeof address !== 'string' ? address.port : 8788;
-  const healthRead = publicDemo && req.method === 'GET' && req.url === '/pay' && req.headers.host === 'healthcheck.railway.app';
+  const healthRead = publicDemo && req.method === 'GET' && (req.url === '/pay' || req.url === '/health') && req.headers.host === 'healthcheck.railway.app';
   if (!singleHeader(req, 'host') || (!healthRead && !(publicDemo ? publicHosts : [`localhost:${port}`, `127.0.0.1:${port}`]).includes(req.headers.host ?? ''))) { reply(res, 403, 'HOST_REJECTED'); return; }
-  if (req.url === '/api/payment' || req.url === '/api/xo-candidate') {
+  if (req.url === '/health') {
+    if (req.method !== 'GET') { res.setHeader('Allow', 'GET'); reply(res, 405, 'METHOD_NOT_ALLOWED'); return; }
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({ status: 'ok', mode, mainnetCapSatoshis: '0' })); return;
+  }
+  if (req.url === '/api/payment-config' && req.method !== 'GET') { res.setHeader('Allow', 'GET'); reply(res, 405, 'METHOD_NOT_ALLOWED'); return; }
+  if (req.url === '/api/payment' || req.url === '/api/payment-config' || req.url === '/api/xo-candidate') {
     if (active >= 8) { reply(res, 503, 'BUSY'); return; }
-    if (req.url === '/api/payment' && !flow) { reply(res, 503, 'PAYMENT_JOURNAL_REQUIRED'); return; }
+    if (req.url !== '/api/xo-candidate' && !flow) { reply(res, 503, 'PAYMENT_JOURNAL_REQUIRED'); return; }
     active++;
-    try { await candidate(req, res, req.url === '/api/payment' ? flow : undefined, publicDemo); } finally { active--; }
+    try { await candidate(req, res, mode, req.url === '/api/xo-candidate' ? undefined : flow, publicDemo); } finally { active--; }
     return;
   }
-  const asset = assets[req.url ?? ''];
-  if (req.method !== 'GET' || !asset) { res.writeHead(404); res.end(); return; }
+  const notice = Object.hasOwn(notices, req.url ?? '') ? notices[req.url ?? ''] : undefined;
+  const asset = Object.hasOwn(assets, req.url ?? '') ? assets[req.url ?? ''] : undefined;
+  if (req.method !== 'GET' || (!asset && !notice)) { res.writeHead(404); res.end(); return; }
   try {
-    const visitorBundle = req.url === '/payment.js' && flow instanceof VisitorPaymentReader;
-    const file = req.url === '/' ? 'index.html' : req.url === '/pay' ? 'pay.html' : req.url === '/request' ? 'request.html' : visitorBundle ? 'visitor-payment.js' : req.url!.slice(1);
-    const data = await readFile(publicRoot ? resolve(publicRoot, file) : new URL(visitorBundle ? './visitor-payment.js' : asset[0], import.meta.url));
-    res.writeHead(200, { 'Content-Type': asset[1] + '; charset=utf-8' }); res.end(data);
+    if (notice) {
+      const data = await readFile(publicRoot ? resolve(publicRoot, 'notices', notice[0]) : new URL('../../notices/' + notice[0], import.meta.url));
+      res.writeHead(200, { 'Content-Type': notice[1] + '; charset=utf-8' }); res.end(data);
+    } else if (asset) {
+      const visitorBundle = req.url === '/payment.js' && flow instanceof VisitorPaymentReader;
+      const file = req.url === '/' ? 'index.html' : req.url === '/pay' ? 'pay.html' : req.url === '/request' ? 'request.html' : visitorBundle ? 'visitor-payment.js' : req.url!.slice(1);
+      const data = await readFile(publicRoot ? resolve(publicRoot, file) : new URL(visitorBundle ? './visitor-payment.js' : asset[0], import.meta.url));
+      res.writeHead(200, { 'Content-Type': asset[1] + '; charset=utf-8' }); res.end(data);
+    }
   }
   catch { res.writeHead(500); res.end('Build the local core demo first.'); }
 });

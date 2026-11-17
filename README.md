@@ -1,19 +1,23 @@
-# WPREV4 visitor-wallet increment — November15,2026
+# WPREV5 visitor-wallet increment — November 2026
 
-Pre-event core baseline: `78e6ab6b9f072b8bde8f3cd5d2474bfdf7a426dd`.
-Event-period `/pay`: explicit recipient/amount/network/fee approval, fresh
-session-owned paths and two fixed BCH sources, sign-only (`broadcast:false`),
-full exact-byte/parent/VM/fee postcheck, then separate visitor-operated Electron
-Cash4.4.6.1 raw-hex broadcast handoff. The app/server NEVER broadcasts mainnet;
-agent mainnet cap remains **0sat**. Real wallet/payment interoperability is
-**UNVERIFIED** until a human visitor supplies actual evidence.
+Pre-event core baseline: `78e6ab6b9f072b8bde8f3cd5d2474bfdf7a426dd`;
+rev5 implementation input: `f5e31128e68f6cedd5e59cdedc20ac5732697a0d`.
+On `/pay`, a visitor reviews recipient, amount, network and fee, then signs in
+their own wallet with `broadcast:false`. After exact-byte, parent, signature and
+fee checks, a separate approval permits the app to relay those identical bytes
+once. Optional Electron Cash native handoff is mutually exclusive with app relay.
+The agent mainnet cap remains **0 sat**; real wallet/payment interoperability is
+**UNVERIFIED**. A relay response is not a receipt.
 
 Public operations/input reservations use strict-durability IndexedDB; no wallet
-credentials/xpub mappings are stored. Reserve before signing/handoff. Cancellation,
-reload, stale evidence or uncertain effect means UNKNOWN; no retry/re-sign/repeated
-handoff. Observe only original checked bytes/hash. Storage deletion/rollback,
-other devices/origins and independent wallet actions defeat global duplicate
-prevention. Two attributed node reports/inclusion are NOT SPV/consensus proof.
+credentials or xpub mappings are stored. Delivery is reserved before either
+effect. Cancellation, reload, stale evidence or an uncertain effect means UNKNOWN:
+never retry, re-sign or resend; observe only the original bytes/hash. Cancellation
+after a relay begins cannot recall bytes already sent. Storage deletion/rollback,
+other devices/origins, independent wallet actions, or an untrusted client defeat
+global duplicate prevention. The server's bounded in-memory duplicate check is
+per process, not durable across restarts/instances; it cannot attest human consent.
+Two attributed node reports/inclusion are NOT SPV/consensus proof.
 
 Node24, unchanged lockfile:
 ```sh
@@ -23,30 +27,29 @@ node scripts/smoke-production.mjs
 ```
 Production visitor mode permits only exact configured HTTPS Hosts/Origins.
 For local browser checks use the same stateless reader via
-`createPaymentServer(new VisitorPaymentReader())` on loopback.
-No signer/test seam is exposed as HTTP configuration.
+`createPaymentServer(new VisitorPaymentReader())` on loopback. No signer/test
+seam is exposed as HTTP configuration. The fixed-source relay independently
+rebuilds the request using fresh node evidence and rechecks the signed plan.
 
 Docker defaults to stateless `visitor-wallet`: `INTENTGUARD_PAYMENT_DIR` is ignored,
-no journal is opened/created/migrated, and create flag is refused. Original Railway
-volume is untouched. Rollback only to an accepted stateless artifact; old journal
-startup is not an authorized rollback. Vercel maps `/payment.js` to visitor bundle
-and uses existing exact HTTPS API rewrites. Legacy private Chipnet/SQLite paths
-remain separate; never bootstrap or replay them to obtain historical evidence.
+no journal is opened/created/migrated, and the create flag is refused. The original
+production volume remains untouched. Rollback only to an accepted stateless
+artifact; historical journal startup is not an authorized rollback.
 
-Fixed [pre-event offline demo](https://intentguard-pdyx17t6x-peterpeter228s-projects.vercel.app/)
-is not current wallet proof. Old repository remains private; approved new source
-`peterpeter228/intentguard-bch-blaze-2026` is not published here. Reviewed snapshots,
-license/privacy clearance, anonymous readback and organizer fork eligibility remain
-separate gates. Chipnet transaction requires dedicated-key confirmation and original
-consumed-operation reconciliation. Original nonempty-row location/restart evidence
-is missing. No external publication/deploy/submission or funds action in this stage.
+The fixed [pre-event offline demo](https://intentguard-pdyx17t6x-peterpeter228s-projects.vercel.app/)
+is not current wallet proof. The old repository remains private. Publication of
+the named contest repository requires the recorded source, privacy, license and
+organizer-rule checks. Chipnet payment authorization is withdrawn; the missing
+original row is a non-official engineering gap, not a contest blocker. No bounty
+IP waiver is authorized. Rio owns the ordinary DoraHacks submission, due
+2026-11-22 22:00 Asia/Shanghai.
 
-Run `payment:verify`, `builder:verify`, `payment:statechart` with NEW absolute
-evidence paths. Visitor tests use installed indexeddbshim, compiled UI/HTTP and
-existing isolated Chipnet signatures; not native-browser/real-wallet proof.
-Statechart generation is NOT TLC PASS: execute pinned official tool against both
-GuardedPayment and VisitorPayment specs. Fresh independent Astra and candidate-bound
-parent browser acceptance remain mandatory before owner exact-main-change gate.
+Use NEW absolute paths for `payment:verify`, `builder:verify` and
+`payment:statechart`. Fixture tests and model generation are not browser, live-wallet,
+chain or TLC proof. Browser acceptance is a later permitted coordinator action;
+deployment and exact main/master change require separate owner approval. Only then
+may the owner personally perform the small mainnet payment through the deployed app.
+No deployment, publication, payment or submission is performed by this job.
 See [flow](core/PAYMENT_FLOW.md), [progress](PROGRESS.md), and
 [pre-existing work](docs/PRE_EXISTING_WORK.md). Historical entries follow.
 

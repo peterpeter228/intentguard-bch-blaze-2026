@@ -4,11 +4,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends python3 make g+
 COPY package.json package-lock.json ./
 RUN npm ci --ignore-scripts --no-fund --no-audit && npm rebuild sqlite3 better-sqlite3
 COPY tsconfig.json ./
+COPY LICENSE ./
+COPY notices ./notices
 COPY core ./core
 COPY probes ./probes
 COPY preseason ./preseason
 COPY scripts ./scripts
-COPY review/post-argon/LICENSE-WizardConnect-upstream.txt review/post-argon/license-evidence.json ./review/post-argon/
 RUN npm run build:production && npm prune --omit=dev --ignore-scripts
 FROM node:24.22.2-bookworm-slim@sha256:01d566e8d94d8c619591d78652babfccd3c6992a3dffa9ed5ab39e11cf6c70e9
 WORKDIR /app

@@ -14,6 +14,7 @@ import { ConnectedWallet } from '../dist/core/wallet-adapter.js';
 import { PaymentJournal } from '../dist/core/operation-store.js';
 import { PaymentChain } from '../dist/core/payment-chain.js';
 import { PaymentFlow } from '../dist/core/payment-flow.js';
+import { VisitorPaymentReader } from '../dist/core/visitor-payment-reader.js';
 import { createPaymentServer } from '../dist/core/server.js';
 import { createPaymentRequestDraft } from '../dist/core/payment-request.js';
 import { verifySignedPlan } from '../dist/core/signed-verifier.js';
@@ -252,7 +253,7 @@ export async function driveUnsignedRevision() {
   }
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  test('Railway health Host admits only public-demo GET /pay without API authority', async () => {
+  test('Railway health Host admits only public-demo GET /pay and /health without API authority', async () => {
     const root = await mkdtemp(join(tmpdir(), 'intentguard-health-'));
     const journal = PaymentJournal.create(join(root, 'journal'));
     const flow = new PaymentFlow(journal, new PaymentChain());
@@ -274,29 +275,59 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       assert.equal(healthy.text, await readFile(new URL('./payment.html', import.meta.url), 'utf8'));
       assert.equal(healthy.headers['cache-control'], 'no-store'); assert.equal(healthy.headers['x-content-type-options'], 'nosniff');
       assert.equal(healthy.headers['referrer-policy'], 'no-referrer'); assert.match(healthy.headers['content-security-policy'], /frame-ancestors 'none'/);
-      for (const path of ['/api/payment', '/api/xo-candidate', '/', '/request', '/payment.js', '/style.css', '/pay?probe=1', '/pay/', '/missing']) {
+      const healthResponse = await call('/health');
+      assert.equal(healthResponse.status, 200); assert.equal(healthResponse.headers['content-type'], 'application/json; charset=utf-8');
+      assert.deepEqual(JSON.parse(healthResponse.text), { status: 'ok', mode: 'public-demo', mainnetCapSatoshis: '0' });
+      assert.equal(healthResponse.headers['cache-control'], 'no-store'); assert.equal(healthResponse.headers['x-content-type-options'], 'nosniff');
+      assert.equal(healthResponse.headers['referrer-policy'], 'no-referrer'); assert.match(healthResponse.headers['content-security-policy'], /frame-ancestors 'none'/);
+      assert.equal(healthResponse.headers['access-control-allow-origin'], undefined);
+      for (const path of ['/api/payment', '/api/payment-config', '/api/xo-candidate', '/', '/request', '/payment.js', '/style.css', '/notices', '/notices/LICENSE-XO.txt', '/pay?probe=1', '/pay/', '/health?probe=1', '/health/', '/missing']) {
         for (const method of ['GET', 'POST']) {
           const r = await call(path, method, health, 'https://' + publicHost, method === 'POST' ? '{"action":"config"}' : undefined);
           assert.equal(r.status, 403, method + ' ' + path); assert.equal(JSON.parse(r.text).issue, 'HOST_REJECTED');
         }
       }
       for (const method of ['HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']) assert.equal((await call('/pay', method)).status, 403, method);
+      for (const method of ['HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']) {
+        const rejected = await call('/health', method); assert.equal(rejected.status, 403, method);
+        if (method !== 'HEAD') assert.equal(JSON.parse(rejected.text).issue, 'HOST_REJECTED');
+      }
       for (const host of [health + ':8080', health.toUpperCase(), health + '.', health + '.evil.example', publicHost + ':443', '127.0.0.1:' + server.address().port]) {
         assert.equal((await call('/pay', 'GET', host)).status, 403, host);
+        assert.equal((await call('/health', 'GET', host)).status, 403, host);
       }
-      // Raw duplicate Host headers must not acquire the static exception.
-      const duplicate = await new Promise((resolve, reject) => {
-        const req = httpRequest({ hostname: '127.0.0.1', port: server.address().port, path: '/pay', headers: ['Host', health, 'Host', health] }, res => {
-          res.resume(); res.on('end', () => resolve(res.statusCode));
+      // Raw duplicate Host headers must not acquire either static exception.
+      for (const path of ['/pay', '/health', '/api/payment-config']) {
+        const duplicate = await new Promise((resolve, reject) => {
+          const req = httpRequest({ hostname: '127.0.0.1', port: server.address().port, path, headers: ['Host', health, 'Host', health] }, res => {
+            res.resume(); res.on('end', () => resolve(res.statusCode));
+          });
+          req.on('error', reject); req.setTimeout(5000, () => req.destroy(Error('HTTP_TEST_TIMEOUT'))); req.end();
         });
-        req.on('error', reject); req.setTimeout(5000, () => req.destroy(Error('HTTP_TEST_TIMEOUT'))); req.end();
-      });
-      assert.equal(duplicate, 403);
+        assert.equal(duplicate, 403, path);
+      }
       for (const host of [publicHost, 'intentguard-bch.vercel.app']) {
         assert.equal((await call('/pay', 'GET', host)).status, 200);
+        const allowedHealth = await call('/health', 'GET', host);
+        assert.equal(allowedHealth.status, 200); assert.deepEqual(JSON.parse(allowedHealth.text), { status: 'ok', mode: 'public-demo', mainnetCapSatoshis: '0' });
+        const getConfig = await call('/api/payment-config', 'GET', host);
+        assert.equal(getConfig.status, 200); assert.equal(getConfig.headers['content-type'], 'application/json; charset=utf-8');
+        assert.equal(getConfig.headers['cache-control'], 'no-store'); assert.equal(getConfig.headers['x-content-type-options'], 'nosniff');
+        assert.equal(getConfig.headers['referrer-policy'], 'no-referrer'); assert.match(getConfig.headers['content-security-policy'], /frame-ancestors 'none'/);
+        assert.equal(getConfig.headers['access-control-allow-origin'], undefined);
+        for (const path of ['/health', '/api/payment-config']) {
+          for (const method of ['HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']) {
+            const rejected = await call(path, method, host, 'https://' + host, method === 'POST' ? '{"action":"prepare"}' : undefined);
+            assert.equal(rejected.status, 405, method + ' ' + path); assert.equal(rejected.headers.allow, 'GET');
+          }
+        }
+        const crossOriginGet = await call('/api/payment-config', 'GET', host, 'https://evil.example');
+        assert.equal(crossOriginGet.status, 200); assert.deepEqual(JSON.parse(crossOriginGet.text), JSON.parse(getConfig.text));
+        assert.equal(crossOriginGet.headers['access-control-allow-origin'], undefined);
         for (const origin of ['https://' + publicHost, 'https://intentguard-bch.vercel.app']) {
           const config = await call('/api/payment', 'POST', host, origin, '{"action":"config"}');
           assert.equal(config.status, 200); assert.equal(JSON.parse(config.text).mode, 'public-demo'); assert.equal(JSON.parse(config.text).mainnetCapSatoshis, '0');
+          assert.deepEqual(JSON.parse(getConfig.text), JSON.parse(config.text));
         }
       }
       for (const origin of [undefined, 'https://' + health, 'http://' + publicHost, 'https://evil.example']) {
@@ -309,9 +340,27 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       }
       await stop(); server = createPaymentServer(flow); await new Promise(r => server.listen(0, '127.0.0.1', r));
       assert.equal((await call('/pay')).status, 403, 'private runtime has no health Host exception');
+      assert.equal((await call('/health')).status, 403, 'private runtime has no health Host exception');
       const localHost = '127.0.0.1:' + server.address().port;
-      assert.equal((await call('/api/payment', 'POST', localHost, 'http://' + localHost, '{"action":"config"}')).status, 200);
+      const privateHealth = await call('/health', 'GET', localHost);
+      assert.equal(privateHealth.status, 200); assert.deepEqual(JSON.parse(privateHealth.text), { status: 'ok', mode: 'private-loopback', mainnetCapSatoshis: '0' });
+      const privatePost = await call('/api/payment', 'POST', localHost, 'http://' + localHost, '{"action":"config"}');
+      const privateGet = await call('/api/payment-config', 'GET', localHost);
+      assert.equal(privatePost.status, 200); assert.equal(privateGet.status, 200); assert.deepEqual(JSON.parse(privateGet.text), JSON.parse(privatePost.text));
+      assert.equal(JSON.parse(privateGet.text).mode, 'private-loopback'); assert.equal(JSON.parse(privateGet.text).mainnetCapSatoshis, '0');
       assert.equal((await call('/api/payment', 'POST', localHost, 'https://' + health, '{"action":"config"}')).status, 403);
+      await stop(); server = createPaymentServer(new VisitorPaymentReader(), undefined, true); await new Promise(r => server.listen(0, '127.0.0.1', r));
+      const visitorHealth = await call('/health');
+      assert.equal(visitorHealth.status, 200); assert.deepEqual(JSON.parse(visitorHealth.text), { status: 'ok', mode: 'visitor-wallet', mainnetCapSatoshis: '0' });
+      const visitorGet = await call('/api/payment-config', 'GET', publicHost);
+      const visitorPost = await call('/api/payment', 'POST', publicHost, 'https://' + publicHost, '{"action":"config"}');
+      assert.equal(visitorGet.status, 200); assert.equal(visitorPost.status, 200); assert.deepEqual(JSON.parse(visitorGet.text), JSON.parse(visitorPost.text));
+      assert.equal(JSON.parse(visitorGet.text).mode, 'visitor-wallet'); assert.equal(JSON.parse(visitorGet.text).network, 'mainnet'); assert.equal(JSON.parse(visitorGet.text).mainnetCapSatoshis, '0');
+      assert.equal((await call('/api/payment-config')).status, 403, 'health Host has no config authority in visitor mode');
+      await stop(); server = createPaymentServer(undefined, undefined, true); await new Promise(r => server.listen(0, '127.0.0.1', r));
+      const unavailable = await call('/api/payment-config', 'GET', publicHost);
+      assert.equal(unavailable.status, 503); assert.equal(JSON.parse(unavailable.text).issue, 'PAYMENT_JOURNAL_REQUIRED');
+      assert.equal((await call('/health')).status, 200, 'health remains available without a payment flow');
     } finally { if (server?.listening) await stop(); journal.close(); await rm(root, { recursive: true }); }
   });
   test('public demo reads an unsigned HTTP-prepared draft unchanged across strict journal reopen', async () => {

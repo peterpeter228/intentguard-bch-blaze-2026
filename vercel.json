@@ -5,6 +5,10 @@
     { "source": "/payment.js", "destination": "/visitor-payment.js" },
     { "source": "/pay", "destination": "/pay.html" },
     { "source": "/request", "destination": "/request.html" },
+    { "source": "/notices", "destination": "/notices/index.html" },
+    { "source": "/notices/", "destination": "/notices/index.html" },
+    { "source": "/health", "destination": "https://intentguard-api-production.up.railway.app/health" },
+    { "source": "/api/payment-config", "destination": "https://intentguard-api-production.up.railway.app/api/payment-config" },
     { "source": "/api/payment", "destination": "https://intentguard-api-production.up.railway.app/api/payment" },
     { "source": "/api/xo-candidate", "destination": "https://intentguard-api-production.up.railway.app/api/xo-candidate" }
   ],

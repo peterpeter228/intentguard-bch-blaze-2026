@@ -1,39 +1,44 @@
-# WPREV4 visitor-wallet flow — 2026-11-15
+# WPREV5 visitor-wallet flow — 2026-11
 
-`visitor-wallet` is a stateless server reader, not PaymentFlow/PaymentJournal.
-It accepts only config/fixed-source read/independently rebuilt prepare/original
-signed-byte observe. No wallet, journal, mainnet sender, privileged actor flag or
-arbitrary endpoint. Production ignores old journal environment without accessing
-the path. Docker/Vercel select visitor bundle; legacy Chipnet remains separate.
+`visitor-wallet` is a stateless reader and fixed-source relay, not
+PaymentFlow/PaymentJournal. It has no wallet, keys or original-journal access.
+The relay endpoint accepts a signed transaction only with a request, selected
+inputs and plan binding; it independently fetches fresh two-source funding,
+rebuilds the plan and verifies the exact bytes, signatures, fee and network.
+It cannot independently establish that a human clicked the browser confirmation.
 
-Visitor: explicit network/recipient/amount/maximum fee/rates review -> confirm ->
-live SDK paths + two attributed BCH sources -> independent deterministic plan ->
-display ALL inputs/outputs/change/exact fee/size -> explicit sign-only approval ->
-strict IndexedDB input/economic and invocation reservation -> wallet broadcast:false
--> full verifySignedPlan/0x61 -> persist exact signedHex/local txid -> fresh sources,
-ownership and full postcheck -> explicit native handoff acknowledgement -> persist
-handoff intent -> display IDENTICAL bytes and Electron Cash4.4.6.1 instructions.
-Only visitor executes `cat signed.txn | electron-cash broadcast -`; app/server never
-runs it, sends RPC, requests second signature or treats ACK/download as payment.
+Visitor: explicit network/recipient/amount/maximum-fee review -> confirm -> live
+SDK paths and two attributed BCH sources -> independent deterministic plan ->
+display all inputs/outputs/change/exact fee -> sign-only approval -> strict
+IndexedDB input and invocation reservation -> wallet `broadcast:false` -> full
+`verifySignedPlan`/0x61 -> persist exact signedHex/local txid -> fresh sources,
+ownership and full postcheck -> separate approval -> strict shared delivery
+reservation -> either app relay of identical bytes once or optional native
+Electron Cash handoff, never both. Server rechecks the signed plan before the
+single fixed-endpoint invocation. ACK, RPC success or error is not a receipt.
 
-Failed/unknown/cancel/drop/reload/stale/changed session/terms/source after any
-possible effect: UNKNOWN, retain original identity and input tombstones. Late
-original callback quarantined; duplicate callbacks/CAS losers cannot re-sign or
-repeat handoff. Persistence failure refuses, no memory fallback. Reopen restores
-public facts only, never wallet authority. Same-origin retained-storage durability
-is not global exactly-once after deletion/rollback/other device/origin/wallet use.
+Failed/unknown/cancel/drop/reload/stale/changed session/terms/source or withdrawn
+delivery approval after any possible effect: UNKNOWN, retain original identity and
+input tombstones. Late callbacks are quarantined; duplicate callbacks/CAS losers
+cannot re-sign or resend. Cancellation after relay starts cannot recall bytes already sent. Strict
+same-origin retained IndexedDB is the primary reservation; the bounded server
+dedupe is per-process only. Storage deletion/rollback, another origin/device,
+server restart/instance or independent wallet use defeat global exactly-once.
+Reopen restores public facts only, never wallet authority; no memory fallback.
 
-Receipt: original hash/structure/parent-bound crypto, exact raw agreement from both
-fixed nodes; confirmed also matching merkle/header inclusion. Recheck freshness,
-invalidate stale/conflict/reorg status, never infer payment from missing UTXO.
-Sources: Kallisti cashnode.bch.ninja and Cyberbits Labs bch.cyberbits.eu, public
-operator/backend attribution with TLS and BCHN Axion661648 pin; NOT proof against
-collusion, SPV or consensus. Genesis/checkpoint provenance: BCHN07576013c91ff4a3a74acd85f189c69121cdad1b.
+Recovery reports an unsuccessful read when the original bytes or hash are
+unavailable, and an inconclusive read for UNKNOWN. OBSERVED means both fixed
+nodes agreed on the original transaction bytes, not that inclusion was found;
+CONFIRMED_ON_CHAIN also requires matching node-reported merkle/header inclusion.
+Recheck freshness and invalidate stale/conflict/reorg status. Sources are Kallisti
+and Cyberbits Labs with TLS and BCHN Axion661648 pin; NOT SPV/consensus/collusion
+proof. Real human wallet interoperability/payment remains UNVERIFIED.
 
-Actual human wallet interoperability/payment UNVERIFIED. Agent mainnet0sat; no
-protected identity/helper/Chipnet financial effect, original-volume operation,
-publication, deployment or submission. Independent Astra + parent embedded browser
-are separate acceptance. Historical pre-event flow below is not current authority.
+Agent mainnet cap is 0 sat. Chipnet payment authorization is withdrawn; the
+unavailable original row is a non-official engineering gap. Browser proof, owner
+approval for the exact main change/deployment, owner-performed mainnet proof and
+Rio submission are separate later gates. Historical flow below is not current
+authority.
 
 # Guarded payment — PRESEASON / task mainnet cap0
 

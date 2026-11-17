@@ -110,7 +110,7 @@ export class ConnectedWallet implements PublicKeySession {
     try {
       const response = await this.manager.sendSignRequest({ action: RelayMsgAction.SignTransactionRequest, sequence: envelope.sequence,
         time: Math.floor(Date.now() / 1000), inputPaths,
-        transaction: { transaction: plan.unsignedHex, sourceOutputs, broadcast: false, userPrompt: `IntentGuard ${network}: sign ONLY. App verifies exact bytes before your separate native-wallet broadcast.` } });
+        transaction: { transaction: plan.unsignedHex, sourceOutputs, broadcast: false, userPrompt: `IntentGuard ${network}: sign ONLY. App verifies exact bytes before your separately approved relay or native handoff.` } });
       if (signal.aborted || !this.pending || this.session !== envelope.sessionId || JSON.stringify(this.pending) !== JSON.stringify(envelope) ||
           response.action !== RelayMsgAction.SignTransactionResponse || response.sequence !== envelope.sequence || response.error !== undefined ||
           !Number.isSafeInteger(response.time) || Math.abs(Date.now() / 1000 - response.time) > 120 ||

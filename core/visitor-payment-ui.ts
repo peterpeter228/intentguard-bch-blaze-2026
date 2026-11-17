@@ -24,8 +24,9 @@ const wallet = new ConnectedWallet(() => {
 }, undefined, (envelope, signedHex) => {
   void store?.signed(envelope.operationId, envelope, signedHex, false).catch(() => {});
 }, 'mainnet');
-async function api(body: unknown): Promise<unknown> {
-  const response = await fetch('/api/payment', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(15000) });
+async function api(body: unknown, signal?: AbortSignal): Promise<unknown> {
+  const deadline = AbortSignal.timeout(20000);
+  const response = await fetch('/api/payment', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: signal ? AbortSignal.any([signal, deadline]) : deadline });
   const raw = await response.text();
   if (raw.length > 1600000) throw Error('PAYMENT_RESPONSE_LIMIT');
   if (!response.ok) throw Error('PAYMENT_UNAVAILABLE_RECONCILE_ORIGINAL');
@@ -37,11 +38,11 @@ function currentFields(): string {
 function invalidate(): void {
   epoch++; confirmed = false; draft = null; controller.abort(); clearTimeout(expires);
   el<HTMLInputElement>('handoff-ack').checked = false; el('handoff').hidden = true; el<HTMLTextAreaElement>('signed-raw').value = '';
-  for (const id of ['confirm', 'build', 'sign', 'broadcast', 'new-payment']) enabled(id, false);
+  for (const id of ['confirm', 'build', 'sign', 'broadcast', 'native-handoff', 'new-payment']) enabled(id, false);
   text('candidate', 'No current approval. Changed/stale/session-invalid terms require review.');
   if (operation && store && ['SIGNING', 'POSTCHECKED', 'OBSERVED', 'CONFIRMED_ON_CHAIN'].includes(operation.state)) {
     void store.uncertain(operation.id).catch(() => {});
-    text('result', 'UNKNOWN — retain original operation/input reservations; NEVER re-sign or repeat handoff.');
+    text('result', 'UNKNOWN — retain original operation/input reservations; NEVER re-sign or resend.');
   }
 }
 function assertCurrent(captured: number, session?: string): void {
@@ -79,18 +80,19 @@ function action(id: string, run: () => Promise<void> | void): void {
     if (busy) return;
     busy = true;
     void Promise.resolve().then(run).catch(error => {
-      enabled('sign', false); enabled('broadcast', false);
+      enabled('sign', false); enabled('broadcast', false); enabled('native-handoff', false);
       if (operation?.envelope && store) void store.uncertain(operation.id).catch(() => {});
       const code = error instanceof Error && /^[A-Z_]{1,80}$/.test(error.message) ? error.message : 'PAYMENT_UNAVAILABLE';
-      text('result', (operation?.envelope ? 'UNKNOWN — observe ORIGINAL operation only. No retry, re-sign or repeated handoff. ' : 'REFUSED — no signing authorized. ') + code);
+      text('result', (operation?.envelope ? 'UNKNOWN — observe ORIGINAL operation only. No retry, re-sign or resend. ' : 'REFUSED — no signing authorized. ') + code);
     }).finally(() => { busy = false; });
   });
 }
 for (const id of fields) el(id).addEventListener('input', () => { if (id === 'network') wallet.disconnect(); invalidate(); });
+el('handoff-ack').addEventListener('input', () => { if (!el<HTMLInputElement>('handoff-ack').checked) invalidate(); });
 el('disconnect').addEventListener('click', () => { invalidate(); wallet.disconnect(); });
 window.addEventListener('pagehide', () => { invalidate(); wallet.disconnect(); store?.close(); });
 window.addEventListener('focus', () => { if (operation?.envelope) invalidate(); });
-for (const id of ['connect', 'confirm', 'build', 'sign', 'broadcast', 'new-payment']) enabled(id, false);
+for (const id of ['connect', 'confirm', 'build', 'sign', 'broadcast', 'native-handoff', 'new-payment']) enabled(id, false);
 void (async () => {
   await sources(); store = await VisitorPaymentStore.open(); operation = await store.active();
   if (operation) {
@@ -140,7 +142,7 @@ action('build', async () => {
   operation = await store!.prepare({ request: d.request, requestDigest: d.requestDigest, build, plan, sourceDigest: supplied.sourceDigest });
   assertCurrent(captured, session);
   text('candidate', { network: 'BCH MAINNET', inputs: operation.plan.selectedInputs, outputs: operation.plan.outputSummary, feeSatoshis: operation.plan.feeSatoshis, rateBounds: operation.plan.feeRateBounds, signedSizeBounds: operation.plan.estimatedSignedBytes, planDigest: operation.plan.planDigest });
-  enabled('sign', true); enabled('build', false); text('result', 'Approve EVERY input/output/change, exact fee and BCH mainnet before sign-only. No broadcast follows automatically.');
+  enabled('sign', true); enabled('build', false); text('result', 'Approve EVERY input/output/change, exact fee and BCH mainnet before sign-only. Delivery requires a separate approval.');
 });
 action('sign', async () => {
   if (!operation || !store) throw Error('INVALID_CANDIDATE');
@@ -163,17 +165,31 @@ action('sign', async () => {
   operation = await store.signed(original.id, result.envelope, result.signedHex, valid);
   assertCurrent(captured, session);
   if (!valid || operation.state !== 'POSTCHECKED') throw Error('POSTCHECK_FAILED');
-  enabled('broadcast', true); text('result', { state: operation.state, txid: operation.txid, feeSatoshis: operation.plan.feeSatoshis, note: 'Exact signed bytes cryptographically checked. NOT sent. Separate explicit native-wallet handoff required.' });
+  enabled('broadcast', true); enabled('native-handoff', true); text('result', { state: operation.state, txid: operation.txid, feeSatoshis: operation.plan.feeSatoshis, note: 'Exact signed bytes cryptographically checked. NOT sent. Approve ONE delivery option separately.' });
 });
-action('broadcast', async () => {
+async function reserveDelivery(): Promise<VisitorOperation> {
   if (!operation || !store || !el<HTMLInputElement>('handoff-ack').checked) throw Error('NO_SEND_AUTHORITY');
   const captured = epoch, session = owned(), original = operation; assertCurrent(captured, session);
   const snapshot = await preflight(original, session, captured);
-  if (!original.signedHex || verifySignedPlan({ buildInput: { ...original.build, snapshot }, signedHex: original.signedHex }, Date.now()).status !== 'SIGNED_PLAN_VALID_OFFLINE') throw Error('POSTCHECK_FAILED');
-  operation = await store.handoff(original);
-  assertCurrent(captured, session); enabled('broadcast', false);
-  el<HTMLTextAreaElement>('signed-raw').value = operation.signedHex!; el('handoff').hidden = false;
-  text('result', { state: 'UNKNOWN', txid: operation.txid, note: 'Native handoff reserved ONCE before bytes displayed. You alone may broadcast in Electron Cash. No app/server send, no second signature. Observe original hash after your action.' });
+  const checked = original.signedHex && verifySignedPlan({ buildInput: { ...original.build, snapshot }, signedHex: original.signedHex }, Date.now());
+  const tx = original.signedHex && decodeTransaction(hexToBin(original.signedHex));
+  if (!original.signedHex || !original.txid || hashTransaction(hexToBin(original.signedHex)) !== original.txid || !checked || checked.status !== 'SIGNED_PLAN_VALID_OFFLINE' || checked.planDigest !== original.plan.planDigest || !tx || typeof tx === 'string' || !tx.inputs.every(i => i.unlockingBytecode[i.unlockingBytecode[0] ?? 0] === 0x61)) throw Error('POSTCHECK_FAILED');
+  operation = await store.reserveDelivery(original);
+  assertCurrent(captured, session); enabled('broadcast', false); enabled('native-handoff', false);
+  return operation;
+}
+action('broadcast', async () => {
+  const original = await reserveDelivery();
+  const response = await api({ action: 'relay', request: original.request, expectedRequestDigest: original.requestDigest,
+    scripts: original.build.intent.ownerScripts, changeScript: original.build.changeScript, feePolicy: original.build.feePolicy,
+    selectedInputs: original.build.selectedInputs, planDigest: original.plan.planDigest, signedHex: original.signedHex, txid: original.txid }, controller.signal);
+  if (!response || typeof response !== 'object' || !('status' in response) || response.status !== 'UNKNOWN' || !('txid' in response) || response.txid !== original.txid) throw Error('RELAY_UNKNOWN');
+  text('result', { state: 'UNKNOWN', txid: original.txid, note: 'One app relay was attempted with the verified bytes. A node response is not a receipt. Observe the original hash; never resend or re-sign.' });
+});
+action('native-handoff', async () => {
+  const original = await reserveDelivery();
+  el<HTMLTextAreaElement>('signed-raw').value = original.signedHex!; el('handoff').hidden = false;
+  text('result', { state: 'UNKNOWN', txid: original.txid, note: 'Native handoff reserved instead of app relay. Observe the original hash; do not use the other delivery option or re-sign.' });
 });
 action('recover', async () => {
   if (!store) throw Error('DURABLE_STORAGE_REQUIRED');
@@ -181,7 +197,7 @@ action('recover', async () => {
   operation = await store.active();
   if (captured !== epoch) throw Error('STALE_OBSERVATION');
   if (operation) operation = await store.uncertain(operation.id);
-  if (!operation?.signedHex || !operation.txid) { text('result', 'Original hash unavailable; operation stays reserved/UNKNOWN. No replacement or retry.'); return; }
+  if (!operation?.signedHex || !operation.txid) { text('result', 'Original transaction bytes or hash unavailable; read could not be completed. Operation stays reserved/UNKNOWN. No replacement or retry.'); return; }
   const original = operation;
   text('result', 'Reading ORIGINAL hash; previous receipt is stale until fresh agreement.');
   const binding = verifyParentBoundP2pkhSignatures({ signedHex: original.signedHex!, parentTransactionHexes: original.build.snapshot.parentTransactionHexes, signatureModel: original.build.feePolicy.signatureModel });
@@ -194,7 +210,11 @@ action('recover', async () => {
       !('height' in raw) || !('blockHash' in raw) || (raw.status === 'CONFIRMED_ON_CHAIN' ? !Number.isSafeInteger(raw.height) || Number(raw.height) < 1 || typeof raw.blockHash !== 'string' || !/^[0-9a-f]{64}$/.test(raw.blockHash) : raw.height !== null || raw.blockHash !== null)) throw Error('INVALID_OBSERVATION');
   operation = await store.observed(original, raw as PaymentObservation);
   if (captured !== epoch) { await store.uncertain(original.id); throw Error('STALE_OBSERVATION'); }
-  text('result', { state: operation.state, txid: operation.txid, observation: operation.observation, trust: 'Fresh two-node exact-raw/inclusion observation, NOT SPV/consensus. Re-read on conflict/reorg; original bytes only.' });
+  text('result', { state: operation.state, txid: operation.txid, observation: operation.observation, trust: raw.status === 'UNKNOWN'
+    ? 'Original transaction read was inconclusive; no current receipt. Observe the original only; never resend or re-sign.'
+    : raw.status === 'OBSERVED'
+      ? 'Fresh two-node agreement on exact original transaction bytes; inclusion not established. NOT SPV/consensus. Re-read on conflict/reorg.'
+      : 'Fresh two-node agreement on exact original transaction bytes and node-reported inclusion. NOT SPV/consensus. Re-read on conflict/reorg.' });
   enabled('new-payment', operation.state === 'CONFIRMED_ON_CHAIN');
   expires = setTimeout(() => { enabled('new-payment', false); text('result', 'Receipt observation stale; re-read ORIGINAL hash.'); }, 10000);
 });

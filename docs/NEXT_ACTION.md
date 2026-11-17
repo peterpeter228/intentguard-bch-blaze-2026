@@ -1,5 +1,18 @@
 # Next action
 
+## Current WPREV5 gate
+
+Complete and retain candidate-bound Node24 validation, synthetic payment and
+builder checks, isolated production smoke, generated models and both TLC runs.
+The later permitted coordinator must test the actual browser surface; HTTP or
+IndexedDB-shim fixtures are not visual or live-wallet proof. Then obtain separate
+owner approval for the exact main/master change and deployment before the owner
+personally makes the small mainnet payment. Rio owns ordinary DoraHacks submission;
+preserve privacy, disclosure and license conditions and the 2026-11-22 22:00
+Asia/Shanghai deadline. Chipnet payment is withdrawn; the missing original row
+is a non-official engineering gap, not a blocker. No bounty waiver is authorized.
+The prior WPREV4 gate and review language below are historical.
+
 ## Current WPREV4 gate — 2026-11-15
 
 Finish candidate visitor consumer regression, executable finite/TLC models and
