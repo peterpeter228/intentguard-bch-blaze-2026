@@ -1,5 +1,12 @@
 # IntentGuard / BCH BLAZE — Progress
 
+## WPREV5 Phase 2C-Fix1 — payment bundle routing
+
+Moved the legacy bundle from `dist/production/public/payment.js` to
+`dist/production/legacy-payment.js` so the static file no longer shadows Vercel's
+`/payment.js` rewrite to `/visitor-payment.js`. The packaged server still serves
+the legacy bundle at `/payment.js` in `private-loopback` and `public-demo` modes.
+
 ## WPREV5 Phase 2B-2 — license and delivery closeout
 
 The application source has a root MIT LICENSE. The public contest repository

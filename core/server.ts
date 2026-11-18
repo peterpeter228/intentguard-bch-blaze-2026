@@ -183,7 +183,10 @@ const server = createServer(async (req, res) => {
     } else if (asset) {
       const visitorBundle = req.url === '/payment.js' && flow instanceof VisitorPaymentReader;
       const file = req.url === '/' ? 'index.html' : req.url === '/pay' ? 'pay.html' : req.url === '/request' ? 'request.html' : req.url === '/favicon.ico' ? 'favicon.svg' : visitorBundle ? 'visitor-payment.js' : req.url!.slice(1);
-      const data = await readFile(publicRoot ? resolve(publicRoot, file) : new URL(visitorBundle ? './visitor-payment.js' : asset[0], import.meta.url));
+      const path = !publicRoot ? new URL(visitorBundle ? './visitor-payment.js' : asset[0], import.meta.url)
+        : req.url === '/payment.js' && !visitorBundle ? resolve(publicRoot, '..', 'legacy-payment.js')
+          : resolve(publicRoot, file);
+      const data = await readFile(path);
       res.writeHead(200, { 'Content-Type': asset[1] + '; charset=utf-8' }); res.end(data);
     }
   }

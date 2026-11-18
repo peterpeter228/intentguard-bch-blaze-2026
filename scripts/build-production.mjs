@@ -7,7 +7,9 @@ await rm(out, { recursive: true, force: true }); // Generated owned output only;
 await mkdir(join(out, 'public'), { recursive: true });
 for (const [source, target] of [['core/index.html', 'index.html'], ['core/payment.html', 'pay.html'], ['core/request.html', 'request.html'], ['core/style.css', 'style.css'],
   ['core/favicon.svg', 'favicon.svg'],
-  ['dist/core/app.js', 'app.js'], ['dist/core/request.js', 'request.js'], ['dist/core/payment.js', 'payment.js'], ['dist/core/visitor-payment.js', 'visitor-payment.js']]) await copyFile(source, join(out, 'public', target));
+  ['dist/core/app.js', 'app.js'], ['dist/core/request.js', 'request.js'], ['dist/core/visitor-payment.js', 'visitor-payment.js']]) await copyFile(source, join(out, 'public', target));
+// Leave /payment.js unoccupied in the Vercel output so its rewrite can run.
+await copyFile('dist/core/payment.js', join(out, 'legacy-payment.js'));
 const bannerPath = join(out, 'public/index.html');
 let banner = await readFile(bannerPath, 'utf8');
 for (const [field, decided] of Object.entries({ SLIDES_URL: '<a href="https://docs.google.com/presentation/d/1TwJWG2ECG8dBk-DYNTwLw9T35JaWD5BTvXSxTPKQVIk/edit?usp=sharing">Introduction slides</a>',

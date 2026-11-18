@@ -1,7 +1,7 @@
 import { spawn, spawnSync } from 'node:child_process';
 import { request } from 'node:http';
 import { createServer as createPortProbe } from 'node:net';
-import { mkdtemp, rm, readFile, chmod, rename, writeFile } from 'node:fs/promises';
+import { lstat, mkdtemp, rm, readFile, chmod, rename, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import assert from 'node:assert/strict';
@@ -72,18 +72,33 @@ function hostedRequest(path, { method = 'GET', host = 'intentguard-api-productio
   return new Promise((resolve, reject) => {
     const headers = { Host: host, ...(origin ? { Origin: origin } : {}), ...(body ? { 'Content-Type': 'application/json' } : {}) };
     const req = request(`http://127.0.0.1:${port}` + path, { method, headers }, res => {
-      let text = ''; res.on('data', chunk => { text += chunk; }); res.on('error', reject);
-      res.on('end', () => resolve({ status: res.statusCode, headers: res.headers, text }));
+      const chunks = []; res.on('data', chunk => chunks.push(chunk)); res.on('error', reject);
+      res.on('end', () => {
+        const bytes = Buffer.concat(chunks);
+        resolve({ status: res.statusCode, headers: res.headers, bytes, get text() { return bytes.toString('utf8'); } });
+      });
     });
     req.on('error', reject); req.setTimeout(5000, () => req.destroy(Error('DISTRIBUTION_REQUEST_TIMEOUT'))); req.end(body);
   });
 }
+async function assertHostedPaymentBundle(mode, expected) {
+  const response = await hostedRequest('/payment.js');
+  assert.equal(response.status, 200, `${mode} /payment.js`);
+  assert.match(response.headers['content-type'], /^text\/javascript\b/);
+  assert.ok(response.bytes.equals(expected), `${mode} /payment.js served the wrong bundle`);
+}
 try {
+  await assert.rejects(lstat(join(distribution, 'public/payment.js')), { code: 'ENOENT' },
+    'public/payment.js shadows the Vercel rewrite');
+  const legacyPayment = await readFile(join(distribution, 'legacy-payment.js'));
+  const visitorPayment = await readFile(join(distribution, 'public/visitor-payment.js'));
+  assert.ok(!legacyPayment.equals(visitorPayment), 'legacy and visitor bundles must be distinct');
   await launch(true);
   const manifest = JSON.parse(await readFile(join(distribution, 'manifest.json'), 'utf8'));
   for (const [route, mime] of [['/', 'text/html'], ['/pay', 'text/html'], ['/request', 'text/html'], ['/style.css', 'text/css'], ['/app.js', 'text/javascript'], ['/request.js', 'text/javascript'], ['/payment.js', 'text/javascript']]) {
     const response = await localFetch(route); assert.equal(response.status, 200, route); assert.ok(response.headers.get('content-type').startsWith(mime));
     if (route === '/') assert.doesNotMatch(await response.text(), /TODO_OWNER_/, 'production homepage contains an unresolved owner placeholder');
+    else if (route === '/payment.js') assert.ok(Buffer.from(await response.arrayBuffer()).equals(legacyPayment), 'private-loopback /payment.js served the wrong bundle');
     else await response.arrayBuffer();
   }
   assert.deepEqual(manifest.notices, { publishedDirectory: 'public/notices', retainedDirectory: 'notices', entryPoint: '/notices/' });
@@ -139,6 +154,7 @@ try {
   await writeFile(join(journal, 'payments.sqlite'), 'corrupt', { mode: 0o600 }); refuse(journal);
   await rm(join(journal, 'payments.sqlite')); await rename(join(root, 'original.sqlite'), join(journal, 'payments.sqlite'));
   await launch(false, 'public-demo');
+  await assertHostedPaymentBundle('public-demo', legacyPayment);
   const publicConfig = await hostedRequest('/api/payment', { method: 'POST', origin: 'https://intentguard-bch.vercel.app', body: '{"action":"config"}' });
   assert.equal(publicConfig.status, 200); const publicValue = JSON.parse(publicConfig.text); assert.equal(publicValue.mode, 'public-demo');
   const publicConfigGet = await hostedRequest('/api/payment-config'); assert.equal(publicConfigGet.status, 200); assert.deepEqual(JSON.parse(publicConfigGet.text), publicValue);
@@ -153,6 +169,7 @@ try {
   // Unusable sentinel is isolated scratch, never the original production volume.
   const sentinel = join(root, 'must-not-open'); await writeFile(sentinel, 'NO_JOURNAL_ACCESS');
   await launch(false, 'visitor-wallet', sentinel);
+  await assertHostedPaymentBundle('visitor-wallet', visitorPayment);
   const visitor = await hostedRequest('/api/payment', { method: 'POST', origin: 'https://intentguard-bch.vercel.app', body: '{"action":"config"}' });
   assert.equal(visitor.status, 200); const visitorValue = JSON.parse(visitor.text);
   assert.equal(visitorValue.mode, 'visitor-wallet'); assert.equal(visitorValue.network, 'mainnet'); assert.equal(visitorValue.mainnetCapSatoshis, '0');
@@ -162,5 +179,6 @@ try {
   assert.equal(await readFile(sentinel, 'utf8'), 'NO_JOURNAL_ACCESS');
   await stop();
   console.log('VISITOR_STATELESS_STARTUP_PASS: ignored unusable journal path; no volume/journal open; no network effect');
+  console.log('PAYMENT_BUNDLE_ROUTING_PASS: no static shadow; verified /payment.js bytes in private-loopback, public-demo and visitor-wallet');
   console.log(JSON.stringify({ status: 'PASS', kind: 'LOOPBACK_DISTRIBUTION_SMOKE', visualProof: 'PARENT_REQUIRED', sourceAssetsUsed: false, legacyScratchJournalReopened: true, visitorStatelessStartup: true, originalVolumeAccess: false, mainnetCapSatoshis: '0', files: manifest.files, totalBytes: manifest.totalBytes, deploy: false }, null, 2));
 } finally { try { await stop(); } finally { await rm(root, { recursive: true }); } }
