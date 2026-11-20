@@ -45,6 +45,21 @@ function invalidate(): void {
     text('result', 'UNKNOWN — retain original operation/input reservations; NEVER re-sign or resend.');
   }
 }
+async function revalidateOnReturn(): Promise<void> {
+  if (draft && draft.request.expiresAt <= Date.now()) { invalidate(); return; }
+  const captured = epoch, original = operation, storage = store;
+  if (busy || !original || !storage) return;
+  const active = await storage.active().catch(() => null);
+  if (captured !== epoch || busy || operation !== original) return;
+  if (!active || active.id !== original.id || active.revision !== original.revision) {
+    // Withdraw this tab's approval without modifying a possibly newer durable revision.
+    operation = null;
+    invalidate();
+    text('result', 'Durable operation changed or is unavailable. Re-read the original operation; do not re-sign or resend.');
+  } else if (draft && draft.request.expiresAt <= Date.now()) {
+    invalidate();
+  }
+}
 function assertCurrent(captured: number, session?: string): void {
   if (captured !== epoch || !confirmed || !draft || fingerprint !== currentFields() || draft.request.expiresAt <= Date.now() ||
       controller.signal.aborted || (session && wallet.currentSessionId() !== session)) throw Error('REQUEST_RECONFIRM_REQUIRED');
@@ -91,7 +106,8 @@ for (const id of fields) el(id).addEventListener('input', () => { if (id === 'ne
 el('handoff-ack').addEventListener('input', () => { if (!el<HTMLInputElement>('handoff-ack').checked) invalidate(); });
 el('disconnect').addEventListener('click', () => { invalidate(); wallet.disconnect(); });
 window.addEventListener('pagehide', () => { invalidate(); wallet.disconnect(); store?.close(); });
-window.addEventListener('focus', () => { if (operation?.envelope) invalidate(); });
+window.addEventListener('focus', () => { void revalidateOnReturn(); });
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') void revalidateOnReturn(); });
 for (const id of ['connect', 'confirm', 'build', 'sign', 'broadcast', 'native-handoff', 'new-payment']) enabled(id, false);
 void (async () => {
   await sources(); store = await VisitorPaymentStore.open(); operation = await store.active();

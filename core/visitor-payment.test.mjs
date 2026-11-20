@@ -125,19 +125,24 @@ export async function driveVisitor() {
     assert.equal((await call({ action: 'read', sourceId: 'evil', method: 'blockchain.transaction.broadcast', params: [originalHex] })).status, 409);
 
     // Actual compiled visitor UI handlers; synthetic signature bytes are verify-only.
-    const elements = new Map(), events = new Map(); let uiSignCalls = 0, nativeHandoffs = 0, failRead = false, loseRelayResponse = false, withdrawOnRelay = false;
+    const elements = new Map(); let uiSignCalls = 0, nativeHandoffs = 0, failRead = false, loseRelayResponse = false, withdrawOnRelay = false, signGate;
     class Element {
       value = ''; checked = false; disabled = false; hidden = false; textContent = ''; listeners = new Map();
       addEventListener(name, fn) { const list = this.listeners.get(name) ?? []; list.push(fn); this.listeners.set(name, list); }
       emit(name) { if (name === 'click' && this.disabled) return; for (const fn of this.listeners.get(name) ?? []) fn({ target: this }); }
     }
     const el = id => { if (!elements.has(id)) elements.set(id, new Element()); return elements.get(id); };
+    const installEventTargets = () => {
+      globalThis.document = Object.assign(new EventTarget(), { getElementById: el, visibilityState: 'visible' });
+      globalThis.window = new EventTarget();
+    };
+    const focus = () => window.dispatchEvent(new Event('focus'));
+    const visibility = state => { document.visibilityState = state; document.dispatchEvent(new Event('visibilitychange')); };
     const html = await readFile('core/payment.html', 'utf8');
     for (const tag of html.matchAll(/<[^>]+id="([^"]+)"[^>]*>/g)) { el(tag[1]).disabled = /\bdisabled\b/.test(tag[0]); el(tag[1]).value = tag[0].match(/\bvalue="([^"]*)"/)?.[1] ?? ''; }
     el('network').value = 'mainnet'; el('chain-ack').checked = true; el('recipient').value = mainnetAddress;
-    globalThis.document = { getElementById: el };
-    globalThis.window = { addEventListener(name, fn) { events.set(name, fn); } };
-    cleanupUi = () => events.get('pagehide')?.();
+    installEventTargets();
+    cleanupUi = () => window.dispatchEvent(new Event('pagehide'));
     const originalFetch = originals.fetch;
     globalThis.fetch = async (url, options) => {
       const body = JSON.parse(options.body);
@@ -149,23 +154,44 @@ export async function driveVisitor() {
     };
     const session = f.wallet.currentSessionId();
     const overrides = { currentSessionId: () => session, paths: () => f.bindings, getPubkey: f.wallet.getPubkey.bind(f.wallet), hasPath: f.wallet.hasPath.bind(f.wallet), nextSequence: () => 777,
-      sign: async (network, envelope, plan) => { assert.equal(network, 'mainnet'); assert.equal(plan.unsignedHex, candidate.plan.unsignedHex); uiSignCalls++; return { envelope, signedHex: originalHex }; } };
+      sign: async (network, envelope, plan) => { assert.equal(network, 'mainnet'); assert.equal(plan.unsignedHex, candidate.plan.unsignedHex); uiSignCalls++; await signGate; return { envelope, signedHex: originalHex }; } };
     for (const [name, implementation] of Object.entries(overrides)) { prototypes[name] = ConnectedWallet.prototype[name]; ConnectedWallet.prototype[name] = implementation; }
     const wait = async predicate => { for (let i = 0; i < 500; i++) { if (predicate()) return; await new Promise(r => setTimeout(r, 5)); } throw Error('VISITOR_UI_TIMEOUT: ' + el('result').textContent); };
     const click = async id => { assert.equal(el(id).disabled, false, id); el(id).emit('click'); await new Promise(r => setTimeout(r, 0)); };
     const resetUi = async () => {
-      events.get('pagehide')?.(); await clear(); elements.clear(); events.clear();
+      cleanupUi(); await clear(); elements.clear(); installEventTargets();
       for (const tag of html.matchAll(/<[^>]+id="([^"]+)"[^>]*>/g)) { el(tag[1]).disabled = /\bdisabled\b/.test(tag[0]); el(tag[1]).value = tag[0].match(/\bvalue="([^"]*)"/)?.[1] ?? ''; }
       el('network').value = 'mainnet'; el('chain-ack').checked = true; el('recipient').value = mainnetAddress; failRead = false;
     };
     await import(pathToFileURL(resolve('dist/core/visitor-payment-ui.js')).href + '?fixture=' + Date.now());
     await wait(() => !el('connect').disabled);
     await click('review'); assert.equal(el('build').disabled, true); assert.equal(uiSignCalls, 0); assert.equal(relayCalls.length, 0);
+    // A suspended tab's timer may not have fired when it becomes visible again.
+    const realNow = Date.now, expiredAt = Date.parse(JSON.parse(el('terms-summary').textContent).expiresAt);
+    try {
+      Date.now = () => expiredAt;
+      visibility('hidden'); assert.equal(el('confirm').disabled, false, 'hidden event does not revalidate');
+      visibility('visible'); assert.equal(el('confirm').disabled, true, 'visible return drops expired approval even before the timer');
+    } finally { Date.now = realNow; }
+    await click('review');
     await click('confirm'); await click('build'); await wait(() => !el('sign').disabled);
     assert.equal(uiSignCalls, 0); assert.match(el('candidate').textContent, /BCH MAINNET/);
-    await click('sign'); await wait(() => !el('broadcast').disabled);
+    const inspectingTab = await open();
+    const walletReturn = Promise.withResolvers(); signGate = walletReturn.promise;
+    try {
+      await click('sign'); await wait(() => uiSignCalls === 1);
+      const signing = await inspectingTab.active(); assert.equal(signing.state, 'SIGNING');
+      visibility('hidden'); focus(); visibility('visible');
+      assert.equal((await inspectingTab.active()).revision, signing.revision, 'wallet return events do not disturb SIGNING');
+    } finally { walletReturn.resolve(); signGate = undefined; }
+    await wait(() => !el('broadcast').disabled);
     assert.equal(uiSignCalls, 1); assert.equal(el('handoff').hidden, true); assert.equal(relayCalls.length, 0);
-    el('handoff-ack').checked = true; el('broadcast').emit('click'); el('broadcast').emit('click');
+    const postchecked = await inspectingTab.active(); assert.equal(postchecked.state, 'POSTCHECKED');
+    el('handoff-ack').checked = true;
+    visibility('hidden'); visibility('visible'); focus();
+    assert.equal((await inspectingTab.active()).revision, postchecked.revision, 'unchanged POSTCHECKED revision survives foregrounding');
+    assert.equal(el('handoff-ack').checked, true); assert.equal(el('native-handoff').disabled, false);
+    el('broadcast').emit('click'); el('broadcast').emit('click');
     await wait(() => relayCalls.length === 1 && /UNKNOWN/.test(el('result').textContent));
     assert.deepEqual(relayCalls, [originalHex]); assert.equal(el('broadcast').disabled, true); assert.equal(el('native-handoff').disabled, true);
     assert.equal((await call(relayRequest)).status, 409); assert.equal(relayCalls.length, 1, 'duplicate HTTP request is not relayed');
@@ -253,8 +279,19 @@ export async function driveVisitor() {
     await resetUi(); ConnectedWallet.prototype.sign = overrides.sign;
     await import(pathToFileURL(resolve('dist/core/visitor-payment-ui.js')).href + '?native=' + Date.now());
     await wait(() => !el('connect').disabled); await click('review'); await click('confirm'); await click('build'); await wait(() => !el('sign').disabled);
-    await click('sign'); await wait(() => !el('native-handoff').disabled); el('handoff-ack').checked = true; await click('native-handoff');
-    await wait(() => !el('handoff').hidden); nativeHandoffs++;
+    await click('sign'); await wait(() => !el('native-handoff').disabled); el('handoff-ack').checked = true;
+    // Delay the foreground read until a same-tab action replaces its captured operation.
+    const realActive = VisitorPaymentStore.prototype.active, readAfterHandoff = Promise.withResolvers();
+    let foregroundRead;
+    VisitorPaymentStore.prototype.active = function () { return foregroundRead = readAfterHandoff.promise.then(() => realActive.call(this)); };
+    try { focus(); } finally { VisitorPaymentStore.prototype.active = realActive; }
+    assert.ok(foregroundRead, 'idle focus checks the durable revision');
+    try {
+      await click('native-handoff'); await wait(() => !el('handoff').hidden); nativeHandoffs++;
+    } finally { readAfterHandoff.resolve(); }
+    assert.equal((await foregroundRead).state, 'UNKNOWN');
+    await new Promise(r => setImmediate(r));
+    assert.equal(el('handoff').hidden, false, 'late foreground read cannot discard a newer same-tab handoff');
     assert.equal(el('signed-raw').value, originalHex); assert.equal(el('broadcast').disabled, true); assert.equal(relayCalls.length, 1);
     // Fresh isolated service models a different run: a response lost after the fixture accepted bytes.
     await resetUi(); server.closeAllConnections(); await new Promise(r => server.close(r));
@@ -268,11 +305,24 @@ export async function driveVisitor() {
     assert.equal(uiSignCalls - lossSignBefore, 1); assert.equal(relayCalls[1], originalHex);
     el('broadcast').emit('click'); el('sign').emit('click'); await click('recover'); await wait(() => el('result').textContent.includes('"state": "UNKNOWN"'));
     assert.equal(relayCalls.length, 2); assert.equal(uiSignCalls - lossSignBefore, 1); assert.equal(el('native-handoff').disabled, true);
-    events.get('pagehide')?.();
+    // Another tab can consume the shared delivery reservation while this tab is hidden.
+    await resetUi(); loseRelayResponse = false;
+    await import(pathToFileURL(resolve('dist/core/visitor-payment-ui.js')).href + '?superseded=' + Date.now());
+    await wait(() => !el('connect').disabled); await click('review'); await click('confirm'); await click('build'); await wait(() => !el('sign').disabled);
+    await click('sign'); await wait(() => !el('broadcast').disabled); el('handoff-ack').checked = true;
+    const otherTab = await open();
+    visibility('hidden');
+    const newer = await otherTab.reserveDelivery(await otherTab.active());
+    assert.equal(newer.state, 'UNKNOWN');
+    visibility('visible'); await wait(() => el('broadcast').disabled);
+    assert.equal(el('native-handoff').disabled, true); assert.equal(el('handoff-ack').checked, false);
+    assert.equal((await otherTab.active()).revision, newer.revision, 'stale tab must not modify the superseding revision');
+    assert.equal(el('signed-raw').value, ''); assert.equal(relayCalls.length, 2, 'foregrounding has no relay effect');
+    cleanupUi();
     return { kind: 'MOCK_TRANSPORT_NO_CHAIN_TRANSACTION', storage: 'installed indexeddbshim + isolated SQLite; NOT native browser', actualSigningNetwork: 'chipnet fixture only', mainnetSignaturesGenerated: 0,
       verifyOnlyMainnetUiCallbacks: uiSignCalls, nativeHandoffs, fixtureRelayCalls: relayCalls.length, identicalBytes: relayCalls.every(raw => raw === originalHex), uiFailures,
       rejectedServerCases: Object.keys(rejected), cancelledDuringFunding: true, withdrawnBeforeRelay: true, responseLostNoResend: true, sdkChipnetSignCalls: f.stats().signs,
-      liveWallet: 'UNVERIFIED', browser: 'NOT_RUN', checks: ['competing-tab reservation CAS', 'confirmed intent before sign-only', 'fresh server rebuild and full signature verification', 'one identical-byte fixture relay', 'exclusive optional native handoff', 'lost response and UNKNOWN original-only recovery', 'no replacement or resend'] };
+      liveWallet: 'UNVERIFIED', browser: 'NOT_RUN', checks: ['competing-tab reservation CAS', 'confirmed intent before sign-only', 'fresh server rebuild and full signature verification', 'one identical-byte fixture relay', 'exclusive optional native handoff', 'lost response and UNKNOWN original-only recovery', 'focus/visible return preserves current approval but clears expired and superseded consent', 'no replacement or resend'] };
   } finally {
     cleanupUi?.();
     for (const [name, implementation] of Object.entries(prototypes)) ConnectedWallet.prototype[name] = implementation;

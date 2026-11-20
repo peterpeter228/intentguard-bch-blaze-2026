@@ -1,5 +1,15 @@
 # IntentGuard / BCH BLAZE — Progress
 
+## WPREV5 Phase 2D — `/pay` wallet continuity
+
+`/pay` keeps pairing and pending signatures through tab switches and transient
+relay reconnects. Repeated wallet readiness must match the authenticated peer
+and derivation paths. Each sign request is published once, and returning to the
+tab preserves active signing and postchecked operations. Explicit disconnect
+revokes local authority immediately and flushes the wallet notification before
+relay cleanup, with a bounded wait. The verified commit and local Chrome 144
+evidence are recorded in `phase2d-pay-visibility/PHASE2D_FIX_RESULT.json`.
+
 ## WPREV5 Phase 2C-Fix1 — payment bundle routing
 
 Moved the legacy bundle from `dist/production/public/payment.js` to
